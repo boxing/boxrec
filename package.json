@@ -1,0 +1,56 @@
+{
+  "name": "boxrec",
+  "version": "1.0.0",
+  "description": "retrieve information from Boxrec",
+  "main": "./src",
+  "types": "./src/index.d.ts",
+  "scripts": {
+    "start": "webpack --config webpack.config.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:coverage:watch": "jest --coverage --watchAll",
+    "test:watch": "jest --watchAll",
+    "tslint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "keywords": [
+    "boxrec",
+    "boxing"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.7",
+    "@types/jest": "^22.1.1",
+    "@types/request": "^2.47.0",
+    "cheerio": "^1.0.0-rc.2",
+    "jest": "^22.2.1",
+    "request": "^2.83.0",
+    "ts-jest": "^22.0.3",
+    "ts-loader": "^3.5.0",
+    "tslint": "^5.9.1",
+    "tslint-loader": "^3.5.3",
+    "typescript": "^2.7.1",
+    "webpack": "^3.10.0"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "mapCoverage": true,
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
