@@ -6,7 +6,7 @@
   "types": "./src/index.d.ts",
   "scripts": {
     "start": "webpack --config webpack.config.js",
-    "test": "jest",
+    "test": "jest | coveralls",
     "test:coverage": "jest --coverage",
     "test:coverage:watch": "jest --coverage --watchAll",
     "test:watch": "jest --watchAll",
@@ -22,6 +22,7 @@
     "@types/jest": "^22.1.1",
     "@types/request": "^2.47.0",
     "cheerio": "^1.0.0-rc.2",
+    "coveralls": "^3.0.0",
     "jest": "^22.2.1",
     "request": "^2.83.0",
     "ts-jest": "^22.0.3",
