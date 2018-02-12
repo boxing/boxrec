@@ -1,4 +1,4 @@
-import Boxrec from "./";
+const Boxrec = require("./boxrec.class");
 
 describe("class Boxrec", () => {
 

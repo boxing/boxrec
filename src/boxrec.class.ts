@@ -1,5 +1,7 @@
-export default class Boxrec {
+export class Boxrec {
 
-    constructor() {
-    }
+    constructor() {}
+
 }
+
+module.exports = new Boxrec();
