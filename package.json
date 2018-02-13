@@ -1,11 +1,13 @@
 {
   "name": "boxrec",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "retrieve information from Boxrec",
-  "main": "./src",
-  "types": "./src/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/dist/index.d.ts",
   "scripts": {
-    "start": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.prod.js",
+    "prepublish": "npm run build",
+    "start": "webpack --config webpack.dev.js",
     "test": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:coverage:watch": "jest --coverage --watchAll",
     "test:watch": "jest --watchAll",
@@ -29,14 +31,15 @@
     "tslint": "^5.9.1",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.7.1",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/boxing/boxrec/issues"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/boxing/boxrec"
   },
   "jest": {
     "transform": {

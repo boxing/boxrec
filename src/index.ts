@@ -1,2 +1,1 @@
-import Boxrec from "./boxrec.class";
-export default new Boxrec();
+module.exports = require("./boxrec.class");

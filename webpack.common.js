@@ -17,10 +17,8 @@ module.exports = {
     },
     output: {
         filename: 'index.js',
+        library: "boxrec",
+        libraryTarget: "commonjs2",
         path: path.resolve(__dirname, 'dist')
-    },
-    watch: true,
-    watchOptions: {
-        ignored: /node_modules/
     }
 };
