@@ -10,7 +10,7 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/
             }
-        ]
+        ],
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
@@ -20,5 +20,6 @@ module.exports = {
         library: "boxrec",
         libraryTarget: "commonjs2",
         path: path.resolve(__dirname, 'dist')
-    }
+    },
+    target: "node"
 };
