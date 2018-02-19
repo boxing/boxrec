@@ -18,7 +18,7 @@ const boxrec = require("boxrec");
 Boxrec has a limit on requests if you aren't logged in.
 Although you can make requests without logging in, it's suggested to register a user to prevent issues using this.
 
-Note: Boxrec doesn't support HTTPS, keep that in mind with passwords
+Note: Boxrec does not support HTTPS, keep that in mind with passwords
 
 ```
 boxrec.login(username, password)
