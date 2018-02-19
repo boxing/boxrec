@@ -1,6 +1,7 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
 const rp = require("request-promise");
+const BoxrecProfilePage = require("../boxrec/boxrec.page.profile");
 
 export class Boxrec {
 
@@ -68,6 +69,23 @@ export class Boxrec {
         } else {
             throw new Error("Cookie did not have PHPSESSID and REMEMBERME");
         }
+    }
+
+    async getBoxerById(boxerId: number) {
+        const boxrecPageBody = await rp.get({
+            uri: `http://boxrec.com/en/boxer/${boxerId}`
+        });
+
+        const boxrecProfilePage = new BoxrecProfilePage(boxrecPageBody);
+
+        const name = boxrecProfilePage.name;
+
+        const bouts = boxrecProfilePage.bouts;
+
+        console.log('>>>>');
+
+        console.log(boxrecProfilePage.birthPlace);
+        console.log(bouts);
     }
 
     // makes a request to get the PHPSESSID required to login

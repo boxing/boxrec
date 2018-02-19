@@ -82,4 +82,14 @@ describe("class Boxrec", () => {
 
     });
 
+    describe("method getBoxerById", () => {
+
+        it("should make a request to boxrec", () => {
+
+        });
+
+        it("should return ")
+
+    });
+
 });
