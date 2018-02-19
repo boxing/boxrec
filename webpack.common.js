@@ -10,7 +10,10 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/
             }
-        ]
+        ],
+        loaders: [
+            { test: /\.json$/, loader: 'json-loader' }
+        ],
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
@@ -20,5 +23,6 @@ module.exports = {
         library: "boxrec",
         libraryTarget: "commonjs2",
         path: path.resolve(__dirname, 'dist')
-    }
+    },
+    target: "node"
 };
