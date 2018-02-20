@@ -20,7 +20,7 @@ enum boxProfile {
     birthPlace = "birth place",
 }
 
-export class BoxrecProfilePage {
+export class BoxrecPageProfile {
 
     private _globalID: number;
     private _role: string;
@@ -126,13 +126,12 @@ export class BoxrecProfilePage {
             val = val.trim();
 
             if (key !== "" && key !== null) {
-
                 if (enumKeys.includes(key)) {
 
                     const idx: number = enumKeys.findIndex(item => item === key);
 
                     if (idx !== -1) {
-
+                        // todo index signature or union type
                         this[`_${enumVals[idx]}`] = val; // set the private var related to this, note: this doesn't consider if there is a setter
                     }
                 } else {
@@ -144,4 +143,4 @@ export class BoxrecProfilePage {
     }
 }
 
-module.exports = BoxrecProfilePage;
+module.exports = BoxrecPageProfile;

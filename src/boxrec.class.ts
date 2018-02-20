@@ -76,16 +76,7 @@ export class Boxrec {
             uri: `http://boxrec.com/en/boxer/${boxerId}`
         });
 
-        const boxrecProfilePage = new BoxrecProfilePage(boxrecPageBody);
-
-        const name = boxrecProfilePage.name;
-
-        const bouts = boxrecProfilePage.bouts;
-
-        console.log('>>>>');
-
-        console.log(boxrecProfilePage.birthPlace);
-        console.log(bouts);
+        return new BoxrecProfilePage(boxrecPageBody);
     }
 
     // makes a request to get the PHPSESSID required to login
