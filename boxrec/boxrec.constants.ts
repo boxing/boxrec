@@ -1,0 +1,18 @@
+export enum boxrecProfileTable {
+    globalId = "global ID",
+    role = "role",
+    bouts = "bouts",
+    rounds = "rounds",
+    KOs = "KOs",
+    status = "status",
+    birthName = "birth name",
+    alias = "alias",
+    born = "born",
+    nationality = "nationality",
+    debut = "debut",
+    division = "division",
+    height = "height",
+    reach = "reach",
+    residence = "residence",
+    birthPlace = "birth place",
+}
