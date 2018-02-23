@@ -23,6 +23,8 @@ export class BoxrecPageProfile {
     private _reach: string;
     private _residence: string;
     private _birthPlace: string;
+    private _stance: string;
+    private _vadacbp: string;
 
     // other stuff we found that we haven't seen yet
     private _otherInfo: [string, string][] = [];
@@ -74,7 +76,15 @@ export class BoxrecPageProfile {
     }
 
     get born() {
-        return this._born;
+        // some boxers have dob and age.  Match the YYYY-MM-DD
+        const regex = /^(\d{4}\-\d{2}\-\d{2})/;
+        const born: RegExpMatchArray = this._born.match(regex);
+
+        if (born) {
+            return born;
+        } else {
+            return this._born;
+        }
     }
 
     get nationality() {
@@ -118,6 +128,14 @@ export class BoxrecPageProfile {
         return this._birthPlace;
     }
 
+    get stance() {
+        return this._stance;
+    }
+
+    get vadacbp() {
+        return this._vadacbp;
+    }
+
     get otherInfo(): [string, string][] {
         return this._otherInfo;
     }
@@ -134,7 +152,8 @@ export class BoxrecPageProfile {
 
         tr.each((i: number, elem: CheerioElement) => {
             let key: string = $(elem).find("td:nth-child(1)").text();
-            let val: string = $(elem).find("td:nth-child(2)").text();
+
+            let val: string = $(elem).find("td:nth-child(2)").html();
 
             key = key.trim();
             val = val.trim();
@@ -146,11 +165,14 @@ export class BoxrecPageProfile {
                     this[`_${enumVals[idx]}`] = val; // set the private var related to this, note: this doesn't consider if there is a setter
                 } else {
                     // either an error or returned something we haven't mapped
-                    // todo we should have these available as well someway
                     this._otherInfo.push([key, val]);
                 }
             }
         });
+    }
+
+    private getStarRating(html) {
+        // <div style="width:98px;"><span class="starBaseLarge"><span class="starRatingLarge" style="width: 100%;"></span></span>
     }
 }
 

@@ -15,4 +15,6 @@ export enum boxrecProfileTable {
     reach = "reach",
     residence = "residence",
     birthPlace = "birth place",
+    stance = "stance",
+    vadacbp = "VADA CBP",
 }

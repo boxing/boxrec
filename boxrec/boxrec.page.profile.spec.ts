@@ -64,6 +64,21 @@ describe("class BoxrecPageProfile", () => {
 
             it(`${prefix} rating`, () => expect(boxer.rating).toBe(100));
 
+            it(`${prefix} VADA CBP`, () => expect(boxer.vadacbp).toBe("enrolled"));
+
+            it(`${prefix} titles held`, () => expect(boxer.rating).toContain([
+                    "International Boxing Organization World Middleweight Title",
+                    "WBA Super World Middleweight Title",
+                    "WBC World Middleweight Title",
+                    "IBF World Middleweight Title",
+                ]
+            ));
+
+            it(`${prefix} birth name`, () => expect(boxer.birthName).toBe("Геннадий Геннадьевич Головкин"));
+
+            it(`${prefix} stance`, () => expect(boxer.birthName).toBe("orthodox"));
+
+            it(`${prefix} height`, () => expect(boxer.height).toEqual([5, 10.5, 179]));
 
         });
 
