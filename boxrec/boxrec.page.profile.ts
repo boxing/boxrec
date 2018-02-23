@@ -24,6 +24,9 @@ export class BoxrecPageProfile {
     private _residence: string;
     private _birthPlace: string;
 
+    // other stuff we found that we haven't seen yet
+    private _otherInfo: [string, string][] = [];
+
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
         this.parseName();
@@ -32,6 +35,10 @@ export class BoxrecPageProfile {
 
     get name() {
         return this._name;
+    }
+
+    set name(name: string) {
+        this._name = name;
     }
 
     get bouts(): number {
@@ -91,7 +98,6 @@ export class BoxrecPageProfile {
             parseInt(imperialInches, 10),
             parseInt(metric, 10),
         ];
-
     }
 
     get reach(): number[] {
@@ -112,11 +118,15 @@ export class BoxrecPageProfile {
         return this._birthPlace;
     }
 
-    private parseName() {
-        this._name = $('h1').text();
+    get otherInfo(): [string, string][] {
+        return this._otherInfo;
     }
 
-    private parseProfileTableData() {
+    private parseName() {
+        this.name = $('h1').text();
+    }
+
+    private parseProfileTableData(): void {
         const tr = $(".profileTable table.rowTable tbody tr");
 
         const enumVals: any[] = Object.keys(boxrecProfileTable);
@@ -137,6 +147,7 @@ export class BoxrecPageProfile {
                 } else {
                     // either an error or returned something we haven't mapped
                     // todo we should have these available as well someway
+                    this._otherInfo.push([key, val]);
                 }
             }
         });

@@ -28,5 +28,14 @@ boxrec.login(username, password)
 .catch(error => {});
 ```
 
+#### Get boxer information
+```
+boxrec.getBoxerById(356831)
+.then(boxer => {
+    console.log(boxer.name) // Gennady Golovkin
+    console.log(boxer.division) // middleweight
+})
+```
+
 ## Note
 Not affiliated with the website [boxrec](http://www.boxrec.com)

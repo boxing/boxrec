@@ -84,11 +84,15 @@ describe("class Boxrec", () => {
 
     describe("method getBoxerById", () => {
 
-        it("should make a request to boxrec", () => {
+        it("should make a GET request to http://boxrec.com/en/boxer/{globalID}", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.getBoxerById(555);
+            const lastCall: number = spy.mock.calls.length;
 
+            console.log(lastCall);
+            console.log(spy.mock.calls[0]);
+            expect(spy.mock.calls[0][0].uri).toBe("http://boxrec.com/en/boxer/555");
         });
-
-        it("should return ")
 
     });
 
