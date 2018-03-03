@@ -1,12 +1,12 @@
-const fs = require("fs");
+import {BoxrecPageProfile} from "./boxrec.page.profile";
 const BoxrecPageProfile = require("./boxrec.page.profile");
-
+const fs = require("fs");
 const mockProfileRJJ = fs.readFileSync("./boxrec/mockProfileRJJ.html", "utf8");
 const mockProfileGGG = fs.readFileSync("./boxrec/mockProfileGGG.html", "utf8");
 
 describe("class BoxrecPageProfile", () => {
 
-    let boxer;
+    let boxer: BoxrecPageProfile;
 
     describe("loading a profile", () => {
 
@@ -16,7 +16,6 @@ describe("class BoxrecPageProfile", () => {
 
             beforeAll(() => {
                 boxer = new BoxrecPageProfile(mockProfileRJJ);
-                console.log(boxer.otherInfo)
             });
 
             it(`${prefix} name`, () => expect(boxer.name).toBe("Roy Jones Jr"));
@@ -59,14 +58,18 @@ describe("class BoxrecPageProfile", () => {
 
             beforeAll(() => {
                 boxer = new BoxrecPageProfile(mockProfileGGG);
-                console.log(boxer.otherInfo)
             });
 
-            it(`${prefix} rating`, () => expect(boxer.rating).toBe(100));
+            it(`${prefix} rating`, () => expect(boxer.rating).toBe(98));
+
+            it(`${prefix} ranking`, () => expect(boxer.ranking).toEqual([
+                [2, 1053],
+                [1, 8],
+            ]));
 
             it(`${prefix} VADA CBP`, () => expect(boxer.vadacbp).toBe("enrolled"));
 
-            it(`${prefix} titles held`, () => expect(boxer.rating).toContain([
+            it(`${prefix} titles held`, () => expect(boxer.titlesHeld).toEqual([
                     "International Boxing Organization World Middleweight Title",
                     "WBA Super World Middleweight Title",
                     "WBC World Middleweight Title",
@@ -74,9 +77,13 @@ describe("class BoxrecPageProfile", () => {
                 ]
             ));
 
-            it(`${prefix} birth name`, () => expect(boxer.birthName).toBe("Геннадий Геннадьевич Головкин"));
+            it(`${prefix} date of birth`, () => {
+                expect(boxer.born).toBe("1982-04-08")
+            });
 
-            it(`${prefix} stance`, () => expect(boxer.birthName).toBe("orthodox"));
+            it(`${prefix} birth name`, () => expect(boxer.birthName).toBe("&#x413;&#x435;&#x43D;&#x43D;&#x430;&#x434;&#x438;&#x439; &#x413;&#x435;&#x43D;&#x43D;&#x430;&#x434;&#x44C;&#x435;&#x432;&#x438;&#x447; &#x413;&#x43E;&#x43B;&#x43E;&#x432;&#x43A;&#x438;&#x43D;"));
+
+            it(`${prefix} stance`, () => expect(boxer.stance).toBe("orthodox"));
 
             it(`${prefix} height`, () => expect(boxer.height).toEqual([5, 10.5, 179]));
 
@@ -85,9 +92,54 @@ describe("class BoxrecPageProfile", () => {
         describe("should push it to `otherInfo` if it is unknown data", () => {
 
             it("should push `foo bar`, `774820` in to the `otherInfo` property", () => {
-                const mockProfileBad = mockProfileRJJ.replace("global ID", "foo bar");
-                boxer = new BoxrecPageProfile(mockProfileBad);
+                boxer = new BoxrecPageProfile(mockProfileRJJ.replace("global ID", "foo bar"));
                 expect(boxer.otherInfo).toEqual([["foo bar", "774820"]]);
+            });
+
+        });
+
+        it("should return `undefined` for any profile stats it cannot find", () => {
+            boxer = new BoxrecPageProfile("");
+            expect(boxer.name).toBe(undefined);
+            expect(boxer.globalId).toBe(undefined);
+            expect(boxer.role).toBe(undefined);
+            expect(boxer.rating).toBe(undefined);
+            expect(boxer.ranking).toBe(undefined);
+            expect(boxer.vadacbp).toBe(undefined);
+            expect(boxer.bouts).toBe(undefined);
+            expect(boxer.rounds).toBe(undefined);
+            expect(boxer.KOs).toBe(undefined);
+            expect(boxer.status).toBe(undefined);
+            expect(boxer.titlesHeld).toBe(undefined);
+            expect(boxer.birthName).toBe(undefined);
+            expect(boxer.alias).toBe(undefined);
+            expect(boxer.born).toBe(undefined);
+            expect(boxer.nationality).toBe(undefined);
+            expect(boxer.debut).toBe(undefined);
+            expect(boxer.division).toBe(undefined);
+            expect(boxer.height).toBe(undefined);
+            expect(boxer.reach).toBe(undefined);
+            expect(boxer.residence).toBe(undefined);
+            expect(boxer.birthPlace).toBe(undefined);
+            expect(boxer.stance).toBe(undefined);
+        });
+
+
+        describe("height with fraction characters", () => {
+
+            it("should return .25 for ¼ symbol", () => {
+                boxer = new BoxrecPageProfile(mockProfileGGG.replace("&#189;", "&#188;"));
+                expect(boxer.height[1]).toBe(10.25);
+            });
+
+            it("should return .5 for ½", () => {
+                boxer = new BoxrecPageProfile(mockProfileGGG);
+                expect(boxer.height[1]).toBe(10.5);
+            });
+
+            it("should return .75 for ¾", () => {
+                boxer = new BoxrecPageProfile(mockProfileGGG.replace("&#189;", "&#190;"));
+                expect(boxer.height[1]).toBe(10.75);
             });
 
         });
@@ -95,3 +147,4 @@ describe("class BoxrecPageProfile", () => {
     });
 
 });
+

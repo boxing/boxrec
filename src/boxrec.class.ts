@@ -1,7 +1,8 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
+import {BoxrecPageProfile} from "../boxrec/boxrec.page.profile";
 const rp = require("request-promise");
-const BoxrecProfilePage = require("../boxrec/boxrec.page.profile");
+const BoxrecPageProfile = require("../boxrec/boxrec.page.profile");
 
 export class Boxrec {
 
@@ -76,7 +77,7 @@ export class Boxrec {
             uri: `http://boxrec.com/en/boxer/${boxerId}`
         });
 
-        return new BoxrecProfilePage(boxrecPageBody);
+        return new BoxrecPageProfile(boxrecPageBody);
     }
 
     // makes a request to get the PHPSESSID required to login
