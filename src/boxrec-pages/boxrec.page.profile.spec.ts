@@ -1,8 +1,8 @@
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 const BoxrecPageProfile = require("./boxrec.page.profile");
 const fs = require("fs");
-const mockProfileRJJ = fs.readFileSync("./boxrec/mockProfileRJJ.html", "utf8");
-const mockProfileGGG = fs.readFileSync("./boxrec/mockProfileGGG.html", "utf8");
+const mockProfileRJJ = fs.readFileSync("./src/boxrec-pages/mockProfileRJJ.html", "utf8");
+const mockProfileGGG = fs.readFileSync("./src/boxrec-pages/mockProfileGGG.html", "utf8");
 
 describe("class BoxrecPageProfile", () => {
 

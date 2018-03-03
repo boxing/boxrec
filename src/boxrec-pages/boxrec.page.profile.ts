@@ -77,12 +77,11 @@ export class BoxrecPageProfile {
         if (this._ranking) {
             const html = $(this._ranking);
             const links: Cheerio = html.get().filter((item: CheerioElement[]) => item.name === "a");
-            const rankings: [number, number][] = links.map(function (item) {
+
+            return links.map((item: CheerioElement) => {
                 const rank: [string][string][] = item.children[0].data.trim().replace(",", "").split("/");
                 return [parseInt(rank[0], 10), parseInt(rank[1], 10)];
             });
-
-            return rankings;
         }
     }
 
@@ -121,14 +120,10 @@ export class BoxrecPageProfile {
     get titlesHeld(): string[] | void {
         if (this._titlesHeld) {
             const html = $(this._titlesHeld);
-            const titlesHeld: string[] = [];
 
-            // todo refactor to use each or map to return actual data
-            html.find("a").map(function (index, elem) {
-                titlesHeld.push($(elem).text());
-            });
-
-            return titlesHeld;
+            return html.find("a").map(function () {
+                return $(this).text();
+            }).get();
         }
     }
 
@@ -152,7 +147,7 @@ export class BoxrecPageProfile {
         }
     }
 
-    get nationality(): string | void  {
+    get nationality(): string | void {
         if (this._nationality) {
             return $(this._nationality).text().trimLeft();
         }

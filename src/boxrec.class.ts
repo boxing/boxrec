@@ -1,8 +1,8 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
-import {BoxrecPageProfile} from "../boxrec/boxrec.page.profile";
+
 const rp = require("request-promise");
-const BoxrecPageProfile = require("../boxrec/boxrec.page.profile");
+const BoxrecPageProfile = require("./boxrec-pages/boxrec.page.profile");
 
 export class Boxrec {
 
