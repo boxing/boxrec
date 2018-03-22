@@ -1,4 +1,5 @@
 import {boxrecProfileTable} from "./boxrec.constants";
+
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
@@ -46,7 +47,7 @@ export class BoxrecPageProfile {
         this._name = name;
     }
 
-    get globalId(): number | void {
+    get globalId(): number | undefined {
         const globalId: number = parseInt(this._globalId, 10);
 
         if (!isNaN(globalId)) {
@@ -54,7 +55,7 @@ export class BoxrecPageProfile {
         }
     }
 
-    get role(): string | void {
+    get role(): string | undefined {
         const role = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
 
         if (role) {
@@ -62,34 +63,40 @@ export class BoxrecPageProfile {
         }
     }
 
-    get rating(): number | void {
+    get rating(): number | undefined {
         const html = $(this._rating);
 
         if (html.get(0)) {
-            const widthString = html.get(0).attribs.style;
+            const widthString: string = html.get(0).attribs.style;
             const regex = /width\:(\d+)px\;/;
             const widthMatch = widthString.match(regex);
-            return parseInt(widthMatch[1], 10);
+
+            if (widthMatch && widthMatch[1]) {
+                return parseInt(widthMatch[1], 10);
+            }
         }
     }
 
-    get ranking(): [number, number][] | void {
+    get ranking(): number[][] | undefined {
         if (this._ranking) {
             const html = $(this._ranking);
-            const links: Cheerio = html.get().filter((item: CheerioElement[]) => item.name === "a");
+            const links: string[] = html.get().filter((item: any) => item.name === "a");
 
-            return links.map((item: CheerioElement) => {
-                const rank: [string][string][] = item.children[0].data.trim().replace(",", "").split("/");
-                return [parseInt(rank[0], 10), parseInt(rank[1], 10)];
+            return links.map((item: any) => {
+                const child: string = item.children[0].data;
+                const rankArr: number[] = child.trim().replace(",", "").split("/")
+                    .map(item => parseInt(item, 10));
+
+                return [rankArr[0], rankArr[1]];
             });
         }
     }
 
-    get vadacbp(): string | void {
+    get vadacbp(): string | undefined {
         return this._vadacbp;
     }
 
-    get bouts(): number | void {
+    get bouts(): number | undefined {
         const bouts: number = parseInt(this._bouts, 10);
 
         if (!isNaN(bouts)) {
@@ -97,7 +104,7 @@ export class BoxrecPageProfile {
         }
     }
 
-    get rounds(): number | void {
+    get rounds(): number | undefined {
         const rounds: number = parseInt(this._rounds, 10);
 
         if (!isNaN(rounds)) {
@@ -105,7 +112,7 @@ export class BoxrecPageProfile {
         }
     }
 
-    get KOs(): number | void {
+    get KOs(): number | undefined {
         const kos: number = parseInt(this._KOs, 10);
 
         if (!isNaN(kos)) {
@@ -113,29 +120,29 @@ export class BoxrecPageProfile {
         }
     }
 
-    get status(): string | void {
+    get status(): string | undefined {
         return this._status;
     }
 
-    get titlesHeld(): string[] | void {
+    get titlesHeld(): string[] | undefined {
         if (this._titlesHeld) {
             const html = $(this._titlesHeld);
 
-            return html.find("a").map(function () {
+            return html.find("a").map(function (this: any) {
                 return $(this).text();
             }).get();
         }
     }
 
-    get birthName(): string | void {
+    get birthName(): string | undefined {
         return this._birthName;
     }
 
-    get alias(): string | void {
+    get alias(): string | undefined {
         return this._alias;
     }
 
-    get born(): string | void {
+    get born(): string | undefined {
         if (this._born) {
             // some boxers have dob and age.  Match the YYYY-MM-DD
             const regex = /(\d{4}\-\d{2}\-\d{2})/;
@@ -147,21 +154,21 @@ export class BoxrecPageProfile {
         }
     }
 
-    get nationality(): string | void {
+    get nationality(): string | undefined {
         if (this._nationality) {
             return $(this._nationality).text().trimLeft();
         }
     }
 
-    get debut(): string | void {
+    get debut(): string | undefined {
         return this._debut;
     }
 
-    get division(): string | void {
+    get division(): string | undefined {
         return this._division;
     }
 
-    get height(): number[] | void {
+    get height(): number[] | undefined {
         if (this._height) {
             const regex: RegExp = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
             const height = this._height.match(regex);
@@ -169,31 +176,31 @@ export class BoxrecPageProfile {
             if (height) {
                 let [, imperialFeet, imperialInches, fractionInches, metric] = height;
 
-                imperialInches = parseInt(imperialInches, 10);
+                let formattedImperialInches: number = parseInt(imperialInches, 10);
 
                 switch (fractionInches) {
                     case "&#xBC;":
-                        imperialInches += .25;
+                        formattedImperialInches += .25;
                         break;
                     case "&#xBD;":
-                        imperialInches += .5;
+                        formattedImperialInches += .5;
                         break;
                     case "&#xBE;":
-                        imperialInches += .75;
+                        formattedImperialInches += .75;
                         break;
                 }
 
                 return [
                     parseInt(imperialFeet, 10),
-                    imperialInches,
-                    parseInt(metric, 10)
+                    formattedImperialInches,
+                    parseInt(metric, 10),
                 ];
             }
         }
 
     }
 
-    get reach(): number[] | void {
+    get reach(): number[] | undefined {
         if (this._reach) {
             const regex: RegExp = /^(\d{2})\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
             const reach = this._reach.match(regex);
@@ -203,12 +210,12 @@ export class BoxrecPageProfile {
                 return [
                     parseInt(inches, 10),
                     parseInt(centimeters, 10),
-                ]
+                ];
             }
         }
     }
 
-    get residence(): string | void {
+    get residence(): string | undefined {
         const residence: string = $(this._residence).text();
 
         if (residence) {
@@ -216,7 +223,7 @@ export class BoxrecPageProfile {
         }
     }
 
-    get birthPlace(): string | void {
+    get birthPlace(): string | undefined {
         const birthPlace: string = $(this._birthPlace).text();
 
         if (birthPlace) {
@@ -224,16 +231,16 @@ export class BoxrecPageProfile {
         }
     }
 
-    get stance(): string | void {
+    get stance(): string | undefined {
         return this._stance;
     }
 
-    get otherInfo(): [string, string][] | void {
+    get otherInfo(): string[][] | undefined {
         return this._otherInfo;
     }
 
-    private parseName() {
-        const name: string = $('h1').text();
+    private parseName(): void {
+        const name: string = $("h1").text();
 
         if (name) {
             this.name = name;
@@ -248,7 +255,6 @@ export class BoxrecPageProfile {
             let val: string | null = $(elem).find("td:nth-child(2)").html();
 
             if (key && val) {
-
                 key = key.trim();
                 val = val.trim();
                 const enumVals: any[] = Object.keys(boxrecProfileTable);
@@ -256,13 +262,13 @@ export class BoxrecPageProfile {
 
                 if (enumKeys.includes(key)) {
                     const idx: number = enumKeys.findIndex(item => item === key);
-                    // tslint:disable-next-line
-                    this[`_${enumVals[idx]}`] = val; // set the private var related to this, note: this doesn't consider if there is a setter
+                    const classKey: string = `_${enumVals[idx]}`;
+                    // the following line works but there is probably a probably a much better way with Typescript
+                    (this as any)[classKey] = val; // set the private var related to this, note: this doesn't consider if there is a setter
                 } else {
                     // either an error or returned something we haven't mapped
                     this._otherInfo.push([key, val]);
                 }
-
             }
         });
     }
