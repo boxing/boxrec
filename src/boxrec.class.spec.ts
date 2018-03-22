@@ -34,7 +34,7 @@ describe("class Boxrec", () => {
             it("should make a POST request to http://boxrec.com/en/login", async () => {
                 const spy = jest.spyOn(rp, <any>"post");
                 await Boxrec.login("", "");
-                expect(spy.mock.calls[0][0].uri).toBe("http://boxrec.com/en/login");
+                expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/login");
             });
 
             it("should throw if boxrec returns that the username does not exist", async () => {
@@ -78,6 +78,16 @@ describe("class Boxrec", () => {
                 expect(response).not.toBeDefined();
             });
 
+        });
+
+    });
+
+    describe("method getBoxerById", () => {
+
+        it("should make a GET request to http://boxrec.com/en/boxer/{globalID}", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.getBoxerById(555);
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/boxer/555");
         });
 
     });
