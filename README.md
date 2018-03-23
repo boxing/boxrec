@@ -15,8 +15,8 @@ const boxrec = require("boxrec");
 
 #### Logging In
 
-Boxrec has a limit on requests if you aren't logged in.
-Although you can make requests without logging in, it's suggested to register a user to prevent issues using this.
+This requires a login to properly function.
+The profileTable although doesn't appear to change, the number of columns in the bouts does change and this is set up to expect all columns.
 
 Note: Boxrec does not support HTTPS
 
@@ -40,29 +40,31 @@ boxrec.getBoxerById(356831)
 })
 ```
 
-The following getters are supported:
+You can get the following:
 
-| Key           | Boxrec Text   |
-| ------------- |---------------|
-| name          | ----          |
-| globalId      | global ID     |
-| role          | role          |
-| rating        | rating        |
-| ranking       | ranking       |
-| vadacbp       | VADA CBP      |
-| bouts         | bouts         |
-| rounds        | rounds        |
-| KOs           | KOs           |
-| titlesHeld    | titles held   |
-| birthName     | birth name    |
-| alias         | alias         |
-| born          | born          |
-| nationality   | nationality   |
-| debut         | debut         |
-| division      | division      |
-| reach         | reach         |
-| residence     | residence     |
-| birthPlace    | birthPlace    |
+| Key              |
+| -----------------|
+| name             |
+| globalId         |
+| role             |
+| rating           |
+| ranking          |
+| vadacbp          |
+| bouts            |
+| rounds           |
+| KOs              |
+| titlesHeld       |
+| birthName        |
+| alias            |
+| born             |
+| nationality      |
+| debut            |
+| division         |
+| reach            |
+| residence        |
+| birthPlace       |
+| numberOfBouts    |
+| hasBoutScheduled |
 
 ## Note
 Not affiliated with the website [boxrec](http://www.boxrec.com)
