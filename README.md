@@ -18,7 +18,7 @@ const boxrec = require("boxrec");
 Boxrec has a limit on requests if you aren't logged in.
 Although you can make requests without logging in, it's suggested to register a user to prevent issues using this.
 
-Note: Boxrec does not support HTTPS, keep that in mind with passwords
+Note: Boxrec does not support HTTPS
 
 ```
 boxrec.login(username, password)
@@ -34,8 +34,35 @@ boxrec.getBoxerById(356831)
 .then(boxer => {
     console.log(boxer.name) // Gennady Golovkin
     console.log(boxer.division) // middleweight
+    
+    // other info that couldn't be categorized
+    console.log(boxer.otherInfo)
 })
 ```
+
+The following getters are supported:
+
+| Key           | Boxrec Text   |
+| ------------- |---------------|
+| name          | ----          |
+| globalId      | global ID     |
+| role          | role          |
+| rating        | rating        |
+| ranking       | ranking       |
+| vadacbp       | VADA CBP      |
+| bouts         | bouts         |
+| rounds        | rounds        |
+| KOs           | KOs           |
+| titlesHeld    | titles held   |
+| birthName     | birth name    |
+| alias         | alias         |
+| born          | born          |
+| nationality   | nationality   |
+| debut         | debut         |
+| division      | division      |
+| reach         | reach         |
+| residence     | residence     |
+| birthPlace    | birthPlace    |
 
 ## Note
 Not affiliated with the website [boxrec](http://www.boxrec.com)
