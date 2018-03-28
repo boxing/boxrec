@@ -1,11 +1,13 @@
-import {boxrecProfileTable} from "./boxrec.constants";
+import {BoxrecBasic, BoxrecBout, boxrecProfileTable} from "./boxrec.constants";
+import {convertFractionsToNumber} from "../helpers";
+import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 export class BoxrecPageProfile {
 
-    private _name: string;
+    private _name: string | null;
 
     // profileTable
     private _globalId: string;
@@ -33,51 +35,60 @@ export class BoxrecPageProfile {
     // other stuff we found that we haven't seen yet
     private _otherInfo: [string, string][] = [];
 
+    private _boutsList: [string, string | null][] = [];
+
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
         this.parseName();
         this.parseProfileTableData();
+        this.parseBouts();
     }
 
-    get name() {
-        return this._name;
+    get name(): string | null {
+        return this._name || null;
     }
 
-    set name(name: string) {
+    set name(name: string | null) {
         this._name = name;
     }
 
-    get globalId(): number | undefined {
+    get globalId(): number | null {
         const globalId: number = parseInt(this._globalId, 10);
 
         if (!isNaN(globalId)) {
             return globalId;
         }
+
+        return null;
     }
 
-    get role(): string | undefined {
+    get role(): string | null {
         const role = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
 
         if (role) {
             return role;
         }
+
+        return null;
     }
 
-    get rating(): number | undefined {
+    get rating(): number | null {
         const html = $(this._rating);
 
         if (html.get(0)) {
             const widthString: string = html.get(0).attribs.style;
             const regex = /width\:(\d+)px\;/;
-            const widthMatch = widthString.match(regex);
+            const matches = widthString.match(regex);
 
-            if (widthMatch && widthMatch[1]) {
-                return parseInt(widthMatch[1], 10);
+            if (matches && matches[1]) {
+                return parseInt(matches[1], 10);
             }
         }
+
+        return null;
     }
 
-    get ranking(): number[][] | undefined {
+    get ranking(): number[][] | null {
         if (this._ranking) {
             const html = $(this._ranking);
             const links: string[] = html.get().filter((item: any) => item.name === "a");
@@ -90,59 +101,88 @@ export class BoxrecPageProfile {
                 return [rankArr[0], rankArr[1]];
             });
         }
+
+        return null;
     }
 
-    get vadacbp(): string | undefined {
-        return this._vadacbp;
+    get vadacbp(): string | null {
+        if (this._vadacbp) {
+            return this._vadacbp;
+        }
+
+        return null;
     }
 
-    get bouts(): number | undefined {
-        const bouts: number = parseInt(this._bouts, 10);
+    get numberOfBouts(): number {
+         const bouts: number = parseInt(this._bouts, 10);
 
         if (!isNaN(bouts)) {
             return bouts;
         }
+
+        return -1;
     }
 
-    get rounds(): number | undefined {
+    get rounds(): number | null {
         const rounds: number = parseInt(this._rounds, 10);
 
         if (!isNaN(rounds)) {
             return rounds;
         }
+
+        return null;
     }
 
-    get KOs(): number | undefined {
+    get KOs(): number | null {
         const kos: number = parseInt(this._KOs, 10);
 
         if (!isNaN(kos)) {
             return kos;
         }
+
+        return null;
     }
 
-    get status(): string | undefined {
-        return this._status;
+    get status(): string | null {
+        if (this._status) {
+            return this._status;
+        }
+
+        return null;
     }
 
-    get titlesHeld(): string[] | undefined {
+    get titlesHeld(): string[] | null {
         if (this._titlesHeld) {
             const html = $(this._titlesHeld);
 
             return html.find("a").map(function (this: any) {
-                return $(this).text();
+                let text: string = $(this).text();
+                // on the Gennady Golovkin profile I found one belt had two spaces in the middle of it
+                text = text.replace(/\s{2,}/g, " ");
+                return text.trim();
             }).get();
         }
+
+        return null;
     }
 
-    get birthName(): string | undefined {
-        return this._birthName;
+    get birthName(): string | null {
+        if (this._birthName) {
+            return this._birthName;
+        }
+
+        return null;
     }
 
-    get alias(): string | undefined {
-        return this._alias;
+    get alias(): string | null {
+        if (this._alias) {
+            return this._alias;
+        }
+
+        return null;
     }
 
-    get born(): string | undefined {
+    get born(): string | null {
         if (this._born) {
             // some boxers have dob and age.  Match the YYYY-MM-DD
             const regex = /(\d{4}\-\d{2}\-\d{2})/;
@@ -152,45 +192,46 @@ export class BoxrecPageProfile {
                 return born[1];
             }
         }
+
+        return null;
     }
 
-    get nationality(): string | undefined {
+    get nationality(): string | null {
         if (this._nationality) {
             return $(this._nationality).text().trimLeft();
         }
+
+        return null;
     }
 
-    get debut(): string | undefined {
-        return this._debut;
+    get debut(): string | null {
+        if (this._debut) {
+            return this._debut;
+        }
+
+        return null;
     }
 
-    get division(): string | undefined {
-        return this._division;
+    get division(): string | null {
+        if (this._division) {
+            return this._division;
+        }
+
+        return null;
     }
 
-    get height(): number[] | undefined {
+    get height(): number[] | null {
+        let height: number[] | null = null;
         if (this._height) {
             const regex: RegExp = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
-            const height = this._height.match(regex);
+            const heightMatch = this._height.match(regex);
 
-            if (height) {
-                let [, imperialFeet, imperialInches, fractionInches, metric] = height;
-
+            if (heightMatch) {
+                const [, imperialFeet, imperialInches, fractionInches, metric] = heightMatch;
                 let formattedImperialInches: number = parseInt(imperialInches, 10);
+                formattedImperialInches += convertFractionsToNumber(fractionInches);
 
-                switch (fractionInches) {
-                    case "&#xBC;":
-                        formattedImperialInches += .25;
-                        break;
-                    case "&#xBD;":
-                        formattedImperialInches += .5;
-                        break;
-                    case "&#xBE;":
-                        formattedImperialInches += .75;
-                        break;
-                }
-
-                return [
+                height = [
                     parseInt(imperialFeet, 10),
                     formattedImperialInches,
                     parseInt(metric, 10),
@@ -198,53 +239,79 @@ export class BoxrecPageProfile {
             }
         }
 
+        return height;
     }
 
-    get reach(): number[] | undefined {
+    get reach(): number[] | null {
+        let reach: number[] | null = null;
         if (this._reach) {
             const regex: RegExp = /^(\d{2})\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
-            const reach = this._reach.match(regex);
+            const reachMatch: RegExpMatchArray | null = this._reach.match(regex);
 
-            if (reach) {
-                const [, inches, centimeters]: string[] = reach;
-                return [
+            if (reachMatch) {
+                const [, inches, centimeters]: string[] = reachMatch;
+                reach = [
                     parseInt(inches, 10),
                     parseInt(centimeters, 10),
                 ];
             }
         }
+
+        return reach;
     }
 
-    get residence(): string | undefined {
+    get residence(): string | null {
         const residence: string = $(this._residence).text();
 
         if (residence) {
             return residence;
         }
+
+        return null;
     }
 
-    get birthPlace(): string | undefined {
+    get birthPlace(): string | null {
         const birthPlace: string = $(this._birthPlace).text();
 
         if (birthPlace) {
             return birthPlace;
         }
+
+        return null;
     }
 
-    get stance(): string | undefined {
-        return this._stance;
+    get stance(): string | null {
+        if (this._stance) {
+            return this._stance;
+        }
+
+        return null;
     }
 
-    get otherInfo(): string[][] | undefined {
-        return this._otherInfo;
+    get otherInfo(): string[][] | null {
+        if (this._otherInfo) {
+            return this._otherInfo;
+        }
+
+        return null;
+    }
+
+    get bouts(): BoxrecBout[] {
+        const bouts = this._boutsList;
+        let boutsList: BoxrecBout[] = [];
+        bouts.forEach((val: [string, string | null]) => {
+            const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]).bout;
+            boutsList.push(bout);
+        });
+        return boutsList;
+    }
+
+    get hasBoutScheduled(): boolean {
+        return this.bouts.length > this.numberOfBouts;
     }
 
     private parseName(): void {
-        const name: string = $("h1").text();
-
-        if (name) {
-            this.name = name;
-        }
+        this.name = $("h1").text();
     }
 
     private parseProfileTableData(): void {
@@ -270,6 +337,38 @@ export class BoxrecPageProfile {
                     this._otherInfo.push([key, val]);
                 }
             }
+        });
+    }
+
+    private parseBouts(): void {
+        const tr = $("#listBoutsResults\\, tbody tr");
+
+        tr.each((i: number, elem: CheerioElement) => {
+
+            const boutId: string = $(elem).attr("id");
+
+            // skip rows that are associated with the previous fight
+            if (boutId.includes("second")) {
+                return;
+            }
+
+            // we need to check to see if the next row is associated with this bout
+            let isNextRowAssociated: boolean = false;
+            let nextRow: Cheerio | null = $(elem).next();
+            let nextRowId: string = nextRow.attr("id");
+
+            if (nextRowId) {
+                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
+
+                isNextRowAssociated = nextRowId === boutId;
+                if (!isNextRowAssociated) {
+                    nextRow = null;
+                }
+            } // else if no next bout exists
+
+            const html = $(elem).html() || "";
+            const next = nextRow ? nextRow.html() : null;
+            this._boutsList.push([html, next]);
         });
     }
 

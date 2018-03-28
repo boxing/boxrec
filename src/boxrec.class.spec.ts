@@ -75,7 +75,7 @@ describe("class Boxrec", () => {
 
             it("should return undefined if it was a success", async () => {
                 const response = await Boxrec.login("", "");
-                expect(response).not.toBeDefined();
+                expect(response).toBeUndefined();
             });
 
         });
