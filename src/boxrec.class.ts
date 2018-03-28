@@ -1,5 +1,7 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
+import {BoxrecPageRatingsParams, BoxrecRating} from "./boxrec-pages/boxrec.constants";
+import {BoxrecPageRatings} from "./boxrec-pages/boxrec.page.ratings";
 
 const rp = require("request-promise");
 const BoxrecPageProfile = require("./boxrec-pages/boxrec.page.profile");
@@ -85,6 +87,20 @@ export class Boxrec {
         });
 
         return new BoxrecPageProfile(boxrecPageBody);
+    }
+
+    public async getRatings(qs: any): Promise<BoxrecRating[]> {
+        for (let i in qs) {
+            qs[`r[${i}]`] = qs[i];
+        }
+
+        const boxrecPageBody = await rp.get({
+            uri: "http://boxrec.com/en/ratings",
+            qs,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageRatings(boxrecPageBody).get;
     }
 
     // makes a request to get the PHPSESSID required to login

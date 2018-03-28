@@ -1,3 +1,9 @@
+## 0.4.0 (2018-03-28)
+
+### Added
+
+- Ability to retrieve ratings by location, weight class, division, sex, etc.
+
 ## 0.3.0 (2018-03-27)
 
 ### Added

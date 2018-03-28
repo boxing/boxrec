@@ -122,7 +122,7 @@ describe("class BoxrecPageProfile", () => {
             expect(boxer.rating).toBeNull();
             expect(boxer.ranking).toBeNull();
             expect(boxer.vadacbp).toBeNull();
-            expect(boxer.numberOfBouts).toBe(-1);
+            expect(boxer.numberOfBouts).toBe(0);
             expect(boxer.rounds).toBeNull();
             expect(boxer.KOs).toBeNull();
             expect(boxer.status).toBeNull();

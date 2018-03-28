@@ -49,9 +49,14 @@ describe("class Boxrec", () => {
                 await expect(Boxrec.login("", "")).rejects.toThrowError("Your password is incorrect");
             });
 
+            it("should return undefined if it was a success", async () => {
+                const response = await Boxrec.login("", "");
+                expect(response).toBeUndefined();
+            });
+
             it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
                 const spy = jest.spyOn(rp, <any>"jar");
-                spy.mockReturnValueOnce({
+                spy.mockReturnValue({
                     getCookieString: () => {
                         return "REMEMBERME=123";
                     },
@@ -63,7 +68,7 @@ describe("class Boxrec", () => {
 
             it("should throw if after successfully logging in the cookie does not include REMEMBERME", async () => {
                 const spy = jest.spyOn(rp, <any>"jar");
-                spy.mockReturnValueOnce({
+                spy.mockReturnValue({
                     getCookieString: () => {
                         return "PHPSESSID=123";
                     },
@@ -73,11 +78,25 @@ describe("class Boxrec", () => {
                 await expect(Boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
             });
 
-            it("should return undefined if it was a success", async () => {
-                const response = await Boxrec.login("", "");
-                expect(response).toBeUndefined();
+        });
+
+    });
+
+    describe("method getRatings", () => {
+
+        it("should make a GET request to http://boxrec.com/en/ratings", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.getRatings();
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/ratings");
+        });
+
+        it("should send all params as a query string", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.getRatings({
+                foo: "bar"
             });
 
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({foo: "bar", "r[foo]": "bar"});
         });
 
     });
