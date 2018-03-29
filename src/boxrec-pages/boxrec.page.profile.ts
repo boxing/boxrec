@@ -1,10 +1,13 @@
-import {BoxrecBasic, BoxrecBout, boxrecProfileTable} from "./boxrec.constants";
+import {BoxrecBout, boxrecProfileTable} from "./boxrec.constants";
 import {convertFractionsToNumber} from "../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
+/**
+ * Parse an entire Boxrec Profile Page
+ */
 export class BoxrecPageProfile {
 
     private _name: string | null;
@@ -114,13 +117,8 @@ export class BoxrecPageProfile {
     }
 
     get numberOfBouts(): number {
-         const bouts: number = parseInt(this._bouts, 10);
-
-        if (!isNaN(bouts)) {
-            return bouts;
-        }
-
-        return -1;
+        const bouts = parseInt(this._bouts, 10);
+         return !isNaN(bouts) ? bouts : 0;
     }
 
     get rounds(): number | null {
@@ -300,9 +298,10 @@ export class BoxrecPageProfile {
         const bouts = this._boutsList;
         let boutsList: BoxrecBout[] = [];
         bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]).bout;
+            const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]).get;
             boutsList.push(bout);
         });
+
         return boutsList;
     }
 

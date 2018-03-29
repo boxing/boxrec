@@ -22,13 +22,15 @@ export enum boxrecProfileTable {
     birthPlace = "birth place",
 }
 
+export interface Location {
+    town: string | null;
+    id: number | null;
+    region: string | null;
+    country: string | null;
+}
+
 export interface BoxrecBoutLocation {
-    location: {
-        town: string | null;
-        id: number | null;
-        region: string | null;
-        country: string | null;
-    };
+    location: Location;
     venue: {
         id: number | null;
         name: string | null;
@@ -48,12 +50,19 @@ export interface BoxrecBasic {
     name: string | null;
 }
 
-export interface BoxrecTitles extends BoxrecBasic {
-    id: any; // string
-}
-
 export interface BoxrecJudge extends BoxrecBasic {
     scorecard: number[];
+}
+
+export interface Record {
+    win: number;
+    loss: number;
+    draw: number;
+}
+
+export interface BoxrecTitles {
+    id: string | null;
+    name: string | null;
 }
 
 export interface BoxrecBout {
@@ -62,14 +71,10 @@ export interface BoxrecBout {
     secondBoxerWeight: number | null;
     opponent: BoxrecBasic | null;
     opponentLast6: WinLossDraw[];
-    opponentRecord: {
-        win: number;
-        loss: number;
-        draw: number;
-    };
-    referee: BoxrecBasic,
-    judges: BoxrecJudge[],
-    metadata: string,
+    opponentRecord: Record;
+    referee: BoxrecBasic;
+    judges: BoxrecJudge[];
+    metadata: string;
     titles: BoxrecTitles[];
     rating: number | null;
     location: BoxrecBoutLocation;
@@ -87,4 +92,26 @@ export enum BoxingBoutOutcome {
     RTD = "corner retirement",
     DQ = "disqualification",
     NWS = "newspaper decision",
+}
+
+export interface BoxrecPageRatingsParams {
+    country?: string | null;
+    division?: string | null;
+    sex?: string | null;
+    stance?: string | null;
+    status?: string | null;
+    r_go?: string | null;
+}
+
+export type Stance = "orthodox" | "southpaw";
+
+export interface BoxrecRating extends BoxrecBasic {
+    points: number | null;
+    rating: number | null;
+    age: number | null;
+    record: Record;
+    last6: WinLossDraw[];
+    stance: Stance | null;
+    residence: Location;
+    division: string | null;
 }

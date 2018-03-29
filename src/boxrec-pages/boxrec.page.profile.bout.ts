@@ -35,7 +35,7 @@ export class BoxrecPageProfileBout {
         this.parseMetadata();
     }
 
-    get bout(): BoxrecBout {
+    get get(): BoxrecBout {
         return {
             date: this.date,
             firstBoxerWeight: this.firstBoxerWeight,

@@ -66,5 +66,28 @@ You can get the following:
 | numberOfBouts    |
 | hasBoutScheduled |
 
+includes bout information
+
+```
+boxrec.getBoxerById(356831)
+.then(boxer => {
+    console.log(boxer.bouts[0].opponent.name); // Saul Alvarez
+})
+```
+
+#### Get ratings
+
+Following Boxrec's form format
+
+```
+boxrec.getRatings({
+    division: "Welterweight",
+    sex: "M",
+    status: "a"
+}).then(ratings => {
+    console.log(ratings[0].name); // Jeff Horn
+});
+```
+
 ## Note
 Not affiliated with the website [boxrec](http://www.boxrec.com)
