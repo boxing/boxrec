@@ -5,7 +5,7 @@ const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 /**
- * Parse an entire Boxrec Ratings Page
+ * Parse a Boxrec Ratings Results Page
  */
 export class BoxrecPageRatings {
 

@@ -1,10 +1,11 @@
 import {trimRemoveLineBreaks} from "../helpers";
 import {BoxrecRating, Location, Record, Stance, WinLossDraw} from "./boxrec.constants";
+import {BoxrecCommonTablesClass} from "./boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
-export class BoxrecPageRatingsRating {
+export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
 
     private _ranking: string;
     private _idName: string;
@@ -18,10 +19,11 @@ export class BoxrecPageRatingsRating {
     private _division: string;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+        super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         $ = cheerio.load(html);
 
-        this.parseRating();
+        this.parse();
     }
 
     get get(): BoxrecRating {
@@ -109,27 +111,8 @@ export class BoxrecPageRatingsRating {
         return null;
     }
 
-    // todo this is duplicate code
     get rating(): number | null {
-        const html = $(this._rating);
-        let rating: number | null = null;
-
-        const starRating: Cheerio = html.find(".starRating");
-
-        if (starRating && starRating.get(0)) {
-            const widthString: string = html.find(".starRating").get(0).attribs.style;
-
-            if (widthString) {
-                const regex = /width:\s(\d+)%;/;
-                const widthMatch = widthString.match(regex);
-
-                if (widthMatch && widthMatch[1]) {
-                    rating = parseInt(widthMatch[1], 10);
-                }
-            }
-        }
-
-        return rating;
+        return super.parseRating(this._rating);
     }
 
     get age(): number | null {
@@ -141,38 +124,11 @@ export class BoxrecPageRatingsRating {
     }
 
     get record(): Record {
-        const record = {
-            draw: -1,
-            loss: -1,
-            win: -1,
-        };
-        const html: Cheerio = $(`<div>${this._record}</div>`);
-
-        record.win = parseInt(html.find(".textWon").text(), 10);
-        record.loss = parseInt(html.find(".textLost").text(), 10);
-        record.draw = parseInt(html.find(".textDraw").text(), 10);
-
-        return record;
+        return super.parseRecord(this._record);
     }
 
     get last6(): WinLossDraw[] {
-        const last6: WinLossDraw[] = [];
-        const opponentLast6: Cheerio = $(this._last6);
-
-        opponentLast6.find("div.last6").each((i: number, elem: CheerioElement) => {
-            const className: string = elem.attribs.class;
-            if (className.includes("bgW")) {
-                last6.push(WinLossDraw.win);
-            } else if (className.includes("bgD")) {
-                last6.push(WinLossDraw.draw);
-            } else if (className.includes("bgL")) {
-                last6.push(WinLossDraw.loss);
-            } else {
-                last6.push(WinLossDraw.unknown);
-            }
-        });
-
-        return last6;
+        return super.parseLast6Column(this._last6);
     }
 
     get stance(): Stance | null {
@@ -184,44 +140,10 @@ export class BoxrecPageRatingsRating {
     }
 
     get residence(): Location {
-        let location: Location = {
-            id: null,
-            town: null,
-            region: null,
-            country: null,
-        };
-
-        if (this._location) {
-
-            const html = $(`<div>${this._location}</div>`);
-            const links = html.find("a");
-
-            // the following regex assumes the query string is always in the same format
-            const areaRegex: RegExp = /\?country=([A-Za-z]+)&region=([A-Za-z]*)&town=(\d+)/;
-            const matches = links.get(0).attribs.href.match(areaRegex) as string[];
-
-            if (matches) {
-                const [, country, region, townId] = matches;
-
-                if (links) {
-                    const data: CheerioElement = links.get(0);
-                    if (data) {
-                        const town: string | undefined = data.children[0].data;
-                        if (town) {
-                            location.town = trimRemoveLineBreaks(town);
-                            location.country = country;
-                            location.region = region;
-                            location.id = parseInt(townId, 10);
-                        }
-                    }
-                }
-            }
-        }
-
-        return location;
+        return super.parseLocationLink(this._location);
     }
 
-    parseRating() {
+    parse() {
         // todo either make this a function or table parsing classes should implement an abstract class
         const getColumnData = (nthChild: number, returnHTML: boolean = true): string => {
             const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);

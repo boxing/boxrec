@@ -103,3 +103,12 @@ export interface BoxrecRating extends BoxrecBasic {
     residence: Location;
     division: string | null;
 }
+
+export interface BoxrecSearch extends BoxrecBasic {
+    alias: string | null;
+    record: Record;
+    last6: WinLossDraw[];
+    division: string | null;
+    career: (number | null)[];
+    residence: Location;
+}
