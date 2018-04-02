@@ -1,3 +1,9 @@
+## 0.4.1 (2018-04-02)
+
+### Changed
+
+- Updated webpack and ts-lint dependency to 4.1.0
+
 ## 0.4.0 (2018-03-28)
 
 ### Added

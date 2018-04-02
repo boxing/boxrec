@@ -1,6 +1,6 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
-import {BoxrecPageRatingsParams, BoxrecRating} from "./boxrec-pages/boxrec.constants";
+import {BoxrecRating} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/boxrec.page.ratings";
 
 const rp = require("request-promise");

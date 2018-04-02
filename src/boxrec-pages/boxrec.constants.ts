@@ -31,10 +31,7 @@ export interface Location {
 
 export interface BoxrecBoutLocation {
     location: Location;
-    venue: {
-        id: number | null;
-        name: string | null;
-    };
+    venue: BoxrecBasic;
 }
 
 export enum WinLossDraw {
@@ -92,15 +89,6 @@ export enum BoxingBoutOutcome {
     RTD = "corner retirement",
     DQ = "disqualification",
     NWS = "newspaper decision",
-}
-
-export interface BoxrecPageRatingsParams {
-    country?: string | null;
-    division?: string | null;
-    sex?: string | null;
-    stance?: string | null;
-    status?: string | null;
-    r_go?: string | null;
 }
 
 export type Stance = "orthodox" | "southpaw";
