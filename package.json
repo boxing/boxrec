@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "retrieve information from Boxrec",
   "main": "./dist/index.js",
   "types": "./dist/dist/index.d.ts",

@@ -90,13 +90,21 @@ describe("class Boxrec", () => {
             expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/ratings");
         });
 
-        it("should send all params as a query string", async () => {
+        it("should clone any keys in the object and wrap with `r[]`", async () => {
             const spy = jest.spyOn(rp, <any>"get");
             await Boxrec.getRatings({
                 foo: "bar"
             });
 
-            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({foo: "bar", "r[foo]": "bar"});
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({"r[foo]": "bar"});
+        });
+
+        it("should not send any keys that aren't wrapped in r[]", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.getRatings({
+                foo: "bar"
+            });
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs["foo"]).not.toBeDefined();
         });
 
     });
@@ -107,6 +115,42 @@ describe("class Boxrec", () => {
             const spy = jest.spyOn(rp, <any>"get");
             await Boxrec.getBoxerById(555);
             expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/boxer/555");
+        });
+
+    });
+
+    describe("method search", () => {
+
+        it("should make a GET request to http://boxrec.com/en/search", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.search({
+                "first_name": "bla",
+            });
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/search");
+        });
+
+        it("should clone any keys in the object and wrap with `pf[]`", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.search({
+                "first_name": "bla",
+            });
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs["pf[first_name]"]).toBe("bla");
+        });
+
+        it("should send role=boxer because that's all we can currently support", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.search({
+                "first_name": "bla",
+            });
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs["pf[role]"]).toBe("boxer");
+        });
+
+        it("should not send any keys that aren't wrapped in pf[]", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.search({
+                first_name: "bla",
+            });
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs["first_name"]).not.toBeDefined();
         });
 
     });

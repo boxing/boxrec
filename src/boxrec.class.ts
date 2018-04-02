@@ -1,16 +1,16 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
-import {BoxrecRating} from "./boxrec-pages/boxrec.constants";
+import {BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/boxrec.page.ratings";
+import {BoxrecPageSearch} from "./boxrec-pages/boxrec.page.search";
 
 const rp = require("request-promise");
 const BoxrecPageProfile = require("./boxrec-pages/boxrec.page.profile");
 
 export class Boxrec {
 
-    private _cookie: any = null; // is a string but `getCookieString` returns void?
     private _hasLoggedIn: boolean = false;
-    private _cookieJar: any;
+    private _cookieJar: CookieJar;
 
     async login(username: string, password: string): Promise<void> {
 
@@ -67,11 +67,11 @@ export class Boxrec {
             });
 
         // it argues that the return value is void
-        this._cookie = cookieJar.getCookieString("http://boxrec.com", () => {
+        const cookieString: any = cookieJar.getCookieString("http://boxrec.com", () => {
             // the callback doesn't work but it works if you assign as a variable?
         });
 
-        if (this._cookie && this._cookie.includes("PHPSESSID") && this._cookie.includes("REMEMBERME")) {
+        if (cookieString && cookieString.includes("PHPSESSID") && cookieString.includes("REMEMBERME")) {
             this._hasLoggedIn = true;
             return; // success
         } else {
@@ -89,9 +89,11 @@ export class Boxrec {
         return new BoxrecPageProfile(boxrecPageBody);
     }
 
-    public async getRatings(qs: any): Promise<BoxrecRating[]> {
+    async getRatings(qs: any): Promise<BoxrecRating[]> {
+        this.checkIfLoggedIn();
         for (let i in qs) {
             qs[`r[${i}]`] = qs[i];
+            delete qs[i];
         }
 
         const boxrecPageBody = await rp.get({
@@ -103,6 +105,35 @@ export class Boxrec {
         return new BoxrecPageRatings(boxrecPageBody).get;
     }
 
+    async search(qs: any): Promise<BoxrecSearch[]> {
+        this.checkIfLoggedIn();
+
+        if (!qs.first_name && !qs.last_name) {
+            // Boxrec says 2 or more characters, it's actually 3 or more
+            throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
+        }
+
+        if (qs.role && qs.role !== "boxer") {
+            throw new Error("Currently search only supports boxers");
+        }
+
+        // todo currently this only works with boxers
+        qs.role = "boxer";
+
+        for (let i in qs) {
+            qs[`pf[${i}]`] = qs[i];
+            delete qs[i];
+        }
+
+        const boxrecPageBody = await rp.get({
+            uri: "http://boxrec.com/en/search",
+            qs,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageSearch(boxrecPageBody).get;
+    }
+
     // makes a request to get the PHPSESSID required to login
     private async getSessionCookie(): Promise<string[]> {
         return rp.get({
@@ -111,7 +142,7 @@ export class Boxrec {
         }).then((data: RequestResponse) => data.headers["set-cookie"]);
     }
 
-    private checkIfLoggedIn(): boolean {
+    private checkIfLoggedIn(): true | Error {
         if (this._hasLoggedIn) {
             return true;
         } else {

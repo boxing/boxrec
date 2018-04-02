@@ -69,6 +69,7 @@ You can get the following:
 includes bout information
 
 ```
+// get information about Gennady Golovkin
 boxrec.getBoxerById(356831)
 .then(boxer => {
     console.log(boxer.bouts[0].opponent.name); // Saul Alvarez
@@ -85,9 +86,49 @@ boxrec.getRatings({
     sex: "M",
     status: "a"
 }).then(ratings => {
-    console.log(ratings[0].name); // Jeff Horn
+    console.log(ratings[0]);
 });
 ```
+
+```
+    { id: 629465,
+      name: 'Errol Spence Jr',
+      points: 555,
+      rating: 100,
+      age: 28,
+      record: { draw: 0, loss: 0, win: 23 },
+      last6: [ 'win', 'win', 'win', 'win', 'win', 'win' ],
+      stance: 'southpaw',
+      residence: { id: 43387, town: 'Desoto', region: 'TX', country: 'US' },
+      division: null } // the division column is ommitted when searching by weight class
+});
+```
+
+#### Search boxers
+
+Following Boxrec's form format
+
+```
+boxrec.search({
+    first_name: "Floyd",
+    last_name: "Mayweather,
+}).then(searchResults => {
+    console.log(searchResults[1]); 
+});
+```    
+
+``` 
+    { id: 352,
+      name: 'Floyd Mayweather Jr',
+      alias: 'Money / Pretty Boy',
+      record: { draw: 0, loss: 0, win: 50 },
+      last6: [ 'win', 'win', 'win', 'win', 'win', 'win' ],
+      division: 'welterweight',
+      career: [ 1996, 2017 ],
+      residence: { id: 20388, town: 'Las Vegas', region: 'NV', country: 'US' } }
+});
+```
+
 
 ## Note
 Not affiliated with the website [boxrec](http://www.boxrec.com)

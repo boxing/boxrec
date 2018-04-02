@@ -1,3 +1,9 @@
+## 0.5.0 (2018-04-02)
+
+### Added
+
+- Can now search for boxers (and only boxers at this time)
+
 ## 0.4.1 (2018-04-02)
 
 ### Changed

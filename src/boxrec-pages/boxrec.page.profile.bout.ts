@@ -3,15 +3,18 @@ import {
     BoxrecBasic,
     BoxrecBout,
     BoxrecBoutLocation,
-    BoxrecJudge, BoxrecTitles,
+    BoxrecJudge,
+    BoxrecTitles,
+    Record,
     WinLossDraw
 } from "./boxrec.constants";
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../helpers";
+import {BoxrecCommonTablesClass} from "./boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
-export class BoxrecPageProfileBout {
+export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
 
     private _date: string;
     private _firstBoxerWeight: string;
@@ -28,6 +31,7 @@ export class BoxrecPageProfileBout {
     private _metadata: string;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+        super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         $ = cheerio.load(html);
 
@@ -60,7 +64,7 @@ export class BoxrecPageProfileBout {
     }
 
     get firstBoxerWeight(): number | null {
-        return this.parseWeight(this._firstBoxerWeight);
+        return super.parseWeight(this._firstBoxerWeight);
     }
 
     get opponent(): BoxrecBasic {
@@ -226,6 +230,9 @@ export class BoxrecPageProfileBout {
         }
 
         if (areaLink) {
+
+            // todo make this able to be parsed by parent class
+
             // city
             const areaLinkData: string | undefined = areaLink.children[0].data;
             if (areaLinkData && areaLinkData.trim().length) {
@@ -248,48 +255,15 @@ export class BoxrecPageProfileBout {
     }
 
     get secondBoxerWeight(): number | null {
-        return this.parseWeight(this._secondBoxerWeight);
+        return super.parseWeight(this._secondBoxerWeight);
     }
 
-    get opponentRecord(): { win: number; loss: number; draw: number; } {
-        const record = {
-            draw: -1,
-            loss: -1,
-            win: -1,
-        };
-        const html: Cheerio = $(`<div>${this._opponentRecord}</div>`);
-
-        const wins = parseInt(html.find(".textWon").text(), 10);
-        const loss = parseInt(html.find(".textLost").text(), 10);
-        const draw = parseInt(html.find(".textLost").text(), 10);
-
-        if (!isNaN(wins) && !isNaN(loss) && !isNaN(draw)) {
-            record.win = wins;
-            record.loss = loss;
-            record.draw = draw;
-        }
-
-        return record;
+    get opponentRecord(): Record {
+        return super.parseRecord(this._opponentRecord);
     }
 
     get opponentLast6(): WinLossDraw[] {
-        const last6: WinLossDraw[] = [];
-        const opponentLast6: Cheerio = $(this._opponentLast6);
-
-        opponentLast6.find("div.last6").each((i: number, elem: CheerioElement) => {
-            const className: string = elem.attribs.class;
-            if (className.includes("bgW")) {
-                last6.push(WinLossDraw.win);
-            } else if (className.includes("bgD")) {
-                last6.push(WinLossDraw.draw);
-            } else if (className.includes("bgL")) {
-                last6.push(WinLossDraw.loss);
-            } else {
-                last6.push(WinLossDraw.unknown);
-            }
-        });
-
-        return last6;
+        return super.parseLast6Column(this._opponentLast6);
     }
 
     get result(): [WinLossDraw, BoxingBoutOutcome | string, BoxingBoutOutcome | string] {
@@ -297,26 +271,7 @@ export class BoxrecPageProfileBout {
     }
 
     get rating(): number | null {
-        const html = $(this._rating);
-        let rating: number | null = null;
-
-        const starRating: Cheerio = html.find(".starRating");
-
-        if (starRating && starRating.get(0)) {
-            const widthString: string = html.find(".starRating").get(0).attribs.style;
-
-            if (widthString) {
-                // this is percent width when in the profileTable it's px?
-                const regex = /width:\s(\d+)%;/;
-                const widthMatch = widthString.match(regex);
-
-                if (widthMatch && widthMatch[1]) {
-                    rating = parseInt(widthMatch[1], 10);
-                }
-            }
-        }
-
-        return rating;
+        return super.parseRating(this._rating);
     }
 
     // returns an object with keys that contain a class other than `clickableIcon`
@@ -416,18 +371,4 @@ export class BoxrecPageProfileBout {
         this._metadata = el.html() || "";
     }
 
-    private parseWeight(str: string): number | null {
-        const weight: string = str.trim();
-        let formattedWeight: number | null = null;
-
-        if (weight.length) {
-            formattedWeight = parseInt(weight, 10);
-
-            if (isNaN(parseInt(weight.slice(-1), 10))) {
-                formattedWeight += convertFractionsToNumber(weight.slice(-1));
-            }
-        }
-
-        return formattedWeight;
-    }
 }

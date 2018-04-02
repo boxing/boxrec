@@ -6,7 +6,7 @@ const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 /**
- * Parse an entire Boxrec Profile Page
+ * Parse a Boxrec Profile Page
  */
 export class BoxrecPageProfile {
 
@@ -80,6 +80,7 @@ export class BoxrecPageProfile {
 
         if (html.get(0)) {
             const widthString: string = html.get(0).attribs.style;
+            // this uses pixels, where the others use percentage
             const regex = /width\:(\d+)px\;/;
             const matches = widthString.match(regex);
 
@@ -258,6 +259,7 @@ export class BoxrecPageProfile {
         return reach;
     }
 
+    // todo can this be converted to return Location?
     get residence(): string | null {
         const residence: string = $(this._residence).text();
 
