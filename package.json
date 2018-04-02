@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "retrieve information from Boxrec",
   "main": "./dist/index.js",
   "types": "./dist/dist/index.d.ts",
@@ -11,7 +11,7 @@
     "test": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:coverage:watch": "jest --coverage --watchAll",
     "test:watch": "jest --watchAll",
-    "tslint": "tslint -c tslint.json src/**/*.ts"
+    "tslint": "tslint --project tslint.json src/**/*.ts"
   },
   "keywords": [
     "boxrec",
@@ -29,12 +29,13 @@
     "json-loader": "^0.5.7",
     "request": "^2.83.0",
     "ts-jest": "^22.0.3",
-    "ts-loader": "^3.5.0",
+    "ts-loader": "4.1.0",
     "tslint": "^5.9.1",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.7.1",
     "uglifyjs-webpack-plugin": "^1.2.0",
-    "webpack": "^3.10.0",
+    "webpack": "4.4.1",
+    "webpack-cli": "^2.0.13",
     "webpack-merge": "^4.1.1"
   },
   "bugs": {
@@ -59,7 +60,6 @@
     ]
   },
   "dependencies": {
-    "global": "^4.3.2",
     "request-promise": "^4.2.2"
   }
 }

@@ -99,7 +99,7 @@ export class BoxrecPageProfile {
             return links.map((item: any) => {
                 const child: string = item.children[0].data;
                 const rankArr: number[] = child.trim().replace(",", "").split("/")
-                    .map(item => parseInt(item, 10));
+                    .map(rank => parseInt(rank, 10));
 
                 return [rankArr[0], rankArr[1]];
             });
@@ -324,7 +324,7 @@ export class BoxrecPageProfile {
                 key = key.trim();
                 val = val.trim();
                 const enumVals: any[] = Object.keys(boxrecProfileTable);
-                const enumKeys: any[] = enumVals.map(key => boxrecProfileTable[key]);
+                const enumKeys: any[] = enumVals.map(k => boxrecProfileTable[k]);
 
                 if (enumKeys.includes(key)) {
                     const idx: number = enumKeys.findIndex(item => item === key);
