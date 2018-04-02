@@ -4,7 +4,7 @@ import {
     BoxrecBout,
     BoxrecBoutLocation,
     BoxrecJudge,
-    BoxrecTitles,
+    BoxrecId,
     Record,
     WinLossDraw
 } from "./boxrec.constants";
@@ -151,8 +151,8 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         return judges;
     }
 
-    get titles(): BoxrecTitles[] {
-        let titles: BoxrecTitles[] = [];
+    get titles(): BoxrecId[] {
+        let titles: BoxrecId[] = [];
         const html = $(`<div>${this._metadata}</div>`);
         html.find("a.titleLink").each((index: number, elem: CheerioElement) => {
             const href: string = $(elem).get(0).attribs.href;

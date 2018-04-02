@@ -1,3 +1,9 @@
+## 0.6.0 (2018-04-03)
+
+### Added
+
+- Profile will return a list of boxer's suspensions
+
 ## 0.5.2 (2018-04-03)
 
 - Separate mocks to be used from another repo

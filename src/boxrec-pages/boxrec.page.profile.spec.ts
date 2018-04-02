@@ -55,6 +55,8 @@ describe("class BoxrecPageProfile", () => {
 
             it(`${prefix} birth place`, () => expect(boxer.birthPlace).toBe("Pensacola, Florida, USA"));
 
+            it(`${prefix} suspensions`, () => expect(boxer.suspensions.length).toBe(5));
+
         });
 
         describe("Gennady Golovkin", () => {
@@ -158,6 +160,14 @@ describe("class BoxrecPageProfile", () => {
 
         });
 
+        describe("suspensions", () => {
+
+            it("should return an array of suspensions", () => {
+                expect(boxer.suspensions.length).toBe(2);
+            });
+
+        });
+
         describe("height", () => {
 
             it("should be null if could not match the regex", () => {
@@ -187,7 +197,9 @@ describe("class BoxrecPageProfile", () => {
 
         describe("height with fraction characters", () => {
 
-            const heightError = () => { throw new Error("height was null"); };
+            const heightError = () => {
+                throw new Error("height was null");
+            };
 
             it("should return .25 for ¼ symbol", () => {
                 boxer = new BoxrecPageProfile(mockProfileGGG.replace("&#189;", "&#188;"));

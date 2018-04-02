@@ -43,6 +43,7 @@ boxrec.getBoxerById(356831)
     console.log(boxer.titlesHead); // [International Boxing Organization World Middleweight Title, ...];
     console.log(boxer.otherInfo); // other info that couldn't be categorized
     console.log(boxer.bouts); // list of bouts
+    console.log(boxer.suspensions); // list of suspensions
     console.log(boxer.bouts[0].opponent.name); // Saul Alvarez
 });
 ```
@@ -72,6 +73,7 @@ the following are supported:
 | role             |
 | rounds           |
 | stance           |
+| suspensions      |
 | titlesHeld       |
 | vadacbp          |
 
