@@ -8,7 +8,9 @@
     "declaration": true,
     "strictPropertyInitialization": false,
     "lib": [
-      "es2015", "es2016.array.include"
+      "es2015",
+      "es2016.array.include",
+      "esnext.asynciterable"
     ]
   }
 }

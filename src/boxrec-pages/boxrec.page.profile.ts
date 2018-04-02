@@ -1,4 +1,4 @@
-import {BoxrecBout, boxrecProfileTable, BoxrecSuspension} from "./boxrec.constants";
+import {BoxrecBout, BoxrecProfile, boxrecProfileTable, BoxrecSuspension} from "./boxrec.constants";
 import {convertFractionsToNumber} from "../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
 import {BoxrecPageProfileSuspensionsRow} from "./boxrec.page.profile.suspensions.row";
@@ -9,7 +9,7 @@ let $: CheerioAPI;
 /**
  * Parse a Boxrec Profile Page
  */
-export class BoxrecPageProfile {
+export class BoxrecPageProfile implements BoxrecProfile {
 
     private _name: string | null;
 

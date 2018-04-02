@@ -36,7 +36,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
         };
     }
 
-    get id(): number | null {
+    get id(): number {
         if (this._idName) {
             const html = $(`<div>${this._idName}</div>`);
             const href: string = html.find("a").attr("href");
@@ -49,7 +49,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
             }
         }
 
-        return null;
+        return -1;
     }
 
     get name(): string | null {

@@ -95,7 +95,6 @@ describe("class Boxrec", () => {
             await Boxrec.getRatings({
                 foo: "bar"
             });
-
             expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({"r[foo]": "bar"});
         });
 
@@ -115,6 +114,25 @@ describe("class Boxrec", () => {
             const spy = jest.spyOn(rp, <any>"get");
             await Boxrec.getBoxerById(555);
             expect(spy.mock.calls[spy.mock.calls.length - 1][0].uri).toBe("http://boxrec.com/en/boxer/555");
+        });
+
+    });
+
+    describe("method getBoxersByName", () => {
+
+        it("should return a generator of boxers it found", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            const searchResults = await Boxrec.getBoxersByName("test", "test");
+            expect(searchResults.next()).toBeDefined();
+        });
+
+        it("should make a call to Boxrec everytime the generator next method is called", async () => {
+            const getSpy = jest.spyOn(Boxrec, <any>"getBoxerById");
+            jest.spyOn(Boxrec, <any>"search").mockReturnValueOnce([{id: 999}, {id: 888}]);
+            const searchResults = await Boxrec.getBoxersByName("test", "test");
+            expect(getSpy).toHaveBeenCalledTimes(0);
+            await searchResults.next(); // makes an API call
+            expect(getSpy).toHaveBeenCalledTimes(1);
         });
 
     });

@@ -33,14 +33,14 @@ boxrec.login(username, password)
 .catch(error => {});
 ```
 
-#### Get boxer profile
+#### Get boxer profile by Boxrec ID
 Using the Boxrec Boxer ID, retrieve all information about a boxer.
 ```javascript
 boxrec.getBoxerById(356831)
 .then(boxer => {
     console.log(boxer.name); // Gennady Golovkin
     console.log(boxer.division); // middleweight
-    console.log(boxer.titlesHead); // [International Boxing Organization World Middleweight Title, ...];
+    console.log(boxer.titlesHeld); // [International Boxing Organization World Middleweight Title, ...];
     console.log(boxer.otherInfo); // other info that couldn't be categorized
     console.log(boxer.bouts); // list of bouts
     console.log(boxer.suspensions); // list of suspensions
@@ -77,8 +77,61 @@ the following are supported:
 | titlesHeld       |
 | vadacbp          |
 
-#### Get ratings
 
+#### Search boxers by name
+Returns the same object as `getBoxerById`
+
+```javascript
+const floyds = await boxrec.getBoxersByName("Floyd", "Mayweather");
+let boxer = await floyds.next();
+console.log(boxer.value); // is Floyd Mayweather Sr. object
+
+boxer = await floyds.next();
+console.log(boxer.value); // is Floyd Mayweather Jr. object
+
+// or using Promises
+floyds.next().then(boxer => {
+    console.log(boxer.value);
+});
+```
+
+#### Search boxers
+Following Boxrec's form format
+
+```javascript
+boxrec.search({
+    first_name: "Floyd",
+    last_name: "Mayweather",
+}).then(searchResults => {
+    console.log(searchResults[1]); 
+});
+```    
+
+Output:
+```javascript
+    {
+        id: 352,
+        name: 'Floyd Mayweather Jr',
+        alias: 'Money / Pretty Boy',
+        record: {
+            draw: 0,
+            loss: 0,
+            win: 50
+        },
+        last6: ['win', 'win', 'win', 'win', 'win', 'win'],
+        division: 'welterweight',
+        career: [1996, 2017],
+        residence: {
+            id: 20388,
+            town: 'Las Vegas',
+            region: 'NV',
+            country: 'US'
+        }
+    }
+});
+```
+
+#### Get ratings
 Following Boxrec's form format
 
 ```javascript
@@ -114,43 +167,6 @@ Output:
         },
         division: null
     };
-```
-
-#### Search boxers
-
-Following Boxrec's form format
-
-```javascript
-boxrec.search({
-    first_name: "Floyd",
-    last_name: "Mayweather",
-}).then(searchResults => {
-    console.log(searchResults[1]); 
-});
-```    
-
-Output:
-```javascript
-    {
-        id: 352,
-        name: 'Floyd Mayweather Jr',
-        alias: 'Money / Pretty Boy',
-        record: {
-            draw: 0,
-            loss: 0,
-            win: 50
-        },
-        last6: ['win', 'win', 'win', 'win', 'win', 'win'],
-        division: 'welterweight',
-        career: [1996, 2017],
-        residence: {
-            id: 20388,
-            town: 'Las Vegas',
-            region: 'NV',
-            country: 'US'
-        }
-    }
-});
 ```
 
 ## Note

@@ -1,3 +1,9 @@
+## 0.7.0 (2018-04-04)
+
+### Added
+
+- Can now search boxer by name
+
 ## 0.6.0 (2018-04-03)
 
 ### Added
