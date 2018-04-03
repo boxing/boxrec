@@ -1,3 +1,6 @@
+// used to get mocks from boxrec-mocks repo
+export const boxRecMocksModulePath = "./node_modules/boxrec-mocks/pages/";
+
 export enum boxrecProfileTable {
     globalId = "global ID",
     role = "role",
