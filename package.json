@@ -23,6 +23,7 @@
     "@types/jest": "^22.1.1",
     "@types/request": "^2.47.0",
     "babel-jest": "^22.2.2",
+    "boxrec-mocks": "https://github.com/boxing/boxrec-mocks",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",
     "jest": "^22.4.3",

@@ -1064,6 +1064,10 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
+"boxrec-mocks@https://github.com/boxing/boxrec-mocks":
+  version "0.1.0"
+  resolved "https://github.com/boxing/boxrec-mocks#4100710769e8ab77a65760e8f205077177df0a29"
+
 brace-expansion@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.8.tgz#c07b211c7c952ec1f8efd51a77ef0d1d3990a292"

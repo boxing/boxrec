@@ -1,8 +1,8 @@
 import {BoxrecPageSearchBoxerRow} from "./boxrec.page.search-boxer.row";
-import {WinLossDraw} from "./boxrec.constants";
+import {boxRecMocksModulePath, WinLossDraw} from "./boxrec.constants";
 
 const fs = require("fs");
-const mockSearchResults = fs.readFileSync("./src/boxrec-pages/mocks/mockSearchRowMayweather.html", "utf8");
+const mockSearchResults = fs.readFileSync(`${boxRecMocksModulePath}/search/mockSearchRowMayweather.html`, "utf8");
 
 describe("class BoxrecPageSearchBoxerRow", () => {
 

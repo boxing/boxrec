@@ -1,3 +1,11 @@
+## 0.5.2 (2018-04-03)
+
+- Separate mocks to be used from another repo
+
+## 0.5.1 (2018-04-02)
+
+- Update README to include better examples on requests/responses
+
 ## 0.5.0 (2018-04-02)
 
 ### Added

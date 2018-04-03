@@ -1,7 +1,8 @@
 import {BoxrecPageSearch} from "./boxrec.page.search";
+import {boxRecMocksModulePath} from "./boxrec.constants";
 
 const fs = require("fs");
-const mockSearchResults = fs.readFileSync("./src/boxrec-pages/mocks/mockSearchMayweather.html", "utf8");
+const mockSearchResults = fs.readFileSync(`${boxRecMocksModulePath}/search/mockSearchMayweather.html`, "utf8");
 
 describe("class BoxrecPageSearch", () => {
 

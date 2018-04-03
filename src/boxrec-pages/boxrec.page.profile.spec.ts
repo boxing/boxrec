@@ -1,10 +1,10 @@
 import {BoxrecPageProfile as Boxrec} from "./boxrec.page.profile";
-import {BoxrecBout} from "./boxrec.constants";
+import {BoxrecBout, boxRecMocksModulePath} from "./boxrec.constants";
 
 const BoxrecPageProfile = require("./boxrec.page.profile");
 const fs = require("fs");
-const mockProfileRJJ = fs.readFileSync("./src/boxrec-pages/mocks/mockProfileRJJ.html", "utf8");
-const mockProfileGGG = fs.readFileSync("./src/boxrec-pages/mocks/mockProfileGGG.html", "utf8");
+const mockProfileRJJ = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileRJJ.html`, "utf8");
+const mockProfileGGG = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileGGG.html`, "utf8");
 
 // todo break into method testing
 describe("class BoxrecPageProfile", () => {

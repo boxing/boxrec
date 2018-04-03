@@ -1,9 +1,9 @@
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
-import {WinLossDraw} from "./boxrec.constants";
+import {boxRecMocksModulePath, WinLossDraw} from "./boxrec.constants";
 
 const fs = require("fs");
-const mockBoutGGGCanelo = fs.readFileSync("./src/boxrec-pages/mocks/mockBoutCaneloGGG.html", "utf8");
-const mockBoutGGGCaneloAdditionalData = fs.readFileSync("./src/boxrec-pages/mocks/mockBoutCaneloGGGAdditionalData.html", "utf8");
+const mockBoutGGGCanelo = fs.readFileSync(`${boxRecMocksModulePath}/profile/bout/mockBoutCaneloGGG.html`, "utf8");
+const mockBoutGGGCaneloAdditionalData = fs.readFileSync(`${boxRecMocksModulePath}/profile/bout/mockBoutCaneloGGGAdditionalData.html`, "utf8");
 
 describe("class BoxrecPageProfileBout", () => {
 
