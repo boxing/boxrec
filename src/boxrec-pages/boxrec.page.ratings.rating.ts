@@ -155,7 +155,7 @@ export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
             return el.text();
         };
 
-        // on pages where it's about a specific weight class, the division column is ommitted
+        // on pages where it's about a specific weight class, the division column is omitted
         const hasDivision: boolean = $(`tr:nth-child(1) td`).length === 9;
 
         this._ranking = getColumnData(1, false);
