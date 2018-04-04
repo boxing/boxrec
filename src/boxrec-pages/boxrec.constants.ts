@@ -60,7 +60,7 @@ export interface Record {
     draw: number;
 }
 
-export interface BoxrecTitles {
+export interface BoxrecId {
     id: string | null;
     name: string | null;
 }
@@ -75,7 +75,7 @@ export interface BoxrecBout {
     referee: BoxrecBasic;
     judges: BoxrecJudge[];
     metadata: string;
-    titles: BoxrecTitles[];
+    titles: BoxrecId[];
     rating: number | null;
     location: BoxrecBoutLocation;
     links: Object;
@@ -92,6 +92,15 @@ export enum BoxingBoutOutcome {
     RTD = "corner retirement",
     DQ = "disqualification",
     NWS = "newspaper decision",
+}
+
+export interface BoxrecSuspension {
+    issuedBy: BoxrecId | null;
+    type: string;
+    startDate: string;
+    endDate: string;
+    lengthInDays: number;
+    eventId: number | null;
 }
 
 export type Stance = "orthodox" | "southpaw";

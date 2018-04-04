@@ -1,6 +1,7 @@
-import {BoxrecBout, boxrecProfileTable} from "./boxrec.constants";
+import {BoxrecBout, boxrecProfileTable, BoxrecSuspension} from "./boxrec.constants";
 import {convertFractionsToNumber} from "../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
+import {BoxrecPageProfileSuspensionsRow} from "./boxrec.page.profile.suspensions.row";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
@@ -38,12 +39,15 @@ export class BoxrecPageProfile {
     // other stuff we found that we haven't seen yet
     private _otherInfo: [string, string][] = [];
 
+    private _suspensions: string[] = [];
+
     private _boutsList: [string, string | null][] = [];
 
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
         this.parseName();
         this.parseProfileTableData();
+        this.parseSuspensions();
         this.parseBouts();
     }
 
@@ -119,7 +123,7 @@ export class BoxrecPageProfile {
 
     get numberOfBouts(): number {
         const bouts = parseInt(this._bouts, 10);
-         return !isNaN(bouts) ? bouts : 0;
+        return !isNaN(bouts) ? bouts : 0;
     }
 
     get rounds(): number | null {
@@ -311,6 +315,18 @@ export class BoxrecPageProfile {
         return this.bouts.length > this.numberOfBouts;
     }
 
+    get suspensions(): BoxrecSuspension[] {
+        let suspensionsList: BoxrecSuspension[] = [];
+        const suspensions = this._suspensions;
+
+        suspensions.forEach((val: string) => {
+            const susp: BoxrecSuspension = new BoxrecPageProfileSuspensionsRow(val).get;
+            suspensionsList.push(susp);
+        });
+
+        return suspensionsList;
+    }
+
     private parseName(): void {
         this.name = $("h1").text();
     }
@@ -338,6 +354,15 @@ export class BoxrecPageProfile {
                     this._otherInfo.push([key, val]);
                 }
             }
+        });
+    }
+
+    private parseSuspensions() {
+        const tr = $("#susdisplay tbody tr");
+
+        tr.each((i: number, elem: CheerioElement) => {
+            const html = $(elem).html() || "";
+            this._suspensions.push(html);
         });
     }
 
