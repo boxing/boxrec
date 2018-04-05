@@ -37,6 +37,35 @@ export interface BoxrecBoutLocation {
     venue: BoxrecBasic;
 }
 
+export interface BoxrecProfile {
+    name: string | null;
+    globalId: number | null;
+    role: string | null;
+    rating: number | null;
+    ranking: number[][] | null;
+    vadacbp: string | null;
+    numberOfBouts: number;
+    rounds: number | null;
+    KOs: number | null;
+    status: string | null;
+    titlesHeld: string[] | null;
+    birthName: string | null;
+    alias: string | null;
+    born: string | null;
+    nationality: string | null;
+    debut: string | null;
+    division: string | null;
+    height: number[] | null;
+    reach: number[] | null;
+    residence: string | null;
+    birthPlace: string | null;
+    stance: string | null;
+    otherInfo: string[][] | null;
+    bouts: BoxrecBout[];
+    hasBoutScheduled: boolean;
+    suspensions: BoxrecSuspension[];
+}
+
 export enum WinLossDraw {
     win = "win",
     loss = "loss",
@@ -117,6 +146,7 @@ export interface BoxrecRating extends BoxrecBasic {
 }
 
 export interface BoxrecSearch extends BoxrecBasic {
+    id: number;
     alias: string | null;
     record: Record;
     last6: WinLossDraw[];

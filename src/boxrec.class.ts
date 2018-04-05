@@ -1,8 +1,11 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
-import {BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
+import {BoxrecProfile, BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/boxrec.page.ratings";
 import {BoxrecPageSearch} from "./boxrec-pages/boxrec.page.search";
+
+// https://github.com/Microsoft/TypeScript/issues/14151
+(<any>Symbol).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
 
 const rp = require("request-promise");
 const BoxrecPageProfile = require("./boxrec-pages/boxrec.page.profile");
@@ -79,14 +82,36 @@ export class Boxrec {
         }
     }
 
-    async getBoxerById(boxerId: number) {
+    async getBoxerById(boxrecBoxerId: number): Promise<BoxrecProfile> {
         this.checkIfLoggedIn();
         const boxrecPageBody = await rp.get({
-            uri: `http://boxrec.com/en/boxer/${boxerId}`,
+            uri: `http://boxrec.com/en/boxer/${boxrecBoxerId}`,
             jar: this._cookieJar,
         });
 
         return new BoxrecPageProfile(boxrecPageBody);
+    }
+
+    /**
+     * Returns individual Boxrec profiles
+     * by using a generator, we're trying to prevent making too many calls to Boxrec
+     * @param {string} firstName
+     * @param {string} lastName
+     * @param {string} active   default is false, which includes active and inactive
+     */
+    async *getBoxersByName(firstName: string, lastName: string, active: boolean = false) {
+        this.checkIfLoggedIn();
+        const status: string = active ? "a" : "";
+        const params = {
+            first_name: firstName,
+            last_name: lastName,
+            status,
+        };
+        const searchResults = await this.search(params);
+
+        for (const result of searchResults) {
+            yield await this.getBoxerById(result.id);
+        }
     }
 
     async getRatings(qs: any): Promise<BoxrecRating[]> {

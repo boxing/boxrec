@@ -230,7 +230,6 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         }
 
         if (areaLink) {
-
             // todo make this able to be parsed by parent class
 
             // city
