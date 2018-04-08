@@ -131,6 +131,15 @@ Output:
 });
 ```
 
+#### Get champions
+
+```javascript
+boxrec.getChampions()
+.then(champions => {
+    champions.getByWeightClass().heavyweight.IBF; // Anthony Joshua
+});
+```
+
 #### Get ratings
 Following Boxrec's form format
 
@@ -141,15 +150,6 @@ boxrec.getRatings({
     status: "a"
 }).then(ratings => {
     console.log(ratings[1]);
-});
-```
-
-#### Get champions
-
-```javascript
-boxrec.getChampions()
-.then(champions => {
-    champions.getByWeightClass().heavyweight.IBF; // Anthony Joshua
 });
 ```
 
