@@ -1,3 +1,9 @@
+## 0.8.0 (2018-04-08)
+
+### Added
+
+- Can now list champions.  Can list by weight class, by belt organization.
+
 ## 0.7.0 (2018-04-04)
 
 ### Added
