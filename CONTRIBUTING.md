@@ -2,7 +2,7 @@
 
 ## Welcome
 
-If there is an open issue feel free to comment that you'll work on it.
+If there is an [open issue](https://github.com/boxing/boxrec/issues) feel free to comment that you'll work on it.  This prevents multiple people from working on the same issue.
 
 ## Requirements
 - Requires Node 7.6+
