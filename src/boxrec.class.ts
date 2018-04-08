@@ -3,6 +3,7 @@ import {RequestResponse} from "request";
 import {BoxrecProfile, BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/boxrec.page.ratings";
 import {BoxrecPageSearch} from "./boxrec-pages/boxrec.page.search";
+import {BoxrecPageChampions} from "./boxrec-pages/boxrec.page.champions";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 (<any>Symbol).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
@@ -112,6 +113,17 @@ export class Boxrec {
         for (const result of searchResults) {
             yield await this.getBoxerById(result.id);
         }
+    }
+
+    async getChampions() {
+        this.checkIfLoggedIn();
+
+        const boxrecPageBody = await rp.get({
+            uri: "http://boxrec.com/en/champions",
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageChampions(boxrecPageBody);
     }
 
     async getRatings(qs: any): Promise<BoxrecRating[]> {
