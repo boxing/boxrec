@@ -1,3 +1,13 @@
+## 0.8.1 (2018-04-08)
+
+### Added
+
+- Documentation on how to contribute to the project
+
+### Changed
+
+- Moved page object files into separate directories
+
 ## 0.8.0 (2018-04-08)
 
 ### Added
