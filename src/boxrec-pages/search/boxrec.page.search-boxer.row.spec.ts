@@ -1,15 +1,15 @@
-import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
-import {boxRecMocksModulePath, WinLossDraw} from "./boxrec.constants";
+import {BoxrecPageSearchBoxerRow} from "./boxrec.page.search-boxer.row";
+import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 
 const fs = require("fs");
 const mockSearchResults = fs.readFileSync(`${boxRecMocksModulePath}/search/mockSearchRowMayweather.html`, "utf8");
 
-describe("class BoxrecPageSearchRow", () => {
+describe("class BoxrecPageSearchBoxerRow", () => {
 
-    let searchResult: BoxrecPageSearchRow;
+    let searchResult: BoxrecPageSearchBoxerRow;
 
     beforeAll(() => {
-        searchResult = new BoxrecPageSearchRow(mockSearchResults);
+        searchResult = new BoxrecPageSearchBoxerRow(mockSearchResults);
     });
 
     describe("getter id", () => {

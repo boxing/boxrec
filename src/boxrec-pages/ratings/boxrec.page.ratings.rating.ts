@@ -1,6 +1,6 @@
-import {trimRemoveLineBreaks} from "../helpers";
-import {BoxrecRating, Location, Record, Stance, WinLossDraw} from "./boxrec.constants";
-import {BoxrecCommonTablesClass} from "./boxrec-common-tables/boxrec-common-tables.class";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecRating, Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;

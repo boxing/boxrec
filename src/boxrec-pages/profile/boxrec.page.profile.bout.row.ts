@@ -7,9 +7,9 @@ import {
     BoxrecId,
     Record,
     WinLossDraw
-} from "./boxrec.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "../helpers";
-import {BoxrecCommonTablesClass} from "./boxrec-common-tables/boxrec-common-tables.class";
+} from "../boxrec.constants";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;

@@ -1,5 +1,5 @@
-import {BoxrecBasic, BoxrecChampionsByWeightClass, BoxrecUnformattedChampions} from "./boxrec.constants";
-import {changeToCamelCase, trimRemoveLineBreaks} from "../helpers";
+import {BoxrecBasic, BoxrecChampionsByWeightClass, BoxrecUnformattedChampions} from "../boxrec.constants";
+import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;

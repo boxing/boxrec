@@ -1,4 +1,4 @@
-import {BoxrecRating} from "./boxrec.constants";
+import {BoxrecRating} from "../boxrec.constants";
 import {BoxrecPageRatingsRating} from "./boxrec.page.ratings.rating";
 
 const cheerio = require("cheerio");
