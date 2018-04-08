@@ -1,5 +1,5 @@
-import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
-import {boxRecMocksModulePath, WinLossDraw} from "./boxrec.constants";
+import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
+import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 
 const fs = require("fs");
 const mockBoutGGGCanelo = fs.readFileSync(`${boxRecMocksModulePath}/profile/bout/mockBoutCaneloGGG.html`, "utf8");

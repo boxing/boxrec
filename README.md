@@ -23,7 +23,7 @@ const boxrec = require("boxrec");
 This requires a login to properly function.
 The profileTable although doesn't appear to change, the number of columns in the bouts does change and this is set up to expect all columns.
 
-Note: Boxrec does not support HTTPS
+Note: BoxRec does not support HTTPS
 
 ```javascript
 boxrec.login(username, password)
@@ -33,8 +33,8 @@ boxrec.login(username, password)
 .catch(error => {});
 ```
 
-#### Get boxer profile by Boxrec ID
-Using the Boxrec Boxer ID, retrieve all information about a boxer.
+#### Get boxer profile by BoxRec ID
+Using the BoxRec Boxer ID, retrieve all information about a boxer.
 ```javascript
 boxrec.getBoxerById(356831)
 .then(boxer => {
@@ -96,7 +96,7 @@ floyds.next().then(boxer => {
 ```
 
 #### Search boxers
-Following Boxrec's form format
+Following BoxRec's form format
 
 ```javascript
 boxrec.search({
@@ -141,7 +141,7 @@ boxrec.getChampions()
 ```
 
 #### Get ratings
-Following Boxrec's form format
+Following BoxRec's form format
 
 ```javascript
 boxrec.getRatings({
@@ -179,4 +179,4 @@ Output:
 ```
 
 ## Note
-Not affiliated with the website [boxrec](http://www.boxrec.com)
+Not affiliated with the website [BoxRec](http://www.boxrec.com)

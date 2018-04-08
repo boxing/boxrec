@@ -1,5 +1,5 @@
 import {BoxrecPageRatings} from "./boxrec.page.ratings";
-import {boxRecMocksModulePath} from "./boxrec.constants";
+import {boxRecMocksModulePath} from "../boxrec.constants";
 
 const fs = require("fs");
 const mockRatings = fs.readFileSync(`${boxRecMocksModulePath}/ratings/mockRatings.html`, "utf8");

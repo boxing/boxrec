@@ -1,6 +1,6 @@
-import {BoxrecBout, BoxrecProfile, boxrecProfileTable, BoxrecSuspension} from "./boxrec.constants";
-import {convertFractionsToNumber} from "../helpers";
-import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout";
+import {BoxrecBout, BoxrecProfile, boxrecProfileTable, BoxrecSuspension} from "../boxrec.constants";
+import {convertFractionsToNumber} from "../../helpers";
+import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
 import {BoxrecPageProfileSuspensionsRow} from "./boxrec.page.profile.suspensions.row";
 
 const cheerio = require("cheerio");

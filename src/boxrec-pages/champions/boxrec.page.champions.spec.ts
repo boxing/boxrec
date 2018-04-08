@@ -1,5 +1,5 @@
 const fs = require("fs");
-import {BoxrecChampionsByWeightClass, boxRecMocksModulePath, BoxrecUnformattedChampions} from "./boxrec.constants";
+import {BoxrecChampionsByWeightClass, boxRecMocksModulePath, BoxrecUnformattedChampions} from "../boxrec.constants";
 import {BoxrecPageChampions} from "./boxrec.page.champions";
 const mockChampions = fs.readFileSync(`${boxRecMocksModulePath}/champions/mockChampions.html`, "utf8");
 

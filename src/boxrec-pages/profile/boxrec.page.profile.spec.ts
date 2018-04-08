@@ -1,7 +1,7 @@
 import {BoxrecPageProfile as Boxrec} from "./boxrec.page.profile";
-import {BoxrecBout, boxRecMocksModulePath} from "./boxrec.constants";
+import {BoxrecBout, boxRecMocksModulePath} from "../boxrec.constants";
 
-const BoxrecPageProfile = require("./boxrec.page.profile");
+const BoxrecPageProfile = require("./boxrec.page.profile.ts");
 const fs = require("fs");
 const mockProfileRJJ = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileRJJ.html`, "utf8");
 const mockProfileGGG = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileGGG.html`, "utf8");
