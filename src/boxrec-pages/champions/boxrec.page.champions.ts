@@ -1,11 +1,11 @@
-import {BoxrecBasic, BoxrecChampionsByWeightClass, BoxrecUnformattedChampions} from "../boxrec.constants";
+import {BoxrecBasic, BoxrecBelts, BoxrecChampionsByWeightClass, BoxrecUnformattedChampions} from "../boxrec.constants";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 
-const beltOrganizations = {
+const beltOrganizations: BoxrecBelts = {
     BoxRec: null,
     WBC: null,
     IBO: null,
@@ -14,7 +14,7 @@ const beltOrganizations = {
     WBA: null,
 };
 
-const weightClasses = {
+const weightClasses: BoxrecChampionsByWeightClass = {
     heavyweight: beltOrganizations,
     cruiserweight: beltOrganizations,
     lightHeavyweight: beltOrganizations,

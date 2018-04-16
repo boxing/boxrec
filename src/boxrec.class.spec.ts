@@ -1,7 +1,7 @@
 const Boxrec = require("./boxrec.class");
 
 jest.mock("request-promise");
-const rp = require("request-promise");
+const rp: any = require("request-promise");
 
 const getLastCall = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
 
@@ -123,12 +123,11 @@ describe("class Boxrec", () => {
     describe("method getBoxersByName", () => {
 
         it("should return a generator of boxers it found", async () => {
-            const spy = jest.spyOn(rp, <any>"get");
             const searchResults = await Boxrec.getBoxersByName("test", "test");
             expect(searchResults.next()).toBeDefined();
         });
 
-        it("should make a call to Boxrec everytime the generator next method is called", async () => {
+        it("should make a call to boxrec everytime the generator next method is called", async () => {
             const getSpy = jest.spyOn(Boxrec, <any>"getBoxerById");
             jest.spyOn(Boxrec, <any>"search").mockReturnValueOnce([{id: 999}, {id: 888}]);
             const searchResults = await Boxrec.getBoxersByName("test", "test");
@@ -144,7 +143,7 @@ describe("class Boxrec", () => {
         it("should make a GET request to http://boxrec.com/en/search", async () => {
             const spy = jest.spyOn(rp, <any>"get");
             await Boxrec.search({
-                "first_name": "bla",
+                first_name: "bla",
             });
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/search");
         });
@@ -152,7 +151,7 @@ describe("class Boxrec", () => {
         it("should clone any keys in the object and wrap with `pf[]`", async () => {
             const spy = jest.spyOn(rp, <any>"get");
             await Boxrec.search({
-                "first_name": "bla",
+                first_name: "bla",
             });
             expect(getLastCall(spy, "qs")["pf[first_name]"]).toBe("bla");
         });
@@ -160,7 +159,7 @@ describe("class Boxrec", () => {
         it("should send role=boxer because that's all we can currently support", async () => {
             const spy = jest.spyOn(rp, <any>"get");
             await Boxrec.search({
-                "first_name": "bla",
+                first_name: "bla",
             });
             expect(getLastCall(spy, "qs")["pf[role]"]).toBe("boxer");
         });
@@ -170,7 +169,7 @@ describe("class Boxrec", () => {
             await Boxrec.search({
                 first_name: "bla",
             });
-            expect(getLastCall(spy, "qs")["first_name"]).not.toBeDefined();
+            expect(getLastCall(spy, "qs").first_name).not.toBeDefined();
         });
 
     });
