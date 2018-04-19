@@ -4,7 +4,11 @@ node_js:
 install:
  - npm install
 script:
- - npm test
+# multiple attempts at trying to figure out why BoxRec was blocking it
+# https://travis-ci.org/boxing/boxrec/builds/368889397 (and previously)
+# for the time being, these tests will have to be manually run
+# - if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then npm run test-e2e; fi
+- if [ "$TRAVIS_EVENT_TYPE" != "cron" ]; then npm run test; fi
 notifications:
   email:
     recipients:

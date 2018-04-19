@@ -8,9 +8,10 @@
     "build": "webpack --config webpack.prod.js",
     "prepublish": "npm run build",
     "start": "webpack --config webpack.dev.js",
-    "test": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test:coverage:watch": "jest --coverage --watchAll",
-    "test:watch": "jest --watchAll",
+    "test": "jest --config jest.config.json --coverage && cat ./coverage/lcov.info | coveralls",
+    "test-e2e": "jest --config jest.config.e2e.json",
+    "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
+    "test-watch": "jest --config jest.config.json --watchAll",
     "tslint": "tslint --project tslint.json src/**/*.ts"
   },
   "keywords": [
@@ -45,20 +46,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/boxing/boxrec"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   },
   "dependencies": {
     "request-promise": "^4.2.2"

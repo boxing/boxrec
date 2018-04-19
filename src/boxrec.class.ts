@@ -52,23 +52,28 @@ export class Boxrec {
             jar: this._cookieJar,
         };
 
-        await rp.post(options)
-            .then((data: RequestResponse) => {
-                // an unsuccessful login returns a 200, we'll look for phrases to determine the error
-                let errorMessage: string = "";
+        try {
+            await rp.post(options)
+                .then((data: RequestResponse) => {
 
-                if (data.body.includes("your password is incorrect")) {
-                    errorMessage = "Your password is incorrect";
-                }
+                    // an unsuccessful login returns a 200, we'll look for phrases to determine the error
+                    let errorMessage: string = "";
 
-                if (data.body.includes("username does not exist")) {
-                    errorMessage = "Username does not exist";
-                }
+                    if (data.body.includes("your password is incorrect")) {
+                        errorMessage = "Your password is incorrect";
+                    }
 
-                if (data.statusCode !== 200 || errorMessage !== "") {
-                    throw new Error(errorMessage);
-                }
-            });
+                    if (data.body.includes("username does not exist")) {
+                        errorMessage = "Username does not exist";
+                    }
+
+                    if (data.statusCode !== 200 || errorMessage !== "") {
+                        throw new Error(errorMessage);
+                    }
+                });
+        } catch (e) {
+            throw new Error(e);
+        }
 
         // it argues that the return value is void
         const cookieString: any = cookieJar.getCookieString("http://boxrec.com", () => {
@@ -94,8 +99,8 @@ export class Boxrec {
     }
 
     /**
-     * Returns individual Boxrec profiles
-     * by using a generator, we're trying to prevent making too many calls to Boxrec
+     * Returns individual BoxRec profiles
+     * by using a generator, we're trying to prevent making too many calls to BoxRec
      * @param {string} firstName
      * @param {string} lastName
      * @param {string} active   default is false, which includes active and inactive
@@ -146,7 +151,7 @@ export class Boxrec {
         this.checkIfLoggedIn();
 
         if (!qs.first_name && !qs.last_name) {
-            // Boxrec says 2 or more characters, it's actually 3 or more
+            // BoxRec says 2 or more characters, it's actually 3 or more
             throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
         }
 
@@ -183,7 +188,7 @@ export class Boxrec {
         if (this._hasLoggedIn) {
             return true;
         } else {
-            throw new Error("This package requires logging into Boxrec to work properly.  Please use the `login` method before any other calls");
+            throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");
         }
     }
 
