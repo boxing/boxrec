@@ -58,7 +58,7 @@ describe("class Boxrec", () => {
 
             it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
                 const spy = jest.spyOn(rp, <any>"jar");
-                spy.mockReturnValue({
+                spy.mockReturnValueOnce({
                     getCookieString: () => {
                         return "REMEMBERME=123";
                     },
@@ -70,7 +70,7 @@ describe("class Boxrec", () => {
 
             it("should throw if after successfully logging in the cookie does not include REMEMBERME", async () => {
                 const spy = jest.spyOn(rp, <any>"jar");
-                spy.mockReturnValue({
+                spy.mockReturnValueOnce({
                     getCookieString: () => {
                         return "PHPSESSID=123";
                     },

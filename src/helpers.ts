@@ -19,7 +19,7 @@ export function trimRemoveLineBreaks(str: string): string {
 }
 
 export function changeToCamelCase(str: string): string {
-    str = str.replace(/\s(\w)/g, x => x[1].toUpperCase());
-    str = `${str.charAt(0).toLowerCase()}${str.slice(1)}`;
-    return str;
+    const camelCaseStr: string = str.replace(/\s(\w)/g, x => x[1].toUpperCase());
+    const camelCaseStrDone: string = `${camelCaseStr.charAt(0).toLowerCase()}${camelCaseStr.slice(1)}`;
+    return camelCaseStrDone;
 }
