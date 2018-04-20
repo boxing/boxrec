@@ -30,6 +30,11 @@ describe("class Boxrec (E2E)", () => {
             expect(boxer.name).toBe("Floyd Mayweather Jr");
         });
 
+        it("should include the number of bouts they were in", async () => {
+            const boxer = await boxrec.getBoxerById(9625); // Sugar Ray Robinson
+            expect(boxer.bouts.length).toBe(201);
+        });
+
     });
 
     describe("method getBoxersByName", () => {
@@ -40,6 +45,21 @@ describe("class Boxrec (E2E)", () => {
             expect(boxer.value.birthName).toContain("Floyd");
             boxer = await results.next();
             expect(boxer.value.birthName).toContain("Floyd");
+        });
+
+    });
+
+    describe("method getEventById", () => {
+
+        // todo this needs to be done
+        it("should return the venue name", async () => {
+            const results = await boxrec.getEventById(765205);
+            expect(results.location.venue.name).toBe("Madison Square Garden");
+        });
+
+        it("should return a list of bouts", async () => {
+            const results = await boxrec.getEventById(555);
+            expect(results.bouts[0].firstBoxer.name).toBe("Cornelius Drane");
         });
 
     });

@@ -94,21 +94,32 @@ export interface BoxrecId {
     name: string | null;
 }
 
-export interface BoxrecBout {
-    date: string;
-    firstBoxerWeight: number | null;
-    secondBoxerWeight: number | null;
-    opponent: BoxrecBasic | null;
-    opponentLast6: WinLossDraw[];
-    opponentRecord: Record;
-    referee: BoxrecBasic;
+export interface BoxrecBoutBasic {
     judges: BoxrecJudge[];
     metadata: string;
     titles: BoxrecId[];
     rating: number | null;
-    location: BoxrecBoutLocation;
     links: Object;
     result: [WinLossDraw, BoxingBoutOutcome | string, BoxingBoutOutcome | string];
+    referee: BoxrecBasic;
+
+    firstBoxerWeight: number | null;
+
+    secondBoxer: BoxrecBasic;
+    secondBoxerLast6: WinLossDraw[];
+    secondBoxerRecord: Record;
+    secondBoxerWeight: number | null;
+}
+
+export interface BoxrecBout extends BoxrecBoutBasic {
+    date: string;
+    location: BoxrecBoutLocation;
+}
+
+export interface BoxrecEventBout extends BoxrecBoutBasic {
+    firstBoxer: BoxrecBasic;
+    firstBoxerLast6: WinLossDraw[];
+    firstBoxerRecord: Record;
 }
 
 export enum BoxingBoutOutcome {
@@ -145,6 +156,16 @@ export interface BoxrecRating extends BoxrecBasic {
     division: string | null;
 }
 
+export interface BoxrecEvent {
+    date: string;
+    commission: string | null;
+    matchmaker: BoxrecBasic[];
+    location: BoxrecBoutLocation;
+    promoter: BoxrecPromoter[];
+    television: string[] | null;
+    bouts: BoxrecEventBout[];
+}
+
 export interface BoxrecSearch extends BoxrecBasic {
     id: number;
     alias: string | null;
@@ -164,9 +185,34 @@ export interface BoxrecBelts {
     WBA: BoxrecBasic | null;
 }
 
+export interface BoxrecPromoter extends BoxrecBasic {
+    company: string | null;
+}
+
 export interface BoxrecUnformattedChampions {
     weightClass: string;
     beltHolders: BoxrecBelts;
+}
+
+// todo does this pose an issue with ABC companies and different weight class names?
+export enum WeightClass {
+    heavyweight = "heavyweight",
+    cruiserweight = "cruiserweight",
+    lightHeavyweight = "light heavyweight",
+    superMiddleweight = "super middleweight",
+    middleweight = "middleweight",
+    superWelterweight = "super welterweight",
+    welterweight = "welterweight",
+    superLightweight = "super lightweight",
+    lightweight = "lightweight",
+    superFeatherweight = "super featherweight",
+    featherweight = "featherweight",
+    superBantamweight = "super bantamweight",
+    bantamweight = "bantamweight",
+    superFlyweight = "super flyweight",
+    flyweight = "flyweight",
+    lightFlyweight = "light flyweight",
+    minimumweight = "minimumweight"
 }
 
 export interface BoxrecChampionsByWeightClass {

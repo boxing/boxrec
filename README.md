@@ -4,6 +4,14 @@
 This project allows you to query information from [BoxRec](http://boxrec.com) and return it in JSON format.
 The purpose of this project is to act as an API for BoxRec.
 
+It allows you to retrieve the following information:
+
+- Boxers (by id)
+- Events (by id)
+- List of Champions (by weight class and by sanctioning body)
+- Search boxers (by name)
+- Ratings (or Rankings)
+
 ## Installation
 
 This project is written in [Node](http://nodejs.org).
@@ -19,9 +27,11 @@ or
 const boxrec = require("boxrec");
 `
 
-## How to Contribute
+## How to contribute
 
 [Details on how to help can be found here](https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md)
+
+## How to use
 
 #### Logging In
 
@@ -82,7 +92,6 @@ the following are supported:
 | titlesHeld       |
 | vadacbp          |
 
-
 #### Search boxers by name
 Returns the same object as `getBoxerById`
 
@@ -95,9 +104,7 @@ boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Jr. object
 
 // or using Promises
-floyds.next().then(boxer => {
-    console.log(boxer.value);
-});
+floyds.next().then(boxer => console.log(boxer.value));
 ```
 
 #### Search boxers
@@ -107,9 +114,7 @@ Following BoxRec's form format
 boxrec.search({
     first_name: "Floyd",
     last_name: "Mayweather",
-}).then(searchResults => {
-    console.log(searchResults[1]); 
-});
+}).then(searchResults => console.log(searchResults[1]));
 ```    
 
 Output:
@@ -145,6 +150,54 @@ boxrec.getChampions()
 });
 ```
 
+#### Get event
+
+```javascript
+boxrec.getEventById(751017)
+.then(event => console.log(event));
+```
+
+Output:
+```javascript
+{ date: '2017-09-16',
+  commission: 'Nevada Athletic Commission',
+  matchmaker:
+   [ { id: 422440, name: 'Alex Camponovo' },
+     { id: 500179, name: 'Roberto Diaz' },
+     { id: 495527, name: 'Tom Loeffler' } ],
+  location:
+   { location: { town: 'Las Vegas', id: 20388, region: 'Nevada', country: 'USA' },
+     venue: { id: 246559, name: 'T-Mobile Arena' } },
+  promoter:
+   [ { id: 8253,
+       company: 'Golden Boy Promotions',
+       name: 'Oscar De La Hoya' },
+     { id: 495527, company: 'K2 Promotions', name: 'Tom Loeffler' },
+     { id: 413083, company: 'Banner Promotions', name: 'Art Pelullo' } ],
+  television:
+   [ 'USA HBO PPV',
+     'Latin America: Canal Space',
+     'Panama RPC Channel 4',
+     'Australia Main Event',
+     'Mexico Televisa' ],
+  bouts:
+   [ { firstBoxer: [Object],
+       firstBoxerLast6: [Array],
+       firstBoxerRecord: [Object],
+       firstBoxerWeight: 160,
+       secondBoxer: [Object],
+       secondBoxerLast6: [Array],
+       secondBoxerRecord: [Object],
+       secondBoxerWeight: 160,
+       titles: [Array],
+       referee: [Object],
+       judges: [Array],
+       rating: 100,
+       result: [Array],
+       links: [Object],
+...
+```
+
 #### Get ratings
 Following BoxRec's form format
 
@@ -153,9 +206,7 @@ boxrec.getRatings({
     division: "Welterweight",
     sex: "M",
     status: "a"
-}).then(ratings => {
-    console.log(ratings[1]);
-});
+}).then(ratings => console.log(ratings[1]));
 ```
 
 Output:

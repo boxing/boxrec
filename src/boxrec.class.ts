@@ -1,9 +1,10 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
-import {BoxrecProfile, BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
+import {BoxrecEvent, BoxrecProfile, BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 (<any>Symbol).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
@@ -11,13 +12,13 @@ import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champion
 const rp = require("request-promise");
 const BoxrecPageProfile = require("./boxrec-pages/profile/boxrec.page.profile.ts");
 
-
 export class Boxrec {
 
     private _cookieJar: CookieJar;
 
     async login(username: string, password: string): Promise<void> {
         const cookieJar: CookieJar = rp.jar();
+
         let rawCookies;
 
         try {
@@ -31,7 +32,6 @@ export class Boxrec {
         }
 
         const cookie = rp.cookie(rawCookies[0]);
-
         cookieJar.setCookie(cookie, "http://boxrec.com", () => {
         });
 
@@ -88,6 +88,7 @@ export class Boxrec {
 
     async getBoxerById(boxrecBoxerId: number): Promise<BoxrecProfile> {
         this.checkIfLoggedIntoBoxRec();
+
         const boxrecPageBody = await rp.get({
             uri: `http://boxrec.com/en/boxer/${boxrecBoxerId}`,
             jar: this._cookieJar,
@@ -103,8 +104,9 @@ export class Boxrec {
      * @param {string} lastName
      * @param {string} active   default is false, which includes active and inactive
      */
-    async * getBoxersByName(firstName: string, lastName: string, active: boolean = false) {
+    async * getBoxersByName(firstName: string, lastName: string, active: boolean = false): AsyncIterableIterator<BoxrecProfile> {
         this.checkIfLoggedIntoBoxRec();
+
         const status: string = active ? "a" : "";
         const params = {
             first_name: firstName,
@@ -118,8 +120,9 @@ export class Boxrec {
         }
     }
 
-    async getChampions() {
+    async getChampions(): Promise<BoxrecPageChampions> {
         this.checkIfLoggedIntoBoxRec();
+
         const boxrecPageBody = await rp.get({
             uri: "http://boxrec.com/en/champions",
             jar: this._cookieJar,
@@ -130,6 +133,7 @@ export class Boxrec {
 
     async getRatings(qs: any): Promise<BoxrecRating[]> {
         this.checkIfLoggedIntoBoxRec();
+
         for (let i in qs) {
             qs[`r[${i}]`] = qs[i];
             delete qs[i];
@@ -144,8 +148,20 @@ export class Boxrec {
         return new BoxrecPageRatings(boxrecPageBody).get;
     }
 
+    async getEventById(eventId: number): Promise<BoxrecEvent> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody = await rp.get({
+            uri: `http://boxrec.com/en/event/${eventId}`,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageEvent(boxrecPageBody).get;
+    }
+
     async search(qs: any): Promise<BoxrecSearch[]> {
         this.checkIfLoggedIntoBoxRec();
+
         if (!qs.first_name && !qs.last_name) {
             // BoxRec says 2 or more characters, it's actually 3 or more
             throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
@@ -180,8 +196,8 @@ export class Boxrec {
         }).then((data: RequestResponse) => data.headers["set-cookie"]);
     }
 
-    private checkIfLoggedIntoBoxRec(): Error | void {
-        const cookieString: any = rp.jar().getCookieString("http://boxrec.com", () => {
+    private checkIfLoggedIntoBoxRec(): void {
+        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com", () => {
             // the callback doesn't work but it works if you assign as a variable?
         });
 

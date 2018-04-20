@@ -1,10 +1,29 @@
-import {Location, Record, WinLossDraw} from "../boxrec.constants";
+import {
+    BoxingBoutOutcome,
+    BoxrecBasic,
+    BoxrecId,
+    BoxrecJudge,
+    Location,
+    Record,
+    WinLossDraw
+} from "../boxrec.constants";
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../helpers";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 export abstract class BoxrecCommonTablesClass {
+
+    protected _metadata: string;
+    protected _numberOfRounds: string;
+    protected _rating: string;
+    protected _firstBoxerWeight: string;
+    protected _secondBoxerWeight: string;
+    protected _secondBoxerRecord: string;
+    protected _secondBoxer: string;
+    protected _secondBoxerLast6: string;
+    protected _outcome: string;
+    protected _outcomeByWayOf: string;
 
     constructor() {
         $ = cheerio.load("<div></div>");
@@ -30,6 +49,49 @@ export abstract class BoxrecCommonTablesClass {
         return last6;
     }
 
+    get firstBoxerWeight(): number | null {
+        return this.parseWeight(this._firstBoxerWeight);
+    }
+
+    get secondBoxer(): BoxrecBasic {
+        return this.parseNameAndId(this._secondBoxer);
+    }
+
+    get secondBoxerWeight(): number | null {
+        return this.parseWeight(this._secondBoxerWeight);
+    }
+
+    get secondBoxerRecord(): Record {
+        return this.parseRecord(this._secondBoxer);
+    }
+
+    get secondBoxerLast6(): WinLossDraw[] {
+        return this.parseLast6Column(this._secondBoxerLast6);
+    }
+
+    parseNameAndId(htmlString: string): BoxrecBasic {
+        const html = $(`<div>${htmlString}</div>`);
+        const href: string = html.find("a").attr("href");
+        let opponent: BoxrecBasic = {
+            id: null,
+            name: null,
+        };
+        const regex: RegExp = /(\d+)$/;
+
+        if (href) {
+            const matches: RegExpMatchArray | null = href.match(regex);
+
+            if (matches && matches[1]) {
+                opponent = {
+                    id: parseInt(matches[1], 10),
+                    name: html.find("a").text(),
+                };
+            }
+        }
+
+        return opponent;
+    }
+
     parseRecord(htmlString: string): Record {
         const record = {
             draw: -1,
@@ -43,6 +105,10 @@ export abstract class BoxrecCommonTablesClass {
         record.draw = parseInt(html.find(".textDraw").text(), 10);
 
         return record;
+    }
+
+    get rating(): number | null {
+        return this.parseRating(this._rating);
     }
 
     parseRating(htmlString: string): number | null {
@@ -64,6 +130,157 @@ export abstract class BoxrecCommonTablesClass {
         }
 
         return rating;
+    }
+
+    get judges(): BoxrecJudge[] {
+        return this.parseJudges(this._metadata);
+    }
+
+    parseJudges(htmlString: string): BoxrecJudge[] {
+        const html = $(`<div>${htmlString}</div>`);
+        let judges: BoxrecJudge[] = [];
+
+        html.find("a").each((index: number, elem: CheerioElement) => {
+            const href: string = $(elem).get(0).attribs.href;
+            const matches: RegExpMatchArray | null = href.match(/judge\/(\d+)$/);
+
+            if (matches && matches[1]) {
+                const id: number = parseInt(matches[1], 10);
+                let name: string = $(elem).text();
+                name = trimRemoveLineBreaks(name);
+
+                const scoreCardRegex = /<\/a>\s(\d{1,3})-(\d{1,3})/g;
+                let scorecard: number[] = [];
+
+                let m;
+                let i = 0;
+                do {
+                    m = scoreCardRegex.exec(htmlString);
+                    if (m && m[1] && m[2]) {
+                        if (i === judges.length) {
+                            scorecard.push(parseInt(m[1], 10), parseInt(m[2], 10));
+                        }
+                    }
+                    i++;
+                } while (m);
+
+                judges.push({
+                    id, name, scorecard,
+                });
+            }
+        });
+
+        return judges;
+    }
+
+    get referee(): BoxrecBasic {
+        return this.parseReferee(this._metadata);
+    }
+
+    parseReferee(htmlString: string): BoxrecBasic {
+        const html = $(`<div>${htmlString}</div>`);
+        let referee: BoxrecBasic = {
+            id: null,
+            name: null,
+        };
+
+        html.find("a").each((index: number, elem: CheerioElement) => {
+            const href: string = $(elem).get(0).attribs.href;
+            const matches: RegExpMatchArray | null = href.match(/referee\/(\d+)$/);
+
+            if (matches && matches[1]) {
+                const id: number = parseInt(matches[1], 10);
+                let name: string = $(elem).text();
+                name = trimRemoveLineBreaks(name);
+
+                referee.id = id;
+                referee.name = name;
+            }
+        });
+
+        return referee;
+    }
+
+    get numberOfRounds(): (number | null)[] {
+        return this.parseNumberOfRounds(this._numberOfRounds);
+    }
+
+    parseNumberOfRounds(htmlString: string): (number | null)[] {
+        let numberOfRounds: (number | null)[] = [null, null];
+
+        const splitRounds: string[] = htmlString.trim().split("/");
+        const formattedSplitRounds: number[] = splitRounds.map(item => parseInt(item, 10));
+        if (formattedSplitRounds.length === 2) {
+            numberOfRounds = formattedSplitRounds;
+        } else if (formattedSplitRounds.length === 1 && !isNaN(formattedSplitRounds[0])) {
+            numberOfRounds = [null, formattedSplitRounds[0]];
+        }
+
+        return numberOfRounds;
+    }
+
+    parseOutcome(htmlString: string): WinLossDraw {
+        let outcome: string = htmlString;
+        outcome = outcome.trim();
+        let formattedOutcome: WinLossDraw;
+
+        switch (outcome) {
+            case "W":
+                formattedOutcome = WinLossDraw.win;
+                break;
+            case "D":
+                formattedOutcome = WinLossDraw.draw;
+                break;
+            case "L":
+                formattedOutcome = WinLossDraw.loss;
+                break;
+            case "S":
+                formattedOutcome = WinLossDraw.scheduled;
+                break;
+            default:
+                formattedOutcome = WinLossDraw.unknown;
+        }
+
+        return formattedOutcome;
+    }
+
+    // maybe there's additional things that people would want to sift through
+    get titles(): BoxrecId[] {
+        return this.parseTitles(this._metadata);
+    }
+
+    parseTitles(htmlString: string): BoxrecId[] {
+        let titles: BoxrecId[] = [];
+        const html = $(`<div>${htmlString}</div>`);
+        html.find("a.titleLink").each((index: number, elem: CheerioElement) => {
+            const href: string = $(elem).get(0).attribs.href;
+            const matches: RegExpMatchArray | null = href.match(/(\d+\/\w+)$/);
+
+            if (matches && matches[1]) {
+                const id: string = matches[1];
+                let name: string = $(elem).text();
+                name = trimRemoveLineBreaks(name);
+
+                titles.push({
+                    id, name,
+                });
+            }
+        });
+
+        return titles;
+    }
+
+    parseOutcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string {
+        const html = $(`<div>${htmlString}</div>`);
+        html.find("div").remove();
+        let outcomeByWayOf: string = html.text();
+        outcomeByWayOf = outcomeByWayOf.trim();
+
+        if (parseText) {
+            return BoxingBoutOutcome[outcomeByWayOf as any];
+        }
+
+        return outcomeByWayOf;
     }
 
     parseLocationLink(htmlString: string): Location {
@@ -101,6 +318,23 @@ export abstract class BoxrecCommonTablesClass {
         }
 
         return location;
+    }
+
+    // maybe there's additional things that people would want to sift through
+    get metadata() {
+        return this._metadata;
+    }
+
+    get result(): [WinLossDraw, BoxingBoutOutcome | string, BoxingBoutOutcome | string] {
+        return [this.outcome, this.outcomeByWayOf(), this.outcomeByWayOf(true)];
+    }
+
+    get outcome(): WinLossDraw {
+        return this.parseOutcome(this._outcome);
+    }
+
+    private outcomeByWayOf(parseText = false): BoxingBoutOutcome | string {
+        return this.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
     }
 
     protected parseWeight(str: string): number | null {

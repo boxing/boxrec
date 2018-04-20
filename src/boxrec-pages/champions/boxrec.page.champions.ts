@@ -4,7 +4,6 @@ import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
-
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,
     WBC: null,

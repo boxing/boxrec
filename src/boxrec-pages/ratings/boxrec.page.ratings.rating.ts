@@ -10,7 +10,6 @@ export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
     private _ranking: string;
     private _idName: string;
     private _points: string;
-    private _rating: string;
     private _age: string;
     private _record: string;
     private _last6: string;
@@ -109,10 +108,6 @@ export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
         }
 
         return null;
-    }
-
-    get rating(): number | null {
-        return super.parseRating(this._rating);
     }
 
     get age(): number | null {

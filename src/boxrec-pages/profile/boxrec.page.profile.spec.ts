@@ -95,8 +95,8 @@ describe("class BoxrecPageProfile", () => {
             it("should have a list of bouts", () => {
                 expect(boxer.bouts).not.toBeNull();
                 const latestFight: BoxrecBout = boxer.bouts[0];
-                if (latestFight && latestFight.opponent) {
-                    expect(latestFight.opponent.name).toBe("Saul Alvarez");
+                if (latestFight && latestFight.secondBoxer) {
+                    expect(latestFight.secondBoxer.name).toBe("Saul Alvarez");
                 } else {
                     throw new Error("Could not get opponent name");
                 }

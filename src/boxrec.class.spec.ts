@@ -3,11 +3,23 @@ const Boxrec = require("./boxrec.class");
 jest.mock("request-promise");
 const rp: any = require("request-promise");
 
-const getLastCall = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
+export const getLastCall = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
 
 describe("class Boxrec", () => {
 
     describe("method login", () => {
+
+        afterAll(async () => {
+            const spy = jest.spyOn(rp, <any>"jar");
+            spy.mockReturnValueOnce({
+                getCookieString: () => {
+                    return "PHPSESSID=111; REMEMBERME=111";
+                },
+                setCookie: () => {
+                }
+            });
+            await Boxrec.login();
+        });
 
         describe("getting PHPSESSID", () => {
 
@@ -72,7 +84,7 @@ describe("class Boxrec", () => {
                 const spy = jest.spyOn(rp, <any>"jar");
                 spy.mockReturnValueOnce({
                     getCookieString: () => {
-                        return "PHPSESSID=123";
+                        return "PHPSESSID=111";
                     },
                     setCookie: () => {
                     }
@@ -112,10 +124,21 @@ describe("class Boxrec", () => {
 
     describe("method getBoxerById", () => {
 
-        it("should make a GET request to http://boxrec.com/en/boxer/{globalID}", async () => {
+        it("should make a GET request to http://boxrec.com/en/boxer/{globalId}", async () => {
             const spy = jest.spyOn(rp, <any>"get");
+            spy.mockReturnValueOnce({});
             await Boxrec.getBoxerById(555);
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/boxer/555");
+        });
+
+    });
+
+    describe("method getEventById", () => {
+
+        it("should make a GET request to http://boxrec.com/en/event/${eventId}", async () => {
+            const spy = jest.spyOn(rp, <any>"get");
+            await Boxrec.getEventById(555);
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/event/555");
         });
 
     });
@@ -186,31 +209,48 @@ describe("class Boxrec", () => {
 
     describe("method checkIfLoggedIntoBoxRec", () => {
 
-        it("should throw an error if cookieString doesn't include `PHPSESSID`", () => {
+        it("should throw an error if cookieString doesn't include `PHPSESSID`", async () => {
             const spy = jest.spyOn(rp, <any>"jar");
-            spy.mockReturnValueOnce({
+            spy.mockReturnValue({
                 getCookieString: () => {
-                    return "REMEMBERME=123";
+                    return "REMEMBERME=111";
                 },
                 setCookie: () => {
                 }
             });
+            try {
+                await Boxrec.login();
+            } catch (e) {
+            }
             expect(() => Boxrec.checkIfLoggedIntoBoxRec()).toThrow();
         });
 
-        it("should throw an error if cookieString doesn't include `REMEMBERME`", () => {
+        it("should throw an error if cookieString doesn't include `REMEMBERME`", async () => {
             const spy = jest.spyOn(rp, <any>"jar");
             spy.mockReturnValueOnce({
                 getCookieString: () => {
-                    return "PHPSESSID=123";
+                    return "PHPSESSID=111;";
                 },
                 setCookie: () => {
                 }
             });
+            try {
+                await Boxrec.login();
+            } catch (e) {
+            }
             expect(() => Boxrec.checkIfLoggedIntoBoxRec()).toThrow();
         });
 
-        it("should return undefined otherwise", () => {
+        it("should return undefined otherwise", async () => {
+            const spy = jest.spyOn(rp, <any>"jar");
+            spy.mockReturnValueOnce({
+                getCookieString: () => {
+                    return "PHPSESSID=111; REMEMBERME=111";
+                },
+                setCookie: () => {
+                }
+            });
+            await Boxrec.login();
             expect(() => Boxrec.checkIfLoggedIntoBoxRec()).not.toThrow();
         });
 
