@@ -184,4 +184,36 @@ describe("class Boxrec", () => {
 
     });
 
+    describe("method checkIfLoggedIntoBoxRec", () => {
+
+        it("should throw an error if cookieString doesn't include `PHPSESSID`", () => {
+            const spy = jest.spyOn(rp, <any>"jar");
+            spy.mockReturnValueOnce({
+                getCookieString: () => {
+                    return "REMEMBERME=123";
+                },
+                setCookie: () => {
+                }
+            });
+            expect(() => Boxrec.checkIfLoggedIntoBoxRec()).toThrow();
+        });
+
+        it("should throw an error if cookieString doesn't include `REMEMBERME`", () => {
+            const spy = jest.spyOn(rp, <any>"jar");
+            spy.mockReturnValueOnce({
+                getCookieString: () => {
+                    return "PHPSESSID=123";
+                },
+                setCookie: () => {
+                }
+            });
+            expect(() => Boxrec.checkIfLoggedIntoBoxRec()).toThrow();
+        });
+
+        it("should return undefined otherwise", () => {
+            expect(() => Boxrec.checkIfLoggedIntoBoxRec()).not.toThrow();
+        });
+
+    });
+
 });
