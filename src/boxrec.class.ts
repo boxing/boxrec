@@ -12,18 +12,6 @@ const rp = require("request-promise");
 const BoxrecPageProfile = require("./boxrec-pages/profile/boxrec.page.profile.ts");
 
 
-const requiredLoggedIntoBoxRec = (): Function => {
-    return () => {
-        const cookieString: any = rp.jar().getCookieString("http://boxrec.com", () => {
-            // the callback doesn't work but it works if you assign as a variable?
-        });
-
-        if (!cookieString.includes("PHPSESSID") || !cookieString.includes("REMEMBERME")) {
-            throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");
-        }
-    };
-};
-
 export class Boxrec {
 
     private _cookieJar: CookieJar;
@@ -98,8 +86,8 @@ export class Boxrec {
         }
     }
 
-    @requiredLoggedIntoBoxRec()
     async getBoxerById(boxrecBoxerId: number): Promise<BoxrecProfile> {
+        this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody = await rp.get({
             uri: `http://boxrec.com/en/boxer/${boxrecBoxerId}`,
             jar: this._cookieJar,
@@ -115,8 +103,8 @@ export class Boxrec {
      * @param {string} lastName
      * @param {string} active   default is false, which includes active and inactive
      */
-    @requiredLoggedIntoBoxRec()
     async * getBoxersByName(firstName: string, lastName: string, active: boolean = false) {
+        this.checkIfLoggedIntoBoxRec();
         const status: string = active ? "a" : "";
         const params = {
             first_name: firstName,
@@ -130,8 +118,8 @@ export class Boxrec {
         }
     }
 
-    @requiredLoggedIntoBoxRec()
     async getChampions() {
+        this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody = await rp.get({
             uri: "http://boxrec.com/en/champions",
             jar: this._cookieJar,
@@ -140,8 +128,8 @@ export class Boxrec {
         return new BoxrecPageChampions(boxrecPageBody);
     }
 
-    @requiredLoggedIntoBoxRec()
     async getRatings(qs: any): Promise<BoxrecRating[]> {
+        this.checkIfLoggedIntoBoxRec();
         for (let i in qs) {
             qs[`r[${i}]`] = qs[i];
             delete qs[i];
@@ -156,8 +144,8 @@ export class Boxrec {
         return new BoxrecPageRatings(boxrecPageBody).get;
     }
 
-    @requiredLoggedIntoBoxRec()
     async search(qs: any): Promise<BoxrecSearch[]> {
+        this.checkIfLoggedIntoBoxRec();
         if (!qs.first_name && !qs.last_name) {
             // BoxRec says 2 or more characters, it's actually 3 or more
             throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
@@ -190,6 +178,16 @@ export class Boxrec {
             uri: "http://boxrec.com",
             resolveWithFullResponse: true,
         }).then((data: RequestResponse) => data.headers["set-cookie"]);
+    }
+
+    private checkIfLoggedIntoBoxRec(): Error | void {
+        const cookieString: any = rp.jar().getCookieString("http://boxrec.com", () => {
+            // the callback doesn't work but it works if you assign as a variable?
+        });
+
+        if (!cookieString.includes("PHPSESSID") || !cookieString.includes("REMEMBERME")) {
+            throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");
+        }
     }
 
 }

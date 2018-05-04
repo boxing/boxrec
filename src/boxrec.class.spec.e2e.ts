@@ -1,5 +1,5 @@
-const boxrec = require("./boxrec.class.ts");
-const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
+export const boxrec = require("./boxrec.class.ts");
+export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
 if (!BOXREC_USERNAME) {
     throw new Error("missing required env var BOXREC_USERNAME");
@@ -8,8 +8,6 @@ if (!BOXREC_USERNAME) {
 if (!BOXREC_PASSWORD) {
     throw new Error("missing required env var BOXREC_PASSWORD");
 }
-
-const request = require("request");
 
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
