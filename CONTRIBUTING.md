@@ -13,9 +13,9 @@ If there is an [open issue](https://github.com/boxing/boxrec/issues) feel free t
 - For additional commands, look under the scripts section inside `package.json`
 
 ## Code Style
-- Follow the same coding style
+- Follow the same coding style (Use an IDE that supports ES/TSLint)
 - Keep pull requests to one feature/fix
-- If you're unsure, ask
+- If you're unsure, ask [a member](https://github.com/orgs/boxing/people)
 
 ## Issues and Bugs
 If you have found a problem, follow these steps:

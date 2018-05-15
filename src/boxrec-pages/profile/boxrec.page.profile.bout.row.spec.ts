@@ -1,5 +1,5 @@
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {BoxingBoutOutcome, boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 
 const fs = require("fs");
 const mockBoutGGGCanelo = fs.readFileSync(`${boxRecMocksModulePath}/profile/bout/mockBoutCaneloGGG.html`, "utf8");
@@ -107,26 +107,26 @@ describe("class BoxrecPageProfileBout", () => {
 
     });
 
-    describe("getter opponent", () => {
+    describe("getter secondBoxer", () => {
 
         it("should include the name of the boxer", () => {
-            expect(bout.opponent.name).toBe("Saul Alvarez");
+            expect(bout.secondBoxer.name).toBe("Saul Alvarez");
         });
 
         it("should have an id to the other boxer's profile", () => {
-            expect(bout.opponent.id).toBe(348759);
+            expect(bout.secondBoxer.id).toBe(348759);
         });
 
         // this is assuming that all boxers in boxrec are given a profile/link
         it("should return null if could not find the link to the boxer", () => {
             const caneloString: string = `<a href="/en/boxer/348759" class="personLink">Saul Alvarez</a>`;
             const tmpBout = new BoxrecPageProfileBout(mockBoutGGGCanelo.replace(caneloString, ""));
-            expect(tmpBout.opponent.id).toBeNull();
+            expect(tmpBout.secondBoxer.id).toBeNull();
         });
 
         it("should return null if it could not find a numeric id for the opponent", () => {
             const tmpBout = new BoxrecPageProfileBout(mockBoutGGGCanelo.replace(/348759/g, "CANELO"));
-            expect(tmpBout.opponent.id).toBeNull();
+            expect(tmpBout.secondBoxer.id).toBeNull();
         });
 
     });
@@ -174,51 +174,51 @@ describe("class BoxrecPageProfileBout", () => {
 
     });
 
-    describe("getter opponentLast6", () => {
+    describe("getter secondBoxerLast6", () => {
 
         const str: string = `<div class="last6 bgW"></div>`;
 
         const changeLast6 = (html: string, outcome: string) => html.replace(str, `<div class="last6 bg${outcome}"></div>`);
 
         it("should include the stats for the other boxer's last 6 bouts", () => {
-            expect(bout.opponentLast6).toEqual(Array(6).fill(WinLossDraw.win));
+            expect(bout.secondBoxerLast6).toEqual(Array(6).fill(WinLossDraw.win));
         });
 
         it("should return a loss if the boxer has had one", () => {
             const tmpBout = new BoxrecPageProfileBout(changeLast6(mockBoutGGGCanelo, "L"));
-            expect(tmpBout.opponentLast6[0]).toBe(WinLossDraw.loss);
+            expect(tmpBout.secondBoxerLast6[0]).toBe(WinLossDraw.loss);
         });
 
         it("should return a draw if the boxer has had one", () => {
             const tmpBout = new BoxrecPageProfileBout(changeLast6(mockBoutGGGCanelo, "D"));
-            expect(tmpBout.opponentLast6[0]).toBe(WinLossDraw.draw);
+            expect(tmpBout.secondBoxerLast6[0]).toBe(WinLossDraw.draw);
         });
 
         it("should return unknown if we can't figure out the outcome of this bout", () => {
             const tmpBout = new BoxrecPageProfileBout(changeLast6(mockBoutGGGCanelo, "Z"));
-            expect(tmpBout.opponentLast6[0]).toBe(WinLossDraw.unknown);
+            expect(tmpBout.secondBoxerLast6[0]).toBe(WinLossDraw.unknown);
         });
 
         it("should return a smaller array if the boxer hasn't had 6 fights", () => {
             const html: string = mockBoutGGGCanelo.replace(str, "");
             const tmpBout = new BoxrecPageProfileBout(html);
-            expect(tmpBout.opponentLast6.length).toBe(5);
+            expect(tmpBout.secondBoxerLast6.length).toBe(5);
         });
 
     });
 
-    describe("getter opponentRecord", () => {
+    describe("getter secondBoxerRecord", () => {
 
         it("should include the wins of the other boxer", () => {
-            expect(bout.opponentRecord.win).toBe(49);
+            expect(bout.secondBoxerRecord.win).toBe(49);
         });
 
         it("should include the losses of the other boxer", () => {
-            expect(bout.opponentRecord.loss).toBe(1);
+            expect(bout.secondBoxerRecord.loss).toBe(1);
         });
 
         it("should include the draws of the other boxer", () => {
-            expect(bout.opponentRecord.draw).toBe(1);
+            expect(bout.secondBoxerRecord.draw).toBe(1);
         });
 
     });
@@ -347,7 +347,7 @@ describe("class BoxrecPageProfileBout", () => {
         });
 
         it("should include how the bout ended - full text", () => {
-            expect(bout.result[2]).toBe("split decision");
+            expect(bout.result[2]).toBe(BoxingBoutOutcome.SD);
         });
 
     });

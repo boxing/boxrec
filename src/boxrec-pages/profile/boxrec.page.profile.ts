@@ -36,6 +36,9 @@ export class BoxrecPageProfile implements BoxrecProfile {
     private _birthPlace: string;
     private _stance: string;
 
+    // metadata object from the page
+    private _metadata: string;
+
     // other stuff we found that we haven't seen yet
     private _otherInfo: [string, string][] = [];
 
@@ -53,6 +56,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
 
     get name(): string | null {
         return this._name || null;
+    }
+
+    get metadata() {
+        return JSON.parse(this._metadata);
     }
 
     set name(name: string | null) {
@@ -355,6 +362,11 @@ export class BoxrecPageProfile implements BoxrecProfile {
                 }
             }
         });
+
+        const metadata = $("script[type='application/ld+json']").html();
+        if (metadata) {
+            this._metadata = metadata;
+        }
     }
 
     private parseSuspensions() {

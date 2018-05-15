@@ -1,3 +1,13 @@
+## 0.9.0 (2018-05-14)
+
+### Added
+
+- Can now get event information by id
+
+### Changed
+
+- Update `profile` bouts to match `event` bouts 
+
 ## 0.8.1 (2018-04-08)
 
 ### Added
