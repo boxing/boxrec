@@ -1,3 +1,9 @@
+## 0.9.1 (2018-05-15)
+
+### Fixed
+
+- Events that hadn't occurred yet would have a different number of columns
+
 ## 0.9.0 (2018-05-14)
 
 ### Added

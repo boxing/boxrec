@@ -104,20 +104,38 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
             return el.text();
         };
 
-        this._division = getColumnData(2, false);
-        this._firstBoxer = getColumnData(3);
-        this._firstBoxerWeight = getColumnData(4, false);
-        this._firstBoxerRecord = getColumnData(5);
-        this._firstBoxerLast6 = getColumnData(6);
-        this._outcome = getColumnData(7, false);
-        this._outcomeByWayOf = getColumnData(8);
-        this._numberOfRounds = getColumnData(9);
-        this._secondBoxer = getColumnData(10);
-        this._secondBoxerWeight = getColumnData(11, false);
-        this._secondBoxerRecord = getColumnData(12);
-        this._secondBoxerLast6 = getColumnData(13);
-        this._rating = getColumnData(14);
-        this._links = getColumnData(15);
+        // if an event has occurred, there are number of different columns
+        const numberOfColumns: number = $(`tr:nth-child(1) td`).length;
+
+        if (numberOfColumns === 15) { // event has occurred
+            this._division = getColumnData(2, false);
+            this._firstBoxer = getColumnData(3);
+            this._firstBoxerWeight = getColumnData(4, false);
+            this._firstBoxerRecord = getColumnData(5);
+            this._firstBoxerLast6 = getColumnData(6);
+            this._outcome = getColumnData(7, false);
+            this._outcomeByWayOf = getColumnData(8);
+            this._numberOfRounds = getColumnData(9);
+            this._secondBoxer = getColumnData(10);
+            this._secondBoxerWeight = getColumnData(11, false);
+            this._secondBoxerRecord = getColumnData(12);
+            this._secondBoxerLast6 = getColumnData(13);
+            this._rating = getColumnData(14);
+            this._links = getColumnData(15);
+        } else if (numberOfColumns === 12) { // event has not occurred
+            this._division = getColumnData(2, false);
+            this._firstBoxer = getColumnData(3);
+            this._firstBoxerRecord = getColumnData(4);
+            this._firstBoxerLast6 = getColumnData(5);
+            this._numberOfRounds = getColumnData(7);
+            this._secondBoxer = getColumnData(8, false);
+            this._secondBoxerRecord = getColumnData(9);
+            this._secondBoxerLast6 = getColumnData(10);
+            this._rating = getColumnData(11);
+            this._links = getColumnData(12);
+        } else {
+            console.error("different column numbers, please report this with the event id");
+        }
     }
 
     private parseMetadata(): void {

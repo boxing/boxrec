@@ -51,7 +51,6 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getEventById", () => {
 
-        // todo this needs to be done
         it("should return the venue name", async () => {
             const results = await boxrec.getEventById(765205);
             expect(results.location.venue.name).toBe("Madison Square Garden");
@@ -60,6 +59,13 @@ describe("class Boxrec (E2E)", () => {
         it("should return a list of bouts", async () => {
             const results = await boxrec.getEventById(555);
             expect(results.bouts[0].firstBoxer.name).toBe("Cornelius Drane");
+        });
+
+        it("should return 0 wins/loss/draw for a boxer on his debut fight", async () => {
+            const results = await boxrec.getEventById(752960);
+            expect(results.bouts[2].secondBoxerRecord.win).toBe(0);
+            expect(results.bouts[2].secondBoxerRecord.loss).toBe(0);
+            expect(results.bouts[2].secondBoxerRecord.draw).toBe(0);
         });
 
     });
