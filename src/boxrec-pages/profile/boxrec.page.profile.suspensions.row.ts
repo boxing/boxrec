@@ -1,5 +1,5 @@
-import {BoxrecSuspension, BoxrecId} from "../boxrec.constants";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecId} from "../boxrec.constants";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
@@ -17,17 +17,6 @@ export class BoxrecPageProfileSuspensionsRow {
         const html: string = `<table><tr>${boxrecSuspensionRow}</tr></table>`;
         $ = cheerio.load(html);
         this.parse();
-    }
-
-    get get(): BoxrecSuspension {
-        return {
-            issuedBy: this.issuedBy,
-            type: this.type,
-            startDate: this.startDate,
-            endDate: this.endDate,
-            lengthInDays: this.lengthInDays,
-            eventId: this.eventId,
-        };
     }
 
     get issuedBy(): BoxrecId | null {
@@ -91,23 +80,12 @@ export class BoxrecPageProfileSuspensionsRow {
     }
 
     parse() {
-        // todo either make this a function or table parsing classes should implement an abstract class
-        const getColumnData = (nthChild: number, returnHTML: boolean = true): string => {
-            const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);
-
-            if (returnHTML) {
-                return el.html() || "";
-            }
-
-            return el.text();
-        };
-
-        this._issuedBy = getColumnData(1);
-        this._type = getColumnData(2, false);
-        this._startDate = getColumnData(3, false);
-        this._endDate = getColumnData(4, false);
-        this._lengthInDays = getColumnData(5, false);
-        this._eventId = getColumnData(6);
+        this._issuedBy = getColumnData($, 1);
+        this._type = getColumnData($, 2, false);
+        this._startDate = getColumnData($, 3, false);
+        this._endDate = getColumnData($, 4, false);
+        this._lengthInDays = getColumnData($, 5, false);
+        this._eventId = getColumnData($, 6);
     }
 
 }

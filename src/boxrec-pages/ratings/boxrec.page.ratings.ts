@@ -1,5 +1,5 @@
 import {BoxrecRating} from "../boxrec.constants";
-import {BoxrecPageRatingsRating} from "./boxrec.page.ratings.rating";
+import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
@@ -16,12 +16,12 @@ export class BoxrecPageRatings {
         this.parseRatings();
     }
 
-    get get(): BoxrecRating[] {
+    get output(): BoxrecRating[] {
         const ratings = this._ratings;
         let ratingsList: BoxrecRating[] = [];
 
         ratings.forEach((val: string) => {
-            const rating: BoxrecRating = new BoxrecPageRatingsRating(val).get;
+            const rating: BoxrecRating = new BoxrecPageRatingsRow(val);
             ratingsList.push(rating);
         });
 

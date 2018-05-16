@@ -1,11 +1,11 @@
-import {trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecRating, Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
-export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
+export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
 
     private _ranking: string;
     private _idName: string;
@@ -23,21 +23,6 @@ export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
         $ = cheerio.load(html);
 
         this.parse();
-    }
-
-    get get(): BoxrecRating {
-        return {
-            id: this.id,
-            name: this.name,
-            points: this.points,
-            rating: this.rating,
-            age: this.age,
-            record: this.record,
-            last6: this.last6,
-            stance: this.stance,
-            residence: this.residence,
-            division: this.division,
-        };
     }
 
     get ranking(): number | null {
@@ -139,38 +124,27 @@ export class BoxrecPageRatingsRating extends BoxrecCommonTablesClass {
     }
 
     parse() {
-        // todo either make this a function or table parsing classes should implement an abstract class
-        const getColumnData = (nthChild: number, returnHTML: boolean = true): string => {
-            const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);
-
-            if (returnHTML) {
-                return el.html() || "";
-            }
-
-            return el.text();
-        };
-
         // on pages where it's about a specific weight class, the division column is omitted
         const hasDivision: boolean = $(`tr:nth-child(1) td`).length === 9;
 
-        this._ranking = getColumnData(1, false);
-        this._idName = getColumnData(2);
-        this._points = getColumnData(3, false);
-        this._rating = getColumnData(4);
+        this._ranking = getColumnData($, 1, false);
+        this._idName = getColumnData($, 2);
+        this._points = getColumnData($, 3, false);
+        this._rating = getColumnData($, 4);
 
         if (hasDivision) {
-            this._division = getColumnData(5, false);
-            this._age = getColumnData(6, false);
-            this._record = getColumnData(7);
-            this._last6 = getColumnData(7);
-            this._stance = getColumnData(8, false);
-            this._location = getColumnData(9);
+            this._division = getColumnData($, 5, false);
+            this._age = getColumnData($, 6, false);
+            this._record = getColumnData($, 7);
+            this._last6 = getColumnData($, 7);
+            this._stance = getColumnData($, 8, false);
+            this._location = getColumnData($, 9);
         } else {
-            this._age = getColumnData(5, false);
-            this._record = getColumnData(6);
-            this._last6 = getColumnData(6);
-            this._stance = getColumnData(7, false);
-            this._location = getColumnData(8);
+            this._age = getColumnData($, 5, false);
+            this._record = getColumnData($, 6);
+            this._last6 = getColumnData($, 6);
+            this._stance = getColumnData($, 7, false);
+            this._location = getColumnData($, 8);
         }
 
     }

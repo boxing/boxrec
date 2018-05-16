@@ -15,7 +15,7 @@ describe("class BoxrecPageRatings", () => {
     describe("getter get", () => {
 
         it("should return an array of ratings", () => {
-            expect(ratings.get.length).not.toBe(0);
+            expect(ratings.output.length).not.toBe(0);
         });
 
     });

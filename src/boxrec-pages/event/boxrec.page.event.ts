@@ -1,4 +1,4 @@
-import {BoxrecBasic, BoxrecBoutLocation, BoxrecEvent, BoxrecEventBout, BoxrecPromoter} from "../boxrec.constants";
+import {BoxrecBasic, BoxrecBoutLocation, BoxrecEventBout, BoxrecPromoter} from "../boxrec.constants";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
@@ -23,18 +23,6 @@ export class BoxrecPageEvent {
         $ = cheerio.load(boxrecBodyString);
         this.parseEventData();
         this.parseBouts();
-    }
-
-    get get(): BoxrecEvent {
-        return {
-            date: this.date,
-            commission: this.commission,
-            matchmaker: this.matchmaker,
-            location: this.location,
-            promoter: this.promoter,
-            television: this.television,
-            bouts: this.bouts,
-        };
     }
 
     get date(): string {
@@ -192,7 +180,7 @@ export class BoxrecPageEvent {
         const bouts = this._bouts;
         let boutsList: BoxrecEventBout[] = [];
         bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecEventBout = new BoxrecPageEventBoutRow(val[0], val[1]).get;
+            const bout: BoxrecEventBout = new BoxrecPageEventBoutRow(val[0], val[1]);
             boutsList.push(bout);
         });
 

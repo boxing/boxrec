@@ -1,6 +1,5 @@
 import {BoxingBoutOutcome, boxRecMocksModulePath, WeightClass, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
-import {trimRemoveLineBreaks} from "../../helpers";
 
 const fs = require("fs");
 

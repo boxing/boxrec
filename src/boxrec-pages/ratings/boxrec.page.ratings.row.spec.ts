@@ -1,15 +1,16 @@
-import {BoxrecPageRatingsRating} from "./boxrec.page.ratings.rating";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {boxRecMocksModulePath, WeightClass, WinLossDraw} from "../boxrec.constants";
+import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
 const fs = require("fs");
 const mockRating = fs.readFileSync(`${boxRecMocksModulePath}/ratings/mockRating.html`, "utf8");
+const mockRatingP4P = fs.readFileSync(`${boxRecMocksModulePath}/ratings/mockRatingP4P.html`, "utf8"); // when all weight classes are given, it includes weight class
 
-describe("class BoxrecPageRating", () => {
+describe("class BoxrecPageRatingsRow", () => {
 
-    let rating: BoxrecPageRatingsRating;
+    let rating: BoxrecPageRatingsRow;
 
     beforeAll(() => {
-        rating = new BoxrecPageRatingsRating(mockRating);
+        rating = new BoxrecPageRatingsRow(mockRating);
     });
 
     describe("getter ranking", () => {
@@ -32,6 +33,19 @@ describe("class BoxrecPageRating", () => {
 
         it("should return the boxer name", () => {
             expect(rating.name).toBe("Errol Spence Jr");
+        });
+
+    });
+
+    describe("getter division", () => {
+
+        it("should give the weight class if rating including all weight classes", () => {
+            let ratingP4P = new BoxrecPageRatingsRow(mockRatingP4P);
+            expect(ratingP4P.division).toBe(WeightClass.cruiserweight);
+        });
+
+        it("should return `null` as weight class if the weight class was specified because they know the weight class", () => {
+            expect(rating.division).toBeNull();
         });
 
     });
@@ -99,7 +113,7 @@ describe("class BoxrecPageRating", () => {
         });
 
         it("should return null for values it cannot find", () => {
-            rating = new BoxrecPageRatingsRating(mockRating.replace("region=TX", ""));
+            rating = new BoxrecPageRatingsRow(mockRating.replace("region=TX", ""));
             expect(rating.residence.region).toBeNull();
         });
 
