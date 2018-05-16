@@ -84,9 +84,9 @@ export interface BoxrecJudge extends BoxrecBasic {
 }
 
 export interface Record {
-    win: number;
-    loss: number;
-    draw: number;
+    win: number | null;
+    loss: number | null;
+    draw: number | null;
 }
 
 export interface BoxrecId {
@@ -100,7 +100,7 @@ export interface BoxrecBoutBasic {
     titles: BoxrecId[];
     rating: number | null;
     links: Object;
-    result: [WinLossDraw, BoxingBoutOutcome | string, BoxingBoutOutcome | string];
+    result: [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null];
     referee: BoxrecBasic;
 
     firstBoxerWeight: number | null;
