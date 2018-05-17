@@ -59,6 +59,7 @@
         "no-eval": true,
         "no-internal-module": true,
         "no-parameter-reassignment": true,
+        "no-return-await": true,
         "no-shadowed-variable": true,
         "no-trailing-whitespace": true,
         "no-unsafe-finally": true,
