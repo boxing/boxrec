@@ -22,3 +22,13 @@ export function changeToCamelCase(str: string): string {
     const camelCaseStr: string = str.replace(/\s(\w)/g, x => x[1].toUpperCase());
     return `${camelCaseStr.charAt(0).toLowerCase()}${camelCaseStr.slice(1)}`;
 }
+
+export function getColumnData($: CheerioAPI, nthChild: number, returnHTML: boolean = true): string {
+    const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);
+
+    if (returnHTML) {
+        return el.html() || "";
+    }
+
+    return el.text();
+}

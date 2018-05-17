@@ -15,7 +15,7 @@ describe("class BoxrecPageSearch", () => {
     describe("getter get", () => {
 
         it("should return an array of search results", () => {
-            expect(searchResults.get.length).not.toBe(0);
+            expect(searchResults.output.length).not.toBe(0);
         });
 
     });

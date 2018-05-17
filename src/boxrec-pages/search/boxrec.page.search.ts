@@ -16,11 +16,11 @@ export class BoxrecPageSearch {
         this.parse();
     }
 
-    get get(): BoxrecSearch[] {
+    get output(): BoxrecSearch[] {
         const searchResults: string[] = this._searchResults;
         let searchResultsList: BoxrecSearch[] = [];
         searchResults.forEach((val: string) => {
-            const searchRow: BoxrecSearch = new BoxrecPageSearchBoxerRow(val).get;
+            const searchRow: BoxrecSearch = new BoxrecPageSearchBoxerRow(val);
             searchResultsList.push(searchRow);
         });
 

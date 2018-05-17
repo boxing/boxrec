@@ -1,6 +1,6 @@
 import {CookieJar} from "tough-cookie";
 import {RequestResponse} from "request";
-import {BoxrecEvent, BoxrecProfile, BoxrecRating, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
+import {BoxrecEvent, BoxrecProfile, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
@@ -131,7 +131,7 @@ export class Boxrec {
         return new BoxrecPageChampions(boxrecPageBody);
     }
 
-    async getRatings(qs: any): Promise<BoxrecRating[]> {
+    async getRatings(qs: any): Promise<BoxrecPageRatings> {
         this.checkIfLoggedIntoBoxRec();
 
         for (let i in qs) {
@@ -145,7 +145,7 @@ export class Boxrec {
             jar: this._cookieJar,
         });
 
-        return new BoxrecPageRatings(boxrecPageBody).get;
+        return new BoxrecPageRatings(boxrecPageBody);
     }
 
     async getEventById(eventId: number): Promise<BoxrecEvent> {
@@ -156,7 +156,7 @@ export class Boxrec {
             jar: this._cookieJar,
         });
 
-        return new BoxrecPageEvent(boxrecPageBody).get;
+        return new BoxrecPageEvent(boxrecPageBody);
     }
 
     async search(qs: any): Promise<BoxrecSearch[]> {
@@ -185,7 +185,7 @@ export class Boxrec {
             jar: this._cookieJar,
         });
 
-        return new BoxrecPageSearch(boxrecPageBody).get;
+        return new BoxrecPageSearch(boxrecPageBody).output;
     }
 
     // makes a request to get the PHPSESSID required to login

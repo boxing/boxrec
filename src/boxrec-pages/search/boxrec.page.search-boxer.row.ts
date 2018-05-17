@@ -1,5 +1,5 @@
-import {BoxrecSearch, Location, Record, WinLossDraw} from "../boxrec.constants";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {Location, Record, WinLossDraw} from "../boxrec.constants";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
@@ -21,19 +21,6 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
         $ = cheerio.load(html);
 
         this.parse();
-    }
-
-    get get(): BoxrecSearch {
-        return {
-            id: this.id,
-            name: this.name,
-            alias: this.alias,
-            record: this.record,
-            last6: this.last6,
-            division: this.division,
-            career: this.career,
-            residence: this.residence,
-        };
     }
 
     get id(): number {
@@ -102,23 +89,12 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
     }
 
     private parse() {
-        // todo either make this a function or table parsing classes should implement an abstract class
-        const getColumnData = (nthChild: number, returnHTML: boolean = true): string => {
-            const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);
-
-            if (returnHTML) {
-                return el.html() || "";
-            }
-
-            return el.text();
-        };
-
-        this._idName = getColumnData(1);
-        this._alias = getColumnData(2, false);
-        this._record = getColumnData(3);
-        this._last6 = getColumnData(4);
-        this._division = getColumnData(5, false);
-        this._career = getColumnData(6, false);
-        this._location = getColumnData(7);
+        this._idName = getColumnData($, 1);
+        this._alias = getColumnData($, 2, false);
+        this._record = getColumnData($, 3);
+        this._last6 = getColumnData($, 4);
+        this._division = getColumnData($, 5, false);
+        this._career = getColumnData($, 6, false);
+        this._location = getColumnData($, 7);
     }
 }

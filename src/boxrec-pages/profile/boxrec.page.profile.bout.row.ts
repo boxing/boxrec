@@ -1,5 +1,5 @@
-import {BoxrecBout, BoxrecBoutLocation} from "../boxrec.constants";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecBoutLocation} from "../boxrec.constants";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio = require("cheerio");
@@ -18,25 +18,6 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
 
         this.parseBout();
         this.parseMetadata();
-    }
-
-    get get(): BoxrecBout {
-        return {
-            date: this.date,
-            firstBoxerWeight: this.firstBoxerWeight,
-            secondBoxer: this.secondBoxer,
-            secondBoxerWeight: this.secondBoxerWeight,
-            secondBoxerRecord: this.secondBoxerRecord,
-            secondBoxerLast6: this.secondBoxerLast6,
-            titles: this.titles,
-            referee: this.referee,
-            judges: this.judges,
-            rating: this.rating,
-            result: this.result,
-            location: this.location,
-            links: this.links,
-            metadata: this.metadata,
-        };
     }
 
     get date() {
@@ -60,9 +41,7 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         };
 
         const regex: RegExp = /(\d+)$/;
-
         const html = $(`<div>${this._location}</div>`);
-
         const venueLink: CheerioElement = html.find("a").get(0);
         const areaLink: CheerioElement = html.find("a").get(1);
 
@@ -135,29 +114,19 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
     }
 
     private parseBout(): void {
-        const getColumnData = (nthChild: number, returnHTML: boolean = true): string => {
-            const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);
-
-            if (returnHTML) {
-                return el.html() || "";
-            }
-
-            return el.text();
-        };
-
-        this._date = getColumnData(2, false);
-        this._firstBoxerWeight = getColumnData(3, false);
+        this._date = getColumnData($, 2, false);
+        this._firstBoxerWeight = getColumnData($, 3, false);
         // empty 4th column
-        this._secondBoxer = getColumnData(5);
-        this._secondBoxerWeight = getColumnData(6, false);
-        this._secondBoxerRecord = getColumnData(7);
-        this._secondBoxerLast6 = getColumnData(8);
-        this._location = getColumnData(9);
-        this._outcome = getColumnData(10, false);
-        this._outcomeByWayOf = getColumnData(11);
-        this._numberOfRounds = getColumnData(12, false);
-        this._rating = getColumnData(13);
-        this._links = getColumnData(14);
+        this._secondBoxer = getColumnData($, 5);
+        this._secondBoxerWeight = getColumnData($, 6, false);
+        this._secondBoxerRecord = getColumnData($, 7);
+        this._secondBoxerLast6 = getColumnData($, 8);
+        this._location = getColumnData($, 9);
+        this._outcome = getColumnData($, 10, false);
+        this._outcomeByWayOf = getColumnData($, 11);
+        this._numberOfRounds = getColumnData($, 12, false);
+        this._rating = getColumnData($, 13);
+        this._links = getColumnData($, 14);
     }
 
     private parseMetadata(): void {

@@ -57,7 +57,6 @@ describe("class BoxrecPageChampions", () => {
             expect(list.superBantamweight).toBeDefined();
         });
 
-
         it("should list the belt holders", () => {
             expect(list.heavyweight.IBF).toEqual({
                 id: 659461,

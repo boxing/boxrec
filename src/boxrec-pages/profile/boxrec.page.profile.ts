@@ -311,7 +311,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
         const bouts = this._boutsList;
         let boutsList: BoxrecBout[] = [];
         bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]).get;
+            const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]);
             boutsList.push(bout);
         });
 
@@ -327,7 +327,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
         const suspensions = this._suspensions;
 
         suspensions.forEach((val: string) => {
-            const susp: BoxrecSuspension = new BoxrecPageProfileSuspensionsRow(val).get;
+            const susp: BoxrecSuspension = new BoxrecPageProfileSuspensionsRow(val);
             suspensionsList.push(susp);
         });
 
