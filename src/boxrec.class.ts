@@ -14,11 +14,10 @@ const BoxrecPageProfile = require("./boxrec-pages/profile/boxrec.page.profile.ts
 
 export class Boxrec {
 
-    private _cookieJar: CookieJar;
+    private _cookieJar: CookieJar = rp.jar();
 
     async login(username: string, password: string): Promise<void> {
-        const cookieJar: CookieJar = rp.jar();
-
+        this._cookieJar = rp.jar(); // reset the cookieJar
         let rawCookies;
 
         try {
@@ -31,11 +30,9 @@ export class Boxrec {
             throw new Error("Could not get cookie from initial request to boxrec");
         }
 
-        const cookie = rp.cookie(rawCookies[0]);
-        cookieJar.setCookie(cookie, "http://boxrec.com", () => {
+        const cookie = rp.cookie(rawCookies[0]); // create the cookie
+        this._cookieJar.setCookie(cookie, "http://boxrec.com", () => {
         });
-
-        this._cookieJar = cookieJar;
 
         const options = {
             uri: "http://boxrec.com/en/login", // boxrec does not support HTTPS
@@ -75,7 +72,7 @@ export class Boxrec {
         }
 
         // it argues that the return value is void
-        const cookieString: any = cookieJar.getCookieString("http://boxrec.com", () => {
+        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com", () => {
             // the callback doesn't work but it works if you assign as a variable?
         });
 
