@@ -55,8 +55,6 @@ describe("class BoxrecPageProfile", () => {
 
             it(`${prefix} birth place`, () => expect(boxer.birthPlace).toBe("Pensacola, Florida, USA"));
 
-            it(`${prefix} suspensions`, () => expect(boxer.suspensions.length).toBe(5));
-
         });
 
         describe("Gennady Golovkin", () => {
@@ -156,14 +154,6 @@ describe("class BoxrecPageProfile", () => {
             it("should be null if could not match the regex", () => {
                 boxer = new BoxrecPageProfile(mockProfileGGG.replace(/1982-04-08/g, ""));
                 expect(boxer.born).toBeNull();
-            });
-
-        });
-
-        describe("suspensions", () => {
-
-            it("should return an array of suspensions", () => {
-                expect(boxer.suspensions.length).toBe(2);
             });
 
         });

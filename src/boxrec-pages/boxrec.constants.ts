@@ -63,7 +63,7 @@ export interface BoxrecProfile {
     otherInfo: string[][] | null;
     bouts: BoxrecBout[];
     hasBoutScheduled: boolean;
-    suspensions: BoxrecSuspension[];
+    suspended: string | null;
 }
 
 export enum WinLossDraw {
@@ -132,15 +132,6 @@ export enum BoxingBoutOutcome {
     RTD = "corner retirement",
     DQ = "disqualification",
     NWS = "newspaper decision",
-}
-
-export interface BoxrecSuspension {
-    issuedBy: BoxrecId | null;
-    type: string;
-    startDate: string;
-    endDate: string;
-    lengthInDays: number;
-    eventId: number | null;
 }
 
 export type Stance = "orthodox" | "southpaw";

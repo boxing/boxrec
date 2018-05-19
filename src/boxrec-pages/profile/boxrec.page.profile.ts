@@ -1,7 +1,6 @@
-import {BoxrecBout, BoxrecProfile, boxrecProfileTable, BoxrecSuspension} from "../boxrec.constants";
+import {BoxrecBout, BoxrecProfile, boxrecProfileTable} from "../boxrec.constants";
 import {convertFractionsToNumber} from "../../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
-import {BoxrecPageProfileSuspensionsRow} from "./boxrec.page.profile.suspensions.row";
 
 const cheerio = require("cheerio");
 let $: CheerioAPI;
@@ -42,15 +41,12 @@ export class BoxrecPageProfile implements BoxrecProfile {
     // other stuff we found that we haven't seen yet
     private _otherInfo: [string, string][] = [];
 
-    private _suspensions: string[] = [];
-
     private _boutsList: [string, string | null][] = [];
 
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
         this.parseName();
         this.parseProfileTableData();
-        this.parseSuspensions();
         this.parseBouts();
     }
 
@@ -322,16 +318,13 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return this.bouts.length > this.numberOfBouts;
     }
 
-    get suspensions(): BoxrecSuspension[] {
-        let suspensionsList: BoxrecSuspension[] = [];
-        const suspensions = this._suspensions;
+    get suspended(): string | null {
+        const el = $("body").find("div:contains('suspended')");
+        if (el.length) {
+            return el.text();
+        }
 
-        suspensions.forEach((val: string) => {
-            const susp: BoxrecSuspension = new BoxrecPageProfileSuspensionsRow(val);
-            suspensionsList.push(susp);
-        });
-
-        return suspensionsList;
+        return null;
     }
 
     private parseName(): void {
@@ -367,15 +360,6 @@ export class BoxrecPageProfile implements BoxrecProfile {
         if (metadata) {
             this._metadata = metadata;
         }
-    }
-
-    private parseSuspensions() {
-        const tr = $("#susdisplay tbody tr");
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html = $(elem).html() || "";
-            this._suspensions.push(html);
-        });
     }
 
     private parseBouts(): void {
