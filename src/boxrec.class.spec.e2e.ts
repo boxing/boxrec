@@ -35,6 +35,11 @@ describe("class Boxrec (E2E)", () => {
             expect(boxer.bouts.length).toBe(201);
         });
 
+        it("should return if they are suspended or not", async () => {
+            const boxer = await boxrec.getBoxerById(352);
+            expect(boxer.suspended).toBe(null);
+        });
+
     });
 
     describe("method getBoxersByName", () => {
