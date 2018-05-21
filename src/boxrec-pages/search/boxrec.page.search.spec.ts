@@ -12,7 +12,7 @@ describe("class BoxrecPageSearch", () => {
         searchResults = new BoxrecPageSearch(mockSearchResults);
     });
 
-    describe("getter get", () => {
+    describe("getter output", () => {
 
         it("should return an array of search results", () => {
             expect(searchResults.output.length).not.toBe(0);
