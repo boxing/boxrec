@@ -1,3 +1,4 @@
+import {BoxrecProfile} from "./boxrec-pages/boxrec.constants";
 export const boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
@@ -25,9 +26,14 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getBoxerById", () => {
 
+        let floydJrObject: BoxrecProfile;
+
+        beforeAll(async () => {
+            floydJrObject = await boxrec.getBoxerById(352);
+        });
+
         it("should return Boxer information", async () => {
-            const boxer = await boxrec.getBoxerById(352);
-            expect(boxer.name).toBe("Floyd Mayweather Jr");
+            expect(floydJrObject.name).toBe("Floyd Mayweather Jr");
         });
 
         it("should include the number of bouts they were in", async () => {
@@ -36,8 +42,19 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return if they are suspended or not", async () => {
-            const boxer = await boxrec.getBoxerById(352);
-            expect(boxer.suspended).toBe(null);
+            expect(floydJrObject.suspended).toBe(null);
+        });
+
+        describe("bouts", () => {
+
+            it("should return an array of bouts", () => {
+                expect(floydJrObject.bouts.length).toBeGreaterThanOrEqual(49);
+            });
+
+            it("should return the opponent's name", () => {
+                expect(floydJrObject.bouts[49].secondBoxer.name).toBe("Conor McGregor");
+            });
+
         });
 
     });

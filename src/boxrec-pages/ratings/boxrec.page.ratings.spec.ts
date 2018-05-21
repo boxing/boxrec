@@ -12,7 +12,7 @@ describe("class BoxrecPageRatings", () => {
         ratings = new BoxrecPageRatings(mockRatings);
     });
 
-    describe("getter get", () => {
+    describe("getter output", () => {
 
         it("should return an array of ratings", () => {
             expect(ratings.output.length).not.toBe(0);

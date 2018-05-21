@@ -1021,8 +1021,8 @@ boom@5.x.x:
     hoek "4.x.x"
 
 "boxrec-mocks@https://github.com/boxing/boxrec-mocks":
-  version "0.1.0"
-  resolved "https://github.com/boxing/boxrec-mocks#5a256de232e17f10e15772a15e6c7bfa43c6987b"
+  version "0.2.1"
+  resolved "https://github.com/boxing/boxrec-mocks#f54f6247692a88ab27ee4e039143add2afcb266f"
 
 brace-expansion@^1.1.7:
   version "1.1.11"

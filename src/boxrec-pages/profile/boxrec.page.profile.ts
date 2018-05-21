@@ -101,16 +101,17 @@ export class BoxrecPageProfile implements BoxrecProfile {
 
     get ranking(): number[][] | null {
         if (this._ranking) {
-            const html = $(this._ranking);
-            const links: string[] = html.get().filter((item: any) => item.name === "a");
+            const html = $(`<div>${this._ranking}</div>`);
+            const links = html.find("a");
+            const rankings: number[][] = [];
 
-            return links.map((item: any) => {
-                const child: string = item.children[0].data;
-                const rankArr: number[] = child.trim().replace(",", "").split("/")
-                    .map(rank => parseInt(rank, 10));
-
-                return [rankArr[0], rankArr[1]];
+            links.each((i: number, elem: CheerioElement) => {
+                const text: string = $(elem).text();
+                const parsedArr: number[] = text.trim().replace(",", "").split("/").map((str: string) => parseInt(str, 10));
+                rankings.push(parsedArr);
             });
+
+            return rankings;
         }
 
         return null;
@@ -295,12 +296,8 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
-    get otherInfo(): string[][] | null {
-        if (this._otherInfo) {
-            return this._otherInfo;
-        }
-
-        return null;
+    get otherInfo(): string[][] {
+        return this._otherInfo;
     }
 
     get bouts(): BoxrecBout[] {
@@ -310,7 +307,9 @@ export class BoxrecPageProfile implements BoxrecProfile {
             const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]);
             boutsList.push(bout);
         });
-
+        // we want the latest bout at the end of the array and not the start
+        // the first key of the array won't be changing every bout
+        boutsList.reverse();
         return boutsList;
     }
 
@@ -338,7 +337,8 @@ export class BoxrecPageProfile implements BoxrecProfile {
             let key: string | null = $(elem).find("td:nth-child(1)").text();
             let val: string | null = $(elem).find("td:nth-child(2)").html();
 
-            if (key && val) {
+            // ranking doesn't have the key, therefore we can only check that `val` exists
+            if (val) {
                 key = key.trim();
                 val = val.trim();
                 const enumVals: any[] = Object.keys(boxrecProfileTable);
@@ -350,8 +350,13 @@ export class BoxrecPageProfile implements BoxrecProfile {
                     // the following line works but there is probably a probably a much better way with Typescript
                     (this as any)[classKey] = val; // set the private var related to this, note: this doesn't consider if there is a setter
                 } else {
-                    // either an error or returned something we haven't mapped
-                    this._otherInfo.push([key, val]);
+
+                    if (val.includes("/en/ratings")) { // ranking doesn't have the `key`
+                        this._ranking = val;
+                    } else {
+                        // either an error or returned something we haven't mapped
+                        this._otherInfo.push([key, val]);
+                    }
                 }
             }
         });
