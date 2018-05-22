@@ -7,7 +7,9 @@ import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champion
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
-(<any>Symbol).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
+if (typeof (Symbol as any).asyncIterator === "undefined") {
+    (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol("asyncIterator");
+}
 
 const rp = require("request-promise");
 const BoxrecPageProfile = require("./boxrec-pages/profile/boxrec.page.profile.ts");
