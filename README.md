@@ -4,23 +4,19 @@
 This project allows you to query information from [BoxRec](http://boxrec.com) and return it in JSON format.
 The purpose of this project is to act as an API for BoxRec.
 
-It allows you to retrieve the following information:
+## Documentation
 
-- Boxers (by id)
-- Events (by id)
-- List of Champions (by weight class and by sanctioning body)
-- Search boxers (by name)
-- Ratings (or Rankings)
+
 
 ## Installation
 
 This project is written in [Node](http://nodejs.org).
 
-`yarn add boxrec`
+`yarn add boxrec -D`
 
 or
 
-`npm install boxrec --save`
+`npm install boxrec --save-dev`
 
 ## Usage
 `
@@ -31,13 +27,11 @@ const boxrec = require("boxrec");
 
 [Details on how to help can be found here](https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md)
 
-## How to use
+## Methods (How to use)
 
-#### Logging In
-
-This requires a login to properly function.
-The profileTable although doesn't appear to change, the number of columns in the bouts does change and this is set up to expect all columns.
-
+### [login](./docs/classes/_boxrec_class_.boxrec.html#login)
+##### logs the user into BoxRec
+To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 Note: BoxRec does not support HTTPS
 
 ```javascript
@@ -48,53 +42,29 @@ boxrec.login(username, password)
 .catch(error => {});
 ```
 
-#### Get boxer profile by BoxRec ID
+### [getBoxerById](./docs/classes/_boxrec_class_.boxrec.html#getboxerbyid)
+##### Get boxer profile by BoxRec ID
 Using the BoxRec Boxer ID, retrieve all information about a boxer.
+
+[Output:](./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecprofile.html)
 ```javascript
 boxrec.getBoxerById(356831)
 .then(boxer => {
     console.log(boxer.name); // Gennady Golovkin
     console.log(boxer.division); // middleweight
-    console.log(boxer.titlesHeld); // [International Boxing Organization World Middleweight Title, ...];
+    console.log(boxer.titlesHeld); // currently held titles [International Boxing Organization World Middleweight Title, ...];
     console.log(boxer.otherInfo); // other info that couldn't be categorized
     console.log(boxer.bouts); // list of bouts
-    console.log(boxer.suspensions); // list of suspensions
+    console.log(boxer.suspended); // will tell if boxer is currently suspended
     console.log(boxer.bouts[37].opponent.name); // Saul Alvarez
 });
 ```
 
-the following are supported:
-
-| Key              |
-| -----------------|
-| alias            |
-| birthName        |
-| birthPlace       |
-| born             |
-| bouts            |
-| debut            |
-| division         |
-| globalId         |
-| hasBoutScheduled |
-| KOs              |
-| name             |
-| nationality      |
-| numberOfBouts    |
-| otherInfo        |
-| ranking          |
-| rating           |
-| reach            |
-| residence        |
-| role             |
-| rounds           |
-| stance           |
-| suspensions      |
-| titlesHeld       |
-| vadacbp          |
-
-#### Search boxers by name
+### [getBoxersByName](./docs/classes/_boxrec_class_.boxrec.html#getboxersbyname)
+##### Search boxers by name
 Returns the same object as `getBoxerById`
 
+[Output:](./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecprofile.html)
 ```javascript
 const floyds = await boxrec.getBoxersByName("Floyd", "Mayweather");
 let boxer = await floyds.next();
@@ -107,7 +77,8 @@ console.log(boxer.value); // is Floyd Mayweather Jr. object
 floyds.next().then(boxer => console.log(boxer.value));
 ```
 
-#### Search boxers
+### [search](./docs/classes/_boxrec_class_.boxrec.html#search)
+##### Search boxers by name
 Following BoxRec's form format
 
 ```javascript
@@ -117,7 +88,7 @@ boxrec.search({
 }).then(searchResults => console.log(searchResults[1]));
 ```    
 
-Output:
+[Output:](./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecsearch.html)
 ```javascript
     {
         id: 352,
@@ -141,8 +112,10 @@ Output:
 });
 ```
 
-#### Get champions
+### [getChampions](./docs/classes/_boxrec_class_.boxrec.html#getchampions)
+##### Returns a list of champions
 
+[Output:](./docs/classes/_boxrec_class_.boxrec.html#getchampions)
 ```javascript
 boxrec.getChampions()
 .then(champions => {
@@ -150,14 +123,15 @@ boxrec.getChampions()
 });
 ```
 
-#### Get event
+### [getEventById](./docs/classes/_boxrec_class_.boxrec.html#geteventbyid)
+##### Returns event information
 
 ```javascript
 boxrec.getEventById(751017)
 .then(event => console.log(event));
 ```
 
-Output:
+[Output:](./docs/classes/_boxrec_class_.boxrec.html#geteventbyid)
 ```javascript
 { date: '2017-09-16',
   commission: 'Nevada Athletic Commission',
@@ -198,7 +172,8 @@ Output:
 ...
 ```
 
-#### Get ratings
+### [getRatings](./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecrating.html)
+##### Get ratings
 Following BoxRec's form format
 
 ```javascript
@@ -209,7 +184,7 @@ boxrec.getRatings({
 }).then(ratings => console.log(ratings[1]));
 ```
 
-Output:
+[Output:](./docs/classes/_boxrec_pages_ratings_boxrec_page_ratings_.boxrecpageratings.html)
 ```javascript
     {
         id: 629465,
@@ -233,6 +208,10 @@ Output:
         division: null
     };
 ```
+
+## Documentation
+
+[Can be found here](./docs/)
 
 ## Note
 Not affiliated with the website [BoxRec](http://www.boxrec.com)

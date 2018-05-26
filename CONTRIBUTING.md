@@ -4,6 +4,10 @@
 
 If there is an [open issue](https://github.com/boxing/boxrec/issues) feel free to comment that you'll work on it.  This prevents multiple people from working on the same issue.
 
+## Documentation
+
+[Can be found here](./docs/)
+
 ## Requirements
 - Requires Node 7.6+
 - Is written in Typescript and uses ES6/ES7

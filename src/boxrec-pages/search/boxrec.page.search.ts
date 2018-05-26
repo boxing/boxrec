@@ -5,7 +5,8 @@ const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 /**
- * Parse boxrec Search Results page
+ * parse a BoxRec Search Results page
+ * ex. http://boxrec.com/en/search?pf%5Bfirst_name%5D=floyd&pf%5Blast_name%5D=mayweather+jr&pf%5Brole%5D=boxer&pf%5Bstatus%5D=&pf_go=&pf%5BorderBy%5D=&pf%5BorderDir%5D=ASC
  */
 export class BoxrecPageSearch {
 
