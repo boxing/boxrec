@@ -1,3 +1,21 @@
+## 0.9.4 (2018-05-27)
+
+### Added
+
+- Doc generation automatically done on pre-commit
+
+## 0.9.3 (2018-05-21)
+
+### Fixed
+
+- Support for Node 10
+
+## 0.9.2 (2018-05-21)
+
+### Changed
+
+- Change profile bouts list to return latest fight at end of array
+
 ## 0.9.1 (2018-05-15)
 
 ### Fixed

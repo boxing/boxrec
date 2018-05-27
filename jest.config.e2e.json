@@ -2,7 +2,7 @@
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
-  "testRegex": "(/__tests__/.*|(\\.|/)(spec.e2e))\\.(jsx?|tsx?)$",
+  "testRegex": "e2e\\.spec\\.ts$",
   "restoreMocks": true,
   "moduleFileExtensions": [
     "ts",

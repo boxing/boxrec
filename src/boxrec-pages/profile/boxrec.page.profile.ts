@@ -6,7 +6,8 @@ const cheerio = require("cheerio");
 let $: CheerioAPI;
 
 /**
- * Parse a boxrec Profile Page
+ * BoxRec Profile Page
+ * ex. http://boxrec.com/en/boxer/155774
  */
 export class BoxrecPageProfile implements BoxrecProfile {
 
@@ -43,6 +44,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
 
     private _boutsList: [string, string | null][] = [];
 
+    /**
+     * When instantiated the HTML for this page needs to be supplied
+     * @param {string} boxrecBodyString     the HTML of the profile page
+     */
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
         this.parseName();
@@ -50,11 +55,19 @@ export class BoxrecPageProfile implements BoxrecProfile {
         this.parseBouts();
     }
 
+    /**
+     * Returns the full name of the boxer
+     * @returns {string | null}
+     */
     get name(): string | null {
         return this._name || null;
     }
 
-    get metadata() {
+    /**
+     * Returns an object of various metadata
+     * @returns {Object}
+     */
+    get metadata(): Object {
         return JSON.parse(this._metadata);
     }
 
@@ -62,6 +75,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         this._name = name;
     }
 
+    /**
+     * Returns the profile global id or id
+     * @returns {number | null}
+     */
     get globalId(): number | null {
         const globalId: number = parseInt(this._globalId, 10);
 
@@ -72,6 +89,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the entire string of roles this person has
+     * @returns {string | null}
+     */
     get role(): string | null {
         const role = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
 
@@ -82,6 +103,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the boxer's overall BoxRec rating
+     * @returns {number | null}
+     */
     get rating(): number | null {
         const html = $(this._rating);
 
@@ -99,6 +124,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns an array of where they stand in their division and in their country (by class)
+     * @returns {number[][] | null}
+     */
     get ranking(): number[][] | null {
         if (this._ranking) {
             const html = $(`<div>${this._ranking}</div>`);
@@ -117,6 +146,11 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns if they are enrolled into VADA (Voluntary Anti-Doping Association)
+     * @example // may return "enrolled"
+     * @returns {string | null}
+     */
     get vadacbp(): string | null {
         if (this._vadacbp) {
             return this._vadacbp;
@@ -125,11 +159,19 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the number of bouts this boxer has been in (excluding currently scheduled)
+     * @returns {number}
+     */
     get numberOfBouts(): number {
         const bouts = parseInt(this._bouts, 10);
         return !isNaN(bouts) ? bouts : 0;
     }
 
+    /**
+     * Returns the number of rounds this boxer has been in in their professional career
+     * @returns {number | null}
+     */
     get rounds(): number | null {
         const rounds: number = parseInt(this._rounds, 10);
 
@@ -140,6 +182,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * The number of bouts that this boxer has finished by way of KO/TKOing their opponent
+     * @returns {number | null}
+     */
     get KOs(): number | null {
         const kos: number = parseInt(this._KOs, 10);
 
@@ -150,6 +196,11 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns whether the boxer is active or inactive
+     * @example // returns "active"
+     * @returns {string | null}
+     */
     get status(): string | null {
         if (this._status) {
             return this._status;
@@ -158,6 +209,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns an array of belts that this boxer is currently holding
+     * @returns {string[] | null}
+     */
     get titlesHeld(): string[] | null {
         if (this._titlesHeld) {
             const html = $(this._titlesHeld);
@@ -173,6 +228,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * The birth name of the boxer
+     * @returns {string | null}
+     */
     get birthName(): string | null {
         if (this._birthName) {
             return this._birthName;
@@ -181,6 +240,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * The alias or nickname of the boxer
+     * @returns {string | null}
+     */
     get alias(): string | null {
         if (this._alias) {
             return this._alias;
@@ -189,6 +252,11 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the date of birth of the boxer
+     * @example // Gennady Golovkin would return "1982-04-08"
+     * @returns {string | null}
+     */
     get born(): string | null {
         if (this._born) {
             // some boxers have dob and age.  Match the YYYY-MM-DD
@@ -203,6 +271,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the nationality of the boxer
+     * @returns {string | null}
+     */
     get nationality(): string | null {
         if (this._nationality) {
             return $(this._nationality).text().trimLeft();
@@ -211,6 +283,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the date of their professional debut bout
+     * @returns {string | null}
+     */
     get debut(): string | null {
         if (this._debut) {
             return this._debut;
@@ -219,6 +295,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the current weight division of this boxer
+     * @returns {string | null}
+     */
     get division(): string | null {
         if (this._division) {
             return this._division;
@@ -227,6 +307,11 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the boxer's height
+     * fractional symbols are changed to decimals.  ¼ = 0.25, ½ = 0.5, ¾ = 0.75
+     * @returns {number[] | null}
+     */
     get height(): number[] | null {
         let height: number[] | null = null;
         if (this._height) {
@@ -249,6 +334,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return height;
     }
 
+    /**
+     * Returns the arm reach of the boxer
+     * @returns {number[] | null}
+     */
     get reach(): number[] | null {
         let reach: number[] | null = null;
         if (this._reach) {
@@ -267,6 +356,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return reach;
     }
 
+    /**
+     * Returns the current residency of the boxer
+     * @returns {string | null}
+     */
     // todo can this be converted to return Location?
     get residence(): string | null {
         const residence: string = $(this._residence).text();
@@ -278,6 +371,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the country of which the boxer was born
+     * @returns {string | null}
+     */
     get birthPlace(): string | null {
         const birthPlace: string = $(this._birthPlace).text();
 
@@ -288,6 +385,10 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Returns the stance of the boxer, either orthodox or southpaw
+     * @returns {string | null}
+     */
     get stance(): string | null {
         if (this._stance) {
             return this._stance;
@@ -296,10 +397,20 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return null;
     }
 
+    /**
+     * Additional info that was found on the profile but is unknown what to call it
+     * @returns {string[][]}
+     */
     get otherInfo(): string[][] {
         return this._otherInfo;
     }
 
+    /**
+     * Returns an array of bout information
+     * The boxer's first bout is at the start of the array
+     * The boxer's last or latest bout is at the end of the array
+     * @returns {BoxrecBout[]}
+     */
     get bouts(): BoxrecBout[] {
         const bouts = this._boutsList;
         let boutsList: BoxrecBout[] = [];
@@ -313,10 +424,19 @@ export class BoxrecPageProfile implements BoxrecProfile {
         return boutsList;
     }
 
+    /**
+     * Returns whether the boxer has a bout scheduled or not
+     * @example // Mike Tyson would return false
+     * @returns {boolean}
+     */
     get hasBoutScheduled(): boolean {
         return this.bouts.length > this.numberOfBouts;
     }
 
+    /**
+     * Returns a string on whether the boxer is suspended or not
+     * @returns {string | null}
+     */
     get suspended(): string | null {
         const el = $("body").find("div:contains('suspended')");
         if (el.length) {
@@ -330,6 +450,9 @@ export class BoxrecPageProfile implements BoxrecProfile {
         this.name = $("h1").text();
     }
 
+    /**
+     * Parses the profile table data found at the top of the profile
+     */
     private parseProfileTableData(): void {
         const tr = $(".profileTable table.rowTable tbody tr");
 
@@ -367,6 +490,9 @@ export class BoxrecPageProfile implements BoxrecProfile {
         }
     }
 
+    /**
+     * Parses the bout information for the boxer
+     */
     private parseBouts(): void {
         const tr = $("#listBoutsResults\\, tbody tr");
 

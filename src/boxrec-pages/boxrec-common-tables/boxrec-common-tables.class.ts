@@ -12,6 +12,9 @@ import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../helpers";
 const cheerio = require("cheerio");
 let $: CheerioAPI;
 
+/**
+ * Parses common table columns found on BoxRec pages
+ */
 export abstract class BoxrecCommonTablesClass {
 
     protected _metadata: string;
