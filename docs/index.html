@@ -64,7 +64,6 @@
 				<p><a href="https://travis-ci.org/boxing/boxrec"><img src="https://travis-ci.org/boxing/boxrec.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/boxing/boxrec?branch=master"><img src="https://coveralls.io/repos/github/boxing/boxrec/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://david-dm.org/boxing/boxrec"><img src="https://david-dm.org/boxing/boxrec/status.svg" alt="dependencies Status"></a> <a href="https://david-dm.org/boxing/boxrec?type=dev"><img src="https://david-dm.org/boxing/boxrec/dev-status.svg" alt="devDependencies Status"></a> <a href="https://bestpractices.coreinfrastructure.org/projects/1643"><img src="https://bestpractices.coreinfrastructure.org/projects/1643/badge" alt="CII Best Practices"></a> <a href="https://badge.fury.io/js/boxrec"><img src="https://badge.fury.io/js/boxrec.svg" alt="npm version"></a></p>
 				<p>This project allows you to query information from <a href="http://boxrec.com">BoxRec</a> and return it in JSON format.
 				The purpose of this project is to act as an API for BoxRec.</p>
-				<h2 id="documentation">Documentation</h2>
 				<h2 id="installation">Installation</h2>
 				<p>This project is written in <a href="http://nodejs.org">Node</a>.</p>
 				<p><code>yarn add boxrec -D</code></p>
@@ -75,7 +74,7 @@
 				<h2 id="how-to-contribute">How to contribute</h2>
 				<p><a href="https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md">Details on how to help can be found here</a></p>
 				<h2 id="methods-how-to-use-">Methods (How to use)</h2>
-				<h3 id="login"><a href="./docs/classes/_boxrec_class_.boxrec.html#login">login</a></h3>
+				<h3 id="login"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#login">login</a></h3>
 				<h5 id="logs-the-user-into-boxrec">logs the user into BoxRec</h5>
 				<p>To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 				Note: BoxRec does not support HTTPS</p>
@@ -85,10 +84,10 @@
 })
 .catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {});
 </code></pre>
-				<h3 id="getboxerbyid"><a href="./docs/classes/_boxrec_class_.boxrec.html#getboxerbyid">getBoxerById</a></h3>
+				<h3 id="getboxerbyid"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getboxerbyid">getBoxerById</a></h3>
 				<h5 id="get-boxer-profile-by-boxrec-id">Get boxer profile by BoxRec ID</h5>
 				<p>Using the BoxRec Boxer ID, retrieve all information about a boxer.</p>
-				<p><a href="./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecprofile.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript">boxrec.getBoxerById(<span class="hljs-number">356831</span>)
 .then(<span class="hljs-function"><span class="hljs-params">boxer</span> =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(boxer.name); <span class="hljs-comment">// Gennady Golovkin</span>
@@ -100,10 +99,10 @@
     <span class="hljs-built_in">console</span>.log(boxer.bouts[<span class="hljs-number">37</span>].opponent.name); <span class="hljs-comment">// Saul Alvarez</span>
 });
 </code></pre>
-				<h3 id="getboxersbyname"><a href="./docs/classes/_boxrec_class_.boxrec.html#getboxersbyname">getBoxersByName</a></h3>
+				<h3 id="getboxersbyname"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getboxersbyname">getBoxersByName</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>
 				<p>Returns the same object as <code>getBoxerById</code></p>
-				<p><a href="./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecprofile.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> floyds = <span class="hljs-keyword">await</span> boxrec.getBoxersByName(<span class="hljs-string">"Floyd"</span>, <span class="hljs-string">"Mayweather"</span>);
 <span class="hljs-keyword">let</span> boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Sr. object</span>
@@ -114,7 +113,7 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-comment">// or using Promises</span>
 floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(boxer.value));
 </code></pre>
-				<h3 id="search"><a href="./docs/classes/_boxrec_class_.boxrec.html#search">search</a></h3>
+				<h3 id="search"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#search">search</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>
 				<p>Following BoxRec&#39;s form format</p>
 				<pre><code class="lang-javascript">boxrec.search({
@@ -122,7 +121,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     <span class="hljs-attr">last_name</span>: <span class="hljs-string">"Mayweather"</span>,
 }).then(<span class="hljs-function"><span class="hljs-params">searchResults</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(searchResults[<span class="hljs-number">1</span>]));
 </code></pre>
-				<p><a href="./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecsearch.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecsearch.html">Output:</a></p>
 				<pre><code class="lang-javascript">    {
         <span class="hljs-attr">id</span>: <span class="hljs-number">352</span>,
         <span class="hljs-attr">name</span>: <span class="hljs-string">'Floyd Mayweather Jr'</span>,
@@ -144,20 +143,20 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     }
 });
 </code></pre>
-				<h3 id="getchampions"><a href="./docs/classes/_boxrec_class_.boxrec.html#getchampions">getChampions</a></h3>
+				<h3 id="getchampions"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getchampions">getChampions</a></h3>
 				<h5 id="returns-a-list-of-champions">Returns a list of champions</h5>
-				<p><a href="./docs/classes/_boxrec_class_.boxrec.html#getchampions">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/docs/classes/boxrecpagechampions.html">Output:</a></p>
 				<pre><code class="lang-javascript">boxrec.getChampions()
 .then(<span class="hljs-function"><span class="hljs-params">champions</span> =&gt;</span> {
     champions.getByWeightClass().heavyweight.IBF; <span class="hljs-comment">// Anthony Joshua</span>
 });
 </code></pre>
-				<h3 id="geteventbyid"><a href="./docs/classes/_boxrec_class_.boxrec.html#geteventbyid">getEventById</a></h3>
+				<h3 id="geteventbyid"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#geteventbyid">getEventById</a></h3>
 				<h5 id="returns-event-information">Returns event information</h5>
 				<pre><code class="lang-javascript">boxrec.getEventById(<span class="hljs-number">751017</span>)
 .then(<span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(event));
 </code></pre>
-				<p><a href="./docs/classes/_boxrec_class_.boxrec.html#geteventbyid">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecevent.html">Output:</a></p>
 				<pre><code class="lang-javascript">{ <span class="hljs-attr">date</span>: <span class="hljs-string">'2017-09-16'</span>,
   <span class="hljs-attr">commission</span>: <span class="hljs-string">'Nevada Athletic Commission'</span>,
   <span class="hljs-attr">matchmaker</span>:
@@ -196,7 +195,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
        <span class="hljs-attr">links</span>: [<span class="hljs-built_in">Object</span>],
 ...
 </code></pre>
-				<h3 id="getratings"><a href="./docs/interfaces/_boxrec_pages_boxrec_constants_.boxrecrating.html">getRatings</a></h3>
+				<h3 id="getratings"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getratings">getRatings</a></h3>
 				<h5 id="get-ratings">Get ratings</h5>
 				<p>Following BoxRec&#39;s form format</p>
 				<pre><code class="lang-javascript">boxrec.getRatings({
@@ -205,7 +204,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     <span class="hljs-attr">status</span>: <span class="hljs-string">"a"</span>
 }).then(<span class="hljs-function"><span class="hljs-params">ratings</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(ratings[<span class="hljs-number">1</span>]));
 </code></pre>
-				<p><a href="./docs/classes/_boxrec_pages_ratings_boxrec_page_ratings_.boxrecpageratings.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/docs/classes/boxrecpageratings.html">Output:</a></p>
 				<pre><code class="lang-javascript">    {
         <span class="hljs-attr">id</span>: <span class="hljs-number">629465</span>,
         <span class="hljs-attr">name</span>: <span class="hljs-string">'Errol Spence Jr'</span>,
@@ -229,7 +228,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     };
 </code></pre>
 				<h2 id="documentation">Documentation</h2>
-				<p><a href="./docs/">Can be found here</a></p>
+				<p><a href="https://boxing.github.io/boxrec">Additional documentation</a></p>
 				<h2 id="note">Note</h2>
 				<p>Not affiliated with the website <a href="http://www.boxrec.com">BoxRec</a></p>
 			</div>
@@ -240,37 +239,112 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_boxrec_common_tables_boxrec_common_tables_class_.html">"boxrec-<wbr>pages/boxrec-<wbr>common-<wbr>tables/boxrec-<wbr>common-<wbr>tables.class"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_boxrec_constants_.html">"boxrec-<wbr>pages/boxrec.constants"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_champions_boxrec_page_champions_.html">"boxrec-<wbr>pages/champions/boxrec.page.champions"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_event_boxrec_page_event_.html">"boxrec-<wbr>pages/event/boxrec.page.event"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_profile_boxrec_page_profile_.html">"boxrec-<wbr>pages/profile/boxrec.page.profile"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_ratings_boxrec_page_ratings_.html">"boxrec-<wbr>pages/ratings/boxrec.page.ratings"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_pages_search_boxrec_page_search_.html">"boxrec-<wbr>pages/search/boxrec.page.search"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_boxrec_class_.html">"boxrec.class"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_helpers_.html">"helpers"</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/boxingboutoutcome.html" class="tsd-kind-icon">Boxing<wbr>Bout<wbr>Outcome</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/weightclass.html" class="tsd-kind-icon">Weight<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/winlossdraw.html" class="tsd-kind-icon">Win<wbr>Loss<wbr>Draw</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/boxrecprofiletable.html" class="tsd-kind-icon">boxrec<wbr>Profile<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrec.html" class="tsd-kind-icon">Boxrec</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxreccommontablesclass.html" class="tsd-kind-icon">Boxrec<wbr>Common<wbr>Tables<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpagechampions.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Champions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageevent.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofile.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageratings.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Ratings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpagesearch.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Search</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecbasic.html" class="tsd-kind-icon">Boxrec<wbr>Basic</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecbelts.html" class="tsd-kind-icon">Boxrec<wbr>Belts</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecbout.html" class="tsd-kind-icon">Boxrec<wbr>Bout</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecboutbasic.html" class="tsd-kind-icon">Boxrec<wbr>Bout<wbr>Basic</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecboutlocation.html" class="tsd-kind-icon">Boxrec<wbr>Bout<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecchampionsbyweightclass.html" class="tsd-kind-icon">Boxrec<wbr>Champions<wbr>ByWeight<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecevent.html" class="tsd-kind-icon">Boxrec<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxreceventbout.html" class="tsd-kind-icon">Boxrec<wbr>Event<wbr>Bout</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecid.html" class="tsd-kind-icon">Boxrec<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecjudge.html" class="tsd-kind-icon">Boxrec<wbr>Judge</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecprofile.html" class="tsd-kind-icon">Boxrec<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecpromoter.html" class="tsd-kind-icon">Boxrec<wbr>Promoter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecrating.html" class="tsd-kind-icon">Boxrec<wbr>Rating</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecsearch.html" class="tsd-kind-icon">Boxrec<wbr>Search</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecunformattedchampions.html" class="tsd-kind-icon">Boxrec<wbr>Unformatted<wbr>Champions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/location.html" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/record.html" class="tsd-kind-icon">Record</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#stance" class="tsd-kind-icon">Stance</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#boxrecmocksmodulepath" class="tsd-kind-icon">box<wbr>Rec<wbr>Mocks<wbr>Module<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#changetocamelcase" class="tsd-kind-icon">change<wbr>ToCamel<wbr>Case</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#convertfractionstonumber" class="tsd-kind-icon">convert<wbr>Fractions<wbr>ToNumber</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getcolumndata" class="tsd-kind-icon">get<wbr>Column<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#trimremovelinebreaks" class="tsd-kind-icon">trim<wbr>Remove<wbr>Line<wbr>Breaks</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
