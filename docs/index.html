@@ -74,7 +74,7 @@
 				<h2 id="how-to-contribute">How to contribute</h2>
 				<p><a href="https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md">Details on how to help can be found here</a></p>
 				<h2 id="methods-how-to-use-">Methods (How to use)</h2>
-				<h3 id="login"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#login">login</a></h3>
+				<h3 id="login"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#login">login</a></h3>
 				<h5 id="logs-the-user-into-boxrec">logs the user into BoxRec</h5>
 				<p>To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 				Note: BoxRec does not support HTTPS</p>
@@ -84,10 +84,10 @@
 })
 .catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {});
 </code></pre>
-				<h3 id="getboxerbyid"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getboxerbyid">getBoxerById</a></h3>
+				<h3 id="getboxerbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerbyid">getBoxerById</a></h3>
 				<h5 id="get-boxer-profile-by-boxrec-id">Get boxer profile by BoxRec ID</h5>
 				<p>Using the BoxRec Boxer ID, retrieve all information about a boxer.</p>
-				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecprofile.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript">boxrec.getBoxerById(<span class="hljs-number">356831</span>)
 .then(<span class="hljs-function"><span class="hljs-params">boxer</span> =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(boxer.name); <span class="hljs-comment">// Gennady Golovkin</span>
@@ -99,10 +99,10 @@
     <span class="hljs-built_in">console</span>.log(boxer.bouts[<span class="hljs-number">37</span>].opponent.name); <span class="hljs-comment">// Saul Alvarez</span>
 });
 </code></pre>
-				<h3 id="getboxersbyname"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getboxersbyname">getBoxersByName</a></h3>
+				<h3 id="getboxersbyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxersbyname">getBoxersByName</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>
 				<p>Returns the same object as <code>getBoxerById</code></p>
-				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecprofile.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> floyds = <span class="hljs-keyword">await</span> boxrec.getBoxersByName(<span class="hljs-string">"Floyd"</span>, <span class="hljs-string">"Mayweather"</span>);
 <span class="hljs-keyword">let</span> boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Sr. object</span>
@@ -113,7 +113,7 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-comment">// or using Promises</span>
 floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(boxer.value));
 </code></pre>
-				<h3 id="search"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#search">search</a></h3>
+				<h3 id="search"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#search">search</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>
 				<p>Following BoxRec&#39;s form format</p>
 				<pre><code class="lang-javascript">boxrec.search({
@@ -121,7 +121,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     <span class="hljs-attr">last_name</span>: <span class="hljs-string">"Mayweather"</span>,
 }).then(<span class="hljs-function"><span class="hljs-params">searchResults</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(searchResults[<span class="hljs-number">1</span>]));
 </code></pre>
-				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecsearch.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecsearch.html">Output:</a></p>
 				<pre><code class="lang-javascript">    {
         <span class="hljs-attr">id</span>: <span class="hljs-number">352</span>,
         <span class="hljs-attr">name</span>: <span class="hljs-string">'Floyd Mayweather Jr'</span>,
@@ -143,20 +143,20 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     }
 });
 </code></pre>
-				<h3 id="getchampions"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getchampions">getChampions</a></h3>
+				<h3 id="getchampions"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getchampions">getChampions</a></h3>
 				<h5 id="returns-a-list-of-champions">Returns a list of champions</h5>
-				<p><a href="https://boxing.github.io/boxrec/docs/classes/boxrecpagechampions.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpagechampions.html">Output:</a></p>
 				<pre><code class="lang-javascript">boxrec.getChampions()
 .then(<span class="hljs-function"><span class="hljs-params">champions</span> =&gt;</span> {
     champions.getByWeightClass().heavyweight.IBF; <span class="hljs-comment">// Anthony Joshua</span>
 });
 </code></pre>
-				<h3 id="geteventbyid"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#geteventbyid">getEventById</a></h3>
+				<h3 id="geteventbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#geteventbyid">getEventById</a></h3>
 				<h5 id="returns-event-information">Returns event information</h5>
 				<pre><code class="lang-javascript">boxrec.getEventById(<span class="hljs-number">751017</span>)
 .then(<span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(event));
 </code></pre>
-				<p><a href="https://boxing.github.io/boxrec/docs/interfaces/boxrecevent.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecevent.html">Output:</a></p>
 				<pre><code class="lang-javascript">{ <span class="hljs-attr">date</span>: <span class="hljs-string">'2017-09-16'</span>,
   <span class="hljs-attr">commission</span>: <span class="hljs-string">'Nevada Athletic Commission'</span>,
   <span class="hljs-attr">matchmaker</span>:
@@ -195,7 +195,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
        <span class="hljs-attr">links</span>: [<span class="hljs-built_in">Object</span>],
 ...
 </code></pre>
-				<h3 id="getratings"><a href="https://boxing.github.io/boxrec/docs/classes/boxrec.html#getratings">getRatings</a></h3>
+				<h3 id="getratings"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getratings">getRatings</a></h3>
 				<h5 id="get-ratings">Get ratings</h5>
 				<p>Following BoxRec&#39;s form format</p>
 				<pre><code class="lang-javascript">boxrec.getRatings({
@@ -204,7 +204,7 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
     <span class="hljs-attr">status</span>: <span class="hljs-string">"a"</span>
 }).then(<span class="hljs-function"><span class="hljs-params">ratings</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(ratings[<span class="hljs-number">1</span>]));
 </code></pre>
-				<p><a href="https://boxing.github.io/boxrec/docs/classes/boxrecpageratings.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpageratings.html">Output:</a></p>
 				<pre><code class="lang-javascript">    {
         <span class="hljs-attr">id</span>: <span class="hljs-number">629465</span>,
         <span class="hljs-attr">name</span>: <span class="hljs-string">'Errol Spence Jr'</span>,
@@ -247,13 +247,13 @@ floyds.next().then(<span class="hljs-function"><span class="hljs-params">boxer</
 						<a href="enums/boxingboutoutcome.html" class="tsd-kind-icon">Boxing<wbr>Bout<wbr>Outcome</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/boxrecprofiletable.html" class="tsd-kind-icon">Boxrec<wbr>Profile<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/weightclass.html" class="tsd-kind-icon">Weight<wbr>Class</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/winlossdraw.html" class="tsd-kind-icon">Win<wbr>Loss<wbr>Draw</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/boxrecprofiletable.html" class="tsd-kind-icon">boxrec<wbr>Profile<wbr>Table</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrec.html" class="tsd-kind-icon">Boxrec</a>

@@ -25,7 +25,7 @@ const boxrec = require("boxrec");
 
 ## Methods (How to use)
 
-### [login](https://boxing.github.io/boxrec/docs/classes/boxrec.html#login)
+### [login](https://boxing.github.io/boxrec/classes/boxrec.html#login)
 ##### logs the user into BoxRec
 To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 Note: BoxRec does not support HTTPS
@@ -38,11 +38,11 @@ boxrec.login(username, password)
 .catch(error => {});
 ```
 
-### [getBoxerById](https://boxing.github.io/boxrec/docs/classes/boxrec.html#getboxerbyid)
+### [getBoxerById](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerbyid)
 ##### Get boxer profile by BoxRec ID
 Using the BoxRec Boxer ID, retrieve all information about a boxer.
 
-[Output:](https://boxing.github.io/boxrec/docs/interfaces/boxrecprofile.html)
+[Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
 ```javascript
 boxrec.getBoxerById(356831)
 .then(boxer => {
@@ -56,11 +56,11 @@ boxrec.getBoxerById(356831)
 });
 ```
 
-### [getBoxersByName](https://boxing.github.io/boxrec/docs/classes/boxrec.html#getboxersbyname)
+### [getBoxersByName](https://boxing.github.io/boxrec/classes/boxrec.html#getboxersbyname)
 ##### Search boxers by name
 Returns the same object as `getBoxerById`
 
-[Output:](https://boxing.github.io/boxrec/docs/interfaces/boxrecprofile.html)
+[Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
 ```javascript
 const floyds = await boxrec.getBoxersByName("Floyd", "Mayweather");
 let boxer = await floyds.next();
@@ -73,7 +73,7 @@ console.log(boxer.value); // is Floyd Mayweather Jr. object
 floyds.next().then(boxer => console.log(boxer.value));
 ```
 
-### [search](https://boxing.github.io/boxrec/docs/classes/boxrec.html#search)
+### [search](https://boxing.github.io/boxrec/classes/boxrec.html#search)
 ##### Search boxers by name
 Following BoxRec's form format
 
@@ -84,7 +84,7 @@ boxrec.search({
 }).then(searchResults => console.log(searchResults[1]));
 ```    
 
-[Output:](https://boxing.github.io/boxrec/docs/interfaces/boxrecsearch.html)
+[Output:](https://boxing.github.io/boxrec/interfaces/boxrecsearch.html)
 ```javascript
     {
         id: 352,
@@ -108,10 +108,10 @@ boxrec.search({
 });
 ```
 
-### [getChampions](https://boxing.github.io/boxrec/docs/classes/boxrec.html#getchampions)
+### [getChampions](https://boxing.github.io/boxrec/classes/boxrec.html#getchampions)
 ##### Returns a list of champions
 
-[Output:](https://boxing.github.io/boxrec/docs/classes/boxrecpagechampions.html)
+[Output:](https://boxing.github.io/boxrec/classes/boxrecpagechampions.html)
 ```javascript
 boxrec.getChampions()
 .then(champions => {
@@ -119,7 +119,7 @@ boxrec.getChampions()
 });
 ```
 
-### [getEventById](https://boxing.github.io/boxrec/docs/classes/boxrec.html#geteventbyid)
+### [getEventById](https://boxing.github.io/boxrec/classes/boxrec.html#geteventbyid)
 ##### Returns event information
 
 ```javascript
@@ -127,7 +127,7 @@ boxrec.getEventById(751017)
 .then(event => console.log(event));
 ```
 
-[Output:](https://boxing.github.io/boxrec/docs/interfaces/boxrecevent.html)
+[Output:](https://boxing.github.io/boxrec/interfaces/boxrecevent.html)
 ```javascript
 { date: '2017-09-16',
   commission: 'Nevada Athletic Commission',
@@ -168,7 +168,7 @@ boxrec.getEventById(751017)
 ...
 ```
 
-### [getRatings](https://boxing.github.io/boxrec/docs/classes/boxrec.html#getratings)
+### [getRatings](https://boxing.github.io/boxrec/classes/boxrec.html#getratings)
 ##### Get ratings
 Following BoxRec's form format
 
@@ -180,7 +180,7 @@ boxrec.getRatings({
 }).then(ratings => console.log(ratings[1]));
 ```
 
-[Output:](https://boxing.github.io/boxrec/docs/classes/boxrecpageratings.html)
+[Output:](https://boxing.github.io/boxrec/classes/boxrecpageratings.html)
 ```javascript
     {
         id: 629465,
