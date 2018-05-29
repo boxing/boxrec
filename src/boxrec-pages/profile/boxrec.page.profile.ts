@@ -1,4 +1,4 @@
-import {BoxrecBout, BoxrecProfile, boxrecProfileTable} from "../boxrec.constants";
+import {BoxrecBout, BoxrecProfile, BoxrecProfileTable} from "../boxrec.constants";
 import {convertFractionsToNumber} from "../../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
 
@@ -464,8 +464,8 @@ export class BoxrecPageProfile implements BoxrecProfile {
             if (val) {
                 key = key.trim();
                 val = val.trim();
-                const enumVals: any[] = Object.keys(boxrecProfileTable);
-                const enumKeys: any[] = enumVals.map(k => boxrecProfileTable[k]);
+                const enumVals: any[] = Object.keys(BoxrecProfileTable);
+                const enumKeys: any[] = enumVals.map(k => BoxrecProfileTable[k]);
 
                 if (enumKeys.includes(key)) {
                     const idx: number = enumKeys.findIndex(item => item === key);
