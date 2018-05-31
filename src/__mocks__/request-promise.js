@@ -29,6 +29,11 @@ rp.post = () => {
     return Promise.resolve({
         body: "", // HTML body response
         statusCode: 200,
+        request: {
+            uri: {
+                pathname: "",
+            },
+        }
     });
 };
 

@@ -63,9 +63,15 @@ export class Boxrec {
             await rp.post(options)
                 .then((data: RequestResponse) => {
 
-                    // an unsuccessful login returns a 200, we'll look for phrases to determine the error
                     let errorMessage: string = "";
 
+                    // if the user hasn't given consent, the user is redirected to a user that contains `gdpr`
+                    if (data.request.uri.pathname.includes("gdpr") || data.body.toLowerCase().includes("gdpr")) {
+                        errorMessage = "GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account";
+                    }
+
+                    // the following are when login has failed
+                    // an unsuccessful login returns a 200, we'll look for phrases to determine the error
                     if (data.body.includes("your password is incorrect")) {
                         errorMessage = "Your password is incorrect";
                     }
