@@ -2,6 +2,10 @@ environment:
   matrix:
     - nodejs_version: '10'
     - nodejs_version: '8'
+  BOXREC_USERNAME:
+    secure: 5up7P/I+Ushcf5ZXZ/WZ/Q==
+  BOXREC_PASSWORD:
+    secure: iMjyKMMXuF1ST9r8ZeJFw29e0Cb/d/efMb+NILeL8+o=
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm install --global npm@latest
