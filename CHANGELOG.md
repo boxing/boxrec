@@ -1,3 +1,13 @@
+## 0.9.5 (2018-05-30)
+
+### Added
+
+- User will be notified that they need to give GDPR consent to BoxRec
+
+### Fixed
+
+- The Jest config file for the E2E tests was not reading the test file
+
 ## 0.9.4 (2018-05-27)
 
 ### Added
