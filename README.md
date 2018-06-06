@@ -38,13 +38,13 @@ boxrec.login(username, password)
 .catch(error => {});
 ```
 
-### [getBoxerById](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerbyid)
-##### Get boxer profile by BoxRec ID
-Using the BoxRec Boxer ID, retrieve all information about a boxer.
+### [getPersonById](https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyid)
+##### Get profile by BoxRec ID
+Using the BoxRec Global ID, retrieve all information about a person.
 
 [Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
 ```javascript
-boxrec.getBoxerById(356831)
+boxrec.getPersonById(356831)
 .then(boxer => {
     console.log(boxer.name); // Gennady Golovkin
     console.log(boxer.division); // middleweight
@@ -54,23 +54,23 @@ boxrec.getBoxerById(356831)
     console.log(boxer.suspended); // will tell if boxer is currently suspended
     console.log(boxer.bouts[37].opponent.name); // Saul Alvarez
 });
+
+boxrec.getPersonById(401615, "judge"); // judge CJ Ross
 ```
 
-### [getBoxersByName](https://boxing.github.io/boxrec/classes/boxrec.html#getboxersbyname)
-##### Search boxers by name
-Returns the same object as `getBoxerById`
+### [getPersonByName](https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyname)
+##### Search People on BoxRec by name
+Returns the same object as `getPersonById`
 
 [Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
 ```javascript
-const floyds = await boxrec.getBoxersByName("Floyd", "Mayweather");
+// by default it picks active/inactive boxers
+const floyds = await boxrec.getPersonByName("Floyd", "Mayweather");
 let boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Sr. object
 
 boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Jr. object
-
-// or using Promises
-floyds.next().then(boxer => console.log(boxer.value));
 ```
 
 ### [search](https://boxing.github.io/boxrec/classes/boxrec.html#search)

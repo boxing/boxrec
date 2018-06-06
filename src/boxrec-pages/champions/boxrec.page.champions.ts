@@ -1,8 +1,14 @@
-import {BoxrecBasic, BoxrecBelts, BoxrecChampionsByWeightClass, BoxrecUnformattedChampions} from "../boxrec.constants";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
+import {
+    BoxrecBelts,
+    BoxrecChampionsByWeightClass,
+    BoxrecUnformattedChampions,
+    WeightClass
+} from "./boxrec.champions.constants";
+import {BoxrecBasic} from "../boxrec.constants";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,
@@ -63,7 +69,7 @@ export class BoxrecPageChampions {
         return this._listOfBoxingOrganizations;
     }
 
-    private parse() {
+    private parse(): void {
         let obj: BoxrecUnformattedChampions[] = [];
         let listOfBoxingOrganizations: string[] = [];
 
@@ -85,10 +91,10 @@ export class BoxrecPageChampions {
                 const weightClass: string = $(elem).find("td:nth-child(1)").text();
 
                 obj.push({
-                    weightClass,
+                    weightClass: weightClass as WeightClass,
                     beltHolders: Object.assign({}, beltOrganizations),
                 });
-                const last = obj.length - 1;
+                const last: number = obj.length - 1;
 
                 $(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
                     if (tdIndex !== 0) {
@@ -107,7 +113,7 @@ export class BoxrecPageChampions {
                                 name = trimRemoveLineBreaks(name);
 
                                 if (firstLink[0] && firstLink[0].attribs) {
-                                    const href = firstLink[0].attribs.href.match(/(\d+)$/);
+                                    const href: RegExpMatchArray | null = firstLink[0].attribs.href.match(/(\d+)$/);
 
                                     if (href && href[1]) {
                                         boxer.id = parseInt(href[1], 10);

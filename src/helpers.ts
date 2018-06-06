@@ -46,7 +46,7 @@ export function changeToCamelCase(str: string): string {
  * @param {boolean} returnHTML  if true, the HTML will be returned, otherwise just text with HTML removed
  * @returns {string}
  */
-export function getColumnData($: CheerioAPI, nthChild: number = 1, returnHTML: boolean = true): string {
+export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: boolean = true): string {
     const el: Cheerio = $(`tr:nth-child(1) td:nth-child(${nthChild})`);
 
     if (returnHTML) {

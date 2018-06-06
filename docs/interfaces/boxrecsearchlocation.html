@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BoxrecId | boxrec</title>
+	<title>BoxrecSearchLocation | boxrec</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="boxrecid.html">BoxrecId</a>
+					<a href="boxrecsearchlocation.html">BoxrecSearchLocation</a>
 				</li>
 			</ul>
-			<h1>Interface BoxrecId</h1>
+			<h1>Interface BoxrecSearchLocation</h1>
 		</div>
 	</div>
 </header>
@@ -66,7 +66,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">BoxrecId</span>
+						<span class="target">BoxrecSearchLocation</span>
 					</li>
 				</ul>
 			</section>
@@ -77,8 +77,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecid.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecid.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecsearchlocation.html#addresscountry" class="tsd-kind-icon">address<wbr>Country</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecsearchlocation.html#addresslocality" class="tsd-kind-icon">address<wbr>Locality</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecsearchlocation.html#addressregion" class="tsd-kind-icon">address<wbr>Region</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecsearchlocation.html#streetaddress" class="tsd-kind-icon">street<wbr>Address</a></li>
 							</ul>
 						</section>
 					</div>
@@ -87,22 +89,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<a name="addresscountry" class="tsd-anchor"></a>
+					<h3>address<wbr>Country</h3>
+					<div class="tsd-signature tsd-kind-icon">address<wbr>Country<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in boxrec-pages/boxrec.constants.ts:43</li>
+							<li>Defined in boxrec-pages/search/boxrec.search.constants.ts:57</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<a name="addresslocality" class="tsd-anchor"></a>
+					<h3>address<wbr>Locality</h3>
+					<div class="tsd-signature tsd-kind-icon">address<wbr>Locality<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in boxrec-pages/boxrec.constants.ts:44</li>
+							<li>Defined in boxrec-pages/search/boxrec.search.constants.ts:58</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="addressregion" class="tsd-anchor"></a>
+					<h3>address<wbr>Region</h3>
+					<div class="tsd-signature tsd-kind-icon">address<wbr>Region<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in boxrec-pages/search/boxrec.search.constants.ts:59</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="streetaddress" class="tsd-anchor"></a>
+					<h3>street<wbr>Address</h3>
+					<div class="tsd-signature tsd-kind-icon">street<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in boxrec-pages/search/boxrec.search.constants.ts:60</li>
 						</ul>
 					</aside>
 				</section>
@@ -121,13 +143,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="boxrecid.html" class="tsd-kind-icon">Boxrec<wbr>Id</a>
+						<a href="boxrecsearchlocation.html" class="tsd-kind-icon">Boxrec<wbr>Search<wbr>Location</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecid.html#id" class="tsd-kind-icon">id</a>
+								<a href="boxrecsearchlocation.html#addresscountry" class="tsd-kind-icon">address<wbr>Country</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecid.html#name" class="tsd-kind-icon">name</a>
+								<a href="boxrecsearchlocation.html#addresslocality" class="tsd-kind-icon">address<wbr>Locality</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="boxrecsearchlocation.html#addressregion" class="tsd-kind-icon">address<wbr>Region</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="boxrecsearchlocation.html#streetaddress" class="tsd-kind-icon">street<wbr>Address</a>
 							</li>
 						</ul>
 					</li>

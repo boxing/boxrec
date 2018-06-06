@@ -1,15 +1,15 @@
-import {BoxrecBout, BoxrecProfile, BoxrecProfileTable} from "../boxrec.constants";
 import {convertFractionsToNumber} from "../../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
+import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 /**
  * BoxRec Profile Page
  * ex. http://boxrec.com/en/boxer/155774
  */
-export class BoxrecPageProfile implements BoxrecProfile {
+export class BoxrecPageProfile {
 
     private _name: string | null;
 
@@ -94,7 +94,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * @returns {string | null}
      */
     get role(): string | null {
-        const role = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
+        const role: string = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
 
         if (role) {
             return role;
@@ -108,13 +108,13 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * @returns {number | null}
      */
     get rating(): number | null {
-        const html = $(this._rating);
+        const html: Cheerio = $(this._rating);
 
         if (html.get(0)) {
             const widthString: string = html.get(0).attribs.style;
             // this uses pixels, where the others use percentage
-            const regex = /width\:(\d+)px\;/;
-            const matches = widthString.match(regex);
+            const regex: RegExp = /width\:(\d+)px\;/;
+            const matches: RegExpMatchArray | null = widthString.match(regex);
 
             if (matches && matches[1]) {
                 return parseInt(matches[1], 10);
@@ -130,8 +130,8 @@ export class BoxrecPageProfile implements BoxrecProfile {
      */
     get ranking(): number[][] | null {
         if (this._ranking) {
-            const html = $(`<div>${this._ranking}</div>`);
-            const links = html.find("a");
+            const html: Cheerio = $(`<div>${this._ranking}</div>`);
+            const links: Cheerio = html.find("a");
             const rankings: number[][] = [];
 
             links.each((i: number, elem: CheerioElement) => {
@@ -164,7 +164,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * @returns {number}
      */
     get numberOfBouts(): number {
-        const bouts = parseInt(this._bouts, 10);
+        const bouts: number = parseInt(this._bouts, 10);
         return !isNaN(bouts) ? bouts : 0;
     }
 
@@ -215,9 +215,9 @@ export class BoxrecPageProfile implements BoxrecProfile {
      */
     get titlesHeld(): string[] | null {
         if (this._titlesHeld) {
-            const html = $(this._titlesHeld);
+            const html: Cheerio = $(this._titlesHeld);
 
-            return html.find("a").map(function (this: any) {
+            return html.find("a").map(function (this: Cheerio): string {
                 let text: string = $(this).text();
                 // on the Gennady Golovkin profile I found one belt had two spaces in the middle of it
                 text = text.replace(/\s{2,}/g, " ");
@@ -260,8 +260,8 @@ export class BoxrecPageProfile implements BoxrecProfile {
     get born(): string | null {
         if (this._born) {
             // some boxers have dob and age.  Match the YYYY-MM-DD
-            const regex = /(\d{4}\-\d{2}\-\d{2})/;
-            const born = this._born.match(regex);
+            const regex: RegExp = /(\d{4}\-\d{2}\-\d{2})/;
+            const born: RegExpMatchArray | null = this._born.match(regex);
 
             if (born) {
                 return born[1];
@@ -316,7 +316,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
         let height: number[] | null = null;
         if (this._height) {
             const regex: RegExp = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
-            const heightMatch = this._height.match(regex);
+            const heightMatch: RegExpMatchArray | null = this._height.match(regex);
 
             if (heightMatch) {
                 const [, imperialFeet, imperialInches, fractionInches, metric] = heightMatch;
@@ -409,13 +409,13 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * Returns an array of bout information
      * The boxer's first bout is at the start of the array
      * The boxer's last or latest bout is at the end of the array
-     * @returns {BoxrecBout[]}
+     * @returns {BoxrecPageProfileBout[]}
      */
-    get bouts(): BoxrecBout[] {
-        const bouts = this._boutsList;
-        let boutsList: BoxrecBout[] = [];
+    get bouts(): BoxrecPageProfileBout[] {
+        const bouts: [string, string | null][] = this._boutsList;
+        let boutsList: BoxrecPageProfileBout[] = [];
         bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecBout = new BoxrecPageProfileBout(val[0], val[1]);
+            const bout: BoxrecPageProfileBout = new BoxrecPageProfileBout(val[0], val[1]);
             boutsList.push(bout);
         });
         // we want the latest bout at the end of the array and not the start
@@ -438,7 +438,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * @returns {string | null}
      */
     get suspended(): string | null {
-        const el = $("body").find("div:contains('suspended')");
+        const el: Cheerio = $("body").find("div:contains('suspended')");
         if (el.length) {
             return el.text();
         }
@@ -454,7 +454,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * Parses the profile table data found at the top of the profile
      */
     private parseProfileTableData(): void {
-        const tr = $(".profileTable table.rowTable tbody tr");
+        const tr: Cheerio = $(".profileTable table.rowTable tbody tr");
 
         tr.each((i: number, elem: CheerioElement) => {
             let key: string | null = $(elem).find("td:nth-child(1)").text();
@@ -484,7 +484,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
             }
         });
 
-        const metadata = $("script[type='application/ld+json']").html();
+        const metadata: string | null = $("script[type='application/ld+json']").html();
         if (metadata) {
             this._metadata = metadata;
         }
@@ -494,7 +494,7 @@ export class BoxrecPageProfile implements BoxrecProfile {
      * Parses the bout information for the boxer
      */
     private parseBouts(): void {
-        const tr = $("#listBoutsResults\\, tbody tr");
+        const tr: Cheerio = $("#listBoutsResults\\, tbody tr");
 
         tr.each((i: number, elem: CheerioElement) => {
 
@@ -519,12 +519,12 @@ export class BoxrecPageProfile implements BoxrecProfile {
                 }
             } // else if no next bout exists
 
-            const html = $(elem).html() || "";
-            const next = nextRow ? nextRow.html() : null;
+            const html: string = $(elem).html() || "";
+            const next: string | null = nextRow ? nextRow.html() : null;
             this._boutsList.push([html, next]);
         });
     }
 
 }
 
-module.exports = BoxrecPageProfile;
+// module.exports = BoxrecPageProfile;

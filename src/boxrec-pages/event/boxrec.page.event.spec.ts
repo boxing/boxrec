@@ -1,8 +1,9 @@
-const fs = require("fs");
-import {boxRecMocksModulePath} from "../boxrec.constants";
+import * as fs from "fs";
+import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
+import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
-const mockEvent = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPage.html`, "utf8");
+const mockEvent: string = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPage.html`, "utf8");
 
 describe("class BoxrecPageEvent", () => {
 
@@ -100,6 +101,37 @@ describe("class BoxrecPageEvent", () => {
         it("should return an array of bouts", () => {
             expect(event.bouts[0].firstBoxer.name).toBe("Paul Butler");
             expect(event.bouts[6].secondBoxer.name).toBe("Troy James");
+        });
+
+        describe("bouts values", () => {
+
+            let bout: BoxrecPageEventBoutRow;
+
+            beforeAll(() => {
+                bout = event.bouts[3]; // Bellew Haye 2
+            });
+
+            describe("getter firstBoxerLast6", () => {
+
+                it("should return last 6", () => {
+                    expect(bout.firstBoxerLast6).toEqual(Array(6).fill(WinLossDraw.win));
+                });
+
+            });
+
+            describe("getter links", () => {
+
+                it("should return links in an object", () => {
+                    expect(bout.links.bout).toBe(2209971);
+                    expect(bout.links.bio_open).toBe(2209971);
+                });
+
+                it("should return unknown links in the other object", () => {
+                    expect(bout.links.other).toEqual([]);
+                });
+
+            });
+
         });
 
     });

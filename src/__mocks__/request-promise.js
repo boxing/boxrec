@@ -9,7 +9,7 @@ rp.jar = () => {
         getCookieString(/*uri, callback*/) {
             return `${PHPSESSID}; ${REMEMBERME}`;
         },
-        setCookie(cookieName, callback) {
+        setCookie(/*cookieName, callback*/) {
         }
     }
 };

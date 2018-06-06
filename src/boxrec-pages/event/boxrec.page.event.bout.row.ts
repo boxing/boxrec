@@ -1,9 +1,10 @@
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {getColumnData} from "../../helpers";
+import {BoxrecEventLinks} from "./boxrec.event.constants";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
 
@@ -40,13 +41,15 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
 
     // returns an object with keys that contain a class other than `primaryIcon`
     // not the exact same as the other page links
-    get links(): any { // object of strings
-        const html = $(this._links);
-        const obj = {
+    get links(): BoxrecEventLinks { // object of strings
+        const html: Cheerio = $(this._links);
+        const obj: BoxrecEventLinks = {
+            bio_open: null,
+            bout: null,
             other: [], // any other links we'll throw the whole href attribute in here
         };
 
-        html.find(".desktop a").each((i: number, elem: CheerioElement) => {
+        html.find("a").each((i: number, elem: CheerioElement) => {
             const div: Cheerio = $(elem).find("div");
             const href: string = $(elem).attr("href");
             const classAttr: string = div.attr("class");
@@ -54,7 +57,7 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
 
             hrefArr.forEach((cls: string) => {
                 if (cls !== "primaryIcon") {
-                    const matches = href.match(/(\d+)$/);
+                    const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
                     if (matches && matches[1] && matches[1] !== "other") {
 
                         let formattedCls: string = cls;
