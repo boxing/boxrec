@@ -2,8 +2,8 @@ import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
 
@@ -35,11 +35,11 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
 
     get id(): number | null {
         if (this._idName) {
-            const html = $(`<div>${this._idName}</div>`);
+            const html: Cheerio = $(`<div>${this._idName}</div>`);
             const href: string = html.find("a").attr("href");
 
             if (href) {
-                const matches = href.match(/(\d+)$/);
+                const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
 
                 if (matches && matches[1]) {
                     return parseInt(matches[1], 10);
@@ -52,7 +52,7 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
 
     get name(): string | null {
         if (this._idName) {
-            const html = $(`<div>${this._idName}</div>`);
+            const html: Cheerio = $(`<div>${this._idName}</div>`);
             let name: string = html.text();
             name = trimRemoveLineBreaks(name);
 
@@ -76,7 +76,7 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
 
     get hasBoutScheduled(): boolean | null {
         if (this._idName) {
-            const html = $(`<div>${this._idName}</div>`);
+            const html: Cheerio = $(`<div>${this._idName}</div>`);
             let name: string = html.text();
             name = name.trim();
             return name.slice(-1) === "*";
@@ -123,7 +123,7 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
         return super.parseLocationLink(this._location);
     }
 
-    parse() {
+    parse(): void {
         // on pages where it's about a specific weight class, the division column is omitted
         const hasDivision: boolean = $(`tr:nth-child(1) td`).length === 9;
 

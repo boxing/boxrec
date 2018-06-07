@@ -1,8 +1,7 @@
-import {BoxrecRating} from "../boxrec.constants";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 /**
  * parse a BoxRec Ratings Page
@@ -17,12 +16,12 @@ export class BoxrecPageRatings {
         this.parseRatings();
     }
 
-    get output(): BoxrecRating[] {
-        const ratings = this._ratings;
-        let ratingsList: BoxrecRating[] = [];
+    get output(): BoxrecPageRatingsRow[] {
+        const ratings: string[] = this._ratings;
+        let ratingsList: BoxrecPageRatingsRow[] = [];
 
         ratings.forEach((val: string) => {
-            const rating: BoxrecRating = new BoxrecPageRatingsRow(val);
+            const rating: BoxrecPageRatingsRow = new BoxrecPageRatingsRow(val);
             ratingsList.push(rating);
         });
 
@@ -30,10 +29,10 @@ export class BoxrecPageRatings {
     }
 
     private parseRatings(): void {
-        const tr = $("#ratingsResults tbody tr");
+        const tr: Cheerio = $("table#ratingsResults tbody tr");
 
         tr.each((i: number, elem: CheerioElement) => {
-            const html = $(elem).html() || "";
+            const html: string = $(elem).html() || "";
             this._ratings.push(html);
         });
     }

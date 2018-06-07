@@ -1,3 +1,19 @@
+## 0.10.0 (2018-06-06)
+
+### Added
+
+- Can now search for people other than boxer's (matchmakers, doctors, judges, etc.).  Limited for now to information in the profile table beside their profile picture on BoxRec
+
+### Changed
+
+- `getBoxerById` method has been changed to `getPersonById` since you can search for people other than boxers
+- `getBoxersByName` method has been changed to `getPeopleByName` since you can search for people other than boxers
+
+### Fixed
+
+- BoxRec profile bouts no longer returns link to venue/location.  Object has changed but this will return venue name and city/town still
+- wiki link for profile bouts was returning null
+
 ## 0.9.5 (2018-05-30)
 
 ### Added

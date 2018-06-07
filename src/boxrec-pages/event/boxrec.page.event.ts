@@ -1,9 +1,11 @@
-import {BoxrecBasic, BoxrecBoutLocation, BoxrecEventBout, BoxrecPromoter} from "../boxrec.constants";
+import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
+import {BoxrecPromoter} from "./boxrec.event.constants";
+import {BoxrecSearchMetadata} from "../search/boxrec.search.constants";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 /**
  * Parse an Event page
@@ -25,7 +27,7 @@ export class BoxrecPageEvent {
         this.parseBouts();
     }
 
-    get date(): string {
+    get date(): string | null {
         return this.metadata.startDate;
     }
 
@@ -37,16 +39,26 @@ export class BoxrecPageEvent {
         return null;
     }
 
-    get metadata() {
+    get metadata(): BoxrecSearchMetadata {
         if (this._metadata) {
             return JSON.parse(this._metadata)[0];
         }
 
-        return {};
+        return {
+            startDate: null,
+            location: {
+                address: {
+                    addressCountry: null,
+                    addressLocality: null,
+                    addressRegion: null,
+                    streetAddress: null,
+                }
+            }
+        };
     }
 
     get matchmaker(): BoxrecBasic[] {
-        const html = $(`<div>${this._matchmaker}</div>`);
+        const html: Cheerio = $(`<div>${this._matchmaker}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -79,9 +91,9 @@ export class BoxrecPageEvent {
             },
         };
 
-        const metadata = this.metadata;
+        const metadata: BoxrecSearchMetadata = this.metadata;
 
-        if (metadata.location && metadata.location.address) {
+        if (metadata && metadata.location && metadata.location.address) {
             const {streetAddress: venueName, addressLocality: town, addressRegion: region, addressCountry: country} = metadata.location.address;
 
             location.venue.name = venueName;
@@ -90,14 +102,14 @@ export class BoxrecPageEvent {
             location.location.country = country;
 
             const regex: RegExp = /(\d+)$/;
-            const html = $(`<div>${this._location}</div>`);
+            const html: Cheerio = $(`<div>${this._location}</div>`);
 
             const venueLink: CheerioElement = html.find("a").get(3);
             const areaLink: CheerioElement = html.find("a").get(4);
 
             if (venueLink) {
                 // venue id
-                const venueIdMatches = venueLink.attribs.href.match(regex);
+                const venueIdMatches: RegExpMatchArray | null = venueLink.attribs.href.match(regex);
                 if (venueIdMatches && venueIdMatches[1]) {
                     location.venue.id = parseInt(venueIdMatches[1], 10);
                 }
@@ -106,7 +118,7 @@ export class BoxrecPageEvent {
             if (areaLink) {
                 // the following regex assumes the query string is always in the same format
                 const areaRegex: RegExp = /\?country=([A-Za-z]+)&region=([A-Za-z]+)&town=(\d+)/;
-                const matches = areaLink.attribs.href.match(areaRegex) as string[];
+                const matches: RegExpMatchArray = areaLink.attribs.href.match(areaRegex) as string[];
 
                 if (matches) {
                     const [, , , townId] = matches;
@@ -119,7 +131,7 @@ export class BoxrecPageEvent {
     }
 
     get promoter(): BoxrecPromoter[] {
-        const html = $(`<div>${this._promoter}</div>`);
+        const html: Cheerio = $(`<div>${this._promoter}</div>`);
         const promoter: BoxrecPromoter[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -134,14 +146,14 @@ export class BoxrecPageEvent {
                 id = parseInt(matches[0], 10);
             }
 
-            const htmlString = html.html();
+            const htmlString: string | null = html.html();
 
             if (htmlString) {
                 // this regex may not work for everything
-                const regex = /([\w\d\-\s]+)\s\-\s\<a\shref/g;
+                const regex: RegExp = /([\w\d\-\s]+)\s-\s<a\shref/g;
 
-                let m;
-                let j = 0;
+                let m: RegExpExecArray | null;
+                let j: number = 0;
                 do {
                     m = regex.exec(htmlString);
                     if (m && m[1]) {
@@ -176,23 +188,23 @@ export class BoxrecPageEvent {
         return null;
     }
 
-    get bouts(): BoxrecEventBout[] {
-        const bouts = this._bouts;
-        let boutsList: BoxrecEventBout[] = [];
+    get bouts(): BoxrecPageEventBoutRow[] {
+        const bouts: [string, string | null][] = [] = this._bouts;
+        let boutsList: BoxrecPageEventBoutRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecEventBout = new BoxrecPageEventBoutRow(val[0], val[1]);
+            const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
             boutsList.push(bout);
         });
 
         return boutsList;
     }
 
-    private parseEventData() {
+    private parseEventData(): void {
         this._date = $("h2:nth-child(2)").text();
 
-        $("#eventResults thead table tbody tr").each((i: number, elem: CheerioElement) => {
+        $("table#eventResults thead table tbody tr").each((i: number, elem: CheerioElement) => {
             const tag: string = $(elem).find("td:nth-child(1)").text().trim();
-            const val = $(elem).find("td:nth-child(2)");
+            const val: Cheerio = $(elem).find("td:nth-child(2)");
 
             if (tag === "commission") {
                 this._commission = val.text();
@@ -206,11 +218,11 @@ export class BoxrecPageEvent {
         });
 
         this._metadata = $("script[type='application/ld+json']").html() || "";
-        this._location = $("#eventResults thead table").html();
+        this._location = $("table#eventResults thead table").html();
     }
 
-    private parseBouts() {
-        const tr = $("table#eventResults > tbody tr");
+    private parseBouts(): void {
+        const tr: Cheerio = $("table#eventResults > tbody tr");
         tr.each((i: number, elem: CheerioElement) => {
 
             const boutId: string = $(elem).attr("id");
@@ -234,8 +246,8 @@ export class BoxrecPageEvent {
                 }
             } // else if no next bout exists
 
-            const html = $(elem).html() || "";
-            const next = nextRow ? nextRow.html() : null;
+            const html: string = $(elem).html() || "";
+            const next: string | null = nextRow ? nextRow.html() : null;
             this._bouts.push([html, next]);
         });
     }

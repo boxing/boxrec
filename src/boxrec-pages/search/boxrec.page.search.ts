@@ -1,8 +1,8 @@
-import {BoxrecSearch} from "../boxrec.constants";
 import {BoxrecPageSearchBoxerRow} from "./boxrec.page.search-boxer.row";
+import {BoxrecSearch} from "./boxrec.search.constants";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 /**
  * parse a BoxRec Search Results page
@@ -28,11 +28,11 @@ export class BoxrecPageSearch {
         return searchResultsList;
     }
 
-    private parse() {
-        const tr = $("#searchResults tbody tr");
+    private parse(): void {
+        const tr: Cheerio = $("table#searchResults tbody tr");
 
         tr.each((i: number, elem: CheerioElement) => {
-            const html = $(elem).html() || "";
+            const html: string = $(elem).html() || "";
             this._searchResults.push(html);
         });
     }

@@ -1,18 +1,25 @@
-import {CookieJar} from "tough-cookie";
-import {RequestResponse} from "request";
-import {BoxrecEvent, BoxrecProfile, BoxrecSearch} from "./boxrec-pages/boxrec.constants";
+import {CookieJar, RequestResponse} from "request";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
+import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
+import {
+    BoxrecRole,
+    BoxrecSearch,
+    BoxrecSearchParams,
+    BoxrecSearchParamsTransformed,
+    BoxrecStatus
+} from "./boxrec-pages/search/boxrec.search.constants";
+import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
+import {Options} from "request-promise";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
     (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol("asyncIterator");
 }
 
-const rp = require("request-promise");
-const BoxrecPageProfile = require("./boxrec-pages/profile/boxrec.page.profile.ts");
+const rp: any = require("request-promise");
 
 export class Boxrec {
 
@@ -29,7 +36,7 @@ export class Boxrec {
      */
     async login(username: string, password: string): Promise<void> {
         this._cookieJar = rp.jar(); // reset the cookieJar
-        let rawCookies;
+        let rawCookies: string[];
 
         try {
             rawCookies = await this.getSessionCookie();
@@ -41,12 +48,11 @@ export class Boxrec {
             throw new Error("Could not get cookie from initial request to boxrec");
         }
 
-        const cookie = rp.cookie(rawCookies[0]); // create the cookie
-        this._cookieJar.setCookie(cookie, "http://boxrec.com", () => {
-        });
+        const cookie: string = rp.cookie(rawCookies[0]); // create the cookie
+        this._cookieJar.setCookie(cookie, "http://boxrec.com");
 
-        const options = {
-            uri: "http://boxrec.com/en/login", // boxrec does not support HTTPS
+        const options: Options = {
+            url: "http://boxrec.com/en/login", // boxrec does not support HTTPS
             followAllRedirects: true, // 302 redirect occurs
             resolveWithFullResponse: true,
             formData: {
@@ -88,10 +94,7 @@ export class Boxrec {
             throw new Error(e);
         }
 
-        // it argues that the return value is void
-        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com", () => {
-            // the callback doesn't work but it works if you assign as a variable?
-        });
+        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com");
 
         if (cookieString && cookieString.includes("PHPSESSID") && cookieString.includes("REMEMBERME")) {
             return; // success
@@ -101,15 +104,16 @@ export class Boxrec {
     }
 
     /**
-     * Make a request to BoxRec to get a boxer by their ID
-     * @param {number} boxrecBoxerId    the BoxRec profile id
-     * @returns {Promise<BoxrecProfile>}
+     * Make a request to BoxRec to get a person by their BoxRec Global ID
+     * @param {number} globalId          the BoxRec profile id
+     * @param {BoxrecRole} role          the role of the person in boxing (there seems to be multiple profiles for people if they fall under different roles)
+     * @returns {Promise<BoxrecPageProfile>}
      */
-    async getBoxerById(boxrecBoxerId: number): Promise<BoxrecProfile> {
+    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer): Promise<BoxrecPageProfile> {
         this.checkIfLoggedIntoBoxRec();
 
-        const boxrecPageBody = await rp.get({
-            uri: `http://boxrec.com/en/boxer/${boxrecBoxerId}`,
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: `http://boxrec.com/en/${role}/${globalId}`,
             jar: this._cookieJar,
         });
 
@@ -117,26 +121,26 @@ export class Boxrec {
     }
 
     /**
-     * Makes a search request to BoxRec to get all boxer's that match that name
+     * Makes a search request to BoxRec to get all people that match that name
      * by using a generator, we're trying to prevent making too many calls to BoxRec
-     * @param {string} firstName            the boxer's first name
-     * @param {string} lastName             the boxer's last name
-     * @param {string|undefined} active     default is false, which includes active and inactive
-     * @returns {AsyncIterableIterator<BoxrecProfile>}      returns a generator
+     * @param {string} firstName            the person's first name
+     * @param {string} lastName             the person's last name
+     * @param {string} role                 the role of the person
+     * @param {BoxrecStatus} status         whether the person is active in Boxing or not
+     * @yields {BoxrecPageProfile>}         yields a generator to fetch the next person by ID
      */
-    async * getBoxersByName(firstName: string, lastName: string, active: boolean = false): AsyncIterableIterator<BoxrecProfile> {
+    async * getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
         this.checkIfLoggedIntoBoxRec();
-
-        const status: string = active ? "a" : "";
-        const params = {
+        const params: BoxrecSearchParams = {
             first_name: firstName,
             last_name: lastName,
+            role,
             status,
         };
-        const searchResults = await this.search(params);
+        const searchResults: RequestResponse["body"] = await this.search(params);
 
         for (const result of searchResults) {
-            yield await this.getBoxerById(result.id);
+            yield await this.getPersonById(result.id);
         }
     }
 
@@ -147,7 +151,7 @@ export class Boxrec {
     async getChampions(): Promise<BoxrecPageChampions> {
         this.checkIfLoggedIntoBoxRec();
 
-        const boxrecPageBody = await rp.get({
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
             uri: "http://boxrec.com/en/champions",
             jar: this._cookieJar,
         });
@@ -157,21 +161,23 @@ export class Boxrec {
 
     /**
      * Makes a request to BoxRec to get a list of ratings/rankings, either P4P or by a single weight class
-     * @param {Object|undefined} qs           the query string that is appended to the end of the URL
-     * @param {string|undefined} qs.division  the weightclass/division to get ratings for.  Omitting this returns P4P ratings
-     * @param {string|undefined} qs.sex       the sex of the boxer's, either "M" | "F", I believe it defaults to "M" if not supplied
-     * @param {string|undefined} qs.status    whether to include only active fighters or not, "a" | ""
+     * @param {Object|undefined} params           the query string that is appended to the end of the URL
+     * @param {string|undefined} params.division  the weightclass/division to get ratings for.  Omitting this returns P4P ratings
+     * @param {string|undefined} params.sex       the sex of the boxer's, either "M" | "F", I believe it defaults to "M" if not supplied
+     * @param {string|undefined} params.status    whether to include only active fighters or not, "a" | ""
      * @returns {Promise<BoxrecPageRatings>}
      */
-    async getRatings(qs: any): Promise<BoxrecPageRatings> {
+    async getRatings(params?: BoxrecRatingsParams): Promise<BoxrecPageRatings> {
         this.checkIfLoggedIntoBoxRec();
+        const qs: BoxrecRatingsParamsTransformed = {};
 
-        for (let i in qs) {
-            qs[`r[${i}]`] = qs[i];
-            delete qs[i];
+        if (params) {
+            for (let i in params) {
+                (qs as any)[`r[${i}]`] = (params as any)[i];
+            }
         }
 
-        const boxrecPageBody = await rp.get({
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
             uri: "http://boxrec.com/en/ratings",
             qs,
             jar: this._cookieJar,
@@ -183,12 +189,12 @@ export class Boxrec {
     /**
      * Makes a request to BoxRec to retrieve an event by id
      * @param {number} eventId      the event id from BoxRec
-     * @returns {Promise<BoxrecEvent>}
+     * @returns {Promise<BoxrecPageEvent>}
      */
-    async getEventById(eventId: number): Promise<BoxrecEvent> {
+    async getEventById(eventId: number): Promise<BoxrecPageEvent> {
         this.checkIfLoggedIntoBoxRec();
 
-        const boxrecPageBody = await rp.get({
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
             uri: `http://boxrec.com/en/event/${eventId}`,
             jar: this._cookieJar,
         });
@@ -199,33 +205,37 @@ export class Boxrec {
     /**
      * Makes a request to BoxRec to search people by
      * Note: currently only supports boxers
-     * @param {Object} qs                   the query string that is appended to the end of the URL
-     * @param {string} qs.first_name        the first name to search for
-     * @param {string} qs.last_name         the last name to search for
-     * @param {string} qs.role              the role to search for, currently only supports boxers
+     * @param {Object} params                   the query string that is appended to the end of the URL
+     * @param {string} params.first_name        the first name to search for
+     * @param {string} params.last_name         the last name to search for
+     * @param {string} params.role              the role to search for, currently only supports boxers
+     * @param {BoxrecRole} params.status        if the person is active
      * @returns {Promise<BoxrecSearch[]>}
      */
-    async search(qs: any): Promise<BoxrecSearch[]> {
+    async search(params: BoxrecSearchParams): Promise<BoxrecSearch[]> {
         this.checkIfLoggedIntoBoxRec();
 
-        if (!qs.first_name && !qs.last_name) {
+        if (!params.first_name && !params.last_name) {
             // BoxRec says 2 or more characters, it's actually 3 or more
             throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
         }
 
-        if (qs.role && qs.role !== "boxer") {
+        if (params.role && params.role !== BoxrecRole.boxer) {
             throw new Error("Currently search only supports boxers");
         }
 
-        // todo currently this only works with boxers
-        qs.role = "boxer";
+        const qs: BoxrecSearchParamsTransformed = Object.seal({
+            "pf[first_name]": "",
+            "pf[last_name]": "",
+            "pf[role]": BoxrecRole.boxer,
+            "pf[status]": BoxrecStatus.all,
+        });
 
-        for (let i in qs) {
-            qs[`pf[${i}]`] = qs[i];
-            delete qs[i];
+        for (let i in params) {
+            (qs as any)[`pf[${i}]`] = (params as any)[i];
         }
 
-        const boxrecPageBody = await rp.get({
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
             uri: "http://boxrec.com/en/search",
             qs,
             jar: this._cookieJar,
@@ -250,9 +260,7 @@ export class Boxrec {
      * Throws error if they do not exist
      */
     private checkIfLoggedIntoBoxRec(): void {
-        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com", () => {
-            // the callback doesn't work but it works if you assign as a variable?
-        });
+        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com");
 
         if (!cookieString.includes("PHPSESSID") || !cookieString.includes("REMEMBERME")) {
             throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");

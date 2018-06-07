@@ -2,8 +2,8 @@ import {Location, Record, WinLossDraw} from "../boxrec.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
@@ -25,10 +25,10 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get id(): number {
         if (this._idName) {
-            const html = $(`<div>${this._idName}</div>`);
+            const html: Cheerio = $(`<div>${this._idName}</div>`);
             const href: string = html.find("a").attr("href");
             if (href) {
-                const matches = href.match(/(\d+)$/);
+                const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
 
                 if (matches && matches[1]) {
                     return parseInt(matches[1], 10);
@@ -41,7 +41,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get name(): string | null {
         if (this._idName) {
-            const html = $(`<div>${this._idName}</div>`);
+            const html: Cheerio = $(`<div>${this._idName}</div>`);
             let name: string = html.text();
             name = trimRemoveLineBreaks(name);
 
@@ -69,7 +69,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get career(): (number | null)[] {
         const career: string = this._career;
-        const careerMatches = career.match(/(\d{4})-(\d{4})/);
+        const careerMatches: RegExpMatchArray | null = career.match(/(\d{4})-(\d{4})/);
         if (careerMatches && careerMatches.length === 3) {
             return [parseInt(careerMatches[1], 10), parseInt(careerMatches[2], 10)];
         }
@@ -88,7 +88,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
         return super.parseLocationLink(this._location);
     }
 
-    private parse() {
+    private parse(): void {
         this._idName = getColumnData($, 1);
         this._alias = getColumnData($, 2, false);
         this._record = getColumnData($, 3);

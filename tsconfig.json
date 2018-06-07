@@ -10,7 +10,10 @@
     "lib": [
       "es2015",
       "es2016.array.include",
-      "esnext.asynciterable"
+      "es2015.symbol",
+      "es2015.iterable",
+      "esnext.asynciterable",
+      "es2017"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

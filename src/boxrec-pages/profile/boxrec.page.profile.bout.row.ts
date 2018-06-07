@@ -1,9 +1,9 @@
-import {BoxrecBoutLocation} from "../boxrec.constants";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {getColumnData} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
-const cheerio = require("cheerio");
-let $: CheerioAPI;
+const cheerio: CheerioAPI = require("cheerio");
+let $: CheerioStatic;
 
 export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
 
@@ -20,89 +20,52 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         this.parseMetadata();
     }
 
-    get date() {
-        const date = this._date;
+    get date(): string {
+        const date: string = this._date;
         return date.trim();
     }
 
-    get location(): BoxrecBoutLocation {
+    get location(): BoxrecProfileBoutLocation {
         // instead of returning undefined, I'm sure there will be records where pieces of this information are missing or different
-        const location: BoxrecBoutLocation = {
-            location: {
-                town: null,
-                id: null,
-                region: null,
-                country: null,
-            },
-            venue: {
-                id: null,
-                name: null,
-            },
+        const location: BoxrecProfileBoutLocation = {
+            town: null,
+            venue: null,
         };
-
-        const regex: RegExp = /(\d+)$/;
-        const html = $(`<div>${this._location}</div>`);
-        const venueLink: CheerioElement = html.find("a").get(0);
-        const areaLink: CheerioElement = html.find("a").get(1);
-
-        if (venueLink) {
-            // venue name
-            if (venueLink.children[0]) {
-                const venueLinkData: string | undefined = venueLink.children[0].data;
-                if (venueLinkData) {
-                    location.venue.name = venueLinkData.trim();
-                }
-            }
-
-            // venue id
-            const venueIdMatches = venueLink.attribs.href.match(regex);
-            if (venueIdMatches && venueIdMatches[1]) {
-                location.venue.id = parseInt(venueIdMatches[1], 10);
-            }
-        }
-
-        if (areaLink) {
-            // todo make this able to be parsed by parent class
-
-            // city
-            const areaLinkData: string | undefined = areaLink.children[0].data;
-            if (areaLinkData && areaLinkData.trim().length) {
-                location.location.town = trimRemoveLineBreaks(areaLinkData);
-            }
-
-            // the following regex assumes the query string is always in the same format
-            const areaRegex: RegExp = /\?country=([A-Za-z]+)&region=([A-Za-z]+)&town=(\d+)/;
-            const matches = areaLink.attribs.href.match(areaRegex) as string[];
-
-            if (matches) {
-                const [, country, region, townId] = matches;
-                location.location.country = country;
-                location.location.region = region;
-                location.location.id = parseInt(townId, 10);
-            }
-        }
+        const [venue, town] = this._location.split(",").map(item => item.trim());
+        location.town = town;
+        location.venue = venue;
 
         return location;
     }
 
     // returns an object with keys that contain a class other than `clickableIcon`
-    get links(): any { // object of strings
-        const html = $(this._links);
-        const obj = {
+    get links(): BoxrecProfileBoutLinks { // object of strings
+        const html: Cheerio = $(this._links);
+        const obj: BoxrecProfileBoutLinks = {
+            bout: null,
+            bio_open: null,
+            event: null,
             other: [], // any other links we'll throw the whole href attribute in here
         };
 
-        html.find(".mobileActions a").each((i: number, elem: CheerioElement) => {
+        html.find("a").each((i: number, elem: CheerioElement) => {
             const div: Cheerio = $(elem).find("div");
             const href: string = $(elem).attr("href");
             const classAttr: string = div.attr("class");
             const hrefArr: string[] = classAttr.split(" ");
 
             hrefArr.forEach(cls => {
-                if (cls !== "clickableIcon") {
-                    const matches = href.match(/(\d+)$/);
+                if (cls !== "primaryIcon") {
+                    const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
                     if (matches && matches[1] && matches[1] !== "other") {
-                        (obj as any)[cls] = parseInt(matches[1], 10);
+
+                        let formattedCls: string = cls;
+                        // for some reason they add a `P` to the end of the class name, we will remove it
+                        if (cls.slice(-1) === "P") {
+                            formattedCls = cls.slice(0, -1);
+                        }
+
+                        (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     } else {
                         (obj as any).other.push(href);
                     }
@@ -121,7 +84,7 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         this._secondBoxerWeight = getColumnData($, 6, false);
         this._secondBoxerRecord = getColumnData($, 7);
         this._secondBoxerLast6 = getColumnData($, 8);
-        this._location = getColumnData($, 9);
+        this._location = getColumnData($, 9, false);
         this._outcome = getColumnData($, 10, false);
         this._outcomeByWayOf = getColumnData($, 11);
         this._numberOfRounds = getColumnData($, 12, false);
