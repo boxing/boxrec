@@ -3,6 +3,7 @@ import {boxRecMocksModulePath} from "../boxrec.constants";
 import {BoxrecPageChampions} from "./boxrec.page.champions";
 
 import * as fs from "fs";
+
 const mockChampions: string = fs.readFileSync(`${boxRecMocksModulePath}/champions/mockChampions.html`, "utf8");
 
 describe("class BoxrecPageChampions", () => {

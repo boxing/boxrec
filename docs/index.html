@@ -99,14 +99,14 @@
     <span class="hljs-built_in">console</span>.log(boxer.bouts[<span class="hljs-number">37</span>].opponent.name); <span class="hljs-comment">// Saul Alvarez</span>
 });
 
-boxrec.getPersonById(<span class="hljs-number">401615</span>, <span class="hljs-string">"judge"</span>); <span class="hljs-comment">// judge CJ Ross</span>
+boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge); <span class="hljs-comment">// judge CJ Ross</span>
 </code></pre>
-				<h3 id="getpersonbyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyname">getPersonByName</a></h3>
+				<h3 id="getpeoplebyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname">getPeopleByName</a></h3>
 				<h5 id="search-people-on-boxrec-by-name">Search People on BoxRec by name</h5>
-				<p>Returns the same object as <code>getPersonById</code></p>
+				<p>Returns a generator which will makes individual calls and returns the <a href="https://boxing.github.io/boxrec/classes/boxrecpageprofile.html">BoxrecPageProfile</a></p>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// by default it picks active/inactive boxers</span>
-<span class="hljs-keyword">const</span> floyds = <span class="hljs-keyword">await</span> boxrec.getPersonByName(<span class="hljs-string">"Floyd"</span>, <span class="hljs-string">"Mayweather"</span>);
+<span class="hljs-keyword">const</span> floyds = <span class="hljs-keyword">await</span> boxrec.getPeopleByName(<span class="hljs-string">"Floyd"</span>, <span class="hljs-string">"Mayweather"</span>);
 <span class="hljs-keyword">let</span> boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Sr. object</span>
 
@@ -256,6 +256,9 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 						<a href="enums/boxrecstatus.html" class="tsd-kind-icon">Boxrec<wbr>Status</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/country.html" class="tsd-kind-icon">Country</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/weightclass.html" class="tsd-kind-icon">Weight<wbr>Class</a>
 					</li>
 					<li class=" tsd-kind-enum">
@@ -272,6 +275,9 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpageevent.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpagelocation.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Location</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpageprofile.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile</a>
@@ -311,6 +317,12 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecjudge.html" class="tsd-kind-icon">Boxrec<wbr>Judge</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxreclocationsparams.html" class="tsd-kind-icon">Boxrec<wbr>Locations<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxreclocationsparamstransformed.html" class="tsd-kind-icon">Boxrec<wbr>Locations<wbr>Params<wbr>Transformed</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecprofile.html" class="tsd-kind-icon">Boxrec<wbr>Profile</a>

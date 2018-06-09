@@ -7,7 +7,7 @@ let $: CheerioStatic;
 
 /**
  * BoxRec Profile Page
- * ex. http://boxrec.com/en/boxer/155774
+ * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
 export class BoxrecPageProfile {
 

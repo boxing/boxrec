@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BoxrecPageSearch | boxrec</title>
+	<title>BoxrecPageLocation | boxrec</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="boxrecpagesearch.html">BoxrecPageSearch</a>
+					<a href="boxrecpagelocation.html">BoxrecPageLocation</a>
 				</li>
 			</ul>
-			<h1>Class BoxrecPageSearch</h1>
+			<h1>Class BoxrecPageLocation</h1>
 		</div>
 	</div>
 </header>
@@ -65,8 +65,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>parse a BoxRec Search Results page</p>
-						<pre>ex. http://boxrec.com/en/search?pf%5Bfirst_name%5D=floyd&pf%5Blast_name%5D=mayweather+jr&pf%5Brole%5D=boxer&pf%5Bstatus%5D=&pf_go=&pf%5BorderBy%5D=&pf%5BorderDir%5D=ASC</pre>
+						<p>parse a BoxRec Locate People results page</p>
+						<pre>ex. http://boxrec.com/en/locations/people?l%5Brole%5D=boxer&l%5Bdivision%5D=&l%5Bcountry%5D=US&l%5Bregion%5D=&l%5Btown%5D=&l_go=</pre>
 					</div>
 				</div>
 			</section>
@@ -74,7 +74,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">BoxrecPageSearch</span>
+						<span class="target">BoxrecPageLocation</span>
 					</li>
 				</ul>
 			</section>
@@ -85,13 +85,20 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="boxrecpagesearch.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="boxrecpagelocation.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="boxrecpagelocation.html#_locations" class="tsd-kind-icon">_locations</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="boxrecpagelocation.html#role" class="tsd-kind-icon">role</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boxrecpagesearch.html#output" class="tsd-kind-icon">output</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boxrecpagelocation.html#output" class="tsd-kind-icon">output</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,13 +110,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Boxrec<wbr>Page<wbr>Search<span class="tsd-signature-symbol">(</span>boxrecBodyString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpagesearch.html" class="tsd-signature-type">BoxrecPageSearch</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Boxrec<wbr>Page<wbr>Location<span class="tsd-signature-symbol">(</span>boxrecBodyString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, role<span class="tsd-signature-symbol">?: </span><a href="../enums/boxrecrole.html" class="tsd-signature-type">BoxrecRole</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpagelocation.html" class="tsd-signature-type">BoxrecPageLocation</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec-pages/search/boxrec.page.search.ts:13</li>
+									<li>Defined in boxrec-pages/location/boxrec.page.location.ts:15</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -117,10 +124,36 @@
 								<li>
 									<h5>boxrecBodyString: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> role: <a href="../enums/boxrecrole.html" class="tsd-signature-type">BoxrecRole</a><span class="tsd-signature-symbol"> =&nbsp;BoxrecRole.boxer</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="boxrecpagesearch.html" class="tsd-signature-type">BoxrecPageSearch</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="boxrecpagelocation.html" class="tsd-signature-type">BoxrecPageLocation</a></h4>
 						</li>
 					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_locations" class="tsd-anchor"></a>
+					<h3>_locations</h3>
+					<div class="tsd-signature tsd-kind-icon">_locations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in boxrec-pages/location/boxrec.page.location.ts:15</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="role" class="tsd-anchor"></a>
+					<h3>role</h3>
+					<div class="tsd-signature tsd-kind-icon">role<span class="tsd-signature-symbol">:</span> <a href="../enums/boxrecrole.html" class="tsd-signature-type">BoxrecRole</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in boxrec-pages/location/boxrec.page.location.ts:13</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -129,16 +162,16 @@
 					<a name="output" class="tsd-anchor"></a>
 					<h3>output</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> output<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/boxrecsearch.html" class="tsd-signature-type">BoxrecSearch</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> output<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BoxrecPageLocationRow</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec-pages/search/boxrec.page.search.ts:20</li>
+									<li>Defined in boxrec-pages/location/boxrec.page.location.ts:23</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/boxrecsearch.html" class="tsd-signature-type">BoxrecSearch</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BoxrecPageLocationRow</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -157,13 +190,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="boxrecpagesearch.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Search</a>
+						<a href="boxrecpagelocation.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Location</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="boxrecpagesearch.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="boxrecpagelocation.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="boxrecpagelocation.html#_locations" class="tsd-kind-icon">_locations</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="boxrecpagelocation.html#role" class="tsd-kind-icon">role</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="boxrecpagesearch.html#output" class="tsd-kind-icon">output</a>
+								<a href="boxrecpagelocation.html#output" class="tsd-kind-icon">output</a>
 							</li>
 						</ul>
 					</li>

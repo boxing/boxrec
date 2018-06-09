@@ -55,17 +55,17 @@ boxrec.getPersonById(356831)
     console.log(boxer.bouts[37].opponent.name); // Saul Alvarez
 });
 
-boxrec.getPersonById(401615, "judge"); // judge CJ Ross
+boxrec.getPersonById(401615, BoxrecRole.judge); // judge CJ Ross
 ```
 
-### [getPersonByName](https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyname)
+### [getPeopleByName](https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname)
 ##### Search People on BoxRec by name
-Returns the same object as `getPersonById`
+Returns a generator which will makes individual calls and returns the [BoxrecPageProfile](https://boxing.github.io/boxrec/classes/boxrecpageprofile.html)
 
 [Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
 ```javascript
 // by default it picks active/inactive boxers
-const floyds = await boxrec.getPersonByName("Floyd", "Mayweather");
+const floyds = await boxrec.getPeopleByName("Floyd", "Mayweather");
 let boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Sr. object
 

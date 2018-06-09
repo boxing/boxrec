@@ -3,6 +3,7 @@ import {BoxrecPageSearch} from "./boxrec.page.search";
 import {BoxrecSearch} from "./boxrec.search.constants";
 
 import * as fs from "fs";
+
 const mockSearchResults: string = fs.readFileSync(`${boxRecMocksModulePath}/search/mockSearchMayweather.html`, "utf8");
 
 describe("class BoxrecPageSearch", () => {

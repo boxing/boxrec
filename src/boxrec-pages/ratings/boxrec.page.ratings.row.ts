@@ -33,37 +33,12 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
         return null;
     }
 
-    get id(): number | null {
-        if (this._idName) {
-            const html: Cheerio = $(`<div>${this._idName}</div>`);
-            const href: string = html.find("a").attr("href");
-
-            if (href) {
-                const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-
-                if (matches && matches[1]) {
-                    return parseInt(matches[1], 10);
-                }
-            }
-        }
-
-        return null;
+    get id(): number {
+        return <number>super.parseId(this._idName);
     }
 
-    get name(): string | null {
-        if (this._idName) {
-            const html: Cheerio = $(`<div>${this._idName}</div>`);
-            let name: string = html.text();
-            name = trimRemoveLineBreaks(name);
-
-            if (name.slice(-1) === "*") {
-                name = name.slice(0, -1);
-            }
-
-            return name;
-        }
-
-        return null;
+    get name(): string {
+        return super.parseName(this._idName);
     }
 
     get division(): string | null {
