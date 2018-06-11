@@ -1,17 +1,17 @@
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import * as fs from "fs";
-import {BoxrecPageLocation} from "./boxrec.page.location";
-import {BoxrecPageLocationRow} from "./boxrec.page.location.row";
+import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";
+import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 import {Country} from "./boxrec.location.constants";
 
-const mockLocation: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockLocation.html`, "utf8");
+const mockLocation: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockUSALocation.html`, "utf8");
 
-describe("class BoxrecPageLocation", () => {
+describe("class BoxrecPageLocationPeople", () => {
 
-    let location: BoxrecPageLocation;
+    let location: BoxrecPageLocationPeople;
 
     beforeAll(() => {
-        location = new BoxrecPageLocation(mockLocation);
+        location = new BoxrecPageLocationPeople(mockLocation);
     });
 
     describe("getter output", () => {
@@ -22,7 +22,7 @@ describe("class BoxrecPageLocation", () => {
 
         describe("output values", () => {
 
-            let locationOutput: BoxrecPageLocationRow;
+            let locationOutput: BoxrecPageLocationPeopleRow;
 
             beforeAll(() => {
                 locationOutput = location.output[1];

@@ -235,6 +235,16 @@ export abstract class BoxrecCommonTablesClass {
         return numberOfRounds;
     }
 
+    static parseAlias(htmlString: string): string | null {
+        if (htmlString) {
+            // use trim/split because guys like Floyd Mayweather Jr. have two or more nicknames, Money and Pretty Boy
+            // except the HTML comes back as `Money  Pretty Boy` with two spaces (it used to be `Money / Pretty Boy`)
+            return htmlString.trim().split("  ").join(", ");
+        }
+
+        return null;
+    }
+
     parseOutcome(htmlString: string): WinLossDraw {
         let outcome: string = htmlString;
         outcome = outcome.trim();

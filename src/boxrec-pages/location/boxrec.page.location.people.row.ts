@@ -6,7 +6,7 @@ import {BoxrecRole} from "../search/boxrec.search.constants";
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
-export class BoxrecPageLocationRow extends BoxrecCommonTablesClass {
+export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
 
     role: BoxrecRole;
 

@@ -3,8 +3,7 @@ import {WeightClass} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecRole} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
-import {BoxrecPageLocation} from "./boxrec-pages/location/boxrec.page.location";
+import {BoxrecPageLocationPeople} from "./boxrec-pages/location/boxrec.page.location.people";
 import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
 import {Country} from "./boxrec-pages/location/boxrec.location.constants";
 
@@ -47,6 +46,10 @@ describe("class Boxrec (E2E)", () => {
 
             it("should return the person's information", () => {
                 expect(getBoxer(352).name).toBe("Floyd Mayweather Jr");
+            });
+
+            it("should include the person's alias", () => {
+                expect(getBoxer(352).alias).toBe("Money, Pretty Boy");
             });
 
             it("should include the number of bouts they were in", () => {
@@ -141,7 +144,7 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPeopleByLocation", () => {
 
-        let results: BoxrecPageLocation;
+        let results: BoxrecPageLocationPeople;
 
         beforeAll(async () => {
             results = await boxrec.getPeopleByLocation({

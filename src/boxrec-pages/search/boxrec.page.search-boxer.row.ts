@@ -1,5 +1,5 @@
 import {Location, Record, WinLossDraw} from "../boxrec.constants";
-import {getColumnData} from "../../helpers";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -40,11 +40,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
     }
 
     get alias(): string | null {
-        if (this._alias) {
-            return this._alias.trim();
-        }
-
-        return null;
+        return BoxrecCommonTablesClass.parseAlias(this._alias);
     }
 
     get division(): string {

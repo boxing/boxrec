@@ -1,6 +1,7 @@
 import {convertFractionsToNumber} from "../../helpers";
 import {BoxrecPageProfileBout} from "./boxrec.page.profile.bout.row";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
+import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -245,11 +246,7 @@ export class BoxrecPageProfile {
      * @returns {string | null}
      */
     get alias(): string | null {
-        if (this._alias) {
-            return this._alias;
-        }
-
-        return null;
+        return BoxrecCommonTablesClass.parseAlias(this._alias);
     }
 
     /**

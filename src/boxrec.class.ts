@@ -17,7 +17,7 @@ import {
     BoxrecLocationsParams,
     BoxrecLocationsParamsTransformed
 } from "./boxrec-pages/location/boxrec.location.constants";
-import {BoxrecPageLocation} from "./boxrec-pages/location/boxrec.page.location";
+import {BoxrecPageLocationPeople} from "./boxrec-pages/location/boxrec.page.location.people";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -134,7 +134,7 @@ export class Boxrec {
      * @param {BoxrecStatus} status         whether the person is active in Boxing or not
      * @yields {BoxrecPageProfile>}         returns a generator to fetch the next person by ID
      */
-    async * getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
+    async* getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
         this.checkIfLoggedIntoBoxRec();
         const params: BoxrecSearchParams = {
             first_name: firstName,
@@ -152,9 +152,9 @@ export class Boxrec {
     /**
      * Make a request to BoxRec to search for people by location
      * @param {BoxrecLocationsParams} params
-     * @returns {Promise<BoxrecPageLocation>}
+     * @returns {Promise<BoxrecPageLocationPeople>}
      */
-    async getPeopleByLocation(params: BoxrecLocationsParams): Promise<BoxrecPageLocation> {
+    async getPeopleByLocation(params: BoxrecLocationsParams): Promise<BoxrecPageLocationPeople> {
         this.checkIfLoggedIntoBoxRec();
         const qs: BoxrecLocationsParamsTransformed = {};
 
@@ -168,7 +168,7 @@ export class Boxrec {
             qs,
         });
 
-        return new BoxrecPageLocation(boxrecPageBody);
+        return new BoxrecPageLocationPeople(boxrecPageBody);
     }
 
     /**
@@ -267,10 +267,12 @@ export class Boxrec {
      * @returns {Promise<string[]>}
      */
     private async getSessionCookie(): Promise<string[]> {
-        return rp.get({
+        const options: Options = {
             uri: "http://boxrec.com",
             resolveWithFullResponse: true,
-        }).then((data: RequestResponse) => data.headers["set-cookie"]);
+        };
+
+        return rp.get(options).then((data: RequestResponse) => data.headers["set-cookie"]);
     }
 
     /**
