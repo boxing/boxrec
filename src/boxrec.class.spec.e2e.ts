@@ -3,9 +3,10 @@ import {WeightClass} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecRole} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/boxrec.page.location.people";
+import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
-import {Country} from "./boxrec-pages/location/boxrec.location.constants";
+import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 
 export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -178,17 +179,11 @@ describe("class Boxrec (E2E)", () => {
     describe("method getEventById", () => {
 
         let events: Map<number, BoxrecPageEvent> = new Map();
-        const getEvent: Function = (id: number): BoxrecPageEvent => {
-
-
-            console.log(events.size);
-
-            return events.get(id) as BoxrecPageEvent;
-        };
+        const getEvent: Function = (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
             await events.set(765205, await boxrec.getEventById(765205)); // Linares Lomachenko
-            await events.set(752960, await boxrec.getEventById(752960)); // Linares Lomachenko
+            await events.set(752960, await boxrec.getEventById(752960)); // Mayweather McGregor
         });
 
         it("should return the venue name", () => {
@@ -204,6 +199,47 @@ describe("class Boxrec (E2E)", () => {
             expect(results.bouts[2].secondBoxerRecord.win).toBe(0);
             expect(results.bouts[2].secondBoxerRecord.loss).toBe(0);
             expect(results.bouts[2].secondBoxerRecord.draw).toBe(0);
+        });
+
+    });
+
+    describe("method getEventByLocation", () => {
+
+        let events: BoxrecPageLocationEvent;
+
+        beforeAll(async () => {
+            events = await boxrec.getEventsByLocation({
+                country: Country.USA,
+                year: 2017,
+            });
+        });
+
+        it("should return an array of events", async () => {
+            expect(events.output.length).toBeGreaterThan(0);
+        });
+
+        it("should return the venue", () => {
+            expect(events.output[0].venue).toEqual({
+                id: 34612,
+                name: "Rapides Coliseum",
+            });
+        });
+
+        it("should return the location", () => {
+            expect(events.output[0].location).toEqual({
+                id: 19077,
+                town: "Alexandria",
+                region: "LA",
+                country: Country.USA,
+            });
+        });
+
+        it("should return the date of the bout", () => {
+            expect(events.output[0].date).toBe("2017-12-29");
+        });
+
+        it("should return the event id as id", () => {
+            expect(events.output[0].id).toBe(762353);
         });
 
     });

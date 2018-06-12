@@ -322,7 +322,13 @@ export abstract class BoxrecCommonTablesClass {
         return [null, null];
     }
 
-    parseLocationLink(htmlString: string): Location {
+    /**
+     * Can parse the id, town, region, country from multiple links
+     * @param {string} htmlString       passed in HTML string, more than likely the contents of an HTML table column
+     * @param {number} linkToLookAt     Sometimes the format is `town, region, country`.  Other times it is `country, region, town`
+     * @returns {Location}
+     */
+    parseLocationLink(htmlString: string, linkToLookAt: number = 0): Location {
         let location: Location = {
             id: null,
             town: null,
@@ -332,17 +338,18 @@ export abstract class BoxrecCommonTablesClass {
         const html: Cheerio = $(`<div>${htmlString}</div>`);
         const links: Cheerio = html.find("a");
 
-        if (links.get(0)) {
+        if (links.get(linkToLookAt)) {
+            const link: CheerioElement = links.get(linkToLookAt);
             // the following regex assumes the query string is always in the same format
             // `region` and `town` are wrapped with a conditional statement, in some instances the URL just contains ex. `?country=US`
             const areaRegex: RegExp = /\?country=([A-Za-z]+)(?:&region=([A-Za-z]*))?(?:&town=(\d+))?/;
-            const matches: RegExpMatchArray | null = links.get(0).attribs.href.match(areaRegex) as string[];
+            const matches: RegExpMatchArray | null = link.attribs.href.match(areaRegex) as string[];
 
             if (matches) {
                 const [, country, region, townId] = matches;
 
                 if (links) {
-                    const data: CheerioElement = links.get(0);
+                    const data: CheerioElement = link;
                     if (data) {
                         // if no `townId` exists, this innerText is not the `town` and is something else
                         const innerText: string | undefined = data.children[0].data;

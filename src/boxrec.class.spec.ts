@@ -199,6 +199,16 @@ describe("class boxrec", () => {
 
     });
 
+    describe("method getEventsByLocation", () => {
+
+        it("should make a GET request to http://boxrec.ocm/en/locations/event", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getEventsByLocation({});
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/locations/event");
+        });
+
+    });
+
     describe("method search", () => {
 
         it("should make a GET request to http://boxrec.com/en/search", async () => {

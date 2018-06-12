@@ -1,8 +1,8 @@
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {boxRecMocksModulePath, WinLossDraw} from "../../boxrec.constants";
 import * as fs from "fs";
 import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
-import {Country} from "./boxrec.location.constants";
+import {Country} from "./boxrec.location.people.constants";
 
 const mockLocation: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockUSALocation.html`, "utf8");
 

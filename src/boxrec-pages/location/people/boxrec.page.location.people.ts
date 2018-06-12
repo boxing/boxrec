@@ -1,5 +1,5 @@
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
-import {BoxrecRole} from "../search/boxrec.search.constants";
+import {BoxrecRole} from "../../search/boxrec.search.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;

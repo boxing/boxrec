@@ -1,24 +1,14 @@
-import {BoxrecRole} from "../search/boxrec.search.constants";
+import {BoxrecRole} from "../../search/boxrec.search.constants";
 
-export interface BoxrecLocationsParams {
+export interface BoxrecLocationsPeopleParams {
     country?: Country;
     division?: string; // todo do we need another division object?
     offset?: number;
-    region?: string;
-    role: BoxrecRole;
-    town?: string;
-}
-
-export interface BoxrecLocationsParamsTransformed {
-    country?: Country;
-    division?: string; // todo do we need another division object?
-    offset?: number;
-    l_go?: "";
     region?: string;
     role?: BoxrecRole;
     town?: string;
+    l_go?: any; // BoxRec param that doesn't do anything
 }
-
 
 // if needed to rebuild
 // grab the dropdown HTML from the locations page
