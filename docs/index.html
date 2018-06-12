@@ -102,7 +102,7 @@
 boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge); <span class="hljs-comment">// judge CJ Ross</span>
 </code></pre>
 				<h3 id="getpeoplebyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname">getPeopleByName</a></h3>
-				<h5 id="search-people-on-boxrec-by-name">Search People on BoxRec by name</h5>
+				<h5 id="search-people-on-boxrec-by-name">Search people on BoxRec by name</h5>
 				<p>Returns a generator which will makes individual calls and returns the <a href="https://boxing.github.io/boxrec/classes/boxrecpageprofile.html">BoxrecPageProfile</a></p>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// by default it picks active/inactive boxers</span>
@@ -112,6 +112,20 @@ boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge);
 
 boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Jr. object</span>
+</code></pre>
+				<h3 id="getpeoplebylocation"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebylocation">getPeopleByLocation</a></h3>
+				<h5 id="search-people-by-location">Search people by location</h5>
+				<pre><code class="lang-javascript">boxrec.getPeopleByLocation({
+    <span class="hljs-attr">country</span>: Country.USA,
+    <span class="hljs-attr">role</span>: BoxrecRole.boxer,
+});
+</code></pre>
+				<h3 id="geteventsbylocation"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#geteventsbylocation">getEventsByLocation</a></h3>
+				<h5 id="search-events-by-location">Search events by location</h5>
+				<pre><code class="lang-javascript">boxrec.getEventsByLocation({
+    <span class="hljs-attr">country</span>: Country.USA,
+    <span class="hljs-attr">year</span>: <span class="hljs-number">2017</span>,
+});
 </code></pre>
 				<h3 id="search"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#search">search</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>

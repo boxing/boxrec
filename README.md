@@ -59,7 +59,7 @@ boxrec.getPersonById(401615, BoxrecRole.judge); // judge CJ Ross
 ```
 
 ### [getPeopleByName](https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname)
-##### Search People on BoxRec by name
+##### Search people on BoxRec by name
 Returns a generator which will makes individual calls and returns the [BoxrecPageProfile](https://boxing.github.io/boxrec/classes/boxrecpageprofile.html)
 
 [Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
@@ -71,6 +71,26 @@ console.log(boxer.value); // is Floyd Mayweather Sr. object
 
 boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Jr. object
+```
+
+### [getPeopleByLocation](https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebylocation)
+##### Search people by location
+
+```javascript
+boxrec.getPeopleByLocation({
+    country: Country.USA,
+    role: BoxrecRole.boxer,
+});
+```
+
+### [getEventsByLocation](https://boxing.github.io/boxrec/classes/boxrec.html#geteventsbylocation)
+##### Search events by location
+
+```javascript
+boxrec.getEventsByLocation({
+    country: Country.USA,
+    year: 2017,
+});
 ```
 
 ### [search](https://boxing.github.io/boxrec/classes/boxrec.html#search)

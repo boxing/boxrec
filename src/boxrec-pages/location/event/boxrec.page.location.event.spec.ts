@@ -31,7 +31,7 @@ describe("class BoxrecPageLocationEvent", () => {
             expect(events.output[0].venue.name).toBe("York Hall");
         });
 
-        fdescribe("getter location", () => {
+        describe("getter location", () => {
 
             it("should include the country", () => {
                 expect(events.output[0].location.country).toBe("UK");

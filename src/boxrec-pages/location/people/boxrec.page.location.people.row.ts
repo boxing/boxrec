@@ -13,7 +13,6 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
     _idName: string;
     _miles: string;
     _location: string;
-    _name: string;
     _sex: string;
     _record: string;
     _division: string;
@@ -50,7 +49,6 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
     }
 
     get sex(): "male" | "female" {
-        // todo `trimRemoveLineBreaks` this might not be needed, I ripped the test spec page by using viewsource, maybe using boxrec-mocks properly will have better results
         return trimRemoveLineBreaks(this._sex) as "male" | "female";
     }
 

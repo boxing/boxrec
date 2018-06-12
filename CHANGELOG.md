@@ -1,3 +1,10 @@
+## 0.11.0 (2018-06-12)
+
+### Added
+
+- Can now get people by location
+- Can now get events by location
+
 ## 0.10.0 (2018-06-06)
 
 ### Added
