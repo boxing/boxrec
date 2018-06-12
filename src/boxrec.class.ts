@@ -13,6 +13,10 @@ import {
 } from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
 import {Options} from "request-promise";
+import {BoxrecLocationsPeopleParams} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
+import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
+import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -127,9 +131,9 @@ export class Boxrec {
      * @param {string} lastName             the person's last name
      * @param {string} role                 the role of the person
      * @param {BoxrecStatus} status         whether the person is active in Boxing or not
-     * @yields {BoxrecPageProfile>}         yields a generator to fetch the next person by ID
+     * @yields {BoxrecPageProfile>}         returns a generator to fetch the next person by ID
      */
-    async * getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
+    async* getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
         this.checkIfLoggedIntoBoxRec();
         const params: BoxrecSearchParams = {
             first_name: firstName,
@@ -142,6 +146,28 @@ export class Boxrec {
         for (const result of searchResults) {
             yield await this.getPersonById(result.id);
         }
+    }
+
+    /**
+     * Make a request to BoxRec to search for people by location
+     * @param {BoxrecLocationsPeopleParams} params
+     * @returns {Promise<BoxrecPageLocationPeople>}
+     */
+    async getPeopleByLocation(params: BoxrecLocationsPeopleParams): Promise<BoxrecPageLocationPeople> {
+        this.checkIfLoggedIntoBoxRec();
+        const qs: BoxrecLocationsPeopleParams = {};
+
+        for (let i in params) {
+            (qs as any)[`l[${i}]`] = (params as any)[i];
+        }
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: `http://boxrec.com/en/locations/people`,
+            jar: this._cookieJar,
+            qs,
+        });
+
+        return new BoxrecPageLocationPeople(boxrecPageBody);
     }
 
     /**
@@ -161,20 +187,15 @@ export class Boxrec {
 
     /**
      * Makes a request to BoxRec to get a list of ratings/rankings, either P4P or by a single weight class
-     * @param {Object|undefined} params           the query string that is appended to the end of the URL
-     * @param {string|undefined} params.division  the weightclass/division to get ratings for.  Omitting this returns P4P ratings
-     * @param {string|undefined} params.sex       the sex of the boxer's, either "M" | "F", I believe it defaults to "M" if not supplied
-     * @param {string|undefined} params.status    whether to include only active fighters or not, "a" | ""
+     * @param {BoxrecRatingsParams} params
      * @returns {Promise<BoxrecPageRatings>}
      */
-    async getRatings(params?: BoxrecRatingsParams): Promise<BoxrecPageRatings> {
+    async getRatings(params: BoxrecRatingsParams): Promise<BoxrecPageRatings> {
         this.checkIfLoggedIntoBoxRec();
         const qs: BoxrecRatingsParamsTransformed = {};
 
-        if (params) {
-            for (let i in params) {
-                (qs as any)[`r[${i}]`] = (params as any)[i];
-            }
+        for (let i in params) {
+            (qs as any)[`r[${i}]`] = (params as any)[i];
         }
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
@@ -184,6 +205,28 @@ export class Boxrec {
         });
 
         return new BoxrecPageRatings(boxrecPageBody);
+    }
+
+    /**
+     * Makes a request to BoxRec to list events by location
+     * @param {BoxrecLocationEventParams} params
+     * @returns {Promise<BoxrecPageLocationPeople>}
+     */
+    async getEventsByLocation(params: BoxrecLocationEventParams): Promise<BoxrecPageLocationEvent> {
+        this.checkIfLoggedIntoBoxRec();
+        const qs: BoxrecLocationEventParams = {};
+
+        for (let i in params) {
+            (qs as any)[`l[${i}]`] = (params as any)[i];
+        }
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: `http://boxrec.com/en/locations/event`,
+            jar: this._cookieJar,
+            qs,
+        });
+
+        return new BoxrecPageLocationEvent(boxrecPageBody);
     }
 
     /**
@@ -205,11 +248,7 @@ export class Boxrec {
     /**
      * Makes a request to BoxRec to search people by
      * Note: currently only supports boxers
-     * @param {Object} params                   the query string that is appended to the end of the URL
-     * @param {string} params.first_name        the first name to search for
-     * @param {string} params.last_name         the last name to search for
-     * @param {string} params.role              the role to search for, currently only supports boxers
-     * @param {BoxrecRole} params.status        if the person is active
+     * @param {BoxrecSearchParams} params
      * @returns {Promise<BoxrecSearch[]>}
      */
     async search(params: BoxrecSearchParams): Promise<BoxrecSearch[]> {
@@ -249,10 +288,12 @@ export class Boxrec {
      * @returns {Promise<string[]>}
      */
     private async getSessionCookie(): Promise<string[]> {
-        return rp.get({
+        const options: Options = {
             uri: "http://boxrec.com",
             resolveWithFullResponse: true,
-        }).then((data: RequestResponse) => data.headers["set-cookie"]);
+        };
+
+        return rp.get(options).then((data: RequestResponse) => data.headers["set-cookie"]);
     }
 
     /**

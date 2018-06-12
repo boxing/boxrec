@@ -32,10 +32,6 @@
   version "0.22.7"
   resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.7.tgz#4a92eafedfb2b9f4437d3a4410006d81114c66ce"
 
-"@types/core-js@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-2.5.0.tgz#35cc282488de6f10af1d92902899a3b8ca3fbc47"
-
 "@types/events@*":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
@@ -1208,8 +1204,8 @@ boom@5.x.x:
     hoek "4.x.x"
 
 "boxrec-mocks@https://github.com/boxing/boxrec-mocks":
-  version "0.3.0"
-  resolved "https://github.com/boxing/boxrec-mocks#66b55c35eed6b6e74c53e6e15bba6e4056df3ff2"
+  version "0.5.0"
+  resolved "https://github.com/boxing/boxrec-mocks#502b55db1f449c641244d846eebf002a865180ac"
 
 brace-expansion@^1.1.7:
   version "1.1.11"

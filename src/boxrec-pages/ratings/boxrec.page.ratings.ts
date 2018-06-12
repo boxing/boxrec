@@ -5,7 +5,7 @@ let $: CheerioStatic;
 
 /**
  * parse a BoxRec Ratings Page
- * ex. http://boxrec.com/en/ratings
+ * <pre>ex. http://boxrec.com/en/ratings</pre>
  */
 export class BoxrecPageRatings {
 
@@ -17,15 +17,7 @@ export class BoxrecPageRatings {
     }
 
     get output(): BoxrecPageRatingsRow[] {
-        const ratings: string[] = this._ratings;
-        let ratingsList: BoxrecPageRatingsRow[] = [];
-
-        ratings.forEach((val: string) => {
-            const rating: BoxrecPageRatingsRow = new BoxrecPageRatingsRow(val);
-            ratingsList.push(rating);
-        });
-
-        return ratingsList;
+        return this._ratings.map(item => new BoxrecPageRatingsRow(item));
     }
 
     private parseRatings(): void {

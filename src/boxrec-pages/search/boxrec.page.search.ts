@@ -6,7 +6,7 @@ let $: CheerioStatic;
 
 /**
  * parse a BoxRec Search Results page
- * ex. http://boxrec.com/en/search?pf%5Bfirst_name%5D=floyd&pf%5Blast_name%5D=mayweather+jr&pf%5Brole%5D=boxer&pf%5Bstatus%5D=&pf_go=&pf%5BorderBy%5D=&pf%5BorderDir%5D=ASC
+ * <pre>ex. http://boxrec.com/en/search?pf%5Bfirst_name%5D=floyd&pf%5Blast_name%5D=mayweather+jr&pf%5Brole%5D=boxer&pf%5Bstatus%5D=&pf_go=&pf%5BorderBy%5D=&pf%5BorderDir%5D=ASC</pre>
  */
 export class BoxrecPageSearch {
 
@@ -18,14 +18,7 @@ export class BoxrecPageSearch {
     }
 
     get output(): BoxrecSearch[] {
-        const searchResults: string[] = this._searchResults;
-        let searchResultsList: BoxrecSearch[] = [];
-        searchResults.forEach((val: string) => {
-            const searchRow: BoxrecSearch = new BoxrecPageSearchBoxerRow(val);
-            searchResultsList.push(searchRow);
-        });
-
-        return searchResultsList;
+        return this._searchResults.map(item => new BoxrecPageSearchBoxerRow(item));
     }
 
     private parse(): void {

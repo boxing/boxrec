@@ -25,15 +25,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get id(): number {
         if (this._idName) {
-            const html: Cheerio = $(`<div>${this._idName}</div>`);
-            const href: string = html.find("a").attr("href");
-            if (href) {
-                const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-
-                if (matches && matches[1]) {
-                    return parseInt(matches[1], 10);
-                }
-            }
+            return <number>super.parseId(this._idName);
         }
 
         return -1;
@@ -41,26 +33,14 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get name(): string | null {
         if (this._idName) {
-            const html: Cheerio = $(`<div>${this._idName}</div>`);
-            let name: string = html.text();
-            name = trimRemoveLineBreaks(name);
-
-            if (name.slice(-1) === "*") {
-                name = name.slice(0, -1);
-            }
-
-            return name;
+            return super.parseName(this._idName);
         }
 
         return null;
     }
 
     get alias(): string | null {
-        if (this._alias) {
-            return this._alias.trim();
-        }
-
-        return null;
+        return BoxrecCommonTablesClass.parseAlias(this._alias);
     }
 
     get division(): string {
@@ -68,12 +48,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
     }
 
     get career(): (number | null)[] {
-        const career: string = this._career;
-        const careerMatches: RegExpMatchArray | null = career.match(/(\d{4})-(\d{4})/);
-        if (careerMatches && careerMatches.length === 3) {
-            return [parseInt(careerMatches[1], 10), parseInt(careerMatches[2], 10)];
-        }
-        return [null, null];
+        return super.parseCareer(this._career);
     }
 
     get record(): Record {
