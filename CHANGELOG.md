@@ -1,3 +1,9 @@
+## 0.12.0 (2018-06-17)
+
+### Added
+
+- Can now get venue information, including bouts that occurred there
+
 ## 0.11.0 (2018-06-12)
 
 ### Added

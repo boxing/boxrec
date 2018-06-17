@@ -17,6 +17,7 @@ import {BoxrecLocationsPeopleParams} from "./boxrec-pages/location/people/boxrec
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
+import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -227,6 +228,23 @@ export class Boxrec {
         });
 
         return new BoxrecPageLocationEvent(boxrecPageBody);
+    }
+
+    /**
+     * Makes a request to BoxRec to get the information of a venue
+     * @param {number} venueId
+     * @param {number} offset
+     * @returns {any}
+     */
+    async getVenueById(venueId: number, offset: number = 0): Promise<BoxrecPageVenue> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: `http://boxrec.com/en/venue/${venueId}?offset=${offset}`,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageVenue(boxrecPageBody);
     }
 
     /**

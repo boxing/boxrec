@@ -41,7 +41,7 @@ export function changeToCamelCase(str: string): string {
 
 /**
  * Used to retrieve data from individual table columns
- * @param {CheerioAPI} $        requires that the CheerioApi object be passed in
+ * @param {CheerioStatic} $     requires that the CheerioStatic object be passed in
  * @param {number} nthChild     the column number starting at 1
  * @param {boolean} returnHTML  if true, the HTML will be returned, otherwise just text with HTML removed
  * @returns {string}

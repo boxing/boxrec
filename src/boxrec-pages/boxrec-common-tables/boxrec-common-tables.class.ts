@@ -21,10 +21,17 @@ export abstract class BoxrecCommonTablesClass {
     protected _outcome: string = "";
     protected _outcomeByWayOf: string = "";
 
-    constructor() {
+    protected constructor() {
         $ = cheerio.load("<div></div>");
     }
 
+    static parseAlias(htmlString: string): string | null {
+        if (htmlString) {
+            return trimRemoveLineBreaks(htmlString);
+        }
+
+        return null;
+    }
 
     parseLast6Column(htmlString: string): WinLossDraw[] {
         const last6: WinLossDraw[] = [];
@@ -77,11 +84,6 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     parseNameAndId(htmlString: string): BoxrecBasic {
-        let opponent: BoxrecBasic = {
-            id: null,
-            name: null,
-        };
-
         if (trimRemoveLineBreaks(htmlString) !== "TBA") {
             const html: Cheerio = $(`<div>${htmlString}</div>`);
             const href: string = html.find("a").attr("href");
@@ -99,7 +101,10 @@ export abstract class BoxrecCommonTablesClass {
             }
         }
 
-        return opponent;
+        return {
+            id: null,
+            name: null,
+        };
     }
 
     parseRecord(htmlString: string): Record {
@@ -114,7 +119,7 @@ export abstract class BoxrecCommonTablesClass {
             record.win = parseInt(html.find(".textWon").text(), 10);
             record.loss = parseInt(html.find(".textLost").text(), 10);
             record.draw = parseInt(html.find(".textDraw").text(), 10);
-        } else if (htmlString.includes("debut")) { // boxer's debut fight
+        } else if (htmlString.includes("debut")) {
             record.win = 0;
             record.loss = 0;
             record.draw = 0;
@@ -233,16 +238,6 @@ export abstract class BoxrecCommonTablesClass {
         }
 
         return numberOfRounds;
-    }
-
-    static parseAlias(htmlString: string): string | null {
-        if (htmlString) {
-            // use trim/split because guys like Floyd Mayweather Jr. have two or more nicknames, Money and Pretty Boy
-            // except the HTML comes back as `Money  Pretty Boy` with two spaces (it used to be `Money / Pretty Boy`)
-            return htmlString.trim().split("  ").join(", ");
-        }
-
-        return null;
     }
 
     parseOutcome(htmlString: string): WinLossDraw {
@@ -407,10 +402,6 @@ export abstract class BoxrecCommonTablesClass {
         return this.parseOutcome(this._outcome);
     }
 
-    private outcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
-        return this.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
-    }
-
     protected parseWeight(str: string): number | null {
         const weight: string = str.trim();
         let formattedWeight: number | null = null;
@@ -424,6 +415,10 @@ export abstract class BoxrecCommonTablesClass {
         }
 
         return formattedWeight;
+    }
+
+    private outcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
+        return this.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
     }
 
 }
