@@ -10,13 +10,13 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
 
     role: BoxrecRole;
 
-    _idName: string;
-    _miles: string;
-    _location: string;
-    _sex: string;
-    _record: string;
-    _division: string;
-    _career: string;
+    private _idName: string;
+    private _miles: string;
+    private _location: string;
+    private _sex: string;
+    private _record: string;
+    private _division: string;
+    private _career: string;
 
     constructor(boxrecBodyBout: string, role: BoxrecRole = BoxrecRole.boxer) {
         super();

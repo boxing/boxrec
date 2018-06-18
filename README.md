@@ -77,7 +77,7 @@ console.log(boxer.value); // is Floyd Mayweather Jr. object
 ##### Search people by location
 
 ```javascript
-boxrec.getPeopleByLocation({
+await boxrec.getPeopleByLocation({
     country: Country.USA,
     role: BoxrecRole.boxer,
 });
@@ -87,10 +87,17 @@ boxrec.getPeopleByLocation({
 ##### Search events by location
 
 ```javascript
-boxrec.getEventsByLocation({
+await boxrec.getEventsByLocation({
     country: Country.USA,
     year: 2017,
 });
+```
+
+### [getVenueById](https://boxing.github.io/boxrec/classes/boxrec.html#getvenuebyid)
+##### Returns venue information and events that occurred there
+
+```javascript
+await boxrec.getVenueById(38555);
 ```
 
 ### [search](https://boxing.github.io/boxrec/classes/boxrec.html#search)

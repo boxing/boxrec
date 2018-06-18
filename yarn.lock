@@ -1205,7 +1205,7 @@ boom@5.x.x:
 
 "boxrec-mocks@https://github.com/boxing/boxrec-mocks":
   version "0.5.0"
-  resolved "https://github.com/boxing/boxrec-mocks#502b55db1f449c641244d846eebf002a865180ac"
+  resolved "https://github.com/boxing/boxrec-mocks#94b51e82180f165db5efabff8e53126563f0c594"
 
 brace-expansion@^1.1.7:
   version "1.1.11"

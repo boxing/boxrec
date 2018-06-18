@@ -12,7 +12,7 @@ export class BoxrecPageLocationPeople {
 
     role: BoxrecRole;
 
-    _locations: string[] = [];
+    private _locations: string[] = [];
 
     constructor(boxrecBodyString: string, role: BoxrecRole = BoxrecRole.boxer) {
         $ = cheerio.load(boxrecBodyString);

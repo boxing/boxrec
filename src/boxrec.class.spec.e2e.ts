@@ -7,6 +7,7 @@ import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.pa
 import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
 import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
+import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 
 export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -50,7 +51,7 @@ describe("class Boxrec (E2E)", () => {
             });
 
             it("should include the person's alias", () => {
-                expect(getBoxer(352).alias).toBe("Money, Pretty Boy");
+                expect(getBoxer(352).alias).toBe("Money / Pretty Boy");
             });
 
             it("should include the number of bouts they were in", () => {
@@ -139,6 +140,46 @@ describe("class Boxrec (E2E)", () => {
             expect(boxer.value.birthName).toContain("Floyd");
             boxer = await results.next();
             expect(boxer.value.birthName).toContain("Floyd");
+        });
+
+    });
+
+    describe("method getVenueById", () => {
+
+        let venue: BoxrecPageVenue;
+
+        beforeAll(async () => {
+            venue = await boxrec.getVenueById(37664);
+        });
+
+        it("should return the name of the venue", () => {
+            expect(venue.name).toBe("Boardwalk Hall");
+        });
+
+        it("should return the location of the venue as an object", () => {
+            expect(venue.location.region).toBe("NJ");
+        });
+
+        it("should include local boxers in an array", () => {
+            expect(venue.localBoxers[0]).toEqual({
+                id: jasmine.any(Number),
+                name: jasmine.any(String),
+            });
+        });
+
+        it("should include local managers in an array", () => {
+            expect(venue.localManagers[0]).toEqual({
+                id: jasmine.any(Number),
+                name: jasmine.any(String),
+            });
+        });
+
+        describe("getter events", () => {
+
+            it("should give the dates of events", () => {
+                expect(venue.events[0].date).toMatch(/\d{4}-\d{2}-\d{2}/);
+            });
+
         });
 
     });

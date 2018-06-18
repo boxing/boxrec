@@ -56,6 +56,7 @@
             "spaces"
         ],
         "max-classes-per-file": [true, 1],
+        "member-ordering": [true, {"order": "fields-first"}],
         "no-eval": true,
         "no-internal-module": true,
         "no-parameter-reassignment": true,

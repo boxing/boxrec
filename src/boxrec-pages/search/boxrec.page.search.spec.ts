@@ -47,7 +47,7 @@ describe("class BoxrecPageSearch", () => {
             describe("getter alias", () => {
 
                 it("should return the alias of the boxer", () => {
-                    expect(output[1].alias).toBe("Money, Pretty Boy");
+                    expect(output[1].alias).toBe("Money / Pretty Boy");
                 });
 
             });
