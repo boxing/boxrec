@@ -1,6 +1,5 @@
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
-
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
@@ -17,7 +16,7 @@ export class BoxrecPageLocationEvent {
         this.parseLocation();
     }
 
-    get output(): BoxrecPageLocationEventRow[] {
+    get events(): BoxrecPageLocationEventRow[] {
         return this._locations.map(item => new BoxrecPageLocationEventRow(item));
     }
 

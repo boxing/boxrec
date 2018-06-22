@@ -28,15 +28,15 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
     }
 
     get firstBoxer(): BoxrecBasic {
-        return this.parseNameAndId(this._firstBoxer);
+        return BoxrecCommonTablesClass.parseNameAndId(this._firstBoxer);
     }
 
     get firstBoxerRecord(): Record {
-        return super.parseRecord(this._firstBoxerRecord);
+        return BoxrecCommonTablesClass.parseRecord(this._firstBoxerRecord);
     }
 
     get firstBoxerLast6(): WinLossDraw[] {
-        return super.parseLast6Column(this._firstBoxerLast6);
+        return BoxrecCommonTablesClass.parseLast6Column(this._firstBoxerLast6);
     }
 
     // returns an object with keys that contain a class other than `primaryIcon`

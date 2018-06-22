@@ -18,6 +18,8 @@ import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.pa
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
+import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -158,7 +160,7 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
         const qs: BoxrecLocationsPeopleParams = {};
 
-        for (let i in params) {
+        for (const i in params) {
             (qs as any)[`l[${i}]`] = (params as any)[i];
         }
 
@@ -195,7 +197,7 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
         const qs: BoxrecRatingsParamsTransformed = {};
 
-        for (let i in params) {
+        for (const i in params) {
             (qs as any)[`r[${i}]`] = (params as any)[i];
         }
 
@@ -209,6 +211,28 @@ export class Boxrec {
     }
 
     /**
+     * Makes a request to BoxRec to get a list of scheduled events
+     * @param {BoxrecScheduleParams} params
+     * @returns {Promise<void>}
+     */
+    async getSchedule(params: BoxrecScheduleParams): Promise<BoxrecPageSchedule> {
+        this.checkIfLoggedIntoBoxRec();
+        const qs: BoxrecScheduleParamsTransformed = {};
+
+        for (const i in params) {
+            (qs as any)[`c[${i}]`] = (params as any)[i];
+        }
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: "http://boxrec.com/en/schedule",
+            qs,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageSchedule(boxrecPageBody);
+    }
+
+    /**
      * Makes a request to BoxRec to list events by location
      * @param {BoxrecLocationEventParams} params
      * @returns {Promise<BoxrecPageLocationPeople>}
@@ -217,7 +241,7 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
         const qs: BoxrecLocationEventParams = {};
 
-        for (let i in params) {
+        for (const i in params) {
             (qs as any)[`l[${i}]`] = (params as any)[i];
         }
 
@@ -288,7 +312,7 @@ export class Boxrec {
             "pf[status]": BoxrecStatus.all,
         });
 
-        for (let i in params) {
+        for (const i in params) {
             (qs as any)[`pf[${i}]`] = (params as any)[i];
         }
 
@@ -298,7 +322,7 @@ export class Boxrec {
             jar: this._cookieJar,
         });
 
-        return new BoxrecPageSearch(boxrecPageBody).output;
+        return new BoxrecPageSearch(boxrecPageBody).results;
     }
 
     /**

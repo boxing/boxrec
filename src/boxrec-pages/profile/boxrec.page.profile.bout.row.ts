@@ -1,4 +1,4 @@
-import {getColumnData} from "../../helpers";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
@@ -21,8 +21,7 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
     }
 
     get date(): string {
-        const date: string = this._date;
-        return date.trim();
+        return trimRemoveLineBreaks(this._date);
     }
 
     get location(): BoxrecProfileBoutLocation {

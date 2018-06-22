@@ -1,6 +1,6 @@
 import {BoxrecPageRatings} from "./boxrec.page.ratings";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
-import {WeightClass} from "../champions/boxrec.champions.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import * as fs from "fs";
 
@@ -14,10 +14,10 @@ describe("class BoxrecPageRatings", () => {
         ratings = new BoxrecPageRatings(mockRatings);
     });
 
-    describe("getter output", () => {
+    describe("getter boxers", () => {
 
         it("should return an array of ratings", () => {
-            expect(ratings.output.length).toBeGreaterThan(0);
+            expect(ratings.boxers.length).toBeGreaterThan(0);
         });
 
         describe("output values", () => {
@@ -25,7 +25,7 @@ describe("class BoxrecPageRatings", () => {
             let ratingsOutput: BoxrecPageRatingsRow;
 
             beforeAll(() => {
-                ratingsOutput = ratings.output[1];
+                ratingsOutput = ratings.boxers[1];
             });
 
             describe("getter ranking", () => {
@@ -55,7 +55,7 @@ describe("class BoxrecPageRatings", () => {
             describe("getter division", () => {
 
                 it("should return `null` as weight class if the weight class was specified because they know the weight class", () => {
-                    expect((Object as any).values(WeightClass)).toContain(ratingsOutput.division);
+                    expect((Object as any).values(WeightDivision)).toContain(ratingsOutput.division);
                 });
 
             });

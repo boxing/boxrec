@@ -174,7 +174,7 @@ describe("class boxrec", () => {
             expect(searchResults.next()).toBeDefined();
         });
 
-        it("should make a call to boxrec everytime the generator next method is called", async () => {
+        it("should make a call to boxrec every time the generator next method is called", async () => {
             const getSpy: SpyInstance = jest.spyOn(boxrec, "getPersonById");
             jest.spyOn(boxrec, "search").mockReturnValueOnce([{id: 999}, {id: 888}]);
             const searchResults: AsyncIterableIterator<BoxrecPageProfile> = await boxrec.getPeopleByName("test", "test");
@@ -183,6 +183,16 @@ describe("class boxrec", () => {
             expect(getSpy).toHaveBeenCalledTimes(1);
             await searchResults.next(); // makes an API call
             expect(getSpy).toHaveBeenCalledTimes(2);
+        });
+
+    });
+
+    describe("method getSchedule", () => {
+
+        it("should make a GET request to http://boxrec.com/en/schedule", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getSchedule({});
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/schedule");
         });
 
     });

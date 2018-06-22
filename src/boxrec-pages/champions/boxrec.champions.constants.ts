@@ -1,6 +1,6 @@
 import {BoxrecBasic} from "../boxrec.constants";
 
-export interface BoxrecChampionsByWeightClass {
+export interface BoxrecChampionsByWeightDivision {
     heavyweight: BoxrecBelts;
     cruiserweight: BoxrecBelts;
     lightHeavyweight: BoxrecBelts;
@@ -30,12 +30,11 @@ export interface BoxrecBelts {
 }
 
 export interface BoxrecUnformattedChampions {
-    weightClass: WeightClass;
+    weightDivision: WeightDivision;
     beltHolders: BoxrecBelts;
 }
 
-// todo does this pose an issue with ABC companies and different weight class names?
-export enum WeightClass {
+export enum WeightDivision {
     heavyweight = "heavyweight",
     cruiserweight = "cruiserweight",
     lightHeavyweight = "light heavyweight",

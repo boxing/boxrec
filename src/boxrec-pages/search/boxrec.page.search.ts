@@ -1,4 +1,4 @@
-import {BoxrecPageSearchBoxerRow} from "./boxrec.page.search-boxer.row";
+import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
 import {BoxrecSearch} from "./boxrec.search.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -17,8 +17,8 @@ export class BoxrecPageSearch {
         this.parse();
     }
 
-    get output(): BoxrecSearch[] {
-        return this._searchResults.map(item => new BoxrecPageSearchBoxerRow(item));
+    get results(): BoxrecSearch[] {
+        return this._searchResults.map(item => new BoxrecPageSearchRow(item));
     }
 
     private parse(): void {

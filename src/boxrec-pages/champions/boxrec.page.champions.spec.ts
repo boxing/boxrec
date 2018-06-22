@@ -1,4 +1,4 @@
-import {BoxrecChampionsByWeightClass, BoxrecUnformattedChampions} from "./boxrec.champions.constants";
+import {BoxrecChampionsByWeightDivision, BoxrecUnformattedChampions} from "./boxrec.champions.constants";
 import {boxRecMocksModulePath} from "../boxrec.constants";
 import {BoxrecPageChampions} from "./boxrec.page.champions";
 
@@ -23,7 +23,7 @@ describe("class BoxrecPageChampions", () => {
         });
 
         it("first array should be for heavyweights", () => {
-            expect(list[0].weightClass).toBe("heavyweight");
+            expect(list[0].weightDivision).toBe("heavyweight");
         });
 
         it("beltHolders should be an object with all the belts", () => {
@@ -44,12 +44,12 @@ describe("class BoxrecPageChampions", () => {
 
     });
 
-    describe("method getByWeightClass", () => {
+    describe("method getByWeightDivision", () => {
 
-        let list: BoxrecChampionsByWeightClass;
+        let list: BoxrecChampionsByWeightDivision;
 
         beforeAll(() => {
-            list = champions.getByWeightClass();
+            list = champions.getByWeightDivision();
         });
 
         it("should return as object with weight classes", () => {

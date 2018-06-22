@@ -12,43 +12,43 @@ describe("class BoxrecPageLocationEvent", () => {
         events = new BoxrecPageLocationEvent(mockLocationEvents);
     });
 
-    describe("getter output", () => {
+    describe("getter events", () => {
 
         it("should return an array of location data", () => {
-            expect(events.output.length).toBeGreaterThan(0);
+            expect(events.events.length).toBeGreaterThan(0);
         });
 
         it("should include the date", () => {
-            expect(events.output[0].date).toBe("2017-12-13");
+            expect(events.events[0].date).toBe("2017-12-13");
         });
 
         it("should include the day of the fight", () => {
-            expect(events.output[0].day).toBe("Wed");
+            expect(events.events[0].day).toBe("Wed");
         });
 
         it("should include the venue", () => {
-            expect(events.output[0].venue.id).toBe(28315);
-            expect(events.output[0].venue.name).toBe("York Hall");
+            expect(events.events[0].venue.id).toBe(28315);
+            expect(events.events[0].venue.name).toBe("York Hall");
         });
 
         describe("getter location", () => {
 
             it("should include the country", () => {
-                expect(events.output[0].location.country).toBe("UK");
+                expect(events.events[0].location.country).toBe("UK");
             });
 
             it("should include the region", () => {
-                expect(events.output[0].location.region).toBe("LON");
+                expect(events.events[0].location.region).toBe("LON");
             });
 
             it("should include the town", () => {
-                expect(events.output[0].location.town).toBe("Bethnal Green");
+                expect(events.events[0].location.town).toBe("Bethnal Green");
             });
 
         });
 
         it("should include the event id as id", () => {
-            expect(events.output[0].id).toBe(759641);
+            expect(events.events[0].id).toBe(759641);
         });
 
     });

@@ -68,7 +68,7 @@ export class BoxrecPageProfile {
      * Returns an object of various metadata
      * @returns {Object}
      */
-    get metadata(): Object {
+    get metadata(): any {
         return JSON.parse(this._metadata);
     }
 
@@ -82,7 +82,6 @@ export class BoxrecPageProfile {
      */
     get globalId(): number | null {
         const globalId: number = parseInt(this._globalId, 10);
-
         if (!isNaN(globalId)) {
             return globalId;
         }
@@ -96,7 +95,6 @@ export class BoxrecPageProfile {
      */
     get role(): string | null {
         const role: string = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
-
         if (role) {
             return role;
         }
@@ -410,7 +408,7 @@ export class BoxrecPageProfile {
      */
     get bouts(): BoxrecPageProfileBout[] {
         const bouts: [string, string | null][] = this._boutsList;
-        let boutsList: BoxrecPageProfileBout[] = [];
+        const boutsList: BoxrecPageProfileBout[] = [];
         bouts.forEach((val: [string, string | null]) => {
             const bout: BoxrecPageProfileBout = new BoxrecPageProfileBout(val[0], val[1]);
             boutsList.push(bout);
@@ -484,6 +482,7 @@ export class BoxrecPageProfile {
         const metadata: string | null = $("script[type='application/ld+json']").html();
         if (metadata) {
             this._metadata = metadata;
+            this._globalId = this.metadata.url.match(/\d+$/);
         }
     }
 

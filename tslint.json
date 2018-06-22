@@ -57,6 +57,7 @@
         ],
         "max-classes-per-file": [true, 1],
         "member-ordering": [true, {"order": "fields-first"}],
+        "no-consecutive-blank-lines": true,
         "no-eval": true,
         "no-internal-module": true,
         "no-parameter-reassignment": true,
@@ -70,6 +71,7 @@
             "check-open-brace",
             "check-whitespace"
         ],
+        "prefer-const": true,
         "prefer-for-of": true,
         "promise-function-async": true,
         "quotemark": [

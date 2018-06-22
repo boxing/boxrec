@@ -16,7 +16,7 @@ export class BoxrecPageRatings {
         this.parseRatings();
     }
 
-    get output(): BoxrecPageRatingsRow[] {
+    get boxers(): BoxrecPageRatingsRow[] {
         return this._ratings.map(item => new BoxrecPageRatingsRow(item));
     }
 

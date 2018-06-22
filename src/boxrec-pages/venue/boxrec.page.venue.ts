@@ -1,4 +1,4 @@
-import {BoxrecBasic, Location} from "../boxrec.constants";
+import {Location} from "../boxrec.constants";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
@@ -46,7 +46,6 @@ export class BoxrecPageVenue {
      * Returns an array of boxers that are in the area
      * @returns {Object}  could use BoxrecBasic but this shouldn't return null values, so using `{ id: string, name: string }[]`
      */
-    // todo what scenarios are there where BoxrecBasic will return null?
     get localBoxers(): { id: number, name: string }[] {
         return this._localBoxers;
     }

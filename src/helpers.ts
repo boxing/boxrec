@@ -41,7 +41,7 @@ export function changeToCamelCase(str: string): string {
 
 /**
  * Used to retrieve data from individual table columns
- * @param {CheerioStatic} $     requires that the CheerioStatic object be passed in
+ * @param {CheerioAPI} $        requires that the CheerioApi object be passed in
  * @param {number} nthChild     the column number starting at 1
  * @param {boolean} returnHTML  if true, the HTML will be returned, otherwise just text with HTML removed
  * @returns {string}
@@ -55,3 +55,7 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
 
     return el.text();
 }
+
+// the following regex assumes the string is always in the same format
+// `region` and `town` are wrapped with a conditional statement, in some instances the URL just contains ex. `?country=US`
+export const townRegionCountryRegex: RegExp = /\?country=([A-Za-z]+)(?:&region=([A-Za-z]*))?(?:&town=(\d+))?/;

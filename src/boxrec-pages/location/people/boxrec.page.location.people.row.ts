@@ -2,6 +2,7 @@ import {BoxrecCommonTablesClass} from "../../boxrec-common-tables/boxrec-common-
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
 import {Location, Record} from "../../boxrec.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
+import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -28,11 +29,11 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
     }
 
     get id(): number {
-        return <number>super.parseId(this._idName);
+        return <number>BoxrecCommonTablesClass.parseId(this._idName);
     }
 
     get name(): string {
-        return <string>super.parseName(this._idName);
+        return <string>BoxrecCommonTablesClass.parseName(this._idName);
     }
 
     get miles(): number {
@@ -45,7 +46,7 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
      * @returns {Location}
      */
     get location(): Location {
-        return super.parseLocationLink(this._location);
+        return BoxrecCommonTablesClass.parseLocationLink(this._location);
     }
 
     get sex(): "male" | "female" {
@@ -53,34 +54,36 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
     }
 
     get record(): Record {
-        return super.parseRecord(this._record);
+        return BoxrecCommonTablesClass.parseRecord(this._record);
     }
 
-    // todo, can we convert all these to WeightClass?
-    get division(): string {
-        return this._division;
+    get division(): WeightDivision | undefined {
+        const division: string = trimRemoveLineBreaks(this._division);
+
+        if (Object.values(WeightDivision).includes(division)) {
+            return division as WeightDivision;
+        }
+
+        console.error("Could not find weight division");
     }
 
     get career(): (number | null)[] {
-        return super.parseCareer(this._career);
+        return BoxrecCommonTablesClass.parseCareer(this._career);
     }
 
     parse(): void {
-
         this._miles = getColumnData($, 1, false);
-        // second column is link to map
-        this._location = getColumnData($, 3);
-        this._idName = getColumnData($, 4);
-        this._sex = getColumnData($, 5, false);
+        this._location = getColumnData($, 2);
+        this._idName = getColumnData($, 3);
+        this._sex = getColumnData($, 4, false);
 
         // the only `role` with different columns is boxers
         if (this.role === BoxrecRole.boxer) {
-            this._record = getColumnData($, 6);
-            this._division = getColumnData($, 7, false);
-            this._career = getColumnData($, 8);
+            this._record = getColumnData($, 5);
+            this._division = getColumnData($, 6, false);
+            this._career = getColumnData($, 7);
         }
 
     }
 
 }
-

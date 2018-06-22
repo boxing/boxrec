@@ -34,11 +34,11 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get id(): number {
-        return <number>super.parseId(this._idName);
+        return <number>BoxrecCommonTablesClass.parseId(this._idName);
     }
 
     get name(): string {
-        return super.parseName(this._idName);
+        return BoxrecCommonTablesClass.parseName(this._idName);
     }
 
     get division(): string | null {
@@ -61,7 +61,7 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get points(): number | null {
-        let points: number = parseInt(this._points, 10);
+        const points: number = parseInt(this._points, 10);
 
         if (!isNaN(points)) {
             return points;
@@ -79,11 +79,11 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get record(): Record {
-        return super.parseRecord(this._record);
+        return BoxrecCommonTablesClass.parseRecord(this._record);
     }
 
     get last6(): WinLossDraw[] {
-        return super.parseLast6Column(this._last6);
+        return BoxrecCommonTablesClass.parseLast6Column(this._last6);
     }
 
     get stance(): Stance | null {
@@ -95,7 +95,7 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get residence(): Location {
-        return super.parseLocationLink(this._location);
+        return BoxrecCommonTablesClass.parseLocationLink(this._location);
     }
 
     parse(): void {

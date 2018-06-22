@@ -14,10 +14,10 @@ describe("class BoxrecPageSearch", () => {
         searchResults = new BoxrecPageSearch(mockSearchResults);
     });
 
-    describe("getter output", () => {
+    describe("getter results", () => {
 
         it("should return an array of search results", () => {
-            expect(searchResults.output.length).not.toBe(0);
+            expect(searchResults.results.length).not.toBe(0);
         });
 
         describe("output values", () => {
@@ -25,7 +25,7 @@ describe("class BoxrecPageSearch", () => {
             let output: BoxrecSearch[];
 
             beforeAll(() => {
-                output = searchResults.output; // Floyd Mayweather Jr.
+                output = searchResults.results; // Floyd Mayweather Jr.
             });
 
             describe("getter id", () => {
