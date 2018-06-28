@@ -20,7 +20,6 @@ export class BoxrecPageVenueEventsRow extends BoxrecCommonTablesClass {
         this.parse();
     }
 
-    // todo this is very similar to location-event row
     get date(): string {
         return trimRemoveLineBreaks(this._date);
     }
@@ -30,11 +29,11 @@ export class BoxrecPageVenueEventsRow extends BoxrecCommonTablesClass {
     }
 
     get location(): Location {
-        return super.parseLocationLink(this._location, 2);
+        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
     }
 
     get id(): number | null {
-        return super.parseId(this._id);
+        return BoxrecCommonTablesClass.parseId(this._id);
     }
 
     private parse(): void {

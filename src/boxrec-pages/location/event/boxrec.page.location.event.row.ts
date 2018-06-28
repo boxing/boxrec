@@ -49,20 +49,29 @@ export class BoxrecPageLocationEventRow extends BoxrecCommonTablesClass {
     }
 
     get location(): Location {
-        return super.parseLocationLink(this._location, 2);
+        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
     }
 
     get id(): number | null {
-        return super.parseId(this._event);
+        return BoxrecCommonTablesClass.parseId(this._event);
     }
 
     parse(): void {
-        // the first two columns are map and if it has happened
-        this._date = getColumnData($, 3, false);
-        this._day = getColumnData($, 4, false);
-        this._venue = getColumnData($, 5);
-        this._location = getColumnData($, 6);
-        this._event = getColumnData($, 7);
+        const numberOfColumns: number = $(`tr:nth-child(1) td`).length;
+
+        if (numberOfColumns === 6) {
+            this._date = getColumnData($, 2, false);
+            this._day = getColumnData($, 3, false);
+            this._venue = getColumnData($, 4);
+            this._location = getColumnData($, 5);
+            this._event = getColumnData($, 6);
+        } else if (numberOfColumns === 7) {
+            this._date = getColumnData($, 3, false);
+            this._day = getColumnData($, 4, false);
+            this._venue = getColumnData($, 5);
+            this._location = getColumnData($, 6);
+            this._event = getColumnData($, 7);
+        }
     }
 
 }

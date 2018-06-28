@@ -127,6 +127,12 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
     <span class="hljs-attr">year</span>: <span class="hljs-number">2017</span>,
 });
 </code></pre>
+				<h3 id="getschedule"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getschedule">getSchedule</a></h3>
+				<h5 id="returns-schedule-information-by-country-code-television-and-or-division">Returns schedule information by country code, television, and/or division</h5>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getSchedule({
+    <span class="hljs-attr">countryCode</span>: Country.Canada,
+});
+</code></pre>
 				<h3 id="getvenuebyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getvenuebyid">getVenueById</a></h3>
 				<h5 id="returns-venue-information-and-events-that-occurred-there">Returns venue information and events that occurred there</h5>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getVenueById(<span class="hljs-number">38555</span>);
@@ -277,7 +283,7 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 						<a href="enums/country.html" class="tsd-kind-icon">Country</a>
 					</li>
 					<li class=" tsd-kind-enum">
-						<a href="enums/weightclass.html" class="tsd-kind-icon">Weight<wbr>Class</a>
+						<a href="enums/weightdivision.html" class="tsd-kind-icon">Weight<wbr>Division</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/winlossdraw.html" class="tsd-kind-icon">Win<wbr>Loss<wbr>Draw</a>
@@ -322,10 +328,13 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 						<a href="classes/boxrecpageratingsrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Ratings<wbr>Row</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageschedule.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpagesearch.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Search</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/boxrecpagesearchboxerrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Search<wbr>Boxer<wbr>Row</a>
+						<a href="classes/boxrecpagesearchrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Search<wbr>Row</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpagevenue.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Venue</a>
@@ -349,16 +358,10 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 						<a href="interfaces/boxrecboutlocation.html" class="tsd-kind-icon">Boxrec<wbr>Bout<wbr>Location</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/boxrecchampionsbyweightclass.html" class="tsd-kind-icon">Boxrec<wbr>Champions<wbr>ByWeight<wbr>Class</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/boxreceventbout.html" class="tsd-kind-icon">Boxrec<wbr>Event<wbr>Bout</a>
+						<a href="interfaces/boxrecchampionsbyweightdivision.html" class="tsd-kind-icon">Boxrec<wbr>Champions<wbr>ByWeight<wbr>Division</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxreceventlinks.html" class="tsd-kind-icon">Boxrec<wbr>Event<wbr>Links</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/boxrecid.html" class="tsd-kind-icon">Boxrec<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecjudge.html" class="tsd-kind-icon">Boxrec<wbr>Judge</a>
@@ -391,6 +394,12 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 						<a href="interfaces/boxrecratingsparamstransformed.html" class="tsd-kind-icon">Boxrec<wbr>Ratings<wbr>Params<wbr>Transformed</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecscheduleparams.html" class="tsd-kind-icon">Boxrec<wbr>Schedule<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxrecscheduleparamstransformed.html" class="tsd-kind-icon">Boxrec<wbr>Schedule<wbr>Params<wbr>Transformed</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecsearch.html" class="tsd-kind-icon">Boxrec<wbr>Search</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -419,6 +428,9 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#boxrecmocksmodulepath" class="tsd-kind-icon">box<wbr>Rec<wbr>Mocks<wbr>Module<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#townregioncountryregex" class="tsd-kind-icon">town<wbr>Region<wbr>Country<wbr>Regex</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#changetocamelcase" class="tsd-kind-icon">change<wbr>ToCamel<wbr>Case</a>

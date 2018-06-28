@@ -1,5 +1,5 @@
 import {Boxrec} from "./boxrec.class";
-import {WeightClass} from "./boxrec-pages/champions/boxrec.champions.constants";
+import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecRole} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
@@ -8,6 +8,7 @@ import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
 import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 
 export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -36,7 +37,7 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPersonById", () => {
 
-        let boxers: Map<number, BoxrecPageProfile> = new Map();
+        const boxers: Map<number, BoxrecPageProfile> = new Map();
         const getBoxer: Function = (id: number): BoxrecPageProfile | undefined => boxers.get(id);
 
         beforeAll(async () => {
@@ -132,6 +133,114 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
+    describe("method getSchedule", () => {
+
+        let results: BoxrecPageSchedule;
+
+        beforeAll(async () => {
+            results = await boxrec.getSchedule({});
+        });
+
+        it("should give an array of schedule events", () => {
+            expect(results.events.length).toBeGreaterThanOrEqual(0);
+        });
+
+        // note: these events will change daily, some of these tests should either use try/catches or loop through events to satisfy the test case
+        describe("getter events", () => {
+
+            let event: BoxrecPageEvent;
+
+            beforeAll(() => {
+                event = results.events[0];
+            });
+
+            describe("getter date", () => {
+
+                it("should include the date of an event", () => {
+                    expect(event.date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                });
+
+            });
+
+            describe("getter location", () => {
+
+                describe("venue", () => {
+
+                    it("should include the id of the venue", () => {
+                        expect(event.location.venue.id).toEqual(jasmine.any(Number));
+                    });
+
+                    it("should include the name of the venue", () => {
+                        expect(event.location.venue.name).toEqual(jasmine.any(String));
+                    });
+
+                });
+
+                describe("location", () => {
+
+                    it("should include the id of the location", () => {
+                        expect(event.location.location.id).toEqual(jasmine.any(Number));
+                    });
+
+                    it("should include the town", () => {
+                        expect(event.location.location.town).toEqual(jasmine.any(String));
+                    });
+
+                    it("should include the country", () => {
+                        expect(event.location.location.country).toEqual(jasmine.any(String));
+                    });
+
+                    it("should include the region", () => {
+                        // it can be null
+                        expect(event.location.location.region).not.toBeUndefined();
+                    });
+
+                });
+
+            });
+
+            describe("getter promoter", () => {
+
+                it("should include the promotional company in an array", () => {
+                    expect(event.promoter).not.toBeUndefined();
+                    expect(event.promoter.length).toBeGreaterThanOrEqual(0);
+                });
+
+            });
+
+            describe("getter matchmaker", () => {
+
+                it("should be included if it exists", () => {
+                    expect(event.matchmaker).not.toBeUndefined();
+                });
+
+            });
+
+            describe("getter doctor", () => {
+
+                it("should include an array of doctors", () => {
+                    expect(event.doctor).not.toBeUndefined();
+                    expect(event.doctor.length).toBeGreaterThanOrEqual(0);
+                });
+
+            });
+
+            describe("getter inspector", () => {
+
+                it("should include the id and name of the inspector", () => {
+                    expect(event.inspector).not.toBeUndefined();
+                });
+
+            });
+
+            it("should include the wiki id as id", () => {
+                expect(event.id).toBeGreaterThanOrEqual(0);
+            });
+
+        });
+
+    });
+
     describe("method getPeopleByName", () => {
 
         it("should return Floyd Sr. and then Floyd Jr.", async () => {
@@ -196,30 +305,30 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should list people by name", () => {
-            expect(results.output[0].name.length).toBeGreaterThan(0);
+            expect(results.boxers[0].name.length).toBeGreaterThan(0);
         });
 
         it("should be in order from closest to farthest", () => {
-            const firstPersonMiles: number = results.output[0].miles;
-            const lastPersonMiles: number = results.output[results.output.length - 1].miles;
+            const firstPersonMiles: number = results.boxers[0].miles;
+            const lastPersonMiles: number = results.boxers[results.boxers.length - 1].miles;
             expect(lastPersonMiles).toBeGreaterThanOrEqual(firstPersonMiles);
         });
 
         it("should include the person's location", () => {
-            expect(results.output[0].location.country).toBe(Country.USA);
+            expect(results.boxers[0].location.country).toBe(Country.USA);
         });
 
         it("might omit the person's region/town if the person is '0 miles' from this location", () => {
-            expect(results.output[0].miles).toBe(0);
-            expect(results.output[0].location.region).toBeNull();
-            expect(results.output[0].location.town).toBeNull();
+            expect(results.boxers[0].miles).toBe(0);
+            expect(results.boxers[0].location.region).toBeNull();
+            expect(results.boxers[0].location.town).toBeNull();
         });
 
     });
 
     describe("method getEventById", () => {
 
-        let events: Map<number, BoxrecPageEvent> = new Map();
+        const events: Map<number, BoxrecPageEvent> = new Map();
         const getEvent: Function = (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
@@ -256,18 +365,18 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return an array of events", async () => {
-            expect(events.output.length).toBeGreaterThan(0);
+            expect(events.events.length).toBeGreaterThan(0);
         });
 
         it("should return the venue", () => {
-            expect(events.output[0].venue).toEqual({
+            expect(events.events[0].venue).toEqual({
                 id: 34612,
                 name: "Rapides Coliseum",
             });
         });
 
         it("should return the location", () => {
-            expect(events.output[0].location).toEqual({
+            expect(events.events[0].location).toEqual({
                 id: 19077,
                 town: "Alexandria",
                 region: "LA",
@@ -276,11 +385,11 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return the date of the bout", () => {
-            expect(events.output[0].date).toBe("2017-12-29");
+            expect(events.events[0].date).toBe("2017-12-29");
         });
 
         it("should return the event id as id", () => {
-            expect(events.output[0].id).toBe(762353);
+            expect(events.events[0].id).toBe(762353);
         });
 
     });
@@ -296,7 +405,7 @@ describe("class Boxrec (E2E)", () => {
             });
 
             it("should return an array of champions by weight class", () => {
-                expect(results.champions[0].weightClass).toBe(WeightClass.heavyweight);
+                expect(results.champions[0].weightDivision).toBe(WeightDivision.heavyweight);
             });
 
             it("should return the ABC belts", () => {

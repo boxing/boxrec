@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BoxrecPageLocationEvent | boxrec</title>
+	<title>BoxrecPageSchedule | boxrec</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="boxrecpagelocationevent.html">BoxrecPageLocationEvent</a>
+					<a href="boxrecpageschedule.html">BoxrecPageSchedule</a>
 				</li>
 			</ul>
-			<h1>Class BoxrecPageLocationEvent</h1>
+			<h1>Class BoxrecPageSchedule</h1>
 		</div>
 	</div>
 </header>
@@ -65,8 +65,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>parse a BoxRec Locate Events results page</p>
-						<pre>ex. http://boxrec.com/en/locations/event?l%5Bcountry%5D=US&l%5Bregion%5D=CO&l%5Btown%5D=&l%5Bvenue%5D=&l%5Byear%5D=2017&l_go=</pre>
+						<p>BoxRec Schedule Page</p>
+						<pre>ex. http://boxrec.com/en/schedule?c%5BcountryCode%5D=&c%5Bdivision%5D=Light+Middleweight&c%5Btv%5D=&c_go=</pre>
 					</div>
 				</div>
 			</section>
@@ -74,7 +74,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">BoxrecPageLocationEvent</span>
+						<span class="target">BoxrecPageSchedule</span>
 					</li>
 				</ul>
 			</section>
@@ -85,19 +85,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="boxrecpagelocationevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="boxrecpagelocationevent.html#_locations" class="tsd-kind-icon">_locations</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="boxrecpageschedule.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boxrecpagelocationevent.html#events" class="tsd-kind-icon">events</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boxrecpageschedule.html#events" class="tsd-kind-icon">events</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,13 +103,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Boxrec<wbr>Page<wbr>Location<wbr>Event<span class="tsd-signature-symbol">(</span>boxrecBodyString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpagelocationevent.html" class="tsd-signature-type">BoxrecPageLocationEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Boxrec<wbr>Page<wbr>Schedule<span class="tsd-signature-symbol">(</span>boxrecBodyString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpageschedule.html" class="tsd-signature-type">BoxrecPageSchedule</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec-pages/location/event/boxrec.page.location.event.ts:12</li>
+									<li>Defined in boxrec-pages/schedule/boxrec.page.schedule.ts:13</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -124,22 +118,9 @@
 									<h5>boxrecBodyString: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="boxrecpagelocationevent.html" class="tsd-signature-type">BoxrecPageLocationEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="boxrecpageschedule.html" class="tsd-signature-type">BoxrecPageSchedule</a></h4>
 						</li>
 					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_locations" class="tsd-anchor"></a>
-					<h3>_locations</h3>
-					<div class="tsd-signature tsd-kind-icon">_locations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in boxrec-pages/location/event/boxrec.page.location.event.ts:12</li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -148,16 +129,16 @@
 					<a name="events" class="tsd-anchor"></a>
 					<h3>events</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> events<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpagelocationeventrow.html" class="tsd-signature-type">BoxrecPageLocationEventRow</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> events<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpageevent.html" class="tsd-signature-type">BoxrecPageEvent</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec-pages/location/event/boxrec.page.location.event.ts:19</li>
+									<li>Defined in boxrec-pages/schedule/boxrec.page.schedule.ts:20</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="boxrecpagelocationeventrow.html" class="tsd-signature-type">BoxrecPageLocationEventRow</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="boxrecpageevent.html" class="tsd-signature-type">BoxrecPageEvent</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -176,16 +157,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="boxrecpagelocationevent.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Location<wbr>Event</a>
+						<a href="boxrecpageschedule.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Schedule</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="boxrecpagelocationevent.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="boxrecpagelocationevent.html#_locations" class="tsd-kind-icon">_locations</a>
+								<a href="boxrecpageschedule.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="boxrecpagelocationevent.html#events" class="tsd-kind-icon">events</a>
+								<a href="boxrecpageschedule.html#events" class="tsd-kind-icon">events</a>
 							</li>
 						</ul>
 					</li>

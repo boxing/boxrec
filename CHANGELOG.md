@@ -1,3 +1,14 @@
+## 0.13.0 (2018-06-27)
+
+### Added
+
+- Can get a list of scheduled events
+
+### Removed
+
+- A number of classes would have an `output` object.  Changed them to be more meaningful like `results`, `boxers`, etc.
+to make it more representative of the data
+
 ## 0.12.0 (2018-06-17)
 
 ### Added

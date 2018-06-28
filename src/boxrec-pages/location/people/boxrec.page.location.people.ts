@@ -20,7 +20,7 @@ export class BoxrecPageLocationPeople {
         this.parseLocation();
     }
 
-    get output(): BoxrecPageLocationPeopleRow[] {
+    get boxers(): BoxrecPageLocationPeopleRow[] {
         return this._locations.map(item => new BoxrecPageLocationPeopleRow(item, this.role));
     }
 

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BoxrecRating | boxrec</title>
+	<title>BoxrecScheduleParams | boxrec</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="boxrecrating.html">BoxrecRating</a>
+					<a href="boxrecscheduleparams.html">BoxrecScheduleParams</a>
 				</li>
 			</ul>
-			<h1>Interface BoxrecRating</h1>
+			<h1>Interface BoxrecScheduleParams</h1>
 		</div>
 	</div>
 </header>
@@ -66,12 +66,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="boxrecbasic.html" class="tsd-signature-type">BoxrecBasic</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">BoxrecRating</span>
-							</li>
-						</ul>
+						<span class="target">BoxrecScheduleParams</span>
 					</li>
 				</ul>
 			</section>
@@ -82,16 +77,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#age" class="tsd-kind-icon">age</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#division" class="tsd-kind-icon">division</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="boxrecrating.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#last6" class="tsd-kind-icon">last6</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="boxrecrating.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#points" class="tsd-kind-icon">points</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#rating" class="tsd-kind-icon">rating</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#record" class="tsd-kind-icon">record</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#residence" class="tsd-kind-icon">residence</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecrating.html#stance" class="tsd-kind-icon">stance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecscheduleparams.html#countrycode" class="tsd-kind-icon">country<wbr>Code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecscheduleparams.html#division" class="tsd-kind-icon">division</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecscheduleparams.html#offset" class="tsd-kind-icon">offset</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="boxrecscheduleparams.html#tv" class="tsd-kind-icon">tv</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,104 +89,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="age" class="tsd-anchor"></a>
-					<h3>age</h3>
-					<div class="tsd-signature tsd-kind-icon">age<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<a name="countrycode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> country<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">country<wbr>Code<span class="tsd-signature-symbol">:</span> <a href="../enums/country.html" class="tsd-signature-type">Country</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:18</li>
+							<li>Defined in boxrec-pages/schedule/boxrec.schedule.constants.ts:4</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="division" class="tsd-anchor"></a>
-					<h3>division</h3>
-					<div class="tsd-signature tsd-kind-icon">division<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> division</h3>
+					<div class="tsd-signature tsd-kind-icon">division<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:23</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="boxrecbasic.html">BoxrecBasic</a>.<a href="boxrecbasic.html#id">id</a></p>
-						<ul>
-							<li>Defined in boxrec-pages/boxrec.constants.ts:29</li>
+							<li>Defined in boxrec-pages/schedule/boxrec.schedule.constants.ts:5</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="last6" class="tsd-anchor"></a>
-					<h3>last6</h3>
-					<div class="tsd-signature tsd-kind-icon">last6<span class="tsd-signature-symbol">:</span> <a href="../enums/winlossdraw.html" class="tsd-signature-type">WinLossDraw</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="offset" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> offset</h3>
+					<div class="tsd-signature tsd-kind-icon">offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:20</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="boxrecbasic.html">BoxrecBasic</a>.<a href="boxrecbasic.html#name">name</a></p>
-						<ul>
-							<li>Defined in boxrec-pages/boxrec.constants.ts:30</li>
+							<li>Defined in boxrec-pages/schedule/boxrec.schedule.constants.ts:7</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="points" class="tsd-anchor"></a>
-					<h3>points</h3>
-					<div class="tsd-signature tsd-kind-icon">points<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<a name="tv" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tv</h3>
+					<div class="tsd-signature tsd-kind-icon">tv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:16</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="rating" class="tsd-anchor"></a>
-					<h3>rating</h3>
-					<div class="tsd-signature tsd-kind-icon">rating<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:17</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="record" class="tsd-anchor"></a>
-					<h3>record</h3>
-					<div class="tsd-signature tsd-kind-icon">record<span class="tsd-signature-symbol">:</span> <a href="record.html" class="tsd-signature-type">Record</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:19</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="residence" class="tsd-anchor"></a>
-					<h3>residence</h3>
-					<div class="tsd-signature tsd-kind-icon">residence<span class="tsd-signature-symbol">:</span> <a href="location.html" class="tsd-signature-type">Location</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:22</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="stance" class="tsd-anchor"></a>
-					<h3>stance</h3>
-					<div class="tsd-signature tsd-kind-icon">stance<span class="tsd-signature-symbol">:</span> <a href="../globals.html#stance" class="tsd-signature-type">Stance</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.ratings.constants.ts:21</li>
+							<li>Defined in boxrec-pages/schedule/boxrec.schedule.constants.ts:6</li>
 						</ul>
 					</aside>
 				</section>
@@ -216,37 +143,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="boxrecrating.html" class="tsd-kind-icon">Boxrec<wbr>Rating</a>
+						<a href="boxrecscheduleparams.html" class="tsd-kind-icon">Boxrec<wbr>Schedule<wbr>Params</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#age" class="tsd-kind-icon">age</a>
+								<a href="boxrecscheduleparams.html#countrycode" class="tsd-kind-icon">country<wbr>Code</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#division" class="tsd-kind-icon">division</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="boxrecrating.html#id" class="tsd-kind-icon">id</a>
+								<a href="boxrecscheduleparams.html#division" class="tsd-kind-icon">division</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#last6" class="tsd-kind-icon">last6</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="boxrecrating.html#name" class="tsd-kind-icon">name</a>
+								<a href="boxrecscheduleparams.html#offset" class="tsd-kind-icon">offset</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#points" class="tsd-kind-icon">points</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#rating" class="tsd-kind-icon">rating</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#record" class="tsd-kind-icon">record</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#residence" class="tsd-kind-icon">residence</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="boxrecrating.html#stance" class="tsd-kind-icon">stance</a>
+								<a href="boxrecscheduleparams.html#tv" class="tsd-kind-icon">tv</a>
 							</li>
 						</ul>
 					</li>

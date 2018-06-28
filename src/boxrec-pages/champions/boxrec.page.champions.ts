@@ -1,9 +1,9 @@
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {
     BoxrecBelts,
-    BoxrecChampionsByWeightClass,
+    BoxrecChampionsByWeightDivision,
     BoxrecUnformattedChampions,
-    WeightClass
+    WeightDivision
 } from "./boxrec.champions.constants";
 import {BoxrecBasic} from "../boxrec.constants";
 
@@ -19,7 +19,7 @@ const beltOrganizations: BoxrecBelts = {
     WBA: null,
 };
 
-const weightClasses: BoxrecChampionsByWeightClass = {
+const weightDivisions: BoxrecChampionsByWeightDivision = {
     heavyweight: beltOrganizations,
     cruiserweight: beltOrganizations,
     lightHeavyweight: beltOrganizations,
@@ -53,13 +53,13 @@ export class BoxrecPageChampions {
         return this._champions;
     }
 
-    getByWeightClass(): BoxrecChampionsByWeightClass {
-        const championsFormatted: BoxrecChampionsByWeightClass = weightClasses;
+    getByWeightDivision(): BoxrecChampionsByWeightDivision {
+        const championsFormatted: BoxrecChampionsByWeightDivision = weightDivisions;
         const champions: BoxrecUnformattedChampions[] = this.champions;
 
-        for (const weightClass of champions) {
-            const weightClassFormatted: string = changeToCamelCase(weightClass.weightClass);
-            (championsFormatted as any)[weightClassFormatted] = weightClass.beltHolders;
+        for (const weightDivision of champions) {
+            const weightDivisionFormatted: string = changeToCamelCase(weightDivision.weightDivision);
+            (championsFormatted as any)[weightDivisionFormatted] = weightDivision.beltHolders;
         }
 
         return championsFormatted;
@@ -70,8 +70,8 @@ export class BoxrecPageChampions {
     }
 
     private parse(): void {
-        let obj: BoxrecUnformattedChampions[] = [];
-        let listOfBoxingOrganizations: string[] = [];
+        const obj: BoxrecUnformattedChampions[] = [];
+        const listOfBoxingOrganizations: string[] = [];
 
         $(".dataTable tr:nth-child(1) th").each((index: number, elem: CheerioElement) => {
             let boxingOrganization: string = $(elem).text();
@@ -88,17 +88,17 @@ export class BoxrecPageChampions {
             // the first row is the list of belt name
             // the second part of this is that there are empty table rows between weight classes
             if (index !== 0 && index % 2 !== 0) {
-                const weightClass: string = $(elem).find("td:nth-child(1)").text();
+                const weightDivision: string = $(elem).find("td:nth-child(1)").text();
 
                 obj.push({
-                    weightClass: weightClass as WeightClass,
+                    weightDivision: weightDivision as WeightDivision,
                     beltHolders: Object.assign({}, beltOrganizations),
                 });
                 const last: number = obj.length - 1;
 
                 $(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
                     if (tdIndex !== 0) {
-                        let boxer: BoxrecBasic | null = {
+                        const boxer: BoxrecBasic | null = {
                             id: null,
                             name: null,
                         };
@@ -124,8 +124,6 @@ export class BoxrecPageChampions {
                                 }
                             }
                         }
-
-
                     }
                 });
             }

@@ -1,8 +1,8 @@
 import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 import {BoxrecPromoter} from "./boxrec.event.constants";
-import {BoxrecSearchMetadata} from "../search/boxrec.search.constants";
+import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -12,13 +12,15 @@ let $: CheerioStatic;
  */
 export class BoxrecPageEvent {
 
+    private _id: string;
     private _date: string;
     private _location: string | null;
     private _commission: string;
     private _promoter: string | null;
     private _matchmaker: string | null;
+    private _doctor: string | null;
+    private _inspector: string | null;
     private _television: string;
-    private _metadata: string;
     private _bouts: [string, string | null][] = [];
 
     constructor(boxrecBodyString: string) {
@@ -27,8 +29,12 @@ export class BoxrecPageEvent {
         this.parseBouts();
     }
 
-    get date(): string | null {
-        return this.metadata.startDate;
+    get id(): number {
+        return parseInt(this._id, 10);
+    }
+
+    get date(): string {
+        return trimRemoveLineBreaks(this._date);
     }
 
     get commission(): string | null {
@@ -37,24 +43,6 @@ export class BoxrecPageEvent {
         }
 
         return null;
-    }
-
-    get metadata(): BoxrecSearchMetadata {
-        if (this._metadata) {
-            return JSON.parse(this._metadata)[0];
-        }
-
-        return {
-            startDate: null,
-            location: {
-                address: {
-                    addressCountry: null,
-                    addressLocality: null,
-                    addressRegion: null,
-                    streetAddress: null,
-                }
-            }
-        };
     }
 
     get matchmaker(): BoxrecBasic[] {
@@ -77,8 +65,7 @@ export class BoxrecPageEvent {
     }
 
     get location(): BoxrecBoutLocation {
-        // instead of returning undefined, I'm sure there will be records where pieces of this information are missing or different
-        const location: BoxrecBoutLocation = {
+        const locationObject: BoxrecBoutLocation = {
             location: {
                 town: null,
                 id: null,
@@ -91,43 +78,57 @@ export class BoxrecPageEvent {
             },
         };
 
-        const metadata: BoxrecSearchMetadata = this.metadata;
+        const html: Cheerio = $(`<div>${this._location}</div>`);
+        const links: Cheerio = html.find("a");
+        const venueId: RegExpMatchArray | null = links.get(0).attribs.href.match(/(\d+)$/);
+        const venueName: string | undefined = links.get(0).children[0].data;
+        const locationMatches: RegExpMatchArray | null = links.get(1).attribs.href.match(townRegionCountryRegex) as string[];
 
-        if (metadata && metadata.location && metadata.location.address) {
-            const {streetAddress: venueName, addressLocality: town, addressRegion: region, addressCountry: country} = metadata.location.address;
+        if (venueId && venueId[1] && venueName) {
+            locationObject.venue.id = parseInt(venueId[1], 10);
+            locationObject.venue.name = venueName;
+        }
 
-            location.venue.name = venueName;
-            location.location.town = town;
-            location.location.region = region;
-            location.location.country = country;
+        if (locationMatches) {
+            const [, country, region, townId] = locationMatches;
+            locationObject.location.id = parseInt(townId, 10);
+            locationObject.location.town = links.get(1).children[0].data as string;
 
-            const regex: RegExp = /(\d+)$/;
-            const html: Cheerio = $(`<div>${this._location}</div>`);
-
-            const venueLink: CheerioElement = html.find("a").get(3);
-            const areaLink: CheerioElement = html.find("a").get(4);
-
-            if (venueLink) {
-                // venue id
-                const venueIdMatches: RegExpMatchArray | null = venueLink.attribs.href.match(regex);
-                if (venueIdMatches && venueIdMatches[1]) {
-                    location.venue.id = parseInt(venueIdMatches[1], 10);
-                }
-            }
-
-            if (areaLink) {
-                // the following regex assumes the query string is always in the same format
-                const areaRegex: RegExp = /\?country=([A-Za-z]+)&region=([A-Za-z]+)&town=(\d+)/;
-                const matches: RegExpMatchArray = areaLink.attribs.href.match(areaRegex) as string[];
-
-                if (matches) {
-                    const [, , , townId] = matches;
-                    location.location.id = parseInt(townId, 10);
-                }
+            // sometimes there are 3 links, sometimes there are 4
+            // 3 usually means `region` is missing, I have not witnessed a different value missing
+            if (links.length === 4) {
+                locationObject.location.region = links.get(2).children[0].data as string;
+                locationObject.location.country = links.get(3).children[0].data as string;
+            } else if (links.length === 3) {
+                locationObject.location.country = links.get(2).children[0].data as string;
             }
         }
 
-        return location;
+        return locationObject;
+    }
+
+    get doctor(): BoxrecBasic[] {
+        const html: Cheerio = $(`<div>${this._doctor}</div>`);
+        const doctors: BoxrecBasic[] = [];
+
+        html.find("a").each((i: number, elem: CheerioElement) => {
+            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
+            doctors.push(doctor);
+        });
+
+        return doctors;
+    }
+
+    get inspector(): BoxrecBasic[] {
+        const html: Cheerio = $(`<div>${this._inspector}</div>`);
+        const inspectors: BoxrecBasic[] = [];
+
+        html.find("a").each((i: number, elem: CheerioElement) => {
+            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
+            inspectors.push(doctor);
+        });
+
+        return inspectors;
     }
 
     get promoter(): BoxrecPromoter[] {
@@ -190,7 +191,7 @@ export class BoxrecPageEvent {
 
     get bouts(): BoxrecPageEventBoutRow[] {
         const bouts: [string, string | null][] = [] = this._bouts;
-        let boutsList: BoxrecPageEventBoutRow[] = [];
+        const boutsList: BoxrecPageEventBoutRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
             const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
             boutsList.push(bout);
@@ -202,7 +203,9 @@ export class BoxrecPageEvent {
     private parseEventData(): void {
         this._date = $("h2:nth-child(2)").text();
 
-        $("table#eventResults thead table tbody tr").each((i: number, elem: CheerioElement) => {
+        const eventResults: Cheerio = $("table#eventResults");
+
+        $(eventResults).find("thead table tbody tr").each((i: number, elem: CheerioElement) => {
             const tag: string = $(elem).find("td:nth-child(1)").text().trim();
             const val: Cheerio = $(elem).find("td:nth-child(2)");
 
@@ -214,17 +217,33 @@ export class BoxrecPageEvent {
                 this._matchmaker = val.html();
             } else if (tag === "television") {
                 this._television = val.text();
+            } else if (tag === "doctor") {
+                this._doctor = val.html();
+            } else if (tag === "inspector") {
+                this._inspector = val.html();
             }
         });
 
-        this._metadata = $("script[type='application/ld+json']").html() || "";
-        this._location = $("table#eventResults thead table").html();
+        const date: string = $(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
+        // if date hasn't been set, this will be an empty string, leave as null
+        if (date) {
+            this._date = new Date(date).toISOString().slice(0, 10);
+        }
+
+        const wikiHref: string | null = $(eventResults).find("h2").next().find(".bio_closedP").parent().attr("href");
+        if (wikiHref) {
+            const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
+            if (wikiLink && wikiLink[1]) {
+                this._id = wikiLink[1];
+            }
+        }
+
+        this._location = $(eventResults).find("thead table > tbody tr:nth-child(2) b").html();
     }
 
     private parseBouts(): void {
         const tr: Cheerio = $("table#eventResults > tbody tr");
         tr.each((i: number, elem: CheerioElement) => {
-
             const boutId: string = $(elem).attr("id");
 
             // skip rows that are associated with the previous fight

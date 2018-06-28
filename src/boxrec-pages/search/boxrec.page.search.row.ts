@@ -1,11 +1,11 @@
 import {Location, Record, WinLossDraw} from "../boxrec.constants";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {getColumnData} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
-export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
+export class BoxrecPageSearchRow extends BoxrecCommonTablesClass {
 
     private _idName: string;
     private _alias: string;
@@ -25,7 +25,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get id(): number {
         if (this._idName) {
-            return <number>super.parseId(this._idName);
+            return <number>BoxrecCommonTablesClass.parseId(this._idName);
         }
 
         return -1;
@@ -33,7 +33,7 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
 
     get name(): string | null {
         if (this._idName) {
-            return super.parseName(this._idName);
+            return BoxrecCommonTablesClass.parseName(this._idName);
         }
 
         return null;
@@ -48,19 +48,19 @@ export class BoxrecPageSearchBoxerRow extends BoxrecCommonTablesClass {
     }
 
     get career(): (number | null)[] {
-        return super.parseCareer(this._career);
+        return BoxrecCommonTablesClass.parseCareer(this._career);
     }
 
     get record(): Record {
-        return super.parseRecord(this._record);
+        return BoxrecCommonTablesClass.parseRecord(this._record);
     }
 
     get last6(): WinLossDraw[] {
-        return super.parseLast6Column(this._last6);
+        return BoxrecCommonTablesClass.parseLast6Column(this._last6);
     }
 
     get residence(): Location {
-        return super.parseLocationLink(this._location);
+        return BoxrecCommonTablesClass.parseLocationLink(this._location);
     }
 
     private parse(): void {

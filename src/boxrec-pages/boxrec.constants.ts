@@ -1,5 +1,6 @@
 import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
+import * as path from "path";
 
 // used to get mocks from boxrec-mocks repo
 export const boxRecMocksModulePath: string = "./node_modules/boxrec-mocks/pages/";
@@ -39,15 +40,10 @@ export interface Record {
     draw: number | null;
 }
 
-export interface BoxrecId {
-    id: string | null;
-    name: string | null;
-}
-
 export interface BoxrecBoutBasic {
     judges: BoxrecJudge[];
     metadata: string;
-    titles: BoxrecId[];
+    titles: BoxrecBasic[];
     rating: number | null;
     links: BoxrecProfileBoutLinks | BoxrecEventLinks;
     result: [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null];
@@ -66,13 +62,6 @@ export interface BoxrecBout extends BoxrecBoutBasic {
     date: string;
     location: BoxrecProfileBoutLocation;
     links: BoxrecProfileBoutLinks;
-}
-
-export interface BoxrecEventBout extends BoxrecBoutBasic {
-    firstBoxer: BoxrecBasic;
-    firstBoxerLast6: WinLossDraw[];
-    firstBoxerRecord: Record;
-    links: BoxrecEventLinks;
 }
 
 export type Stance = "orthodox" | "southpaw";

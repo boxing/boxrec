@@ -93,6 +93,15 @@ await boxrec.getEventsByLocation({
 });
 ```
 
+### [getSchedule](https://boxing.github.io/boxrec/classes/boxrec.html#getschedule)
+##### Returns schedule information by country code, television, and/or division
+
+```javascript
+await boxrec.getSchedule({
+    countryCode: Country.Canada,
+});
+```
+
 ### [getVenueById](https://boxing.github.io/boxrec/classes/boxrec.html#getvenuebyid)
 ##### Returns venue information and events that occurred there
 

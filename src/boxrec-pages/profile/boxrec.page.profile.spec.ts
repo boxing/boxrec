@@ -148,15 +148,6 @@ describe("class BoxrecPageProfile", () => {
 
     });
 
-    // todo need to make this not change, GGG will retire some day and the rating will disappear I believe
-    describe("getter rating", () => {
-
-        it("should return a number", () => {
-            expect(boxerGGG.rating).toEqual(jasmine.any(Number));
-        });
-
-    });
-
     describe("getter ranking", () => {
 
         it("should return the boxer's ranking", () => {
@@ -168,14 +159,6 @@ describe("class BoxrecPageProfile", () => {
 
         it("should return null if the boxer is not ranked", () => {
             expect(boxerRJJ.ranking).toBeNull();
-        });
-
-    });
-
-    describe("getter vadacbp", () => {
-
-        it("should return if they are enrolled in VADA or not", () => {
-            expect(boxerGGG.vadacbp).toBe("enrolled"); // todo this will change eventually
         });
 
     });
@@ -287,7 +270,11 @@ describe("class BoxrecPageProfile", () => {
             }, {
                 "id": "43/Middleweight",
                 "name": "World Boxing Association Super World Middleweight Title"
-            }, {"id": "6/Middleweight", "name": "World Boxing Council World Middleweight Title"}]);
+            }, {
+                "id": "6/Middleweight",
+                "name": "World Boxing Council World Middleweight Title"
+            }
+            ]);
         });
 
     });
@@ -309,4 +296,3 @@ describe("class BoxrecPageProfile", () => {
     });
 
 });
-

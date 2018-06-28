@@ -1,8 +1,9 @@
 import {BoxrecRole} from "../../search/boxrec.search.constants";
+import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
 export interface BoxrecLocationsPeopleParams {
     country?: Country;
-    division?: string; // todo do we need another division object?
+    division?: WeightDivision;
     offset?: number;
     region?: string;
     role?: BoxrecRole;

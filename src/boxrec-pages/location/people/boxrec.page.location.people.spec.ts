@@ -3,6 +3,7 @@ import * as fs from "fs";
 import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 import {Country} from "./boxrec.location.people.constants";
+import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
 const mockLocation: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockUSALocation.html`, "utf8");
 
@@ -14,10 +15,10 @@ describe("class BoxrecPageLocationPeople", () => {
         location = new BoxrecPageLocationPeople(mockLocation);
     });
 
-    describe("getter output", () => {
+    describe("getter boxers", () => {
 
         it("should return an array of location data", () => {
-            expect(location.output.length).toBeGreaterThan(0);
+            expect(location.boxers.length).toBeGreaterThan(0);
         });
 
         describe("output values", () => {
@@ -25,7 +26,7 @@ describe("class BoxrecPageLocationPeople", () => {
             let locationOutput: BoxrecPageLocationPeopleRow;
 
             beforeAll(() => {
-                locationOutput = location.output[1];
+                locationOutput = location.boxers[1];
             });
 
             describe("getter id", () => {
@@ -40,6 +41,17 @@ describe("class BoxrecPageLocationPeople", () => {
 
                 it("should return the boxer name", () => {
                     expect(locationOutput.name).toEqual(jasmine.any(String));
+                });
+
+            });
+
+            describe("getter division", () => {
+                const weightDivisionValues: string[] = Object.values(WeightDivision);
+
+                it("should return the boxer division", () => {
+                    location.boxers.forEach(boxer => {
+                        expect(weightDivisionValues).toContain(boxer.division);
+                    });
                 });
 
             });

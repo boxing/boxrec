@@ -1,5 +1,5 @@
-import {BoxrecBasic, BoxrecId, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec.constants";
+import {convertFractionsToNumber, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -33,7 +33,126 @@ export abstract class BoxrecCommonTablesClass {
         return null;
     }
 
-    parseLast6Column(htmlString: string): WinLossDraw[] {
+    static parseCareer(htmlString: string): (number | null)[] {
+        const careerMatches: RegExpMatchArray | null = htmlString.match(/(\d{4})-(\d{4})/);
+        if (careerMatches && careerMatches.length === 3) {
+            return [parseInt(careerMatches[1], 10), parseInt(careerMatches[2], 10)];
+        }
+        return [null, null];
+    }
+
+    static parseName(htmlString: string): string {
+        const html: Cheerio = $(`<div>${htmlString}</div>`);
+        let name: string = html.text();
+        name = trimRemoveLineBreaks(name);
+
+        if (name.slice(-1) === "*") {
+            name = name.slice(0, -1);
+        }
+
+        return name;
+    }
+
+    /**
+     * Can parse the id, town, region, country from multiple links
+     * @param {string} htmlString       passed in HTML string, more than likely the contents of an HTML table column
+     * @param {number} linkToLookAt     Sometimes the format is `town, region, country`.  Other times it is `country, region, town`
+     * @returns {Location}
+     */
+    static parseLocationLink(htmlString: string, linkToLookAt: number = 0): Location {
+        const location: Location = {
+            id: null,
+            town: null,
+            region: null,
+            country: null,
+        };
+        const html: Cheerio = $(`<div>${htmlString}</div>`);
+        const links: Cheerio = html.find("a");
+
+        if (links.get(linkToLookAt)) {
+            const link: CheerioElement = links.get(linkToLookAt);
+            const matches: RegExpMatchArray | null = link.attribs.href.match(townRegionCountryRegex) as string[];
+
+            if (matches) {
+                const [, country, region, townId] = matches;
+
+                if (links) {
+                    const data: CheerioElement = link;
+                    if (data) {
+                        // if no `townId` exists, this innerText is not the `town` and is something else
+                        const innerText: string | undefined = data.children[0].data;
+                        if (townId && innerText) {
+                            location.town = innerText;
+                        }
+                        location.country = country || null;
+                        location.region = region || null;
+                        location.id = parseInt(townId, 10) || null;
+                    }
+                }
+            }
+        }
+
+        return location;
+    }
+
+    static parseOutcome(htmlString: string): WinLossDraw {
+        let outcome: string = htmlString;
+        outcome = outcome.trim();
+        let formattedOutcome: WinLossDraw;
+
+        switch (outcome) {
+            case "W":
+                formattedOutcome = WinLossDraw.win;
+                break;
+            case "D":
+                formattedOutcome = WinLossDraw.draw;
+                break;
+            case "L":
+                formattedOutcome = WinLossDraw.loss;
+                break;
+            case "S":
+                formattedOutcome = WinLossDraw.scheduled;
+                break;
+            default:
+                formattedOutcome = WinLossDraw.unknown;
+        }
+
+        return formattedOutcome;
+    }
+
+    static parseOutcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
+        if (trimRemoveLineBreaks(htmlString)) {
+            const html: Cheerio = $(`<div>${htmlString}</div>`);
+            html.find("div").remove();
+            let outcomeByWayOf: string = html.text();
+            outcomeByWayOf = outcomeByWayOf.trim();
+
+            if (parseText) {
+                return BoxingBoutOutcome[outcomeByWayOf as any];
+            }
+
+            return outcomeByWayOf;
+        }
+
+        return null;
+    }
+
+    static parseId(htmlString: string): number | null {
+        const html: Cheerio = $(`<div>${htmlString}</div>`);
+        const href: string = html.find("a").attr("href");
+
+        if (href) {
+            const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
+
+            if (matches && matches[1]) {
+                return parseInt(matches[1], 10);
+            }
+        }
+
+        return null;
+    }
+
+    static parseLast6Column(htmlString: string): WinLossDraw[] {
         const last6: WinLossDraw[] = [];
         const opponentLast6: Cheerio = $(htmlString);
 
@@ -54,36 +173,36 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get firstBoxerWeight(): number | null {
-        return this.parseWeight(this._firstBoxerWeight);
+        return BoxrecCommonTablesClass.parseWeight(this._firstBoxerWeight);
     }
 
     get secondBoxer(): BoxrecBasic {
-        return this.parseNameAndId(this._secondBoxer);
+        return BoxrecCommonTablesClass.parseNameAndId(this._secondBoxer);
     }
 
     get secondBoxerWeight(): number | null {
-        return this.parseWeight(this._secondBoxerWeight);
+        return BoxrecCommonTablesClass.parseWeight(this._secondBoxerWeight);
     }
 
     get secondBoxerRecord(): Record {
-        let record: Record = {
+        const record: Record = {
             win: null,
             loss: null,
             draw: null,
         };
 
         if (this._secondBoxerRecord) {
-            return this.parseRecord(this._secondBoxerRecord);
+            return BoxrecCommonTablesClass.parseRecord(this._secondBoxerRecord);
         }
 
         return record;
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
-        return this.parseLast6Column(this._secondBoxerLast6);
+        return BoxrecCommonTablesClass.parseLast6Column(this._secondBoxerLast6);
     }
 
-    parseNameAndId(htmlString: string): BoxrecBasic {
+    static parseNameAndId(htmlString: string): BoxrecBasic {
         if (trimRemoveLineBreaks(htmlString) !== "TBA") {
             const html: Cheerio = $(`<div>${htmlString}</div>`);
             const href: string = html.find("a").attr("href");
@@ -107,7 +226,7 @@ export abstract class BoxrecCommonTablesClass {
         };
     }
 
-    parseRecord(htmlString: string): Record {
+    static parseRecord(htmlString: string): Record {
         const record: Record = {
             draw: null,
             loss: null,
@@ -129,10 +248,10 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get rating(): number | null {
-        return this.parseRating(this._rating);
+        return BoxrecCommonTablesClass.parseRating(this._rating);
     }
 
-    parseRating(htmlString: string): number | null {
+    static parseRating(htmlString: string): number | null {
         const html: Cheerio = $(htmlString);
         let rating: number | null = null;
         const starRating: Cheerio = html.find(".starRating");
@@ -153,13 +272,28 @@ export abstract class BoxrecCommonTablesClass {
         return rating;
     }
 
+    protected static parseWeight(str: string): number | null {
+        const weight: string = str.trim();
+        let formattedWeight: number | null = null;
+
+        if (weight.length) {
+            formattedWeight = parseInt(weight, 10);
+
+            if (isNaN(parseInt(weight.slice(-1), 10))) {
+                formattedWeight += convertFractionsToNumber(weight.slice(-1));
+            }
+        }
+
+        return formattedWeight;
+    }
+
     get judges(): BoxrecJudge[] {
         return this.parseJudges(this._metadata);
     }
 
     parseJudges(htmlString: string): BoxrecJudge[] {
         const html: Cheerio = $(`<div>${htmlString}</div>`);
-        let judges: BoxrecJudge[] = [];
+        const judges: BoxrecJudge[] = [];
 
         html.find("a").each((index: number, elem: CheerioElement) => {
             const href: string = $(elem).get(0).attribs.href;
@@ -171,7 +305,7 @@ export abstract class BoxrecCommonTablesClass {
                 name = trimRemoveLineBreaks(name);
 
                 const scoreCardRegex: RegExp = /<\/a>\s(\d{1,3})-(\d{1,3})/g;
-                let scorecard: number[] = [];
+                const scorecard: number[] = [];
 
                 let m: RegExpExecArray | null;
                 let i: number = 0;
@@ -200,7 +334,7 @@ export abstract class BoxrecCommonTablesClass {
 
     parseReferee(htmlString: string): BoxrecBasic {
         const html: Cheerio = $(`<div>${htmlString}</div>`);
-        let referee: BoxrecBasic = {
+        const referee: BoxrecBasic = {
             id: null,
             name: null,
         };
@@ -240,38 +374,13 @@ export abstract class BoxrecCommonTablesClass {
         return numberOfRounds;
     }
 
-    parseOutcome(htmlString: string): WinLossDraw {
-        let outcome: string = htmlString;
-        outcome = outcome.trim();
-        let formattedOutcome: WinLossDraw;
-
-        switch (outcome) {
-            case "W":
-                formattedOutcome = WinLossDraw.win;
-                break;
-            case "D":
-                formattedOutcome = WinLossDraw.draw;
-                break;
-            case "L":
-                formattedOutcome = WinLossDraw.loss;
-                break;
-            case "S":
-                formattedOutcome = WinLossDraw.scheduled;
-                break;
-            default:
-                formattedOutcome = WinLossDraw.unknown;
-        }
-
-        return formattedOutcome;
-    }
-
     // maybe there's additional things that people would want to sift through
-    get titles(): BoxrecId[] {
+    get titles(): { id: string, name: string }[] {
         return this.parseTitles(this._metadata);
     }
 
-    parseTitles(htmlString: string): BoxrecId[] {
-        let titles: BoxrecId[] = [];
+    parseTitles(htmlString: string): { id: string, name: string }[] {
+        const titles: { id: string, name: string }[] = [];
         const html: Cheerio = $(`<div>${htmlString}</div>`);
         html.find("a.titleLink").each((index: number, elem: CheerioElement) => {
             const href: string = $(elem).get(0).attribs.href;
@@ -291,104 +400,6 @@ export abstract class BoxrecCommonTablesClass {
         return titles;
     }
 
-    parseOutcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
-        if (trimRemoveLineBreaks(htmlString)) {
-            const html: Cheerio = $(`<div>${htmlString}</div>`);
-            html.find("div").remove();
-            let outcomeByWayOf: string = html.text();
-            outcomeByWayOf = outcomeByWayOf.trim();
-
-            if (parseText) {
-                return BoxingBoutOutcome[outcomeByWayOf as any];
-            }
-
-            return outcomeByWayOf;
-        }
-
-        return null;
-    }
-
-    parseCareer(htmlString: string): (number | null)[] {
-        const career: string = htmlString;
-        const careerMatches: RegExpMatchArray | null = career.match(/(\d{4})-(\d{4})/);
-        if (careerMatches && careerMatches.length === 3) {
-            return [parseInt(careerMatches[1], 10), parseInt(careerMatches[2], 10)];
-        }
-        return [null, null];
-    }
-
-    /**
-     * Can parse the id, town, region, country from multiple links
-     * @param {string} htmlString       passed in HTML string, more than likely the contents of an HTML table column
-     * @param {number} linkToLookAt     Sometimes the format is `town, region, country`.  Other times it is `country, region, town`
-     * @returns {Location}
-     */
-    parseLocationLink(htmlString: string, linkToLookAt: number = 0): Location {
-        let location: Location = {
-            id: null,
-            town: null,
-            region: null,
-            country: null,
-        };
-        const html: Cheerio = $(`<div>${htmlString}</div>`);
-        const links: Cheerio = html.find("a");
-
-        if (links.get(linkToLookAt)) {
-            const link: CheerioElement = links.get(linkToLookAt);
-            // the following regex assumes the query string is always in the same format
-            // `region` and `town` are wrapped with a conditional statement, in some instances the URL just contains ex. `?country=US`
-            const areaRegex: RegExp = /\?country=([A-Za-z]+)(?:&region=([A-Za-z]*))?(?:&town=(\d+))?/;
-            const matches: RegExpMatchArray | null = link.attribs.href.match(areaRegex) as string[];
-
-            if (matches) {
-                const [, country, region, townId] = matches;
-
-                if (links) {
-                    const data: CheerioElement = link;
-                    if (data) {
-                        // if no `townId` exists, this innerText is not the `town` and is something else
-                        const innerText: string | undefined = data.children[0].data;
-                        if (townId && innerText) {
-                            location.town = innerText;
-                        }
-                        location.country = country || null;
-                        location.region = region || null;
-                        location.id = parseInt(townId, 10) || null;
-                    }
-                }
-            }
-        }
-
-        return location;
-    }
-
-    parseId(htmlString: string): number | null {
-        const html: Cheerio = $(`<div>${htmlString}</div>`);
-        const href: string = html.find("a").attr("href");
-
-        if (href) {
-            const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-
-            if (matches && matches[1]) {
-                return parseInt(matches[1], 10);
-            }
-        }
-
-        return null;
-    }
-
-    parseName(htmlString: string): string {
-        const html: Cheerio = $(`<div>${htmlString}</div>`);
-        let name: string = html.text();
-        name = trimRemoveLineBreaks(name);
-
-        if (name.slice(-1) === "*") {
-            name = name.slice(0, -1);
-        }
-
-        return name;
-    }
-
     // maybe there's additional things that people would want to sift through
     get metadata(): string {
         return this._metadata;
@@ -399,26 +410,11 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get outcome(): WinLossDraw {
-        return this.parseOutcome(this._outcome);
-    }
-
-    protected parseWeight(str: string): number | null {
-        const weight: string = str.trim();
-        let formattedWeight: number | null = null;
-
-        if (weight.length) {
-            formattedWeight = parseInt(weight, 10);
-
-            if (isNaN(parseInt(weight.slice(-1), 10))) {
-                formattedWeight += convertFractionsToNumber(weight.slice(-1));
-            }
-        }
-
-        return formattedWeight;
+        return BoxrecCommonTablesClass.parseOutcome(this._outcome);
     }
 
     private outcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
-        return this.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
+        return BoxrecCommonTablesClass.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
     }
 
 }
