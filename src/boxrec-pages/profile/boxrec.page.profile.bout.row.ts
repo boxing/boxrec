@@ -43,10 +43,24 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         return location;
     }
 
+    /**
+     * Returns the boxer's rating in number of points
+     * First number is the boxer's points before the fight
+     * Second number is the boxer's points after the fight
+     * Higher number is better
+     * @returns {(number | null)[]}
+     */
     get firstBoxerRating(): (number | null)[] {
         return BoxrecPageProfileBout.parseBoxerRating(this._firstBoxerRating);
     }
 
+    /**
+     * Returns the opponents's rating in number of points
+     * First number is the boxer's points before the fight
+     * Second number is the boxer's points after the fight
+     * Higher number is better
+     * @returns {(number | null)[]}
+     */
     get secondBoxerRating(): (number | null)[] {
         return BoxrecPageProfileBout.parseBoxerRating(this._secondBoxerRating);
     }

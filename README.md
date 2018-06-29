@@ -163,7 +163,7 @@ boxrec.getEventById(751017)
 .then(event => console.log(event));
 ```
 
-[Output:](https://boxing.github.io/boxrec/interfaces/boxrecevent.html)
+[Output:](https://boxing.github.io/boxrec/classes/boxrecpageevent.html)
 ```javascript
 { date: '2017-09-16',
   commission: 'Nevada Athletic Commission',
@@ -240,6 +240,15 @@ boxrec.getRatings({
         division: null
     };
 ```
+
+### [getTitle](https://boxing.github.io/boxrec/classes/boxrec.html#gettitle)
+##### Get title information including all bouts that occurred for this title
+```javascript
+
+// WBC Middleweight information
+// to get this parameter, the link is on a boxer's profile
+await boxrec.getTitle("6/Middleweight");
+````
 
 ## Documentation
 

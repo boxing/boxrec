@@ -180,7 +180,7 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 				<pre><code class="lang-javascript">boxrec.getEventById(<span class="hljs-number">751017</span>)
 .then(<span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(event));
 </code></pre>
-				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecevent.html">Output:</a></p>
+				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpageevent.html">Output:</a></p>
 				<pre><code class="lang-javascript">{ <span class="hljs-attr">date</span>: <span class="hljs-string">'2017-09-16'</span>,
   <span class="hljs-attr">commission</span>: <span class="hljs-string">'Nevada Athletic Commission'</span>,
   <span class="hljs-attr">matchmaker</span>:
@@ -250,6 +250,14 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
         },
         <span class="hljs-attr">division</span>: <span class="hljs-literal">null</span>
     };
+</code></pre>
+				<h3 id="gettitle"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#gettitle">getTitle</a></h3>
+				<h5 id="get-title-information-including-all-bouts-that-occurred-for-this-title">Get title information including all bouts that occurred for this title</h5>
+				<pre><code class="lang-javascript">
+<span class="hljs-comment">// WBC Middleweight information</span>
+<span class="hljs-comment">// to get this parameter, the link is on a boxer's profile</span>
+<span class="hljs-keyword">await</span> boxrec.getTitle(<span class="hljs-string">"6/Middleweight"</span>);
+<span class="hljs-string">`</span>
 </code></pre>
 				<h2 id="documentation">Documentation</h2>
 				<p><a href="https://boxing.github.io/boxrec">Additional documentation</a></p>
@@ -335,6 +343,12 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpagesearchrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Search<wbr>Row</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpagetitle.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Title</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpagetitlerow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Title<wbr>Row</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpagevenue.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Venue</a>

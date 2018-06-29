@@ -207,7 +207,6 @@ export abstract class BoxrecCommonTablesClass {
             const html: Cheerio = $(`<div>${htmlString}</div>`);
             const href: string = html.find("a").attr("href");
             const regex: RegExp = /(\d+)$/;
-
             if (href) {
                 const matches: RegExpMatchArray | null = href.match(regex);
 

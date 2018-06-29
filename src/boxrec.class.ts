@@ -20,6 +20,7 @@ import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -227,7 +228,7 @@ export class Boxrec {
     /**
      * Makes a request to BoxRec to get a list of scheduled events
      * @param {BoxrecScheduleParams} params
-     * @returns {Promise<void>}
+     * @returns {Promise<BoxrecPageSchedule>}
      */
     async getSchedule(params: BoxrecScheduleParams): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
@@ -244,6 +245,20 @@ export class Boxrec {
         });
 
         return new BoxrecPageSchedule(boxrecPageBody);
+    }
+
+    /**
+     * Makes a request to BoxRec to the specific title URL to get a belt's history
+     * @param {string} titleUrl
+     * @returns {Promise<BoxrecPageTitle>}
+     */
+    async getTitle(titleUrl: string = ""): Promise<BoxrecPageTitle> {
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: `http://boxrec.com/en/title/${titleUrl}`,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageTitle(boxrecPageBody);
     }
 
     /**

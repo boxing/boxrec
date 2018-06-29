@@ -9,6 +9,8 @@ import {Country} from "./boxrec-pages/location/people/boxrec.location.people.con
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
+import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
 
 export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -87,7 +89,7 @@ describe("class Boxrec (E2E)", () => {
 
                 describe("hasBoxerRatings", () => {
 
-                    it("should always be true because we make an additional call if it is false", () => {
+                    it("should always return true because it'll make another call if all the columns aren't there", () => {
                         expect(getBoxer(352).bouts[49].hasBoxerRatings).toBe(true);
                     });
 
@@ -442,6 +444,81 @@ describe("class Boxrec (E2E)", () => {
 
             it("should return the ABC belts", () => {
                 expect(results.champions[0].beltHolders.IBF).toBeDefined();
+            });
+
+        });
+
+    });
+
+    describe("method getTitle", () => {
+
+        const WBCMiddleweightEndpoint: string = "6/Middleweight";
+        let WBCMiddleweightResult: BoxrecPageTitle;
+
+        beforeAll(async () => {
+            WBCMiddleweightResult = await boxrec.getTitle(WBCMiddleweightEndpoint);
+        });
+
+        describe("getter name", () => {
+
+            it("should return the name of the title", () => {
+                expect(WBCMiddleweightResult.name).toBe("World Boxing Council World Middleweight Title");
+            });
+
+        });
+
+        describe("getter champion", () => {
+
+            it("should return the name and id of current champion", () => {
+                expect(WBCMiddleweightResult.champion).toEqual({
+                    id: jasmine.any(Number),
+                    name: jasmine.any(String),
+                });
+            });
+
+        });
+
+        describe("getter numberOfBouts", () => {
+
+            it("should return the number of bouts that have occurred for this title", () => {
+                expect(WBCMiddleweightResult.numberOfBouts).toBeGreaterThanOrEqual(117);
+            });
+
+        });
+
+        describe("getter bouts", () => {
+
+            it("should return an array of bouts that occurred for this title", () => {
+                expect(WBCMiddleweightResult.bouts).toEqual(jasmine.any(Array));
+            });
+
+            describe("bout values", () => {
+
+                let mostRecentWBCBout: BoxrecPageTitleRow;
+
+                beforeAll(() => {
+                    mostRecentWBCBout = WBCMiddleweightResult.bouts[0];
+                });
+
+                it("should include the date", () => {
+                    expect(mostRecentWBCBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                });
+
+                it("should include the name and id of the first boxer", () => {
+                    expect(mostRecentWBCBout.firstBoxer.id).not.toBeNull();
+                    expect(mostRecentWBCBout.firstBoxer.name).not.toBeNull();
+                });
+
+                it("should include the name and id of the second boxer", () => {
+                    expect(mostRecentWBCBout.secondBoxer.id).not.toBeNull();
+                    expect(mostRecentWBCBout.secondBoxer.name).not.toBeNull();
+                });
+
+                it("should include the number of rounds", () => {
+                    expect(mostRecentWBCBout.numberOfRounds[0]).toBeGreaterThan(0);
+                    expect(mostRecentWBCBout.numberOfRounds[1]).toBeGreaterThan(0);
+                });
+
             });
 
         });
