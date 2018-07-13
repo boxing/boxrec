@@ -85,6 +85,38 @@ describe("class Boxrec (E2E)", () => {
 
                 });
 
+                describe("hasBoxerRatings", () => {
+
+                    it("should always be true because we make an additional call if it is false", () => {
+                        expect(getBoxer(352).bouts[49].hasBoxerRatings).toBe(true);
+                    });
+
+                });
+
+                describe("firstBoxerRating", () => {
+
+                    it("should return the boxer rating before and after the bout", () => {
+                        expect(getBoxer(352).bouts[49].firstBoxerRating).toEqual([596, 596]);
+                    });
+
+                    it("should strip all commas from the rating", () => {
+                        expect(getBoxer(352).bouts[47].firstBoxerRating).toEqual([1582, 1904]);
+                    });
+
+                });
+
+                describe("secondBoxerRating", () => {
+
+                    it("should return the boxer rating before and after the bout", () => {
+                        expect(getBoxer(352).bouts[49].secondBoxerRating).toEqual([0, 0]);
+                    });
+
+                    it("should strip all commas from the rating", () => {
+                        expect(getBoxer(352).bouts[47].secondBoxerRating).toEqual([1008, 778]);
+                    });
+
+                });
+
                 describe("last 6", () => {
 
                     it("should return an empty array if it's the boxer's debut bout", () => {
