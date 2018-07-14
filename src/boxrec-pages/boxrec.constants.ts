@@ -1,15 +1,14 @@
 import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
-import * as path from "path";
 
 // used to get mocks from boxrec-mocks repo
 export const boxRecMocksModulePath: string = "./node_modules/boxrec-mocks/pages/";
 
 export interface Location {
-    town: string | null;
+    country: string | null;
     id: number | null;
     region: string | null;
-    country: string | null;
+    town: string | null;
 }
 
 export interface BoxrecBoutLocation {
@@ -35,33 +34,31 @@ export interface BoxrecJudge extends BoxrecBasic {
 }
 
 export interface Record {
-    win: number | null;
-    loss: number | null;
     draw: number | null;
+    loss: number | null;
+    win: number | null;
 }
 
 export interface BoxrecBoutBasic {
-    judges: BoxrecJudge[];
-    metadata: string;
-    titles: BoxrecBasic[];
-    rating: number | null;
-    links: BoxrecProfileBoutLinks | BoxrecEventLinks;
-    result: [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null];
-    referee: BoxrecBasic;
-    numberOfRounds: number;
-
     firstBoxerWeight: number | null;
-
+    judges: BoxrecJudge[];
+    links: BoxrecProfileBoutLinks | BoxrecEventLinks;
+    metadata: string;
+    numberOfRounds: number;
+    rating: number | null;
+    referee: BoxrecBasic;
+    result: [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null];
     secondBoxer: BoxrecBasic;
     secondBoxerLast6: WinLossDraw[];
     secondBoxerRecord: Record;
     secondBoxerWeight: number | null;
+    titles: BoxrecBasic[];
 }
 
 export interface BoxrecBout extends BoxrecBoutBasic {
     date: string;
-    location: BoxrecProfileBoutLocation;
     links: BoxrecProfileBoutLinks;
+    location: BoxrecProfileBoutLocation;
 }
 
 export type Stance = "orthodox" | "southpaw";

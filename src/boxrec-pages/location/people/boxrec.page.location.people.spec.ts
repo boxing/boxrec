@@ -50,7 +50,12 @@ describe("class BoxrecPageLocationPeople", () => {
 
                 it("should return the boxer division", () => {
                     location.boxers.forEach(boxer => {
-                        expect(weightDivisionValues).toContain(boxer.division);
+                        if (boxer.division) {
+                            expect(weightDivisionValues).toContain(boxer.division);
+                        } else {
+                            expect(boxer.division).toBeNull();
+                        }
+
                     });
                 });
 

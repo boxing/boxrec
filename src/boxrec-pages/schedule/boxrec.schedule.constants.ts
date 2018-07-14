@@ -3,8 +3,8 @@ import {Country} from "../location/people/boxrec.location.people.constants";
 export interface BoxrecScheduleParams {
     countryCode?: Country;
     division?: string;
-    tv?: string;
     offset?: number;
+    tv?: string;
 }
 
 export interface BoxrecScheduleParamsTransformed {

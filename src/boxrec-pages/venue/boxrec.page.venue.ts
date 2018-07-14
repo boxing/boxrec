@@ -11,27 +11,16 @@ let $: CheerioStatic;
  */
 export class BoxrecPageVenue {
 
-    private _name: string;
+    private _events: string[] = [];
     private _localBoxers: { id: number, name: string }[] = [];
     private _localManagers: { id: number, name: string }[] = [];
-    private _events: string[] = [];
+    private _name: string;
 
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
 
         this.parseBasicInfo();
         this.parseEvents();
-    }
-
-    get name(): string {
-        return trimRemoveLineBreaks(this._name);
-    }
-
-    // we're going to return the first event that has the Location object
-    // that's assuming that there's no venues on BoxRec with no event associated with it
-    // worst case scenario we could just return the string of the location
-    get location(): Location {
-        return this.events[0].location;
     }
 
     /**
@@ -41,6 +30,9 @@ export class BoxrecPageVenue {
     get events(): BoxrecPageVenueEventsRow[] {
         return this._events.map(item => new BoxrecPageVenueEventsRow(item));
     }
+
+    // we're going to return the first event that has the Location object
+    // that's assuming that there's no venues on BoxRec with no event associated with it
 
     /**
      * Returns an array of boxers that are in the area
@@ -56,6 +48,15 @@ export class BoxrecPageVenue {
      */
     get localManagers(): { id: number, name: string }[] {
         return this._localManagers;
+    }
+
+    // worst case scenario we could just return the string of the location
+    get location(): Location {
+        return this.events[0].location;
+    }
+
+    get name(): string {
+        return trimRemoveLineBreaks(this._name);
     }
 
     private parseBasicInfo(): void {

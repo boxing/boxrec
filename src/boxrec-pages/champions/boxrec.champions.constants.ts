@@ -1,37 +1,37 @@
 import {BoxrecBasic} from "../boxrec.constants";
 
 export interface BoxrecChampionsByWeightDivision {
-    heavyweight: BoxrecBelts;
+    bantamweight: BoxrecBelts;
     cruiserweight: BoxrecBelts;
+    featherWeight: BoxrecBelts;
+    flyweight: BoxrecBelts;
+    heavyweight: BoxrecBelts;
+    lightFlyweight: BoxrecBelts;
     lightHeavyweight: BoxrecBelts;
-    superMiddleweight: BoxrecBelts;
+    lightweight: BoxrecBelts;
     middleweight: BoxrecBelts;
+    minimumweight: BoxrecBelts;
+    superBantamweight: BoxrecBelts;
+    superFeatherweight: BoxrecBelts;
+    superFlyweight: BoxrecBelts;
+    superLightweight: BoxrecBelts;
+    superMiddleweight: BoxrecBelts;
     superWelterweight: BoxrecBelts;
     welterweight: BoxrecBelts;
-    superLightweight: BoxrecBelts;
-    lightweight: BoxrecBelts;
-    superFeatherweight: BoxrecBelts;
-    featherWeight: BoxrecBelts;
-    superBantamweight: BoxrecBelts;
-    bantamweight: BoxrecBelts;
-    superFlyweight: BoxrecBelts;
-    flyweight: BoxrecBelts;
-    lightFlyweight: BoxrecBelts;
-    minimumweight: BoxrecBelts;
 }
 
 export interface BoxrecBelts {
     BoxRec: BoxrecBasic | null;
-    WBC: BoxrecBasic | null;
-    IBO: BoxrecBasic | null;
-    WBO: BoxrecBasic | null;
     IBF: BoxrecBasic | null;
+    IBO: BoxrecBasic | null;
     WBA: BoxrecBasic | null;
+    WBC: BoxrecBasic | null;
+    WBO: BoxrecBasic | null;
 }
 
 export interface BoxrecUnformattedChampions {
-    weightDivision: WeightDivision;
     beltHolders: BoxrecBelts;
+    weightDivision: WeightDivision;
 }
 
 export enum WeightDivision {

@@ -7,18 +7,19 @@ export interface BoxrecRatingsParams {
 }
 
 export interface BoxrecRatingsParamsTransformed {
+    offset?: number;
     "r[division]"?: string;
     "r[sex]"?: "M" | "F";
     "r[status]"?: "a" | "";
 }
 
 export interface BoxrecRating extends BoxrecBasic {
+    age: number | null;
+    division: string | null;
+    last6: WinLossDraw[];
     points: number | null;
     rating: number | null;
-    age: number | null;
     record: Record;
-    last6: WinLossDraw[];
-    stance: Stance | null;
     residence: Location;
-    division: string | null;
+    stance: Stance | null;
 }

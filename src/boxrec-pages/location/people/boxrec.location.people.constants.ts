@@ -4,11 +4,20 @@ import {WeightDivision} from "../../champions/boxrec.champions.constants";
 export interface BoxrecLocationsPeopleParams {
     country?: Country;
     division?: WeightDivision;
-    offset?: number;
+    l_go?: any; // BoxRec param that doesn't do anything
     region?: string;
     role?: BoxrecRole;
     town?: string;
+}
+
+export interface BoxrecLocationsPeopleParamsTransformed {
+    "l[country]"?: Country;
+    "l[division]"?: WeightDivision;
+    "l[region]"?: string;
+    "l[role]"?: BoxrecRole;
+    "l[town]"?: string;
     l_go?: any; // BoxRec param that doesn't do anything
+    offset?: number;
 }
 
 // if needed to rebuild

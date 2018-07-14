@@ -7,13 +7,12 @@ let $: CheerioStatic;
 
 export class BoxrecPageSearchRow extends BoxrecCommonTablesClass {
 
-    private _idName: string;
     private _alias: string;
-    private _record: string;
-    private _last6: string;
-    private _division: string;
     private _career: string;
+    private _idName: string;
+    private _last6: string;
     private _location: string;
+    private _record: string;
 
     constructor(boxrecBodySearchRow: string) {
         super();
@@ -21,6 +20,14 @@ export class BoxrecPageSearchRow extends BoxrecCommonTablesClass {
         $ = cheerio.load(html);
 
         this.parse();
+    }
+
+    get alias(): string | null {
+        return BoxrecCommonTablesClass.parseAlias(this._alias);
+    }
+
+    get career(): (number | null)[] {
+        return BoxrecCommonTablesClass.parseCareer(this._career);
     }
 
     get id(): number {
@@ -31,6 +38,10 @@ export class BoxrecPageSearchRow extends BoxrecCommonTablesClass {
         return -1;
     }
 
+    get last6(): WinLossDraw[] {
+        return BoxrecCommonTablesClass.parseLast6Column(this._last6);
+    }
+
     get name(): string | null {
         if (this._idName) {
             return BoxrecCommonTablesClass.parseName(this._idName);
@@ -39,24 +50,8 @@ export class BoxrecPageSearchRow extends BoxrecCommonTablesClass {
         return null;
     }
 
-    get alias(): string | null {
-        return BoxrecCommonTablesClass.parseAlias(this._alias);
-    }
-
-    get division(): string {
-        return this._division.trim();
-    }
-
-    get career(): (number | null)[] {
-        return BoxrecCommonTablesClass.parseCareer(this._career);
-    }
-
     get record(): Record {
         return BoxrecCommonTablesClass.parseRecord(this._record);
-    }
-
-    get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesClass.parseLast6Column(this._last6);
     }
 
     get residence(): Location {

@@ -49,7 +49,7 @@ describe("class BoxrecPageSchedule", () => {
             });
 
             describe("getter location", () => {
-                
+
                 it("should return the country", () => {
                     expect(event.location.location.country).not.toBeUndefined();
                 });

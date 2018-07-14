@@ -1,4 +1,18 @@
+## 0.15.0 (2018-07-25) 
+
+### Added
+
+- Can now get the profile events/bouts for other roles (doctor, inspector, judge, manager, matchmaker, promoter, referre, supervisor)
+- `offset` param now works for all endpoints that support it
+- Made use of typedocs `@hidden` tag to hide private properties, methods
+
+### Fixed
+
+- Sometimes `division` was missing on pages, the code expected a string and would throw an error trying to `trim()` `undefined`.  In these scenarios it will return `null`
+
 ## 0.14.0 (2018-07-13)
+
+### Added
 
 - Can now get title information including all bouts that occurred for that belt
 - Profile bouts will now return the ratings for both boxers before and after a bout

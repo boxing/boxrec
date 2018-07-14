@@ -9,8 +9,8 @@ export class BoxrecPageTitleRow extends BoxrecCommonTablesClass {
 
     private _date: string;
     private _firstBoxer: string;
-    private _location: string;
     private _links: string;
+    private _location: string;
 
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
         super();
@@ -29,10 +29,6 @@ export class BoxrecPageTitleRow extends BoxrecCommonTablesClass {
         return BoxrecCommonTablesClass.parseNameAndId(this._firstBoxer);
     }
 
-    get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesClass.parseNameAndId(this._secondBoxer);
-    }
-
     get location(): Location {
         return BoxrecCommonTablesClass.parseLocationLink(this._location, 1);
     }
@@ -47,6 +43,10 @@ export class BoxrecPageTitleRow extends BoxrecCommonTablesClass {
         const parsedNumberOfRounds: number = parseInt(numberOfRounds, 10);
         // went to decision
         return [parsedNumberOfRounds, parsedNumberOfRounds];
+    }
+
+    get secondBoxer(): BoxrecBasic {
+        return BoxrecCommonTablesClass.parseNameAndId(this._secondBoxer);
     }
 
     private parse(): void {

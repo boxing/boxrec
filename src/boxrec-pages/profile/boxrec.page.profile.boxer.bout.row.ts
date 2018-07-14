@@ -1,46 +1,32 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
-export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
+export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
 
-    // a profile page of a boxer will have ratings before/after a match
     public hasBoxerRatings: boolean = false;
-
     private _date: string;
+    private _firstBoxerRating: string;
     private _links: string;
     private _location: string;
-    private _firstBoxerRating: string;
     private _secondBoxerRating: string;
     private _startColumn: number = 1;
+    private role: BoxrecRole = BoxrecRole.boxer;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         $ = cheerio.load(html);
-
         this.parseBout();
         this.parseMetadata();
     }
 
     get date(): string {
         return trimRemoveLineBreaks(this._date);
-    }
-
-    get location(): BoxrecProfileBoutLocation {
-        // instead of returning undefined, I'm sure there will be records where pieces of this information are missing or different
-        const location: BoxrecProfileBoutLocation = {
-            town: null,
-            venue: null,
-        };
-        const [venue, town] = this._location.split(",").map(item => item.trim());
-        location.town = town;
-        location.venue = venue;
-
-        return location;
     }
 
     /**
@@ -51,18 +37,7 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
      * @returns {(number | null)[]}
      */
     get firstBoxerRating(): (number | null)[] {
-        return BoxrecPageProfileBout.parseBoxerRating(this._firstBoxerRating);
-    }
-
-    /**
-     * Returns the opponents's rating in number of points
-     * First number is the boxer's points before the fight
-     * Second number is the boxer's points after the fight
-     * Higher number is better
-     * @returns {(number | null)[]}
-     */
-    get secondBoxerRating(): (number | null)[] {
-        return BoxrecPageProfileBout.parseBoxerRating(this._secondBoxerRating);
+        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(this._firstBoxerRating);
     }
 
     // returns an object with keys that contain a class other than `clickableIcon`
@@ -103,6 +78,30 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         return obj;
     }
 
+    get location(): BoxrecProfileBoutLocation {
+        // instead of returning undefined, I'm sure there will be records where pieces of this information are missing or different
+        const location: BoxrecProfileBoutLocation = {
+            town: null,
+            venue: null,
+        };
+        const [venue, town] = this._location.split(",").map(item => item.trim());
+        location.town = town;
+        location.venue = venue;
+
+        return location;
+    }
+
+    /**
+     * Returns the opponents's rating in number of points
+     * First number is the boxer's points before the fight
+     * Second number is the boxer's points after the fight
+     * Higher number is better
+     * @returns {(number | null)[]}
+     */
+    get secondBoxerRating(): (number | null)[] {
+        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(this._secondBoxerRating);
+    }
+
     private static parseBoxerRating(rating: string): (number | null)[] {
         const ratings: (number | null)[] = [null, null];
         const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
@@ -117,9 +116,15 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         return ratings;
     }
 
+    private getColumnData(returnHtml: boolean = false): string {
+        this._startColumn++;
+        return getColumnData($, this._startColumn, returnHtml);
+    }
+
     private parseBout(): void {
         // if the boxer ratings is showing, the number of columns changes from 14 to 16
         const numberOfColumns: number = $(`tr:nth-child(1) td`).length;
+
         this.hasBoxerRatings = numberOfColumns === 16;
 
         // whether the boxer ratings are showing or not, we'll deliver the correct data
@@ -151,12 +156,6 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         this._numberOfRounds = this.getColumnData();
         this._rating = this.getColumnData(true);
         this._links = this.getColumnData(true);
-    }
-
-
-    private getColumnData(returnHtml: boolean = false): string {
-        this._startColumn++;
-        return getColumnData($, this._startColumn, returnHtml);
     }
 
     private parseMetadata(): void {

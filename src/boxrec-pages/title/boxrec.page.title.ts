@@ -11,10 +11,10 @@ let $: CheerioStatic;
  */
 export class BoxrecPageTitle {
 
-    private _name: string;
-    private _champion: string | null;
-    private _numberOfBouts: string;
     private _bouts: [string, string | null][] = [];
+    private _champion: string | null;
+    private _name: string;
+    private _numberOfBouts: string;
 
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
@@ -23,13 +23,24 @@ export class BoxrecPageTitle {
         this.parseBouts();
     }
 
-    get name(): string {
-        return trimRemoveLineBreaks(this._name);
+    /**
+     * A list of bouts that have occurred for this title.  Most recent
+     * @returns {BoxrecPageTitleRow[]}
+     */
+    get bouts(): BoxrecPageTitleRow[] {
+        const bouts: [string, string | null][] = [] = this._bouts;
+        const boutsList: BoxrecPageTitleRow[] = [];
+        bouts.forEach((val: [string, string | null]) => {
+            const bout: BoxrecPageTitleRow = new BoxrecPageTitleRow(val[0], val[1]);
+            boutsList.push(bout);
+        });
+
+        return boutsList;
     }
 
     /**
-     * Return id and name of current champion.  Will return null if title is vacant
-     * @returns {BoxrecBasic | null}
+     * Return id and name of current champion
+     * @returns {BoxrecBasic}
      */
     get champion(): BoxrecBasic {
         const html: Cheerio = $(`<div>${this._champion}</div>`);
@@ -53,19 +64,16 @@ export class BoxrecPageTitle {
         };
     }
 
-    get numberOfBouts(): number {
-        return parseInt(this._numberOfBouts, 10);
+    get name(): string {
+        return trimRemoveLineBreaks(this._name);
     }
 
-    get bouts(): BoxrecPageTitleRow[] {
-        const bouts: [string, string | null][] = [] = this._bouts;
-        const boutsList: BoxrecPageTitleRow[] = [];
-        bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecPageTitleRow = new BoxrecPageTitleRow(val[0], val[1]);
-            boutsList.push(bout);
-        });
-
-        return boutsList;
+    /**
+     * The number of bouts that have occurred for this title
+     * @returns {number}
+     */
+    get numberOfBouts(): number {
+        return parseInt(this._numberOfBouts, 10);
     }
 
     private parse(): void {
