@@ -7,9 +7,15 @@ let $: CheerioStatic;
 
 export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
 
+    // a profile page of a boxer will have ratings before/after a match
+    public hasBoxerRatings: boolean = false;
+
     private _date: string;
     private _links: string;
     private _location: string;
+    private _firstBoxerRating: string;
+    private _secondBoxerRating: string;
+    private _startColumn: number = 1;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         super();
@@ -35,6 +41,28 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         location.venue = venue;
 
         return location;
+    }
+
+    /**
+     * Returns the boxer's rating in number of points
+     * First number is the boxer's points before the fight
+     * Second number is the boxer's points after the fight
+     * Higher number is better
+     * @returns {(number | null)[]}
+     */
+    get firstBoxerRating(): (number | null)[] {
+        return BoxrecPageProfileBout.parseBoxerRating(this._firstBoxerRating);
+    }
+
+    /**
+     * Returns the opponents's rating in number of points
+     * First number is the boxer's points before the fight
+     * Second number is the boxer's points after the fight
+     * Higher number is better
+     * @returns {(number | null)[]}
+     */
+    get secondBoxerRating(): (number | null)[] {
+        return BoxrecPageProfileBout.parseBoxerRating(this._secondBoxerRating);
     }
 
     // returns an object with keys that contain a class other than `clickableIcon`
@@ -75,20 +103,60 @@ export class BoxrecPageProfileBout extends BoxrecCommonTablesClass {
         return obj;
     }
 
+    private static parseBoxerRating(rating: string): (number | null)[] {
+        const ratings: (number | null)[] = [null, null];
+        const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
+            .replace(/,/g, "")
+            .match(/^(\d{1,5})&#x279E;(\d{1,5})$/);
+
+        if (ratingsMatch) {
+            ratings[0] = parseInt(ratingsMatch[1], 10);
+            ratings[1] = parseInt(ratingsMatch[2], 10);
+        }
+
+        return ratings;
+    }
+
     private parseBout(): void {
-        this._date = getColumnData($, 2, false);
-        this._firstBoxerWeight = getColumnData($, 3, false);
-        // empty 4th column
-        this._secondBoxer = getColumnData($, 5);
-        this._secondBoxerWeight = getColumnData($, 6, false);
-        this._secondBoxerRecord = getColumnData($, 7);
-        this._secondBoxerLast6 = getColumnData($, 8);
-        this._location = getColumnData($, 9, false);
-        this._outcome = getColumnData($, 10, false);
-        this._outcomeByWayOf = getColumnData($, 11);
-        this._numberOfRounds = getColumnData($, 12, false);
-        this._rating = getColumnData($, 13);
-        this._links = getColumnData($, 14);
+        // if the boxer ratings is showing, the number of columns changes from 14 to 16
+        const numberOfColumns: number = $(`tr:nth-child(1) td`).length;
+        this.hasBoxerRatings = numberOfColumns === 16;
+
+        // whether the boxer ratings are showing or not, we'll deliver the correct data
+        // set the start column, when calling `getColumnData`, bump the number up
+        this._startColumn = 1;
+
+        this._date = this.getColumnData();
+        this._firstBoxerWeight = this.getColumnData();
+
+        if (this.hasBoxerRatings) {
+            this._firstBoxerRating = this.getColumnData(true);
+        }
+
+        // empty 4th/5th column, move the number ahead
+        this._startColumn++;
+
+        this._secondBoxer = this.getColumnData(true);
+        this._secondBoxerWeight = this.getColumnData();
+
+        if (this.hasBoxerRatings) {
+            this._secondBoxerRating = this.getColumnData(true);
+        }
+
+        this._secondBoxerRecord = this.getColumnData(true);
+        this._secondBoxerLast6 = this.getColumnData(true);
+        this._location = this.getColumnData();
+        this._outcome = this.getColumnData();
+        this._outcomeByWayOf = this.getColumnData(true);
+        this._numberOfRounds = this.getColumnData();
+        this._rating = this.getColumnData(true);
+        this._links = this.getColumnData(true);
+    }
+
+
+    private getColumnData(returnHtml: boolean = false): string {
+        this._startColumn++;
+        return getColumnData($, this._startColumn, returnHtml);
     }
 
     private parseMetadata(): void {

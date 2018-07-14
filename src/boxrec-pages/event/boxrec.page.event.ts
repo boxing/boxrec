@@ -82,7 +82,11 @@ export class BoxrecPageEvent {
         const links: Cheerio = html.find("a");
         const venueId: RegExpMatchArray | null = links.get(0).attribs.href.match(/(\d+)$/);
         const venueName: string | undefined = links.get(0).children[0].data;
-        const locationMatches: RegExpMatchArray | null = links.get(1).attribs.href.match(townRegionCountryRegex) as string[];
+
+        // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
+        const hrefPosition: number = +(links.length === 3 || links.length === 4);
+
+        const locationMatches: RegExpMatchArray | null = links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
 
         if (venueId && venueId[1] && venueName) {
             locationObject.venue.id = parseInt(venueId[1], 10);
@@ -91,16 +95,20 @@ export class BoxrecPageEvent {
 
         if (locationMatches) {
             const [, country, region, townId] = locationMatches;
+
             locationObject.location.id = parseInt(townId, 10);
             locationObject.location.town = links.get(1).children[0].data as string;
 
-            // sometimes there are 3 links, sometimes there are 4
-            // 3 usually means `region` is missing, I have not witnessed a different value missing
+            // there are 2-4 links
+            // 2-3 usually means `region` is missing, 4 means it has town, region, country and venue
             if (links.length === 4) {
                 locationObject.location.region = links.get(2).children[0].data as string;
                 locationObject.location.country = links.get(3).children[0].data as string;
             } else if (links.length === 3) {
                 locationObject.location.country = links.get(2).children[0].data as string;
+            } else if (links.length === 2) {
+                locationObject.location.town = links.get(0).children[0].data as string;
+                locationObject.location.country = links.get(1).children[0].data as string;
             }
         }
 
@@ -143,7 +151,7 @@ export class BoxrecPageEvent {
 
             const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
 
-            if (matches && matches[0]) {
+            if (matches) {
                 id = parseInt(matches[0], 10);
             }
 

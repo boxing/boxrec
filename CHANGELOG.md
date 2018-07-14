@@ -1,3 +1,8 @@
+## 0.14.0 (2018-07-13)
+
+- Can now get title information including all bouts that occurred for that belt
+- Profile bouts will now return the ratings for both boxers before and after a bout
+
 ## 0.13.0 (2018-06-27)
 
 ### Added

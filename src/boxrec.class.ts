@@ -20,6 +20,7 @@ import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -112,19 +113,33 @@ export class Boxrec {
 
     /**
      * Make a request to BoxRec to get a person by their BoxRec Global ID
-     * @param {number} globalId          the BoxRec profile id
-     * @param {BoxrecRole} role          the role of the person in boxing (there seems to be multiple profiles for people if they fall under different roles)
+     * @param {number} globalId                 the BoxRec profile id
+     * @param {BoxrecRole} role                 the role of the person in boxing (there seems to be multiple profiles for people if they fall under different roles)
+     * @param {boolean} callWithToggleRatings   if true, will call the profile with `toggleRatings=y` to get all 16 columns in profile bouts
      * @returns {Promise<BoxrecPageProfile>}
      */
-    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer): Promise<BoxrecPageProfile> {
+    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfile> {
         this.checkIfLoggedIntoBoxRec();
 
+        let uri: string = `http://boxrec.com/en/${role}/${globalId}`;
+
+        if (callWithToggleRatings) {
+            uri += `?toggleRatings=y`;
+        }
+
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/${role}/${globalId}`,
+            uri,
             jar: this._cookieJar,
         });
 
-        return new BoxrecPageProfile(boxrecPageBody);
+        const boxerProfile: BoxrecPageProfile = new BoxrecPageProfile(boxrecPageBody);
+
+        if (boxerProfile.bouts.length === 0 || boxerProfile.bouts[0].hasBoxerRatings) {
+            return boxerProfile;
+        } else {
+            // calls itself with the toggle for `toggleRatings=y`
+            return this.getPersonById(globalId, role, true);
+        }
     }
 
     /**
@@ -136,7 +151,7 @@ export class Boxrec {
      * @param {BoxrecStatus} status         whether the person is active in Boxing or not
      * @yields {BoxrecPageProfile>}         returns a generator to fetch the next person by ID
      */
-    async* getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
+    async * getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all): AsyncIterableIterator<BoxrecPageProfile> {
         this.checkIfLoggedIntoBoxRec();
         const params: BoxrecSearchParams = {
             first_name: firstName,
@@ -213,7 +228,7 @@ export class Boxrec {
     /**
      * Makes a request to BoxRec to get a list of scheduled events
      * @param {BoxrecScheduleParams} params
-     * @returns {Promise<void>}
+     * @returns {Promise<BoxrecPageSchedule>}
      */
     async getSchedule(params: BoxrecScheduleParams): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
@@ -230,6 +245,20 @@ export class Boxrec {
         });
 
         return new BoxrecPageSchedule(boxrecPageBody);
+    }
+
+    /**
+     * Makes a request to BoxRec to the specific title URL to get a belt's history
+     * @param {string} titleUrl
+     * @returns {Promise<BoxrecPageTitle>}
+     */
+    async getTitle(titleUrl: string = ""): Promise<BoxrecPageTitle> {
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            uri: `http://boxrec.com/en/title/${titleUrl}`,
+            jar: this._cookieJar,
+        });
+
+        return new BoxrecPageTitle(boxrecPageBody);
     }
 
     /**

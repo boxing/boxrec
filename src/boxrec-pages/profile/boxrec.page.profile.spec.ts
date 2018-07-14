@@ -277,6 +277,14 @@ describe("class BoxrecPageProfile", () => {
             ]);
         });
 
+        it("should return the rating of the first boxer before and after the fight", () => {
+            expect(bout.firstBoxerRating).toEqual([717, 846]);
+        });
+
+        it("should return the rating of the second boxer before and after the fight", () => {
+            expect(bout.secondBoxerRating).toEqual([1105, 976]);
+        });
+
     });
 
     describe("getter otherInfo", () => {
