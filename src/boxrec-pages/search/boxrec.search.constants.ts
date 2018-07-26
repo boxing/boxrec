@@ -29,28 +29,30 @@ export enum BoxrecRole {
  * The search params to BoxRec are in an array
  */
 export interface BoxrecSearchParamsTransformed {
-    "pf[first_name]": string;
-    "pf[last_name]": string;
-    "pf[role]": BoxrecRole;
-    "pf[status]": BoxrecStatus;
+    "offset"?: number;
+    "pf[first_name]"?: string;
+    "pf[last_name]"?: string;
+    "pf[role]"?: BoxrecRole;
+    "pf[status]"?: BoxrecStatus;
 }
 
 export interface BoxrecSearch extends BoxrecBasic {
-    id: number;
     alias: string | null;
-    record: Record;
-    last6: WinLossDraw[];
-    division: string | null;
     career: (number | null)[];
+    division: string | null;
+    id: number;
+    last6: WinLossDraw[];
+    record: Record;
     residence: Location;
 }
 
 export interface BoxrecSearchMetadata {
-    [key: string]: any;
     location: {
         address: BoxrecSearchLocation;
     };
     startDate: string | null;
+
+    [key: string]: any;
 }
 
 export interface BoxrecSearchLocation {

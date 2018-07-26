@@ -12,16 +12,16 @@ let $: CheerioStatic;
  */
 export class BoxrecPageEvent {
 
-    private _id: string;
-    private _date: string;
-    private _location: string | null;
-    private _commission: string;
-    private _promoter: string | null;
-    private _matchmaker: string | null;
-    private _doctor: string | null;
-    private _inspector: string | null;
-    private _television: string;
     private _bouts: [string, string | null][] = [];
+    private _commission: string;
+    private _date: string;
+    private _doctor: string | null;
+    private _id: string;
+    private _inspector: string | null;
+    private _location: string | null;
+    private _matchmaker: string | null;
+    private _promoter: string | null;
+    private _television: string;
 
     constructor(boxrecBodyString: string) {
         $ = cheerio.load(boxrecBodyString);
@@ -29,12 +29,15 @@ export class BoxrecPageEvent {
         this.parseBouts();
     }
 
-    get id(): number {
-        return parseInt(this._id, 10);
-    }
+    get bouts(): BoxrecPageEventBoutRow[] {
+        const bouts: [string, string | null][] = [] = this._bouts;
+        const boutsList: BoxrecPageEventBoutRow[] = [];
+        bouts.forEach((val: [string, string | null]) => {
+            const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
+            boutsList.push(bout);
+        });
 
-    get date(): string {
-        return trimRemoveLineBreaks(this._date);
+        return boutsList;
     }
 
     get commission(): string | null {
@@ -45,23 +48,36 @@ export class BoxrecPageEvent {
         return null;
     }
 
-    get matchmaker(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._matchmaker}</div>`);
-        const matchmaker: BoxrecBasic[] = [];
+    get date(): string {
+        return trimRemoveLineBreaks(this._date);
+    }
+
+    get doctor(): BoxrecBasic[] {
+        const html: Cheerio = $(`<div>${this._doctor}</div>`);
+        const doctors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = $(elem).get(0).attribs.href.match(/(\d+)$/);
-            if (href) {
-                const name: string = $(elem).text();
-                matchmaker.push({
-                    id: parseInt(href[1], 10),
-                    name,
-                });
-            }
-
+            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
+            doctors.push(doctor);
         });
 
-        return matchmaker;
+        return doctors;
+    }
+
+    get id(): number {
+        return parseInt(this._id, 10);
+    }
+
+    get inspector(): BoxrecBasic[] {
+        const html: Cheerio = $(`<div>${this._inspector}</div>`);
+        const inspectors: BoxrecBasic[] = [];
+
+        html.find("a").each((i: number, elem: CheerioElement) => {
+            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
+            inspectors.push(doctor);
+        });
+
+        return inspectors;
     }
 
     get location(): BoxrecBoutLocation {
@@ -115,28 +131,23 @@ export class BoxrecPageEvent {
         return locationObject;
     }
 
-    get doctor(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._doctor}</div>`);
-        const doctors: BoxrecBasic[] = [];
+    get matchmaker(): BoxrecBasic[] {
+        const html: Cheerio = $(`<div>${this._matchmaker}</div>`);
+        const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
-            doctors.push(doctor);
+            const href: RegExpMatchArray | null = $(elem).get(0).attribs.href.match(/(\d+)$/);
+            if (href) {
+                const name: string = $(elem).text();
+                matchmaker.push({
+                    id: parseInt(href[1], 10),
+                    name,
+                });
+            }
+
         });
 
-        return doctors;
-    }
-
-    get inspector(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._inspector}</div>`);
-        const inspectors: BoxrecBasic[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
-            inspectors.push(doctor);
-        });
-
-        return inspectors;
+        return matchmaker;
     }
 
     get promoter(): BoxrecPromoter[] {
@@ -197,15 +208,34 @@ export class BoxrecPageEvent {
         return null;
     }
 
-    get bouts(): BoxrecPageEventBoutRow[] {
-        const bouts: [string, string | null][] = [] = this._bouts;
-        const boutsList: BoxrecPageEventBoutRow[] = [];
-        bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
-            boutsList.push(bout);
-        });
+    private parseBouts(): void {
+        const tr: Cheerio = $("table#eventResults > tbody tr");
+        tr.each((i: number, elem: CheerioElement) => {
+            const boutId: string = $(elem).attr("id");
 
-        return boutsList;
+            // skip rows that are associated with the previous fight
+            if (!boutId || boutId.includes("second")) {
+                return;
+            }
+
+            // we need to check to see if the next row is associated with this bout
+            let isNextRowAssociated: boolean = false;
+            let nextRow: Cheerio | null = $(elem).next();
+            let nextRowId: string = nextRow.attr("id");
+
+            if (nextRowId) {
+                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
+
+                isNextRowAssociated = nextRowId === boutId;
+                if (!isNextRowAssociated) {
+                    nextRow = null;
+                }
+            } // else if no next bout exists
+
+            const html: string = $(elem).html() || "";
+            const next: string | null = nextRow ? nextRow.html() : null;
+            this._bouts.push([html, next]);
+        });
     }
 
     private parseEventData(): void {
@@ -247,36 +277,6 @@ export class BoxrecPageEvent {
         }
 
         this._location = $(eventResults).find("thead table > tbody tr:nth-child(2) b").html();
-    }
-
-    private parseBouts(): void {
-        const tr: Cheerio = $("table#eventResults > tbody tr");
-        tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = $(elem).attr("id");
-
-            // skip rows that are associated with the previous fight
-            if (!boutId || boutId.includes("second")) {
-                return;
-            }
-
-            // we need to check to see if the next row is associated with this bout
-            let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = $(elem).next();
-            let nextRowId: string = nextRow.attr("id");
-
-            if (nextRowId) {
-                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
-
-                isNextRowAssociated = nextRowId === boutId;
-                if (!isNextRowAssociated) {
-                    nextRow = null;
-                }
-            } // else if no next bout exists
-
-            const html: string = $(elem).html() || "";
-            const next: string | null = nextRow ? nextRow.html() : null;
-            this._bouts.push([html, next]);
-        });
     }
 
 }

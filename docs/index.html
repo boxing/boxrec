@@ -103,7 +103,7 @@ boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge);
 </code></pre>
 				<h3 id="getpeoplebyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname">getPeopleByName</a></h3>
 				<h5 id="search-people-on-boxrec-by-name">Search people on BoxRec by name</h5>
-				<p>Returns a generator which will makes individual calls and returns the <a href="https://boxing.github.io/boxrec/classes/boxrecpageprofile.html">BoxrecPageProfile</a></p>
+				<p>Returns a generator which will makes individual calls, returns differ depending on the profile type </p>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// by default it picks active/inactive boxers</span>
 <span class="hljs-keyword">const</span> floyds = <span class="hljs-keyword">await</span> boxrec.getPeopleByName(<span class="hljs-string">"Floyd"</span>, <span class="hljs-string">"Mayweather"</span>);
@@ -118,7 +118,7 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getPeopleByLocation({
     <span class="hljs-attr">country</span>: Country.USA,
     <span class="hljs-attr">role</span>: BoxrecRole.boxer,
-});
+}, <span class="hljs-number">20</span>); <span class="hljs-comment">// `20` is the search offset.  All endpoints that support `offset` on BoxRec should be supported in this package</span>
 </code></pre>
 				<h3 id="geteventsbylocation"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#geteventsbylocation">getEventsByLocation</a></h3>
 				<h5 id="search-events-by-location">Search events by location</h5>
@@ -327,7 +327,28 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 						<a href="classes/boxrecpageprofile.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/boxrecpageprofilebout.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Bout</a>
+						<a href="classes/boxrecpageprofileboxer.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Boxer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofileboxerboutrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Boxer<wbr>Bout<wbr>Row</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofileeventrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Event<wbr>Row</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofileevents.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofilejudgesupervisor.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Judge<wbr>Supervisor</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofilejudgesupervisorboutrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Judge<wbr>Supervisor<wbr>Bout<wbr>Row</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofilemanager.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/boxrecpageprofilemanagerboxerrow.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Profile<wbr>Manager<wbr>Boxer<wbr>Row</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxrecpageratings.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Ratings</a>
@@ -385,6 +406,9 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxreclocationspeopleparams.html" class="tsd-kind-icon">Boxrec<wbr>Locations<wbr>People<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boxreclocationspeopleparamstransformed.html" class="tsd-kind-icon">Boxrec<wbr>Locations<wbr>People<wbr>Params<wbr>Transformed</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecprofile.html" class="tsd-kind-icon">Boxrec<wbr>Profile</a>

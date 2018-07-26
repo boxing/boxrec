@@ -49,6 +49,10 @@ export class BoxrecPageChampions {
         this.parse();
     }
 
+    get boxingOrganizations(): string[] {
+        return this._listOfBoxingOrganizations;
+    }
+
     get champions(): BoxrecUnformattedChampions[] {
         return this._champions;
     }
@@ -63,10 +67,6 @@ export class BoxrecPageChampions {
         }
 
         return championsFormatted;
-    }
-
-    get boxingOrganizations(): string[] {
-        return this._listOfBoxingOrganizations;
     }
 
     private parse(): void {

@@ -1,32 +1,32 @@
 import {BoxrecBout} from "../boxrec.constants";
 
 export interface BoxrecProfile {
-    name: string | null;
-    globalId: number | null;
-    role: string | null;
-    rating: number | null;
-    ranking: number[][] | null;
-    vadacbp: string | null;
-    numberOfBouts: number;
-    rounds: number | null;
     KOs: number | null;
-    status: string | null;
-    titlesHeld: string[] | null;
-    birthName: string | null;
     alias: string | null;
+    birthName: string | null;
+    birthPlace: string | null;
     born: string | null;
-    nationality: string | null;
+    bouts: BoxrecBout[];
     debut: string | null;
     division: string | null;
+    globalId: number | null;
+    hasBoutScheduled: boolean;
     height: number[] | null;
+    name: string | null;
+    nationality: string | null;
+    numberOfBouts: number;
+    otherInfo: string[][] | null;
+    ranking: number[][] | null;
+    rating: number | null;
     reach: number[] | null;
     residence: string | null;
-    birthPlace: string | null;
+    role: string | null;
+    rounds: number | null;
     stance: string | null;
-    otherInfo: string[][] | null;
-    bouts: BoxrecBout[];
-    hasBoutScheduled: boolean;
+    status: string | null;
     suspended: string | null;
+    titlesHeld: string[] | null;
+    vadacbp: string | null;
 }
 
 export enum BoxrecProfileTable {
@@ -51,11 +51,13 @@ export enum BoxrecProfileTable {
     reach = "reach",
     residence = "residence",
     birthPlace = "birth place",
+    company = "company",
+    registeredContact = "registered contact",
 }
 
 export interface BoxrecProfileBoutLocation {
-    venue: string | null;
     town: string | null;
+    venue: string | null;
 }
 
 export interface BoxrecProfileBoutLinks {

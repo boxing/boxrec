@@ -60,7 +60,7 @@ boxrec.getPersonById(401615, BoxrecRole.judge); // judge CJ Ross
 
 ### [getPeopleByName](https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname)
 ##### Search people on BoxRec by name
-Returns a generator which will makes individual calls and returns the [BoxrecPageProfile](https://boxing.github.io/boxrec/classes/boxrecpageprofile.html)
+Returns a generator which will makes individual calls, returns differ depending on the profile type 
 
 [Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
 ```javascript
@@ -80,7 +80,7 @@ console.log(boxer.value); // is Floyd Mayweather Jr. object
 await boxrec.getPeopleByLocation({
     country: Country.USA,
     role: BoxrecRole.boxer,
-});
+}, 20); // `20` is the search offset.  All endpoints that support `offset` on BoxRec should be supported in this package
 ```
 
 ### [getEventsByLocation](https://boxing.github.io/boxrec/classes/boxrec.html#geteventsbylocation)

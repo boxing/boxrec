@@ -15,11 +15,12 @@ If there is an [open issue](https://github.com/boxing/boxrec/issues) feel free t
 - Run `yarn install` or `npm install` within the parent directory
 - Run `yarn start` to compile
 - For additional commands, look under the scripts section inside `package.json`
+- For testing, run `yarn test-coverage-watch` and `yarn test-e2e`.  If your project requires more mocks, the functionality will have to be added to this [repo](https://github.com/boxing/boxrec-mocks) beforehand.
 
 ## Code Style
 - Follow the same coding style (Use an IDE that supports ES/TSLint/EditorConfig)
 - Keep pull requests to one feature/fix
-- If you're unsure, ask [a member](https://github.com/orgs/boxing/people)
+- If you're unsure of anything, [ask one of these people](https://github.com/orgs/boxing/people)
 
 ## Issues and Bugs
 If you have found a problem, follow these steps:

@@ -9,8 +9,8 @@ export class BoxrecPageVenueEventsRow extends BoxrecCommonTablesClass {
 
     private _date: string;
     private _day: string;
-    private _location: string;
     private _id: string;
+    private _location: string;
 
     constructor(boxrecBodyBout: string) {
         super();
@@ -28,12 +28,12 @@ export class BoxrecPageVenueEventsRow extends BoxrecCommonTablesClass {
         return this._day;
     }
 
-    get location(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
-    }
-
     get id(): number | null {
         return BoxrecCommonTablesClass.parseId(this._id);
+    }
+
+    get location(): Location {
+        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
     }
 
     private parse(): void {

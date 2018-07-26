@@ -9,9 +9,9 @@ export class BoxrecPageLocationEventRow extends BoxrecCommonTablesClass {
 
     private _date: string;
     private _day: string;
-    private _venue: string;
-    private _location: string;
     private _event: string;
+    private _location: string;
+    private _venue: string;
 
     constructor(boxrecBodyBout: string) {
         super();
@@ -27,6 +27,14 @@ export class BoxrecPageLocationEventRow extends BoxrecCommonTablesClass {
 
     get day(): string {
         return this._day;
+    }
+
+    get id(): number | null {
+        return BoxrecCommonTablesClass.parseId(this._event);
+    }
+
+    get location(): Location {
+        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
     }
 
     get venue(): BoxrecBasic {
@@ -48,15 +56,7 @@ export class BoxrecPageLocationEventRow extends BoxrecCommonTablesClass {
         return venue;
     }
 
-    get location(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
-    }
-
-    get id(): number | null {
-        return BoxrecCommonTablesClass.parseId(this._event);
-    }
-
-    parse(): void {
+    private parse(): void {
         const numberOfColumns: number = $(`tr:nth-child(1) td`).length;
 
         if (numberOfColumns === 6) {

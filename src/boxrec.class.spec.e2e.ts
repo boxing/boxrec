@@ -1,16 +1,19 @@
 import {Boxrec} from "./boxrec.class";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
-import {BoxrecRole} from "./boxrec-pages/search/boxrec.search.constants";
+import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
-import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
+import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
+import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
+import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 
 export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -26,6 +29,8 @@ if (!BOXREC_PASSWORD) {
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
 
+jest.setTimeout(30000);
+
 describe("class Boxrec (E2E)", () => {
 
     describe("method login", () => {
@@ -37,10 +42,15 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
+    beforeAll(async () => {
+        const response: Error | void = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+        expect(response).toBeUndefined();
+    });
+
     describe("method getPersonById", () => {
 
-        const boxers: Map<number, BoxrecPageProfile> = new Map();
-        const getBoxer: Function = (id: number): BoxrecPageProfile | undefined => boxers.get(id);
+        const boxers: Map<number, BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = new Map();
+        const getBoxer: Function = (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
 
         beforeAll(async () => {
             await boxers.set(352, await boxrec.getPersonById(352)); // Floyd Mayweather Jr.
@@ -114,7 +124,7 @@ describe("class Boxrec (E2E)", () => {
                     });
 
                     it("should strip all commas from the rating", () => {
-                        expect(getBoxer(352).bouts[47].secondBoxerRating).toEqual([1008, 778]);
+                        expect(getBoxer(352).bouts[47].secondBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                 });
@@ -149,18 +159,51 @@ describe("class Boxrec (E2E)", () => {
 
         describe("where role is judge", () => {
 
-            let judge: BoxrecPageProfile;
+            let judge: BoxrecPageProfileJudgeSupervisor;
 
             beforeAll(async () => {
-                judge = await boxrec.getPersonById(401615, BoxrecRole.judge);
+                judge = await boxrec.getPersonById(401615, BoxrecRole.judge) as BoxrecPageProfileJudgeSupervisor;
             });
 
             it("should return the person's information", () => {
                 expect(judge.name).toBe("C.J. Ross");
             });
 
-            it("should return an empty array for bouts", () => {
-                expect(judge.bouts).toEqual([]);
+            it("should also have bouts to parse that they were a part of", () => {
+                expect(judge.bouts).toEqual(jasmine.any(Array));
+            });
+
+        });
+
+        describe("where role is doctor", () => {
+
+            let doctor: BoxrecPageProfileEvents;
+
+            beforeAll(async () => {
+                doctor = await boxrec.getPersonById(412676, BoxrecRole.doctor) as BoxrecPageProfileEvents;
+            });
+
+            it("should return the person's information", () => {
+                expect(doctor.name).toBe("Anthony Ruggeroli");
+            });
+
+            it("should return an array of events", () => {
+                expect(doctor.events).toEqual(jasmine.any(Array));
+                expect(doctor.events.length).toBeGreaterThan(10);
+            });
+
+        });
+
+        describe("where role is promoter", () => {
+
+            let promoter: BoxrecPageProfileEvents;
+
+            beforeAll(async () => {
+                promoter = await boxrec.getPersonById(419406, BoxrecRole.promoter) as BoxrecPageProfileEvents;
+            });
+
+            it("should return the company name", () => {
+                expect(promoter.company).toBe("Mayweather Promotions");
             });
 
         });
@@ -170,13 +213,20 @@ describe("class Boxrec (E2E)", () => {
     describe("method getSchedule", () => {
 
         let results: BoxrecPageSchedule;
+        let nextResults: BoxrecPageSchedule;
 
         beforeAll(async () => {
             results = await boxrec.getSchedule({});
+            // note: replace the following if have a reason to grab different schedule data
+            nextResults = await boxrec.getSchedule({}, 20);
         });
 
         it("should give an array of schedule events", () => {
             expect(results.events.length).toBeGreaterThanOrEqual(0);
+        });
+
+        it("should use the `offset` to give the next results", async () => {
+            expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
         });
 
         // note: these events will change daily, some of these tests should either use try/catches or loop through events to satisfy the test case
@@ -277,12 +327,26 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPeopleByName", () => {
 
+        let results: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
+        let nextResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
+
+        beforeAll(async () => {
+            results = await boxrec.getPeopleByName("Floyd", "Mayweather");
+            nextResults = await boxrec.getPeopleByName("Floyd", "Mayweather", BoxrecRole.boxer, BoxrecStatus.all, 20);
+        });
+
         it("should return Floyd Sr. and then Floyd Jr.", async () => {
-            const results: AsyncIterableIterator<BoxrecPageProfile> = await boxrec.getPeopleByName("Floyd", "Mayweather");
-            let boxer: IteratorResult<BoxrecPageProfile> = await results.next();
-            expect(boxer.value.birthName).toContain("Floyd");
+            let boxer: IteratorResult<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await results.next();
+            expect(boxer.value.globalId).toEqual(15480);
             boxer = await results.next();
-            expect(boxer.value.birthName).toContain("Floyd");
+            expect(boxer.value.globalId).toEqual(352);
+        });
+
+        it("should return different results if `offset` is used", async () => {
+            const boxer: IteratorResult<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await nextResults.next();
+            // we expect only one page when searching Floyd Mayweather
+            expect(boxer.value).toBeUndefined();
+            expect(boxer.done).toBe(true);
         });
 
     });
@@ -330,12 +394,17 @@ describe("class Boxrec (E2E)", () => {
     describe("method getPeopleByLocation", () => {
 
         let results: BoxrecPageLocationPeople;
+        let nextResults: BoxrecPageLocationPeople;
 
         beforeAll(async () => {
             results = await boxrec.getPeopleByLocation({
                 country: Country.USA,
                 role: BoxrecRole.boxer,
             });
+            nextResults = await boxrec.getPeopleByLocation({
+                country: Country.USA,
+                role: BoxrecRole.boxer,
+            }, 20);
         });
 
         it("should list people by name", () => {
@@ -356,6 +425,10 @@ describe("class Boxrec (E2E)", () => {
             expect(results.boxers[0].miles).toBe(0);
             expect(results.boxers[0].location.region).toBeNull();
             expect(results.boxers[0].location.town).toBeNull();
+        });
+
+        it("should offset the results if using `offset` param", () => {
+            expect(results.boxers[0].id).not.toBe(nextResults.boxers[0].id);
         });
 
     });
@@ -390,12 +463,17 @@ describe("class Boxrec (E2E)", () => {
     describe("method getEventByLocation", () => {
 
         let events: BoxrecPageLocationEvent;
+        let nextEvents: BoxrecPageLocationEvent;
 
         beforeAll(async () => {
             events = await boxrec.getEventsByLocation({
                 country: Country.USA,
                 year: 2017,
             });
+            nextEvents = await boxrec.getEventsByLocation({
+                country: Country.USA,
+                year: 2017,
+            }, 20);
         });
 
         it("should return an array of events", async () => {
@@ -424,6 +502,10 @@ describe("class Boxrec (E2E)", () => {
 
         it("should return the event id as id", () => {
             expect(events.events[0].id).toBe(762353);
+        });
+
+        it("should offset the results if using the `offset` param", () => {
+            expect(events.events[0].id).not.toBe(nextEvents.events[0].id);
         });
 
     });

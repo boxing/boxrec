@@ -2,7 +2,6 @@ import {BoxrecCommonTablesClass} from "../../boxrec-common-tables/boxrec-common-
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
 import {Location, Record} from "../../boxrec.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
-import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -10,14 +9,12 @@ let $: CheerioStatic;
 export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
 
     role: BoxrecRole;
-
-    private _idName: string;
-    private _miles: string;
-    private _location: string;
-    private _sex: string;
-    private _record: string;
-    private _division: string;
     private _career: string;
+    private _idName: string;
+    private _location: string;
+    private _miles: string;
+    private _record: string;
+    private _sex: string;
 
     constructor(boxrecBodyBout: string, role: BoxrecRole = BoxrecRole.boxer) {
         super();
@@ -28,16 +25,12 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
         this.parse();
     }
 
+    get career(): (number | null)[] {
+        return BoxrecCommonTablesClass.parseCareer(this._career);
+    }
+
     get id(): number {
         return <number>BoxrecCommonTablesClass.parseId(this._idName);
-    }
-
-    get name(): string {
-        return <string>BoxrecCommonTablesClass.parseName(this._idName);
-    }
-
-    get miles(): number {
-        return parseInt(this._miles, 10);
     }
 
     /**
@@ -49,29 +42,23 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
         return BoxrecCommonTablesClass.parseLocationLink(this._location);
     }
 
-    get sex(): "male" | "female" {
-        return trimRemoveLineBreaks(this._sex) as "male" | "female";
+    get miles(): number {
+        return parseInt(this._miles, 10);
+    }
+
+    get name(): string {
+        return <string>BoxrecCommonTablesClass.parseName(this._idName);
     }
 
     get record(): Record {
         return BoxrecCommonTablesClass.parseRecord(this._record);
     }
 
-    get division(): WeightDivision | undefined {
-        const division: string = trimRemoveLineBreaks(this._division);
-
-        if (Object.values(WeightDivision).includes(division)) {
-            return division as WeightDivision;
-        }
-
-        console.error("Could not find weight division");
+    get sex(): "male" | "female" {
+        return trimRemoveLineBreaks(this._sex) as "male" | "female";
     }
 
-    get career(): (number | null)[] {
-        return BoxrecCommonTablesClass.parseCareer(this._career);
-    }
-
-    parse(): void {
+    private parse(): void {
         this._miles = getColumnData($, 1, false);
         this._location = getColumnData($, 2);
         this._idName = getColumnData($, 3);

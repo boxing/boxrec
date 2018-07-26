@@ -8,10 +8,9 @@ let $: CheerioStatic;
 
 export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
 
-    private _division: string;
     private _firstBoxer: string;
-    private _firstBoxerRecord: string;
     private _firstBoxerLast6: string;
+    private _firstBoxerRecord: string;
     private _links: string;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
@@ -23,23 +22,20 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
         this.parseMetadata();
     }
 
-    get division(): string {
-        return this._division.trim();
-    }
-
     get firstBoxer(): BoxrecBasic {
         return BoxrecCommonTablesClass.parseNameAndId(this._firstBoxer);
-    }
-
-    get firstBoxerRecord(): Record {
-        return BoxrecCommonTablesClass.parseRecord(this._firstBoxerRecord);
     }
 
     get firstBoxerLast6(): WinLossDraw[] {
         return BoxrecCommonTablesClass.parseLast6Column(this._firstBoxerLast6);
     }
 
+    get firstBoxerRecord(): Record {
+        return BoxrecCommonTablesClass.parseRecord(this._firstBoxerRecord);
+    }
+
     // returns an object with keys that contain a class other than `primaryIcon`
+
     // not the exact same as the other page links
     get links(): BoxrecEventLinks { // object of strings
         const html: Cheerio = $(this._links);
