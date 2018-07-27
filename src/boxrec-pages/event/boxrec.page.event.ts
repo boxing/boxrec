@@ -1,8 +1,8 @@
-import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
-import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
+import {BoxrecPromoter} from "./boxrec.event.constants";
+import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -12,7 +12,7 @@ let $: CheerioStatic;
  */
 export class BoxrecPageEvent {
 
-    private _bouts: [string, string | null][] = [];
+    private _bouts: Array<[string, string | null]> = [];
     private _commission: string;
     private _date: string;
     private _doctor: string | null;
@@ -30,7 +30,7 @@ export class BoxrecPageEvent {
     }
 
     get bouts(): BoxrecPageEventBoutRow[] {
-        const bouts: [string, string | null][] = [] = this._bouts;
+        const bouts: Array<[string, string | null]> = [] = this._bouts;
         const boutsList: BoxrecPageEventBoutRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
             const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);

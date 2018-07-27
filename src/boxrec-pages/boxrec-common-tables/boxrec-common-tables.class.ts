@@ -1,7 +1,7 @@
-import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec.constants";
 import {convertFractionsToNumber, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
-import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
+import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -77,7 +77,7 @@ export abstract class BoxrecCommonTablesClass {
         return this._metadata;
     }
 
-    get numberOfRounds(): (number | null)[] {
+    get numberOfRounds(): Array<number | null> {
         return this.parseNumberOfRounds(this._numberOfRounds);
     }
 
@@ -124,7 +124,7 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     // maybe there's additional things that people would want to sift through
-    get titles(): { id: string, name: string }[] {
+    get titles(): Array<{ id: string, name: string }> {
         return this.parseTitles(this._metadata);
     }
 
@@ -142,7 +142,7 @@ export abstract class BoxrecCommonTablesClass {
     /**
      * @hidden
      */
-    static parseCareer(htmlString: string): (number | null)[] {
+    static parseCareer(htmlString: string): Array<number | null> {
         const careerMatches: RegExpMatchArray | null = htmlString.match(/(\d{4})-(\d{4})/);
         if (careerMatches && careerMatches.length === 3) {
             return [parseInt(careerMatches[1], 10), parseInt(careerMatches[2], 10)];
@@ -435,8 +435,8 @@ export abstract class BoxrecCommonTablesClass {
     /**
      * @hidden
      */
-    parseTitles(htmlString: string): { id: string, name: string }[] {
-        const titles: { id: string, name: string }[] = [];
+    parseTitles(htmlString: string): Array<{ id: string, name: string }> {
+        const titles: Array<{ id: string, name: string }> = [];
         const html: Cheerio = $(`<div>${htmlString}</div>`);
         html.find("a.titleLink").each((index: number, elem: CheerioElement) => {
             const href: string = $(elem).get(0).attribs.href;
@@ -506,8 +506,8 @@ export abstract class BoxrecCommonTablesClass {
     /**
      * @hidden
      */
-    private parseNumberOfRounds(htmlString: string): (number | null)[] {
-        let numberOfRounds: (number | null)[] = [null, null];
+    private parseNumberOfRounds(htmlString: string): Array<number | null> {
+        let numberOfRounds: Array<number | null> = [null, null];
 
         const splitRounds: string[] = htmlString.trim().split("/");
         const formattedSplitRounds: number[] = splitRounds.map(item => parseInt(item, 10));

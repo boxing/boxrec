@@ -1,8 +1,8 @@
-import {BoxrecPageRatings} from "./boxrec.page.ratings";
+import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecPageRatings} from "./boxrec.page.ratings";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
-import * as fs from "fs";
 
 const mockRatings: string = fs.readFileSync(`${boxRecMocksModulePath}/ratings/mockRatings.html`, "utf8");
 

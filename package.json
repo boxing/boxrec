@@ -13,7 +13,7 @@
     "test-e2e": "jest --config jest.config.e2e.json",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
     "test-watch": "jest --config jest.config.json --watchAll",
-    "tslint": "tslint --project tslint.json src/**/*.ts"
+    "tslint": "tslint -c tslint.json src/**/*.ts"
   },
   "keywords": [
     "boxrec",
@@ -34,7 +34,7 @@
     "boxrec-mocks": "https://github.com/boxing/boxrec-mocks",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",
-    "husky": "^1.0.0-rc.7",
+    "husky": "1.0.0-rc.13",
     "jest": "23.0.1",
     "json-loader": "^0.5.7",
     "request": "^2.83.0",

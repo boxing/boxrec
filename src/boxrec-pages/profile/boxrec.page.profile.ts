@@ -24,7 +24,7 @@ export abstract class BoxrecPageProfile {
     /**
      * @hidden
      */
-    protected _boutsList: [string, string | null][] = [];
+    protected _boutsList: Array<[string, string | null]> = [];
     /**
      * @hidden
      */
@@ -49,7 +49,7 @@ export abstract class BoxrecPageProfile {
      * other stuff that we haven't seen yet
      * @hidden
      */
-    protected _otherInfo: [string, string][] = [];
+    protected _otherInfo: Array<[string, string]> = [];
     /**
      * @hidden
      */
@@ -126,7 +126,7 @@ export abstract class BoxrecPageProfile {
      * @returns {T[]}
      */
     getBouts<T>(type: (new (boxrecBodyBout: string, additionalData: string | null) => T)): T[] {
-        const bouts: [string, string | null][] = this._boutsList;
+        const bouts: Array<[string, string | null]> = this._boutsList;
         const boutsList: T[] = [];
 
         bouts.forEach((val: [string, string | null]) => {

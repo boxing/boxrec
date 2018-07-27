@@ -1,16 +1,19 @@
-import {Boxrec} from "./boxrec.class";
-import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
-import {Response} from "request";
-import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
-import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
 import * as fs from "fs";
-import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {Response} from "request";
+import {Cookie} from "tough-cookie";
+import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
+import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
+import {Boxrec} from "./boxrec.class";
 import SpyInstance = jest.SpyInstance;
 
-const mockProfileBoxerRJJ: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
-const mockProfileJudgeDaveMoretti: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
+const mockProfileBoxerRJJ: string = fs.readFileSync(
+    `${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
+const mockProfileJudgeDaveMoretti: string = fs.readFileSync(
+    `${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
 
 const boxrec: Boxrec = require("./boxrec.class");
 
@@ -26,9 +29,14 @@ describe("class boxrec", () => {
         afterAll(async () => {
             const spy: SpyInstance = jest.spyOn(rp, "jar");
             spy.mockReturnValueOnce({
-                getCookieString: () => {
-                    return "PHPSESSID=111; REMEMBERME=111";
-                },
+                getCookies: () => [
+                    {
+                        key: "PHPSESSID",
+                    },
+                    {
+                        key: "REMEMBERME",
+                    }
+                ],
                 setCookie: () => {
                 }
             });
@@ -104,10 +112,13 @@ describe("class boxrec", () => {
             it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
                 const spy: SpyInstance = jest.spyOn(rp, "jar");
                 spy.mockReturnValueOnce({
-                    getCookieString: () => {
-                        return "REMEMBERME=123";
-                    },
+                    getCookies: () => [
+                        {
+                            key: "REMEMBERME",
+                        },
+                    ],
                     setCookie: () => {
+                        //
                     }
                 });
                 await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
@@ -116,15 +127,28 @@ describe("class boxrec", () => {
             it("should throw if after successfully logging in the cookie does not include REMEMBERME", async () => {
                 const spy: SpyInstance = jest.spyOn(rp, "jar");
                 spy.mockReturnValueOnce({
-                    getCookieString: () => {
-                        return "PHPSESSID=111";
-                    },
+                    getCookies: () => [
+                        {
+                            key: "PHPSESSID",
+                        },
+                    ],
                     setCookie: () => {
+                        //
                     }
                 });
                 await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
             });
 
+        });
+
+    });
+
+    describe("getter cookie", () => {
+
+        it("should return a string with PHPSESSID and REMEMBERME if logged in", () => {
+            const cookie: Cookie[] = boxrec.cookies;
+            expect(cookie[0].key === "PHPSESSID");
+            expect(cookie[1].key === "REMEMBERME");
         });
 
     });
@@ -140,8 +164,8 @@ describe("class boxrec", () => {
         it("should clone any keys in the object and wrap with `r[]`", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             await boxrec.getRatings({
-                division: "bar"
-            });
+                division: "bar",
+            }, 0);
             expect(getLastCall(spy, "qs")).toEqual({"offset": 0, "r[division]": "bar"});
         });
 

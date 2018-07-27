@@ -11,7 +11,7 @@ let $: CheerioStatic;
  */
 export class BoxrecPageTitle {
 
-    private _bouts: [string, string | null][] = [];
+    private _bouts: Array<[string, string | null]> = [];
     private _champion: string | null;
     private _name: string;
     private _numberOfBouts: string;
@@ -28,7 +28,7 @@ export class BoxrecPageTitle {
      * @returns {BoxrecPageTitleRow[]}
      */
     get bouts(): BoxrecPageTitleRow[] {
-        const bouts: [string, string | null][] = [] = this._bouts;
+        const bouts: Array<[string, string | null]> = [] = this._bouts;
         const boutsList: BoxrecPageTitleRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
             const bout: BoxrecPageTitleRow = new BoxrecPageTitleRow(val[0], val[1]);

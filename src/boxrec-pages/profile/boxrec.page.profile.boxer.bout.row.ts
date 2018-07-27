@@ -1,14 +1,14 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
-import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
+import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
 
-    public hasBoxerRatings: boolean = false;
+    hasBoxerRatings: boolean = false;
     private _date: string;
     private _firstBoxerRating: string;
     private _links: string;
@@ -36,7 +36,7 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
      * Higher number is better
      * @returns {(number | null)[]}
      */
-    get firstBoxerRating(): (number | null)[] {
+    get firstBoxerRating(): Array<number | null> {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(this._firstBoxerRating);
     }
 
@@ -98,12 +98,12 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
      * Higher number is better
      * @returns {(number | null)[]}
      */
-    get secondBoxerRating(): (number | null)[] {
+    get secondBoxerRating(): Array<number | null> {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(this._secondBoxerRating);
     }
 
-    private static parseBoxerRating(rating: string): (number | null)[] {
-        const ratings: (number | null)[] = [null, null];
+    private static parseBoxerRating(rating: string): Array<number | null> {
+        const ratings: Array<number | null> = [null, null];
         const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
             .replace(/,/g, "")
             .match(/^(\d{1,5})&#x279E;(\d{1,5})$/);

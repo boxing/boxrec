@@ -38,7 +38,7 @@ export interface BoxrecSearchParamsTransformed {
 
 export interface BoxrecSearch extends BoxrecBasic {
     alias: string | null;
-    career: (number | null)[];
+    career: Array<number | null>;
     division: string | null;
     id: number;
     last6: WinLossDraw[];

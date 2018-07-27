@@ -1,9 +1,24 @@
 import {CookieJar, RequestResponse} from "request";
-import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
-import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
+import {Options} from "request-promise";
+import {Cookie} from "tough-cookie";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
+import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
+import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
+import {
+    BoxrecLocationsPeopleParams,
+    BoxrecLocationsPeopleParamsTransformed,
+} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
+import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
+import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
+import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
+import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
+import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
 import {
     BoxrecRole,
     BoxrecSearch,
@@ -11,22 +26,8 @@ import {
     BoxrecSearchParamsTransformed,
     BoxrecStatus
 } from "./boxrec-pages/search/boxrec.search.constants";
-import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
-import {Options} from "request-promise";
-import {
-    BoxrecLocationsPeopleParams,
-    BoxrecLocationsPeopleParamsTransformed,
-} from "./boxrec-pages/location/people/boxrec.location.people.constants";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
-import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
-import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
-import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
-import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
-import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -39,6 +40,28 @@ export class Boxrec {
 
     private _cookieJar: CookieJar = rp.jar();
 
+    get cookies(): Cookie[] {
+        return this._cookieJar.getCookies("http://boxrec.com");
+    }
+
+    set cookies(cookiesArr: Cookie[]) {
+        this._cookieJar = rp.jar(); // reset the cookieJar
+        cookiesArr.forEach(item => this._cookieJar.setCookie(item, "http://boxrec.com"));
+    }
+
+    /**
+     * Makes a request to get the PHPSESSID required to login
+     * @returns {Promise<string[]>}
+     */
+    private static async getSessionCookie(): Promise<string[]> {
+        const options: Options = {
+            resolveWithFullResponse: true,
+            uri: "http://boxrec.com",
+        };
+
+        return rp.get(options).then((data: RequestResponse) => data.headers["set-cookie"]);
+    }
+
     /**
      * Makes a request to BoxRec to return a list of current champions
      * @returns {Promise<BoxrecPageChampions>}
@@ -47,8 +70,8 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: "http://boxrec.com/en/champions",
             jar: this._cookieJar,
+            uri: "http://boxrec.com/en/champions",
         });
 
         return new BoxrecPageChampions(boxrecPageBody);
@@ -63,8 +86,8 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/event/${eventId}`,
             jar: this._cookieJar,
+            uri: `http://boxrec.com/en/event/${eventId}`,
         });
 
         return new BoxrecPageEvent(boxrecPageBody);
@@ -87,9 +110,9 @@ export class Boxrec {
         qs.offset = offset;
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/locations/event`,
             jar: this._cookieJar,
             qs,
+            uri: `http://boxrec.com/en/locations/event`,
         });
 
         return new BoxrecPageLocationEvent(boxrecPageBody);
@@ -112,9 +135,9 @@ export class Boxrec {
         qs.offset = offset;
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/locations/people`,
             jar: this._cookieJar,
             qs,
+            uri: `http://boxrec.com/en/locations/people`,
         });
 
         return new BoxrecPageLocationPeople(boxrecPageBody);
@@ -221,8 +244,8 @@ export class Boxrec {
         qs.offset = offset;
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: "http://boxrec.com/en/ratings",
             qs,
+            uri: "http://boxrec.com/en/ratings",
             jar: this._cookieJar,
         });
 
@@ -296,11 +319,10 @@ export class Boxrec {
      * @returns {Promise<void>}     If the response is undefined, you have successfully logged in.  Otherwise an error will be thrown
      */
     async login(username: string, password: string): Promise<void> {
-        this._cookieJar = rp.jar(); // reset the cookieJar
         let rawCookies: string[];
 
         try {
-            rawCookies = await this.getSessionCookie();
+            rawCookies = await Boxrec.getSessionCookie();
         } catch (e) {
             throw new Error("Could not get response from boxrec");
         }
@@ -309,21 +331,21 @@ export class Boxrec {
             throw new Error("Could not get cookie from initial request to boxrec");
         }
 
-        const cookie: string = rp.cookie(rawCookies[0]); // create the cookie
-        this._cookieJar.setCookie(cookie, "http://boxrec.com");
+        const cookie: Cookie = rp.cookie(rawCookies[0]);
+        this.cookies = [cookie];
 
         const options: Options = {
-            url: "http://boxrec.com/en/login", // boxrec does not support HTTPS
             followAllRedirects: true, // 302 redirect occurs
-            resolveWithFullResponse: true,
             formData: {
-                "_username": username,
                 "_password": password,
                 "_remember_me": "on",
-                "_target_path": "http://boxrec.com", // not required
+                "_target_path": "http://boxrec.com", // not required,
+                "_username": username,
                 "login[go]": "", // not required
             },
             jar: this._cookieJar,
+            resolveWithFullResponse: true,
+            url: "http://boxrec.com/en/login", // boxrec does not support HTTPS
         };
 
         try {
@@ -355,9 +377,7 @@ export class Boxrec {
             throw new Error(e);
         }
 
-        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com");
-
-        if (cookieString && cookieString.includes("PHPSESSID") && cookieString.includes("REMEMBERME")) {
+        if (this.hasRequiredCookiesForLogIn()) {
             return; // success
         } else {
             throw new Error("Cookie did not have PHPSESSID and REMEMBERME");
@@ -405,24 +425,26 @@ export class Boxrec {
      * Throws error if they do not exist
      */
     private checkIfLoggedIntoBoxRec(): void {
-        const cookieString: any = this._cookieJar.getCookieString("http://boxrec.com");
-
-        if (!cookieString.includes("PHPSESSID") || !cookieString.includes("REMEMBERME")) {
+        if (!this.hasRequiredCookiesForLogIn()) {
             throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");
         }
     }
 
     /**
-     * Makes a request to get the PHPSESSID required to login
-     * @returns {Promise<string[]>}
+     * Checks cookie jar to see if all required cookies are set
+     * this does not necessarily mean the session is logged in
+     * @returns {boolean}
      */
-    private async getSessionCookie(): Promise<string[]> {
-        const options: Options = {
-            uri: "http://boxrec.com",
-            resolveWithFullResponse: true,
-        };
+    private hasRequiredCookiesForLogIn(): boolean {
+        const cookies: Cookie[] = this.cookies;
+        const requiredCookies: string[] = ["PHPSESSID", "REMEMBERME"];
 
-        return rp.get(options).then((data: RequestResponse) => data.headers["set-cookie"]);
+        cookies.forEach((cookie: Cookie) => {
+            const index: number = requiredCookies.findIndex((val: string) => val === cookie.value);
+            requiredCookies.splice(index);
+        });
+
+        return !requiredCookies.length;
     }
 
 }

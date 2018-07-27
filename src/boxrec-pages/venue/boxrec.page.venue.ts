@@ -1,5 +1,5 @@
-import {Location} from "../boxrec.constants";
 import {trimRemoveLineBreaks} from "../../helpers";
+import {Location} from "../boxrec.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -12,8 +12,8 @@ let $: CheerioStatic;
 export class BoxrecPageVenue {
 
     private _events: string[] = [];
-    private _localBoxers: { id: number, name: string }[] = [];
-    private _localManagers: { id: number, name: string }[] = [];
+    private _localBoxers: Array<{ id: number, name: string }> = [];
+    private _localManagers: Array<{ id: number, name: string }> = [];
     private _name: string;
 
     constructor(boxrecBodyString: string) {
@@ -38,7 +38,7 @@ export class BoxrecPageVenue {
      * Returns an array of boxers that are in the area
      * @returns {Object}  could use BoxrecBasic but this shouldn't return null values, so using `{ id: string, name: string }[]`
      */
-    get localBoxers(): { id: number, name: string }[] {
+    get localBoxers(): Array<{ id: number, name: string }> {
         return this._localBoxers;
     }
 
@@ -46,7 +46,7 @@ export class BoxrecPageVenue {
      * Returns an array of managers that operate in this area
      * @returns {Object}  could use BoxRecBasic but this shouldn't return null values, so using `{ id: string, name: string }[]`
      */
-    get localManagers(): { id: number, name: string }[] {
+    get localManagers(): Array<{ id: number, name: string }> {
         return this._localManagers;
     }
 

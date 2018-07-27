@@ -1,13 +1,13 @@
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecRole} from "../search/boxrec.search.constants";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
 export class BoxrecPageProfileJudgeSupervisorBoutRow extends BoxrecCommonTablesClass {
 
-    public hasBoxerRatings: boolean = false;
+    hasBoxerRatings: boolean = false;
     protected role: BoxrecRole = BoxrecRole.boxer;
     private _date: string;
     private _firstBoxerRating: string;

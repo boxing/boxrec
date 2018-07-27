@@ -1,19 +1,21 @@
-import {Boxrec} from "./boxrec.class";
+import {Cookie} from "tough-cookie";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
-import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
-import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
-import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
+import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
+import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
+import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
+import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
-import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+import {Boxrec} from "./boxrec.class";
 
 export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -45,6 +47,41 @@ describe("class Boxrec (E2E)", () => {
     beforeAll(async () => {
         const response: Error | void = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
         expect(response).toBeUndefined();
+    });
+
+    describe("getter cookie", () => {
+
+        let cookie: Cookie[];
+
+        beforeAll(() => {
+            cookie = boxrec.cookies;
+        });
+
+        it("should be PHPSESSID", () => {
+            expect(cookie[0].key).toBe("PHPSESSID");
+        });
+
+        it("should be REMEMBERME", () => {
+            expect(cookie[1].key).toBe("REMEMBERME");
+        });
+
+    });
+
+    describe("setter cookie", () => {
+
+        it("should set the cookie, so the developer is not required to login", async () => {
+            const tmpCookieStore: Cookie[] = boxrec.cookies;
+
+            // set cookie and make a request which we expect to fail
+            boxrec.cookies = [];
+            expect(boxrec.getPersonById(352)).rejects.toEqual(new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls"));
+
+            // reset the cookie and the same request should not fail
+            boxrec.cookies = tmpCookieStore;
+            const floyd: BoxrecPageProfile = await boxrec.getPersonById(352);
+            expect(floyd.globalId).toBe(352);
+        });
+
     });
 
     describe("method getPersonById", () => {
@@ -108,11 +145,11 @@ describe("class Boxrec (E2E)", () => {
                 describe("firstBoxerRating", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].firstBoxerRating).toEqual([596, 596]);
+                        expect(getBoxer(352).bouts[49].firstBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                     it("should strip all commas from the rating", () => {
-                        expect(getBoxer(352).bouts[47].firstBoxerRating).toEqual([1582, 1904]);
+                        expect(getBoxer(352).bouts[47].firstBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                 });

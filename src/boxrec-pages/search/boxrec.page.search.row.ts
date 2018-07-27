@@ -1,6 +1,6 @@
-import {Location, Record, WinLossDraw} from "../boxrec.constants";
 import {getColumnData} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {Location, Record, WinLossDraw} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -26,13 +26,13 @@ export class BoxrecPageSearchRow extends BoxrecCommonTablesClass {
         return BoxrecCommonTablesClass.parseAlias(this._alias);
     }
 
-    get career(): (number | null)[] {
+    get career(): Array<number | null> {
         return BoxrecCommonTablesClass.parseCareer(this._career);
     }
 
     get id(): number {
         if (this._idName) {
-            return <number>BoxrecCommonTablesClass.parseId(this._idName);
+            return BoxrecCommonTablesClass.parseId(this._idName) as number;
         }
 
         return -1;

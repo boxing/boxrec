@@ -1,8 +1,8 @@
 import {convertFractionsToNumber} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;

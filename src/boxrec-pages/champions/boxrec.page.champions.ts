@@ -1,11 +1,11 @@
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecBasic} from "../boxrec.constants";
 import {
     BoxrecBelts,
     BoxrecChampionsByWeightDivision,
     BoxrecUnformattedChampions,
     WeightDivision
 } from "./boxrec.champions.constants";
-import {BoxrecBasic} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;

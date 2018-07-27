@@ -1,4 +1,5 @@
 {
+    "extends": ["tslint:recommended"],
     "jsRules": {
         "class-name": true,
         "comment-format": [
@@ -11,6 +12,7 @@
         ],
         "no-duplicate-variable": true,
         "no-eval": true,
+        "no-multiple-empty-lines": true,
         "no-trailing-whitespace": true,
         "no-unsafe-finally": true,
         "one-line": [
@@ -44,6 +46,7 @@
         ]
     },
     "rules": {
+        "arrow-parens": [true, "ban-single-arg-parens"],
         "await-promise": true,
         "ban-comma-operator": true,
         "class-name": true,
@@ -55,7 +58,9 @@
             true,
             "spaces"
         ],
+        "interface-name": [true, "never-prefix"],
         "max-classes-per-file": [true, 1],
+        "member-access": [true, "no-public"],
         "member-ordering": [true, {"order": "fields-first"}],
         "no-consecutive-blank-lines": true,
         "no-eval": true,

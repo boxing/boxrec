@@ -1,7 +1,7 @@
-import {boxRecMocksModulePath} from "../boxrec.constants";
 import * as fs from "fs";
-import {BoxrecPageSchedule} from "./boxrec.page.schedule";
+import {boxRecMocksModulePath} from "../boxrec.constants";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
+import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 
 const mockSearchResults: string = fs.readFileSync(`${boxRecMocksModulePath}/schedule/mockScheduleWorldwide.html`, "utf8");
 

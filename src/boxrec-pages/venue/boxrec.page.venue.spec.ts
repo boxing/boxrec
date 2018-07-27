@@ -1,6 +1,6 @@
-import {BoxrecPageVenue} from "./boxrec.page.venue";
 import * as fs from "fs";
 import {boxRecMocksModulePath} from "../boxrec.constants";
+import {BoxrecPageVenue} from "./boxrec.page.venue";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
 const mockVenueMGMGrand: string = fs.readFileSync(`${boxRecMocksModulePath}/venue/mockVenueMGMGrand.html`, "utf8");
@@ -64,7 +64,8 @@ describe("class BoxrecPageVenue", () => {
         });
 
         it("should include the event id as id", () => {
-            // `512788` was the last one of the first page, check for one's greater than `512787`.  In case for some reason ID's change, this test should catch it
+            // `512788` was the last one of the first page, check for one's greater than `512787`
+            // In case for some reason ID's change, this test should catch it
             events.forEach(item => expect(item.id).toBeGreaterThan(512787));
         });
 
