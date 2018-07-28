@@ -5,8 +5,9 @@ const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
 /**
- * BoxRec Schedule Page
+ * BoxRec Results/Schedule Page
  * <pre>ex. http://boxrec.com/en/schedule?c%5BcountryCode%5D=&c%5Bdivision%5D=Light+Middleweight&c%5Btv%5D=&c_go=</pre>
+ * <pre>ex. http://boxrec.com/en/results?c%5BcountryCode%5D=US&c%5Bdivision%5D=Middleweight&c_go=</pre>
  */
 export class BoxrecPageSchedule {
 

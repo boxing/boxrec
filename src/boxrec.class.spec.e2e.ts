@@ -247,6 +247,27 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
+    describe("method getResults", () => {
+
+        let results: BoxrecPageSchedule;
+        let nextResults: BoxrecPageSchedule;
+
+        beforeAll(async () => {
+            results = await boxrec.getResults({});
+            // note: replace the following if have a reason to grab different schedule data
+            nextResults = await boxrec.getResults({}, 20);
+        });
+
+        it("should give an array of events", () => {
+            expect(results.events.length).toBeGreaterThanOrEqual(0);
+        });
+
+        it("should use the `offset` to give the next results", async () => {
+            expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
+        });
+
+    });
+
     describe("method getSchedule", () => {
 
         let results: BoxrecPageSchedule;

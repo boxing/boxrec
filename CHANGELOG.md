@@ -1,3 +1,9 @@
+## 0.17.0 (2018-07-28)
+
+### Added
+
+- Can now get results of fights that have occurred by division/country
+
 ## 0.16.0 (2018-07-28)
 
 ### Added

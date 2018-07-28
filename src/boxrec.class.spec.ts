@@ -221,6 +221,16 @@ describe("class boxrec", () => {
 
     });
 
+    describe("method getResults", () => {
+
+        it("should make a GET request to http://boxrec.com/en/results", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getResults({});
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/results");
+        });
+
+    });
+
     describe("method getSchedule", () => {
 
         it("should make a GET request to http://boxrec.com/en/schedule", async () => {

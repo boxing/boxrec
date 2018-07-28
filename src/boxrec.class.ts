@@ -16,8 +16,9 @@ import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.pa
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
+import {BoxrecResultsParams, BoxrecResultsParamsTransformed} from "./boxrec-pages/results/boxrec.results.constants";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
-import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
+import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
 import {
     BoxrecRole,
@@ -253,6 +254,28 @@ export class Boxrec {
     }
 
     /**
+     * Makes a request to BoxRec to get a list of results.
+     * Uses same class
+     * @param {BoxrecResultsParams} params  params included in this search
+     * @param {number} offset               the number of rows to offset this search
+     * @returns {Promise<BoxrecPageResults>}
+     */
+    async getResults(params: BoxrecResultsParams, offset: number = 0): Promise<BoxrecPageSchedule> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const qs: BoxrecResultsParamsTransformed =
+            this.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            qs,
+            uri: "http://boxrec.com/en/results",
+        });
+
+        return new BoxrecPageSchedule(boxrecPageBody);
+    }
+
+    /**
      * Makes a request to BoxRec to get a list of scheduled events
      * @param {BoxrecScheduleParams} params     params included in this search
      * @param {number} offset                   the number of rows to offset the search
@@ -260,18 +283,14 @@ export class Boxrec {
      */
     async getSchedule(params: BoxrecScheduleParams, offset: number = 0): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
-        const qs: BoxrecScheduleParamsTransformed = {};
 
-        for (const i in params) {
-            (qs as any)[`c[${i}]`] = (params as any)[i];
-        }
-
-        qs.offset = offset;
+        const qs: BoxrecResultsParamsTransformed =
+            this.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: "http://boxrec.com/en/schedule",
-            qs,
             jar: this._cookieJar,
+            qs,
+            uri: "http://boxrec.com/en/schedule",
         });
 
         return new BoxrecPageSchedule(boxrecPageBody);
@@ -285,8 +304,8 @@ export class Boxrec {
      */
     async getTitle(titleUrl: string = "", offset: number = 0): Promise<BoxrecPageTitle> {
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/title/${titleUrl}`,
             jar: this._cookieJar,
+            uri: `http://boxrec.com/en/title/${titleUrl}`,
         });
 
         return new BoxrecPageTitle(boxrecPageBody);
@@ -302,8 +321,8 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/venue/${venueId}?offset=${offset}`,
             jar: this._cookieJar,
+            uri: `http://boxrec.com/en/venue/${venueId}?offset=${offset}`,
         });
 
         return new BoxrecPageVenue(boxrecPageBody);
@@ -418,6 +437,18 @@ export class Boxrec {
         });
 
         return new BoxrecPageSearch(boxrecPageBody).results;
+    }
+
+    private buildResultsSchedulesParams<T>(params: any, offset: number): T {
+        const qs: any = {};
+
+        for (const i in params) {
+            (qs as any)[`c[${i}]`] = (params as any)[i];
+        }
+
+        qs.offset = offset;
+
+        return qs as T;
     }
 
     /**

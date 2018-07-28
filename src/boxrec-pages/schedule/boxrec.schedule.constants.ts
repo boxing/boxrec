@@ -1,15 +1,9 @@
-import {Country} from "../location/people/boxrec.location.people.constants";
+import {BoxrecResultsParams, BoxrecResultsParamsTransformed} from "../results/boxrec.results.constants";
 
-export interface BoxrecScheduleParams {
-    countryCode?: Country;
-    division?: string;
-    offset?: number;
+export interface BoxrecScheduleParams extends BoxrecResultsParams {
     tv?: string;
 }
 
-export interface BoxrecScheduleParamsTransformed {
-    "c[countryCode]"?: Country;
-    "c[division]"?: string;
+export interface BoxrecScheduleParamsTransformed extends BoxrecResultsParamsTransformed {
     "c[tv]"?: string;
-    offset?: number;
 }
