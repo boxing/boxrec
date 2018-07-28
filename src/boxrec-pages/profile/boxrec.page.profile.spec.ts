@@ -1,11 +1,11 @@
-import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import * as fs from "fs";
+import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
-import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec.page.profile.judgeSupervisor";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
+import {BoxrecPageProfileJudgeSupervisor} from "./boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 
@@ -400,10 +400,10 @@ describe("class BoxrecPageProfile", () => {
 
             it("should return links in an array", () => {
                 expect(gggCanelo.links).toEqual({
-                    "bio_open": 2160855,
-                    "bout": 2160855,
-                    "event": 751017,
-                    "other": [],
+                    bio_open: 2160855,
+                    bout: 2160855,
+                    event: 751017,
+                    other: [],
                 });
             });
 
@@ -458,17 +458,17 @@ describe("class BoxrecPageProfile", () => {
             it("should return what titles were on the line", () => {
                 // todo this needs to be changed to be dynamic or remove.  Boxers that don't have belts will return an empty array
                 expect(gggCanelo.titles).toEqual([{
-                    "id": "75/Middleweight",
-                    "name": "International Boxing Federation World Middleweight Title"
+                    id: "75/Middleweight",
+                    name: "International Boxing Federation World Middleweight Title"
                 }, {
-                    "id": "189/Middleweight",
-                    "name": "International Boxing Organization World Middleweight Title"
+                    id: "189/Middleweight",
+                    name: "International Boxing Organization World Middleweight Title"
                 }, {
-                    "id": "43/Middleweight",
-                    "name": "World Boxing Association Super World Middleweight Title"
+                    id: "43/Middleweight",
+                    name: "World Boxing Association Super World Middleweight Title"
                 }, {
-                    "id": "6/Middleweight",
-                    "name": "World Boxing Council World Middleweight Title"
+                    id: "6/Middleweight",
+                    name: "World Boxing Council World Middleweight Title"
                 }
                 ]);
             });

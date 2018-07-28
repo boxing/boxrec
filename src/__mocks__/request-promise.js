@@ -10,6 +10,13 @@ rp.jar = () => {
             return `${PHPSESSID}; ${REMEMBERME}`;
         },
         setCookie(/*cookieName, callback*/) {
+        },
+        getCookies() {
+            return [{
+                key: "PHPSESSID",
+            }, {
+                key: "REMEMBERME",
+            }];
         }
     }
 };

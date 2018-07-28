@@ -1,6 +1,6 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -44,7 +44,7 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get id(): number {
-        return <number>BoxrecCommonTablesClass.parseId(this._idName);
+        return BoxrecCommonTablesClass.parseId(this._idName) as number;
     }
 
     get last6(): WinLossDraw[] {

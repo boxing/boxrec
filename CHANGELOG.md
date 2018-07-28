@@ -1,3 +1,10 @@
+## 0.16.0 (2018-07-28)
+
+### Added
+
+- Added ability to get/set BoxRec cookies.  Allows developer to reuse logged in session
+- Code Climate integration to improve code quality
+
 ## 0.15.0 (2018-07-25) 
 
 ### Added

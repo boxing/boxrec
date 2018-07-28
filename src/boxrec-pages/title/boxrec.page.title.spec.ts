@@ -1,6 +1,5 @@
-import {boxRecMocksModulePath} from "../boxrec.constants";
-
 import * as fs from "fs";
+import {boxRecMocksModulePath} from "../boxrec.constants";
 import {BoxrecPageTitle} from "./boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 

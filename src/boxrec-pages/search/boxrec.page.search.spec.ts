@@ -1,8 +1,7 @@
+import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageSearch} from "./boxrec.page.search";
 import {BoxrecSearch} from "./boxrec.search.constants";
-
-import * as fs from "fs";
 
 const mockSearchResults: string = fs.readFileSync(`${boxRecMocksModulePath}/search/mockSearchMayweather.html`, "utf8");
 

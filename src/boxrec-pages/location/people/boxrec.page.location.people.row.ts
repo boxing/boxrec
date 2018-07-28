@@ -1,5 +1,5 @@
-import {BoxrecCommonTablesClass} from "../../boxrec-common-tables/boxrec-common-tables.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
+import {BoxrecCommonTablesClass} from "../../boxrec-common-tables/boxrec-common-tables.class";
 import {Location, Record} from "../../boxrec.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
 
@@ -25,12 +25,12 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
         this.parse();
     }
 
-    get career(): (number | null)[] {
+    get career(): Array<number | null> {
         return BoxrecCommonTablesClass.parseCareer(this._career);
     }
 
     get id(): number {
-        return <number>BoxrecCommonTablesClass.parseId(this._idName);
+        return BoxrecCommonTablesClass.parseId(this._idName) as number;
     }
 
     /**
@@ -47,7 +47,7 @@ export class BoxrecPageLocationPeopleRow extends BoxrecCommonTablesClass {
     }
 
     get name(): string {
-        return <string>BoxrecCommonTablesClass.parseName(this._idName);
+        return BoxrecCommonTablesClass.parseName(this._idName) as string;
     }
 
     get record(): Record {

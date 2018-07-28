@@ -1,5 +1,5 @@
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecBasic, Location} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");

@@ -1,6 +1,6 @@
+import {getColumnData} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
-import {getColumnData} from "../../helpers";
 import {BoxrecEventLinks} from "./boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");

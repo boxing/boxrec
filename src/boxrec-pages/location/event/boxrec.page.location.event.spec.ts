@@ -1,5 +1,5 @@
-import {boxRecMocksModulePath} from "../../boxrec.constants";
 import * as fs from "fs";
+import {boxRecMocksModulePath} from "../../boxrec.constants";
 import {BoxrecPageLocationEvent} from "./boxrec.page.location.event";
 
 const mockLocationEvents: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockEventsLondon2017.html`, "utf8");
