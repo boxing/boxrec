@@ -199,6 +199,16 @@ describe("class boxrec", () => {
 
     });
 
+    describe("method getBout", () => {
+
+        it("should make a GET request to http://boxrec.com/en/event (with bout)", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getBout("771321/2257534");
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/event/771321/2257534");
+        });
+
+    });
+
     describe("method getPeopleByName", () => {
 
         it("should return a generator of boxers it found", async () => {

@@ -25,7 +25,7 @@ export function convertFractionsToNumber(fraction: string): number {
  * @returns {string}
  */
 export function trimRemoveLineBreaks(str: string): string {
-    return str.trim().replace(/(?:\r\n|\r|\n)/g, "").replace(/\s{2,}/, " ");
+    return str.trim().replace(/(?:\r\n|\r|\n)/g, "").replace(/\s{2,}/g, " ");
 }
 
 /**

@@ -1,6 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -15,7 +14,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
     private _location: string;
     private _secondBoxerRating: string;
     private _startColumn: number = 1;
-    private role: BoxrecRole = BoxrecRole.boxer;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         super();

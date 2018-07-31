@@ -205,6 +205,13 @@ boxrec.getEventById(751017)
 ...
 ```
 
+### [getBout](https://boxing.github.io/boxrec/classes/boxrec.html#getbout)
+##### Returns detailed information on a single bout
+
+```javascript
+boxrec.getBout("726555/2037455");
+```
+
 ### [getRatings](https://boxing.github.io/boxrec/classes/boxrec.html#getratings)
 ##### Get ratings
 Following BoxRec's form format
