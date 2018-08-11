@@ -1,6 +1,9 @@
 import {Cookie} from "tough-cookie";
+import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
+import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
@@ -80,6 +83,263 @@ describe("class Boxrec (E2E)", () => {
             boxrec.cookies = tmpCookieStore;
             const floyd: BoxrecPageProfile = await boxrec.getPersonById(352);
             expect(floyd.globalId).toBe(352);
+        });
+
+    });
+
+    describe("method getBout", () => {
+
+        let caneloKhanBout: BoxrecPageEventBout;
+
+        beforeAll(async () => {
+            caneloKhanBout = await boxrec.getBout("726555/2037455");
+        });
+
+        describe("getter rating", () => {
+
+            it("should give the rating", () => {
+                expect(caneloKhanBout.rating).toBe(100);
+            });
+
+        });
+
+        describe("getter date", () => {
+
+            it("should return a date", () => {
+                expect(caneloKhanBout.date).toBe("2016-05-07");
+            });
+
+        });
+
+        describe("getter location", () => {
+
+            it("should return the venue", () => {
+                const {id, name} = caneloKhanBout.location.venue;
+                expect(id).toBe(246559);
+                expect(name).toBe("T-Mobile Arena");
+            });
+
+            it("should return the location", () => {
+                const {town, id, region, country} = caneloKhanBout.location.location;
+                expect(town).toBe("Las Vegas");
+                expect(region).toBe("Nevada");
+                expect(country).toBe("USA");
+                expect(id).toBe(20388);
+            });
+
+        });
+
+        describe("getter belts", () => {
+
+            it("should return the belts for this bout", () => {
+                const {id, name, supervisor} = caneloKhanBout.titles[0];
+                expect(id).toBe("6/Middleweight");
+                expect(name).toBe("World Boxing Council World Middleweight Title");
+                if (supervisor) {
+                    expect(supervisor.name).toBe("Charles Giles");
+                    expect(supervisor.id).toBe(418474);
+                } else {
+                    throw new Error("Supervisor missing");
+                }
+            });
+
+        });
+
+        describe("getter referee", () => {
+
+            it("should give the id and name of the referee", () => {
+                expect(caneloKhanBout.referee).toEqual({
+                    id: 400853,
+                    name: "Kenny Bayless",
+                });
+            });
+
+        });
+
+        describe("getter judges", () => {
+
+            it("should include an array of judges", () => {
+                expect(caneloKhanBout.judges).toEqual(jasmine.any(Array));
+            });
+
+            it("should include the scorecards", () => {
+                expect(caneloKhanBout.judges[0].scorecard).toEqual([47, 48]);
+            });
+
+            it("should include the name of the judge", () => {
+                expect(caneloKhanBout.judges[0].name).toBe("Adalaide Byrd");
+            });
+
+        });
+
+        describe("getter firstBoxerRanking", () => {
+
+            it("should return the ranking", () => {
+                expect(caneloKhanBout.firstBoxerRanking).toBe(1);
+            });
+
+        });
+
+        describe("getter secondBoxerRating", () => {
+
+            it("should return the ranking", () => {
+                expect(caneloKhanBout.secondBoxerRanking).toBe(8);
+            });
+
+        });
+
+        describe("getter firstBoxerPointsBefore", () => {
+
+            it("should return the points", () => {
+                expect(caneloKhanBout.firstBoxerPointsBefore).toBe(1143);
+            });
+
+        });
+
+
+        describe("getter firstBoxerAge", () => {
+
+            it("should return the age", () => {
+                expect(caneloKhanBout.firstBoxerAge).toBe(25);
+            });
+
+        });
+
+        describe("getter secondBoxerAge", () => {
+
+            it("should return the age", () => {
+                expect(caneloKhanBout.secondBoxerAge).toBe(29);
+            });
+
+        });
+
+        describe("getter firstBoxerStance", () => {
+
+            it("should return the stance", () => {
+                expect(caneloKhanBout.firstBoxerStance).toBe("orthodox");
+            });
+
+        });
+
+        describe("getter secondBoxerStance", () => {
+
+            it("should return the stance", () => {
+                expect(caneloKhanBout.secondBoxerStance).toBe("orthodox");
+            });
+
+        });
+
+        describe("getter firstBoxerHeight", () => {
+
+            it("should return the height", () => {
+                expect(caneloKhanBout.firstBoxerHeight).toEqual([5, 8, 173]);
+            });
+
+        });
+
+        describe("getter secondBoxerHeight", () => {
+
+            it("should return the height", () => {
+                expect(caneloKhanBout.secondBoxerHeight).toEqual([5, 8.5, 174]);
+            });
+
+        });
+
+        describe("getter firstBoxerReach", () => {
+
+            it("should return the reach", () => {
+                expect(caneloKhanBout.firstBoxerReach).toEqual([70.5, 179]);
+            });
+
+        });
+
+        describe("getter secondBoxerReach", () => {
+
+            it("should return the reach", () => {
+                expect(caneloKhanBout.secondBoxerReach).toEqual([71, 180]);
+            });
+
+        });
+
+        describe("getter firstBoxerRecord", () => {
+
+            it("should return record", () => {
+                expect(caneloKhanBout.firstBoxerRecord).toEqual({
+                    draw: 1,
+                    loss: 1,
+                    win: 46,
+                });
+            });
+
+        });
+
+        describe("getter secondBoxerRecord", () => {
+
+            it("should return record", () => {
+                expect(caneloKhanBout.secondBoxerRecord).toEqual({
+                    draw: 0,
+                    loss: 3,
+                    win: 31,
+                });
+            });
+
+        });
+
+        describe("getter firstBoxerLast6", () => {
+
+            it("should return an array of the last 6 boxer's they were in the ring with", () => {
+                const [cotto, , , angulo, mayweather] = caneloKhanBout.firstBoxerLast6;
+                expect(cotto.name).toBe("Miguel Cotto");
+                expect(cotto.outcome).toBe(WinLossDraw.win);
+                expect(cotto.outcomeByWayOf).toBe(BoxingBoutOutcome.UD);
+                expect(angulo.outcomeByWayOf).toBe(BoxingBoutOutcome.TKO);
+                expect(mayweather.outcome).toBe(WinLossDraw.loss);
+                expect(mayweather.outcomeByWayOf).toBe(BoxingBoutOutcome.MD);
+            });
+
+        });
+
+        describe("getter secondBoxerLast6", () => {
+
+            it("should return an array of the last 6 boxer's they were in the ring with", () => {
+                const [, , , , molina, garcia] = caneloKhanBout.secondBoxerLast6;
+                expect(molina.outcomeByWayOf).toBe(BoxingBoutOutcome.RTD);
+                expect(garcia.outcomeByWayOf).toBe(BoxingBoutOutcome.TKO);
+            });
+
+        });
+
+        describe("getter promoter", () => {
+
+            it("should return the array of promoters", () => {
+                expect(caneloKhanBout.promoters[0].company).toBe("Golden Boy Promotions");
+            });
+
+        });
+
+        describe("getter matchmaker", () => {
+
+            it("should return the array of matchmakers", () => {
+                expect(caneloKhanBout.matchmakers[0].id).toBe(500179);
+            });
+
+        });
+
+        describe("getter outcome", () => {
+
+            it("should return the outcome", () => {
+                expect(caneloKhanBout.outcome.boxer.name).toBe("Saul Alvarez");
+                expect(caneloKhanBout.outcome.outcomeByWayOf).toBe(BoxingBoutOutcome.KO);
+            });
+
+        });
+
+        describe("getter doctors", () => {
+
+            it("should return the array of doctors", () => {
+                expect(caneloKhanBout.doctors[0].id).toBe(468696);
+            });
+
         });
 
     });
@@ -247,6 +507,27 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
+    describe("method getResults", () => {
+
+        let results: BoxrecPageSchedule;
+        let nextResults: BoxrecPageSchedule;
+
+        beforeAll(async () => {
+            results = await boxrec.getResults({});
+            // note: replace the following if have a reason to grab different schedule data
+            nextResults = await boxrec.getResults({}, 20);
+        });
+
+        it("should give an array of events", () => {
+            expect(results.events.length).toBeGreaterThanOrEqual(0);
+        });
+
+        it("should use the `offset` to give the next results", async () => {
+            expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
+        });
+
+    });
+
     describe("method getSchedule", () => {
 
         let results: BoxrecPageSchedule;
@@ -323,8 +604,8 @@ describe("class Boxrec (E2E)", () => {
             describe("getter promoter", () => {
 
                 it("should include the promotional company in an array", () => {
-                    expect(event.promoter).not.toBeUndefined();
-                    expect(event.promoter.length).toBeGreaterThanOrEqual(0);
+                    expect(event.promoters).not.toBeUndefined();
+                    expect(event.promoters.length).toBeGreaterThanOrEqual(0);
                 });
 
             });
@@ -332,7 +613,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter matchmaker", () => {
 
                 it("should be included if it exists", () => {
-                    expect(event.matchmaker).not.toBeUndefined();
+                    expect(event.matchmakers).not.toBeUndefined();
                 });
 
             });
@@ -340,8 +621,8 @@ describe("class Boxrec (E2E)", () => {
             describe("getter doctor", () => {
 
                 it("should include an array of doctors", () => {
-                    expect(event.doctor).not.toBeUndefined();
-                    expect(event.doctor.length).toBeGreaterThanOrEqual(0);
+                    expect(event.doctors).not.toBeUndefined();
+                    expect(event.doctors.length).toBeGreaterThanOrEqual(0);
                 });
 
             });
@@ -349,7 +630,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter inspector", () => {
 
                 it("should include the id and name of the inspector", () => {
-                    expect(event.inspector).not.toBeUndefined();
+                    expect(event.inspectors).not.toBeUndefined();
                 });
 
             });
@@ -493,6 +774,10 @@ describe("class Boxrec (E2E)", () => {
             expect(results.bouts[2].secondBoxerRecord.win).toBe(0);
             expect(results.bouts[2].secondBoxerRecord.loss).toBe(0);
             expect(results.bouts[2].secondBoxerRecord.draw).toBe(0);
+        });
+
+        it("should return a list of doctors", () => {
+            expect(getEvent(752960).doctors[0].id).toBe(412676);
         });
 
     });

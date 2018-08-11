@@ -1,3 +1,10 @@
+## 0.17.0 (2018-08-11)
+
+### Added
+
+- Can now get individual bout information
+- Can now get results of fights that have occurred by division/country
+
 ## 0.16.0 (2018-07-28)
 
 ### Added

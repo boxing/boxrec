@@ -199,6 +199,16 @@ describe("class boxrec", () => {
 
     });
 
+    describe("method getBout", () => {
+
+        it("should make a GET request to http://boxrec.com/en/event (with bout)", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getBout("771321/2257534");
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/event/771321/2257534");
+        });
+
+    });
+
     describe("method getPeopleByName", () => {
 
         it("should return a generator of boxers it found", async () => {
@@ -217,6 +227,16 @@ describe("class boxrec", () => {
             expect(getSpy).toHaveBeenCalledTimes(1);
             await searchResults.next(); // makes an API call
             expect(getSpy).toHaveBeenCalledTimes(2);
+        });
+
+    });
+
+    describe("method getResults", () => {
+
+        it("should make a GET request to http://boxrec.com/en/results", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getResults({});
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/results");
         });
 
     });

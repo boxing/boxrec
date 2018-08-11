@@ -83,6 +83,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getbout" class="tsd-kind-icon">get<wbr>Bout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getchampions" class="tsd-kind-icon">get<wbr>Champions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#geteventbyid" class="tsd-kind-icon">get<wbr>Event<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#geteventsbylocation" class="tsd-kind-icon">get<wbr>Events<wbr>ByLocation</a></li>
@@ -90,6 +91,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getpeoplebyname" class="tsd-kind-icon">get<wbr>People<wbr>ByName</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getpersonbyid" class="tsd-kind-icon">get<wbr>Person<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getratings" class="tsd-kind-icon">get<wbr>Ratings</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getresults" class="tsd-kind-icon">get<wbr>Results</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getschedule" class="tsd-kind-icon">get<wbr>Schedule</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#gettitle" class="tsd-kind-icon">get<wbr>Title</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boxrec.html#getvenuebyid" class="tsd-kind-icon">get<wbr>Venue<wbr>ById</a></li>
@@ -113,7 +115,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:43</li>
+									<li>Defined in boxrec.class.ts:45</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cookie</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -121,7 +123,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:47</li>
+									<li>Defined in boxrec.class.ts:49</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -138,6 +140,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getbout" class="tsd-anchor"></a>
+					<h3>get<wbr>Bout</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Bout<span class="tsd-signature-symbol">(</span>eventBoutId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageeventbout.html" class="tsd-signature-type">BoxrecPageEventBout</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in boxrec.class.ts:72</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Makes a request to BoxRec to get information about an individual bout</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventBoutId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageeventbout.html" class="tsd-signature-type">BoxrecPageEventBout</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getchampions" class="tsd-anchor"></a>
 					<h3>get<wbr>Champions</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -147,7 +177,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:69</li>
+									<li>Defined in boxrec.class.ts:87</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -169,7 +199,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:85</li>
+									<li>Defined in boxrec.class.ts:103</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -200,7 +230,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:102</li>
+									<li>Defined in boxrec.class.ts:120</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -237,7 +267,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:127</li>
+									<li>Defined in boxrec.class.ts:145</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -274,7 +304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:156</li>
+									<li>Defined in boxrec.class.ts:174</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -329,13 +359,13 @@
 					<a name="getpersonbyid" class="tsd-anchor"></a>
 					<h3>get<wbr>Person<wbr>ById</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Person<wbr>ById<span class="tsd-signature-symbol">(</span>globalId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, role<span class="tsd-signature-symbol">?: </span><a href="../enums/boxrecrole.html" class="tsd-signature-type">BoxrecRole</a>, offset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callWithToggleRatings<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageprofileboxer.html" class="tsd-signature-type">BoxrecPageProfileBoxer</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofilejudgesupervisor.html" class="tsd-signature-type">BoxrecPageProfileJudgeSupervisor</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofileevents.html" class="tsd-signature-type">BoxrecPageProfileEvents</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofilemanager.html" class="tsd-signature-type">BoxrecPageProfileManager</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Person<wbr>ById<span class="tsd-signature-symbol">(</span>globalId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, role<span class="tsd-signature-symbol">?: </span><a href="../enums/boxrecrole.html" class="tsd-signature-type">BoxrecRole</a>, offset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageprofileboxer.html" class="tsd-signature-type">BoxrecPageProfileBoxer</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofilejudgesupervisor.html" class="tsd-signature-type">BoxrecPageProfileJudgeSupervisor</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofileevents.html" class="tsd-signature-type">BoxrecPageProfileEvents</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofilemanager.html" class="tsd-signature-type">BoxrecPageProfileManager</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:180</li>
+									<li>Defined in boxrec.class.ts:197</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -363,12 +393,6 @@
 										<p>offset number of bouts/events in the profile.  Not used for boxers as boxer&#39;s profiles list all bouts they&#39;ve been in</p>
 									</div>
 								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> callWithToggleRatings: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if true, will call the profile with <code>toggleRatings=y</code> to get all 16 columns in profile bouts</p>
-									</div>
-								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageprofileboxer.html" class="tsd-signature-type">BoxrecPageProfileBoxer</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofilejudgesupervisor.html" class="tsd-signature-type">BoxrecPageProfileJudgeSupervisor</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofileevents.html" class="tsd-signature-type">BoxrecPageProfileEvents</a><span class="tsd-signature-symbol"> | </span><a href="boxrecpageprofilemanager.html" class="tsd-signature-type">BoxrecPageProfileManager</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -384,7 +408,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:236</li>
+									<li>Defined in boxrec.class.ts:207</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -412,6 +436,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getresults" class="tsd-anchor"></a>
+					<h3>get<wbr>Results</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Results<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="../interfaces/boxrecresultsparams.html" class="tsd-signature-type">BoxrecResultsParams</a>, offset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageschedule.html" class="tsd-signature-type">BoxrecPageSchedule</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in boxrec.class.ts:233</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Makes a request to BoxRec to get a list of results.
+									Uses same class</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="../interfaces/boxrecresultsparams.html" class="tsd-signature-type">BoxrecResultsParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>params included in this search</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> offset: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the number of rows to offset this search</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="boxrecpageschedule.html" class="tsd-signature-type">BoxrecPageSchedule</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getschedule" class="tsd-anchor"></a>
 					<h3>get<wbr>Schedule</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -421,7 +483,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:261</li>
+									<li>Defined in boxrec.class.ts:254</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -458,7 +520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:286</li>
+									<li>Defined in boxrec.class.ts:275</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -495,7 +557,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:301</li>
+									<li>Defined in boxrec.class.ts:290</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -529,7 +591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:321</li>
+									<li>Defined in boxrec.class.ts:310</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,7 +632,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec.class.ts:394</li>
+									<li>Defined in boxrec.class.ts:383</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -619,6 +681,9 @@
 								<a href="boxrec.html#cookies" class="tsd-kind-icon">cookies</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boxrec.html#getbout" class="tsd-kind-icon">get<wbr>Bout</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="boxrec.html#getchampions" class="tsd-kind-icon">get<wbr>Champions</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -638,6 +703,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="boxrec.html#getratings" class="tsd-kind-icon">get<wbr>Ratings</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boxrec.html#getresults" class="tsd-kind-icon">get<wbr>Results</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="boxrec.html#getschedule" class="tsd-kind-icon">get<wbr>Schedule</a>

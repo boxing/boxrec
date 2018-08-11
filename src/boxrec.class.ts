@@ -2,6 +2,7 @@ import {CookieJar, RequestResponse} from "request";
 import {Options} from "request-promise";
 import {Cookie} from "tough-cookie";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
@@ -16,8 +17,9 @@ import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.pa
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
+import {BoxrecResultsParams, BoxrecResultsParamsTransformed} from "./boxrec-pages/results/boxrec.results.constants";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
-import {BoxrecScheduleParams, BoxrecScheduleParamsTransformed} from "./boxrec-pages/schedule/boxrec.schedule.constants";
+import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
 import {
     BoxrecRole,
@@ -60,6 +62,22 @@ export class Boxrec {
         };
 
         return rp.get(options).then((data: RequestResponse) => data.headers["set-cookie"]);
+    }
+
+    /**
+     * Makes a request to BoxRec to get information about an individual bout
+     * @param {string} eventBoutId
+     * @returns {Promise<BoxrecPageEventBout>}
+     */
+    async getBout(eventBoutId: string): Promise<BoxrecPageEventBout> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            uri: `http://boxrec.com/en/event/${eventBoutId}`,
+        });
+
+        return new BoxrecPageEventBout(boxrecPageBody);
     }
 
     /**
@@ -176,55 +194,8 @@ export class Boxrec {
      * @param {boolean} callWithToggleRatings   if true, will call the profile with `toggleRatings=y` to get all 16 columns in profile bouts
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
-    // todo can the callwithtoggleRatings be private
-    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
-        this.checkIfLoggedIntoBoxRec();
-        let uri: string = `http://boxrec.com/en/${role}/${globalId}`;
-
-        if (callWithToggleRatings) {
-            uri += `?toggleRatings=y`;
-        }
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri,
-            jar: this._cookieJar,
-        });
-
-        let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager;
-
-        // there are 9 roles on the BoxRec website
-        // the differences are that the boxers have 2 more columns `last6` for each boxer
-        // the judge and others don't have those columns
-        // the doctor and others have `events`
-        // manager is unique in that the table is a list of boxers that they manage
-        switch (role) {
-            case BoxrecRole.boxer:
-                boxrecProfile = new BoxrecPageProfileBoxer(boxrecPageBody);
-                break;
-            case BoxrecRole.judge:
-            case BoxrecRole.supervisor:
-            case BoxrecRole.referee:
-                boxrecProfile = new BoxrecPageProfileJudgeSupervisor(boxrecPageBody);
-                break;
-            case BoxrecRole.doctor:
-            case BoxrecRole.promoter:
-            case BoxrecRole.inspector:
-            case BoxrecRole.matchmaker:
-                return new BoxrecPageProfileEvents(boxrecPageBody);
-            case BoxrecRole.manager:
-                return new BoxrecPageProfileManager(boxrecPageBody);
-            default:
-                throw new Error("could not match one of the `BoxrecRole`");
-        }
-
-        // this is not applicable to all roles
-        // the roles that return and don't have `bouts` on their profile page will never hit this point
-        if (boxrecProfile.bouts && boxrecProfile.bouts[0].hasBoxerRatings) {
-            return boxrecProfile;
-        }
-
-        // calls itself with the toggle for `toggleRatings=y`
-        return this.getPersonById(globalId, role, offset, true);
+    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+        return this.makeGetPersonByIdRequest(globalId, role, offset);
     }
 
     /**
@@ -253,6 +224,28 @@ export class Boxrec {
     }
 
     /**
+     * Makes a request to BoxRec to get a list of results.
+     * Uses same class
+     * @param {BoxrecResultsParams} params  params included in this search
+     * @param {number} offset               the number of rows to offset this search
+     * @returns {Promise<BoxrecPageResults>}
+     */
+    async getResults(params: BoxrecResultsParams, offset: number = 0): Promise<BoxrecPageSchedule> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const qs: BoxrecResultsParamsTransformed =
+            this.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            qs,
+            uri: "http://boxrec.com/en/results",
+        });
+
+        return new BoxrecPageSchedule(boxrecPageBody);
+    }
+
+    /**
      * Makes a request to BoxRec to get a list of scheduled events
      * @param {BoxrecScheduleParams} params     params included in this search
      * @param {number} offset                   the number of rows to offset the search
@@ -260,18 +253,14 @@ export class Boxrec {
      */
     async getSchedule(params: BoxrecScheduleParams, offset: number = 0): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
-        const qs: BoxrecScheduleParamsTransformed = {};
 
-        for (const i in params) {
-            (qs as any)[`c[${i}]`] = (params as any)[i];
-        }
-
-        qs.offset = offset;
+        const qs: BoxrecResultsParamsTransformed =
+            this.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: "http://boxrec.com/en/schedule",
-            qs,
             jar: this._cookieJar,
+            qs,
+            uri: "http://boxrec.com/en/schedule",
         });
 
         return new BoxrecPageSchedule(boxrecPageBody);
@@ -285,8 +274,8 @@ export class Boxrec {
      */
     async getTitle(titleUrl: string = "", offset: number = 0): Promise<BoxrecPageTitle> {
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/title/${titleUrl}`,
             jar: this._cookieJar,
+            uri: `http://boxrec.com/en/title/${titleUrl}`,
         });
 
         return new BoxrecPageTitle(boxrecPageBody);
@@ -302,8 +291,8 @@ export class Boxrec {
         this.checkIfLoggedIntoBoxRec();
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: `http://boxrec.com/en/venue/${venueId}?offset=${offset}`,
             jar: this._cookieJar,
+            uri: `http://boxrec.com/en/venue/${venueId}?offset=${offset}`,
         });
 
         return new BoxrecPageVenue(boxrecPageBody);
@@ -420,6 +409,18 @@ export class Boxrec {
         return new BoxrecPageSearch(boxrecPageBody).results;
     }
 
+    private buildResultsSchedulesParams<T>(params: any, offset: number): T {
+        const qs: any = {};
+
+        for (const i in params) {
+            (qs as any)[`c[${i}]`] = (params as any)[i];
+        }
+
+        qs.offset = offset;
+
+        return qs as T;
+    }
+
     /**
      * Checks that the cookie jar contains the values we need
      * Throws error if they do not exist
@@ -445,6 +446,56 @@ export class Boxrec {
         });
 
         return !requiredCookies.length;
+    }
+
+    private async makeGetPersonByIdRequest(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+        this.checkIfLoggedIntoBoxRec();
+        let uri: string = `http://boxrec.com/en/${role}/${globalId}`;
+
+        if (callWithToggleRatings) {
+            uri += `?toggleRatings=y`;
+        }
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            uri,
+        });
+
+        let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager;
+
+        // there are 9 roles on the BoxRec website
+        // the differences are that the boxers have 2 more columns `last6` for each boxer
+        // the judge and others don't have those columns
+        // the doctor and others have `events`
+        // manager is unique in that the table is a list of boxers that they manage
+        switch (role) {
+            case BoxrecRole.boxer:
+                boxrecProfile = new BoxrecPageProfileBoxer(boxrecPageBody);
+                break;
+            case BoxrecRole.judge:
+            case BoxrecRole.supervisor:
+            case BoxrecRole.referee:
+                boxrecProfile = new BoxrecPageProfileJudgeSupervisor(boxrecPageBody);
+                break;
+            case BoxrecRole.doctor:
+            case BoxrecRole.promoter:
+            case BoxrecRole.inspector:
+            case BoxrecRole.matchmaker:
+                return new BoxrecPageProfileEvents(boxrecPageBody);
+            case BoxrecRole.manager:
+                return new BoxrecPageProfileManager(boxrecPageBody);
+            default:
+                throw new Error("could not match one of the `BoxrecRole`");
+        }
+
+        // this is not applicable to all roles
+        // the roles that return and don't have `bouts` on their profile page will never hit this point
+        if (boxrecProfile.bouts && boxrecProfile.bouts[0].hasBoxerRatings) {
+            return boxrecProfile;
+        }
+
+        // calls itself with the toggle for `toggleRatings=y`
+        return this.makeGetPersonByIdRequest(globalId, role, offset, true);
     }
 
 }

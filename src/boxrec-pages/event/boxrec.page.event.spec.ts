@@ -3,20 +3,23 @@ import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
-const mockEvent: string = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPage.html`, "utf8");
+const mockEventBellewHaye2: string = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPageBellewHaye2.html`, "utf8");
+const mockEventMayweatherMcGregor: string = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPageMayweatherMcGregor.html`, "utf8");
 
 describe("class BoxrecPageEvent", () => {
 
-    let event: BoxrecPageEvent;
+    let eventBellewHaye2: BoxrecPageEvent;
+    let eventMayweatherMcGregor: BoxrecPageEvent;
 
     beforeAll(() => {
-        event = new BoxrecPageEvent(mockEvent);
+        eventBellewHaye2 = new BoxrecPageEvent(mockEventBellewHaye2);
+        eventMayweatherMcGregor = new BoxrecPageEvent(mockEventMayweatherMcGregor);
     });
 
     describe("getter date", () => {
 
         it("should return the date of the event", () => {
-            expect(event.date).toBe("2018-05-05");
+            expect(eventBellewHaye2.date).toBe("2018-05-05");
         });
 
     });
@@ -26,19 +29,19 @@ describe("class BoxrecPageEvent", () => {
         describe("location", () => {
 
             it("should return the town", () => {
-                expect(event.location.location.town).toBe("Greenwich");
+                expect(eventBellewHaye2.location.location.town).toBe("Greenwich");
             });
 
             it("should return the region", () => {
-                expect(event.location.location.region).toBe("London");
+                expect(eventBellewHaye2.location.location.region).toBe("London");
             });
 
             it("should return the country", () => {
-                expect(event.location.location.country).toBe("United Kingdom");
+                expect(eventBellewHaye2.location.location.country).toBe("United Kingdom");
             });
 
             it("should return the id", () => {
-                expect(event.location.location.id).toBe(15965);
+                expect(eventBellewHaye2.location.location.id).toBe(15965);
             });
 
         });
@@ -46,11 +49,11 @@ describe("class BoxrecPageEvent", () => {
         describe("venue", () => {
 
             it("should return the venue id", () => {
-                expect(event.location.venue.id).toBe(28476);
+                expect(eventBellewHaye2.location.venue.id).toBe(28476);
             });
 
             it("should return the venue name", () => {
-                expect(event.location.venue.name).toBe("O2 Arena (Millenium Dome)");
+                expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena (Millenium Dome)");
             });
 
         });
@@ -60,30 +63,46 @@ describe("class BoxrecPageEvent", () => {
     describe("getter commission", () => {
 
         it("should return the commission", () => {
-            expect(event.commission).toBe("British Boxing Board of Control");
+            expect(eventBellewHaye2.commission).toBe("British Boxing Board of Control");
         });
 
     });
 
     describe("getter promoter", () => {
 
-        it("should list the promoter(s)", () => {
-            expect(event.promoter[0].company).toBe("Hayemaker Promotions");
-            expect(event.promoter[0].id).toBe(550318);
-            expect(event.promoter[0].name).toBe("David Haye");
+        describe("listing the promoter(s)", () => {
 
-            expect(event.promoter[1].company).toBe("Matchroom Boxing");
-            expect(event.promoter[1].id).toBe(596434);
-            expect(event.promoter[1].name).toBe("Eddie Hearn");
+            it("should give the first promoter", () => {
+                const {company, id, name} = eventBellewHaye2.promoters[0];
+                expect(company).toBe("Hayemaker Promotions");
+                expect(id).toBe(550318);
+                expect(name).toBe("David Haye");
+            });
+
+            it("should give the second promoter", () => {
+                const {company, id, name} = eventBellewHaye2.promoters[1];
+                expect(company).toBe("Matchroom Boxing");
+                expect(id).toBe(596434);
+                expect(name).toBe("Eddie Hearn");
+            });
+
         });
 
     });
 
-    describe("getter matchmaker", () => {
+    describe("getter doctor", () => {
+
+        it("should return an array of doctors", () => {
+            expect(eventMayweatherMcGregor.doctors[0].id).toBe(412676);
+        });
+
+    });
+
+    describe("getter matchmakers", () => {
 
         it("should return the matchmaker", () => {
-            expect(event.matchmaker[0].id).toBe(809320);
-            expect(event.matchmaker[0].name).toBe("Paul Ready");
+            expect(eventBellewHaye2.matchmakers[0].id).toBe(809320);
+            expect(eventBellewHaye2.matchmakers[0].name).toBe("Paul Ready");
         });
 
     });
@@ -91,7 +110,7 @@ describe("class BoxrecPageEvent", () => {
     describe("getter television", () => {
 
         it("should return an array of broadcasters", () => {
-            expect(event.television).toContain("United Kingdom SKY Box Office");
+            expect(eventBellewHaye2.television).toContain("United Kingdom SKY Box Office");
         });
 
     });
@@ -99,8 +118,8 @@ describe("class BoxrecPageEvent", () => {
     describe("getter bouts", () => {
 
         it("should return an array of bouts", () => {
-            expect(event.bouts[0].firstBoxer.name).toBe("Paul Butler");
-            expect(event.bouts[6].secondBoxer.name).toBe("Troy James");
+            expect(eventBellewHaye2.bouts[0].firstBoxer.name).toBe("Paul Butler");
+            expect(eventBellewHaye2.bouts[6].secondBoxer.name).toBe("Troy James");
         });
 
         describe("bouts values", () => {
@@ -108,7 +127,7 @@ describe("class BoxrecPageEvent", () => {
             let bout: BoxrecPageEventBoutRow;
 
             beforeAll(() => {
-                bout = event.bouts[3]; // Bellew Haye 2
+                bout = eventBellewHaye2.bouts[3]; // Bellew Haye 2
             });
 
             describe("getter firstBoxerLast6", () => {

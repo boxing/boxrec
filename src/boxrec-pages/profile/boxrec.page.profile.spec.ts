@@ -456,13 +456,16 @@ describe("class BoxrecPageProfile", () => {
         describe("getter titles", () => {
 
             it("should return what titles were on the line", () => {
-                // todo this needs to be changed to be dynamic or remove.  Boxers that don't have belts will return an empty array
                 expect(gggCanelo.titles).toEqual([{
                     id: "75/Middleweight",
                     name: "International Boxing Federation World Middleweight Title"
                 }, {
                     id: "189/Middleweight",
-                    name: "International Boxing Organization World Middleweight Title"
+                    name: "International Boxing Organization World Middleweight Title",
+                    supervisor: {
+                        id: 403048,
+                        name: "Ed Levine",
+                    },
                 }, {
                     id: "43/Middleweight",
                     name: "World Boxing Association Super World Middleweight Title"
@@ -478,7 +481,7 @@ describe("class BoxrecPageProfile", () => {
         describe("getter firstBoxerRating", () => {
 
             it("should return the rating of the first boxer before and after the fight", () => {
-                expect(gggCanelo.firstBoxerRating).toEqual([717, 846]);
+                expect(gggCanelo.firstBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
             });
 
         });
@@ -486,7 +489,7 @@ describe("class BoxrecPageProfile", () => {
         describe("secondBoxerRating", () => {
 
             it("should return the rating of the second boxer before and after the fight", () => {
-                expect(gggCanelo.secondBoxerRating).toEqual([1105, 976]);
+                expect(gggCanelo.secondBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
             });
 
         });
