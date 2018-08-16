@@ -59,4 +59,5 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
 // the following regex assumes the string is always in the same format
 // `region` and `town` are wrapped with a conditional statement
 // in some instances the URL just contains ex. `?country=US`
-export const townRegionCountryRegex: RegExp = /\?country=([A-Za-z]+)(?:&region=([A-Za-z]*))?(?:&town=(\d+))?/;
+// `region` can be numeric but is often alphanumeric
+export const townRegionCountryRegex: RegExp = /\?country=([A-Za-z]+)(?:(?:&|&amp;)region=([A-Za-z0-9]*))?(?:(?:&|&amp;)town=(\d+))?/;

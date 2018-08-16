@@ -17,16 +17,49 @@ let $: CheerioStatic;
  */
 export class BoxrecPageEventBout extends BoxrecPageEvent {
 
+    /**
+     * @hidden
+     */
     private _division: string;
+    /**
+     * @hidden
+     */
     private _firstBoxerLast6: string[] = [];
+    /**
+     * @hidden
+     */
     private _judges: string[] = [];
+    /**
+     * @hidden
+     */
     private _name: string[] = [];
+    /**
+     * @hidden
+     */
     private _numberOfRounds: string;
+    /**
+     * @hidden
+     */
     private _outcome: BoutPageBoutOutcome;
+    /**
+     * @hidden
+     */
     private _ranking: string = "";
+    /**
+     * @hidden
+     */
     private _rating: number;
+    /**
+     * @hidden
+     */
     private _referee: string;
+    /**
+     * @hidden
+     */
     private _secondBoxerLast6: string[] = [];
+    /**
+     * @hidden
+     */
     private _titles: string;
 
     constructor(boxrecBodyString: string) {
@@ -225,7 +258,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
      * @returns {Cheerio}
      */
     private findColumnByText(textToFind: string = ""): Cheerio {
-        const filteredCheerio: Cheerio = $("td b").filter(function(this: any): boolean {
+        const filteredCheerio: Cheerio = $("td b").filter(function (this: any): boolean {
             const elem: any = $(this);
             return elem.text().trim() === textToFind;
         });

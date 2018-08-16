@@ -205,6 +205,14 @@ boxrec.getEventById(751017)
 ...
 ```
 
+### [getDate](https://boxing.github.io/boxrec/classes/boxrec.html#getdate)
+##### Returns events listed for that date
+
+```javascript
+boxrec.getDate("2018-08-21");
+```
+
+
 ### [getBout](https://boxing.github.io/boxrec/classes/boxrec.html#getbout)
 ##### Returns detailed information on a single bout
 

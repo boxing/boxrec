@@ -59,7 +59,7 @@ describe("class BoxrecPageSchedule", () => {
                     expect(event.location.location.region).not.toBeUndefined();
                 });
 
-                it("should return the town", () => {
+                it("should return the town which can be a string or null", () => {
                     expect(event.location.location.town).not.toBeUndefined();
                 });
 
