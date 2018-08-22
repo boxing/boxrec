@@ -95,7 +95,7 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get result(): [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null] {
-        return [this.outcome, this.outcomeByWayOf(), this.outcomeByWayOf(true)];
+        return [this.outcome, this.getOutcomeByWayOf(), this.getOutcomeByWayOf(true)];
     }
 
     get secondBoxer(): BoxrecBasic {
@@ -476,7 +476,7 @@ export abstract class BoxrecCommonTablesClass {
     /**
      * @hidden
      */
-    private outcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
+    private getOutcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
         return BoxrecCommonTablesClass.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
     }
 

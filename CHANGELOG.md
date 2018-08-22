@@ -1,3 +1,9 @@
+## 0.18.0 (2018-08-21)
+
+### Added
+
+- Can now search for events by date
+
 ## 0.17.0 (2018-08-11)
 
 ### Added

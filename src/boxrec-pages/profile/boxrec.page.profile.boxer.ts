@@ -374,7 +374,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         if (this._titlesHeld) {
             const html: Cheerio = $(this._titlesHeld);
 
-            return html.find("a").map(function(this: Cheerio): string {
+            return html.find("a").map(function (this: Cheerio): string {
                 let text: string = $(this).text();
                 // on the Gennady Golovkin profile I found one belt had two spaces in the middle of it
                 text = text.replace(/\s{2,}/g, " ");

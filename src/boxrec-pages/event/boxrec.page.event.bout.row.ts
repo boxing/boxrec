@@ -1,7 +1,7 @@
 import {getColumnData} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
-import {BoxrecEventLinks} from "./boxrec.event.constants";
+import {BoxingBoutOutcome, BoxrecEventLinks} from "./boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
@@ -53,7 +53,7 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
 
             hrefArr.forEach((cls: string) => {
                 if (cls !== "primaryIcon") {
-                    const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
+                    const matches: RegExpMatchArray | null = href.match(/([\d\/]+)$/);
                     if (matches && matches[1] && matches[1] !== "other") {
 
                         let formattedCls: string = cls;
@@ -62,7 +62,12 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
                             formattedCls = cls.slice(0, -1);
                         }
 
-                        (obj as any)[formattedCls] = parseInt(matches[1], 10);
+                        if (matches[1].includes("/")) {
+                            (obj as any)[formattedCls] = matches[1].substring(1);
+                        } else {
+                            (obj as any)[formattedCls] = parseInt(matches[1], 10);
+                        }
+
                     } else {
                         (obj as any).other.push(href);
                     }
@@ -71,6 +76,11 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
         });
 
         return obj;
+    }
+
+    get outcomeByWayOf(): BoxingBoutOutcome | string | null {
+        const outcome: BoxingBoutOutcome | string | null = this._outcomeByWayOf;
+        return BoxrecCommonTablesClass.parseOutcomeByWayOf(outcome);
     }
 
     private parseBout(): void {
@@ -103,8 +113,8 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
             this._secondBoxerLast6 = getColumnData($, 10);
             this._rating = getColumnData($, 11);
             this._links = getColumnData($, 12);
-        } else {
-            console.error("different column numbers, please report this with the event id");
+        } else { // if this needs another `else if` statement it is time to break to this up into separate rows
+            throw new Error(`different column numbers, please report this with the event id and this number of columns: ${numberOfColumns}`);
         }
     }
 

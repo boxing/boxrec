@@ -2,6 +2,7 @@ import {CookieJar, RequestResponse} from "request";
 import {Options} from "request-promise";
 import {Cookie} from "tough-cookie";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
@@ -93,6 +94,22 @@ export class Boxrec {
         });
 
         return new BoxrecPageChampions(boxrecPageBody);
+    }
+
+    /**
+     * Makes a request to BoxRec to get events/bouts on the particular date
+     * @param {string} dateString   date to search for.  Format ex. `2012-06-07`
+     * @returns {Promise<void>}
+     */
+    async getDate(dateString: string): Promise<BoxrecPageDate> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            uri: `http://boxrec.com/en/date?date=${dateString}`,
+        });
+
+        return new BoxrecPageDate(boxrecPageBody);
     }
 
     /**

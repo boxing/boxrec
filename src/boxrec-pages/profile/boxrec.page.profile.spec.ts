@@ -283,10 +283,11 @@ describe("class BoxrecPageProfile", () => {
         });
 
         it("should have the date", () => {
-            expect(doctorAnthonyRuggeroliEvent.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-            expect(leonardEllerbeEvent.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-            expect(inspectorMichaelBuchatoEvent.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-            expect(matchmakerVeliPekkaMaekiEvent.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+            const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
+            expect(doctorAnthonyRuggeroliEvent.date).toMatch(dateRegex);
+            expect(leonardEllerbeEvent.date).toMatch(dateRegex);
+            expect(inspectorMichaelBuchatoEvent.date).toMatch(dateRegex);
+            expect(matchmakerVeliPekkaMaekiEvent.date).toMatch(dateRegex);
         });
 
         describe("getter venue", () => {

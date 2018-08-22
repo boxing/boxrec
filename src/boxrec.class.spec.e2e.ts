@@ -36,6 +36,12 @@ jest.unmock("request-promise");
 
 jest.setTimeout(30000);
 
+const expectId: (id: number | null, expectedId: any) => void = (id: number | null, expectedId: any) =>
+    expect(id).toEqual(expectedId);
+
+const expectMatchDate: (date: string | null) => void = (date: string | null) =>
+    expect(date).toMatch(/\d{4}-\d{2}-\d{2}/);
+
 describe("class Boxrec (E2E)", () => {
 
     describe("method login", () => {
@@ -137,7 +143,7 @@ describe("class Boxrec (E2E)", () => {
                 expect(name).toBe("World Boxing Council World Middleweight Title");
                 if (supervisor) {
                     expect(supervisor.name).toBe("Charles Giles");
-                    expect(supervisor.id).toBe(418474);
+                    expectId(supervisor.id, 418474);
                 } else {
                     throw new Error("Supervisor missing");
                 }
@@ -183,7 +189,7 @@ describe("class Boxrec (E2E)", () => {
         describe("getter secondBoxerRating", () => {
 
             it("should return the ranking", () => {
-                expect(caneloKhanBout.secondBoxerRanking).toBe(8);
+                expect(caneloKhanBout.secondBoxerRanking).toEqual(jasmine.any(Number));
             });
 
         });
@@ -195,7 +201,6 @@ describe("class Boxrec (E2E)", () => {
             });
 
         });
-
 
         describe("getter firstBoxerAge", () => {
 
@@ -320,7 +325,7 @@ describe("class Boxrec (E2E)", () => {
         describe("getter matchmaker", () => {
 
             it("should return the array of matchmakers", () => {
-                expect(caneloKhanBout.matchmakers[0].id).toBe(500179);
+                expectId(caneloKhanBout.matchmakers[0].id, 500179);
             });
 
         });
@@ -337,7 +342,7 @@ describe("class Boxrec (E2E)", () => {
         describe("getter doctors", () => {
 
             it("should return the array of doctors", () => {
-                expect(caneloKhanBout.doctors[0].id).toBe(468696);
+                expectId(caneloKhanBout.doctors[0].id, 468696);
             });
 
         });
@@ -396,20 +401,23 @@ describe("class Boxrec (E2E)", () => {
 
                 describe("hasBoxerRatings", () => {
 
-                    it("should always return true because it'll make another call if all the columns aren't there", () => {
-                        expect(getBoxer(352).bouts[49].hasBoxerRatings).toBe(true);
-                    });
+                    it("should always return true because it'll make another call if all the columns aren't there",
+                        () => {
+                            expect(getBoxer(352).bouts[49].hasBoxerRatings).toBe(true);
+                        });
 
                 });
 
                 describe("firstBoxerRating", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].firstBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                        expect(getBoxer(352).bouts[49].firstBoxerRating)
+                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                     it("should strip all commas from the rating", () => {
-                        expect(getBoxer(352).bouts[47].firstBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                        expect(getBoxer(352).bouts[47].firstBoxerRating)
+                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                 });
@@ -421,7 +429,8 @@ describe("class Boxrec (E2E)", () => {
                     });
 
                     it("should strip all commas from the rating", () => {
-                        expect(getBoxer(352).bouts[47].secondBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                        expect(getBoxer(352).bouts[47].secondBoxerRating)
+                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                 });
@@ -559,7 +568,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter date", () => {
 
                 it("should include the date of an event", () => {
-                    expect(event.date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                    expectMatchDate(event.date);
                 });
 
             });
@@ -569,7 +578,7 @@ describe("class Boxrec (E2E)", () => {
                 describe("venue", () => {
 
                     it("should include the id of the venue", () => {
-                        expect(event.location.venue.id).toEqual(jasmine.any(Number));
+                        expectId(event.location.venue.id, jasmine.any(Number));
                     });
 
                     it("should include the name of the venue", () => {
@@ -579,10 +588,6 @@ describe("class Boxrec (E2E)", () => {
                 });
 
                 describe("location", () => {
-
-                    it("should include the id of the location", () => {
-                        expect(event.location.location.id).toEqual(jasmine.any(Number));
-                    });
 
                     it("should include the town", () => {
                         expect(event.location.location.town).toEqual(jasmine.any(String));
@@ -702,7 +707,7 @@ describe("class Boxrec (E2E)", () => {
         describe("getter events", () => {
 
             it("should give the dates of events", () => {
-                expect(venue.events[0].date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                expectMatchDate(venue.events[0].date);
             });
 
         });
@@ -777,7 +782,7 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return a list of doctors", () => {
-            expect(getEvent(752960).doctors[0].id).toBe(412676);
+            expectId(getEvent(752960).doctors[0].id, 412676);
         });
 
     });
@@ -811,19 +816,19 @@ describe("class Boxrec (E2E)", () => {
 
         it("should return the location", () => {
             expect(events.events[0].location).toEqual({
-                id: 19077,
-                town: "Alexandria",
-                region: "LA",
                 country: Country.USA,
+                id: 19077,
+                region: "LA",
+                town: "Alexandria",
             });
         });
 
         it("should return the date of the bout", () => {
-            expect(events.events[0].date).toBe("2017-12-29");
+            expectMatchDate(events.events[0].date);
         });
 
         it("should return the event id as id", () => {
-            expect(events.events[0].id).toBe(762353);
+            expectId(events.events[0].id, 762353);
         });
 
         it("should offset the results if using the `offset` param", () => {
@@ -905,7 +910,7 @@ describe("class Boxrec (E2E)", () => {
                 });
 
                 it("should include the date", () => {
-                    expect(mostRecentWBCBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                    expectMatchDate(mostRecentWBCBout.date);
                 });
 
                 it("should include the name and id of the first boxer", () => {

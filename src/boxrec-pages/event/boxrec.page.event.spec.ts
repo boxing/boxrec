@@ -1,10 +1,13 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
-const mockEventBellewHaye2: string = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPageBellewHaye2.html`, "utf8");
-const mockEventMayweatherMcGregor: string = fs.readFileSync(`${boxRecMocksModulePath}/events/mockEventPageMayweatherMcGregor.html`, "utf8");
+const mockEventBellewHaye2: string = fs.readFileSync(
+    `${boxRecMocksModulePath}/events/mockEventPageBellewHaye2.html`, "utf8");
+const mockEventMayweatherMcGregor: string = fs.readFileSync(
+    `${boxRecMocksModulePath}/events/mockEventPageMayweatherMcGregor.html`, "utf8");
 
 describe("class BoxrecPageEvent", () => {
 
@@ -72,18 +75,19 @@ describe("class BoxrecPageEvent", () => {
 
         describe("listing the promoter(s)", () => {
 
+            const expectPromoter: (p: BoxrecPromoter, c: string, i: number, n: string) => void =
+                (promoter: BoxrecPromoter, companyExpect: string, idExpect: number, nameExpect: string): void => {
+                    expect(promoter.company).toBe(companyExpect);
+                    expect(promoter.id).toBe(idExpect);
+                    expect(promoter.name).toBe(nameExpect);
+                };
+
             it("should give the first promoter", () => {
-                const {company, id, name} = eventBellewHaye2.promoters[0];
-                expect(company).toBe("Hayemaker Promotions");
-                expect(id).toBe(550318);
-                expect(name).toBe("David Haye");
+                expectPromoter(eventBellewHaye2.promoters[0], "Hayemaker Promotions", 550318, "David Haye");
             });
 
             it("should give the second promoter", () => {
-                const {company, id, name} = eventBellewHaye2.promoters[1];
-                expect(company).toBe("Matchroom Boxing");
-                expect(id).toBe(596434);
-                expect(name).toBe("Eddie Hearn");
+                expectPromoter(eventBellewHaye2.promoters[1], "Matchroom Boxing", 596434, "Eddie Hearn");
             });
 
         });
@@ -141,7 +145,7 @@ describe("class BoxrecPageEvent", () => {
             describe("getter links", () => {
 
                 it("should return links in an object", () => {
-                    expect(bout.links.bout).toBe(2209971);
+                    expect(bout.links.bout).toBe("761332/2209971");
                     expect(bout.links.bio_open).toBe(2209971);
                 });
 

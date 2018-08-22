@@ -4,7 +4,8 @@
         "class-name": true,
         "comment-format": [
             true,
-            "check-space"
+            "check-space",
+            "check-uppercase"
         ],
         "indent": [
             true,
@@ -54,6 +55,7 @@
             true,
             "check-space"
         ],
+        "cyclomatic-complexity": [true, 15],
         "indent": [
             true,
             "spaces"

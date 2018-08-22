@@ -316,7 +316,7 @@ describe("class BoxrecPageEventBout", () => {
     describe("getter firstBoxerPointsAfter", () => {
 
         it("should return the points after", () => {
-            expect(caneloGGG1.firstBoxerPointsAfter).toBe(847);
+            expect(caneloGGG1.firstBoxerPointsAfter).toBe(846);
         });
 
     });
