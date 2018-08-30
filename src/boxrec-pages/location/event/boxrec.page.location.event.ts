@@ -21,7 +21,7 @@ export class BoxrecPageLocationEvent {
     }
 
     private parseLocation(): void {
-        const tr: Cheerio = $("table#locationsTable tbody tr");
+        const tr: Cheerio = $(".dataTable tbody tr");
         tr.each((i: number, elem: CheerioElement) => {
             const html: string = $(elem).html() || "";
             this._locations.push(html);

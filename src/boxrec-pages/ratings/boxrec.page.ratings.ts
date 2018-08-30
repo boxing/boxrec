@@ -21,7 +21,7 @@ export class BoxrecPageRatings {
     }
 
     private parseRatings(): void {
-        const tr: Cheerio = $("table#ratingsResults tbody tr");
+        const tr: Cheerio = $(".dataTable tbody tr");
 
         tr.each((i: number, elem: CheerioElement) => {
             const html: string = $(elem).html() || "";

@@ -22,7 +22,7 @@ export class BoxrecPageSearch {
     }
 
     private parse(): void {
-        const tr: Cheerio = $("table#searchResults tbody tr");
+        const tr: Cheerio = $(".dataTable tbody tr");
 
         tr.each((i: number, elem: CheerioElement) => {
             const html: string = $(elem).html() || "";

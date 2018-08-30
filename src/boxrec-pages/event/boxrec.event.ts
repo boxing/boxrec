@@ -232,7 +232,7 @@ export abstract class BoxrecEvent {
     }
 
     private parseBouts(): void {
-        const tr: Cheerio = $("table#eventResults > tbody tr");
+        const tr: Cheerio = $("table > tbody tr");
         tr.each((i: number, elem: CheerioElement) => {
             const boutId: string = $(elem).attr("id");
 

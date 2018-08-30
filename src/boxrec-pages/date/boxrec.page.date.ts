@@ -38,7 +38,7 @@ export class BoxrecPageDate {
         // so it's just a giant slew of `thead` and `tbody`
         // loop through, if `thead`, it's the new schedule
         // the last `tbody` before a `thead` is empty
-        const tableChildren: Cheerio = $("table#calendarDate > *");
+        const tableChildren: Cheerio = $(".calendarTable > *");
         let event: string = "";
 
         tableChildren.each((i: number, elem: CheerioElement) => {

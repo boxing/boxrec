@@ -31,7 +31,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     private parseDate(): void {
-        const eventResults: Cheerio = $("table#eventResults");
+        const eventResults: Cheerio = $("table");
         const date: string = $(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
         // if date hasn't been set, this will be an empty string, leave as null
         if (date) {
@@ -40,7 +40,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     private parseEventData(): void {
-        const eventResults: Cheerio = $("table#eventResults");
+        const eventResults: Cheerio = $("table");
 
         $(eventResults).find("thead table tbody tr").each((i: number, elem: CheerioElement) => {
             const tag: string = $(elem).find("td:nth-child(1)").text().trim();

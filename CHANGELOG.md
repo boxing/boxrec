@@ -1,3 +1,9 @@
+## 0.18.1 (2018-08-30)
+
+### Fixed
+
+- tables are using unique IDs now.  So we'll search by the class/tag name
+
 ## 0.18.0 (2018-08-21)
 
 ### Added

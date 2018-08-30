@@ -402,7 +402,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @hidden
      */
     protected parseBouts(): void {
-        const tr: Cheerio = $("#listBoutsResults\\, tbody tr");
+        const tr: Cheerio = $(".dataTable tbody tr");
         super.parseBouts(tr);
     }
 
