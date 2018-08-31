@@ -84,7 +84,7 @@ export class BoxrecPageTitle {
 
     // todo this is extremely similar to boxrec.page.event.ts, can we merge?
     private parseBouts(): void {
-        const tr: Cheerio = $("table#boutTable > tbody tr");
+        const tr: Cheerio = $(".dataTable > tbody tr");
         $(tr).each((i: number, elem: CheerioElement) => {
             const boutId: string = $(elem).attr("id");
 
