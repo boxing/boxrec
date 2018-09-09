@@ -1,7 +1,7 @@
 import cheerio = require("cheerio");
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../../helpers";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
+import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";

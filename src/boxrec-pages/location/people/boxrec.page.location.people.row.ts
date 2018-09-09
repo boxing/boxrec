@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {Location, Record} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
