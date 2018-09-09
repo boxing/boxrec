@@ -41,19 +41,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return doctors;
     }
 
-    get id(): number {
-        return parseInt(this._id, 10);
-    }
-
-    private parseDate(): void {
-        const eventResults: Cheerio = $("table");
-        const date: string = $(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
-        // if date hasn't been set, this will be an empty string, leave as null
-        if (date) {
-            this._date = new Date(date).toISOString().slice(0, 10);
-        }
-    }
-
     get inspectors(): BoxrecBasic[] {
         const html: Cheerio = $(`<div>${this._inspector}</div>`);
         const inspectors: BoxrecBasic[] = [];
@@ -220,6 +207,19 @@ export class BoxrecPageEvent extends BoxrecEvent {
 
         if (television) {
             return television.split(",").map(item => trimRemoveLineBreaks(item));
+        }
+    }
+
+    get id(): number {
+        return parseInt(this._id, 10);
+    }
+
+    private parseDate(): void {
+        const eventResults: Cheerio = $("table");
+        const date: string = $(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
+        // if date hasn't been set, this will be an empty string, leave as null
+        if (date) {
+            this._date = new Date(date).toISOString().slice(0, 10);
         }
     }
 

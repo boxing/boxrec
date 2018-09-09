@@ -6,7 +6,7 @@ import {BoxrecTitles} from "./boxrec-common.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 
-let $: CheerioStatic = cheerio.load("<div></div>");
+const $: CheerioStatic = cheerio.load("<div></div>");
 
 export abstract class BoxrecCommonTablesImprovedClass {
 

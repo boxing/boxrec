@@ -2,6 +2,7 @@ import {convertFractionsToNumber, townRegionCountryRegex, trimRemoveLineBreaks} 
 import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
+import {BoxrecCommonTablesImprovedClass} from "./boxrec-common-tables-improved.class";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -62,11 +63,11 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesClass.parseDivision(this._division);
+        return BoxrecCommonTablesImprovedClass.parseDivision(this._division);
     }
 
     get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesClass.parseWeight(this._firstBoxerWeight);
+        return BoxrecCommonTablesImprovedClass.parseWeight(this._firstBoxerWeight);
     }
 
     get judges(): BoxrecJudge[] {
@@ -83,15 +84,15 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get outcome(): WinLossDraw {
-        return BoxrecCommonTablesClass.parseOutcome(this._outcome);
+        return BoxrecCommonTablesImprovedClass.parseOutcome(this._outcome);
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesClass.parseRating(this._rating);
+        return BoxrecCommonTablesImprovedClass.parseRating(this._rating);
     }
 
     get referee(): BoxrecBasic {
-        return BoxrecCommonTablesClass.parseReferee(this._metadata);
+        return BoxrecCommonTablesImprovedClass.parseReferee(this._metadata);
     }
 
     get result(): [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null] {
@@ -99,11 +100,11 @@ export abstract class BoxrecCommonTablesClass {
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesClass.parseNameAndId(this._secondBoxer);
+        return BoxrecCommonTablesImprovedClass.parseNameAndId(this._secondBoxer);
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesClass.parseLast6Column(this._secondBoxerLast6);
+        return BoxrecCommonTablesImprovedClass.parseLast6Column(this._secondBoxerLast6);
     }
 
     get secondBoxerRecord(): Record {
@@ -114,19 +115,19 @@ export abstract class BoxrecCommonTablesClass {
         };
 
         if (this._secondBoxerRecord) {
-            return BoxrecCommonTablesClass.parseRecord(this._secondBoxerRecord);
+            return BoxrecCommonTablesImprovedClass.parseRecord(this._secondBoxerRecord);
         }
 
         return record;
     }
 
     get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesClass.parseWeight(this._secondBoxerWeight);
+        return BoxrecCommonTablesImprovedClass.parseWeight(this._secondBoxerWeight);
     }
 
     // maybe there's additional things that people would want to sift through
     get titles(): BoxrecTitles[] {
-        return BoxrecCommonTablesClass.parseTitles(this._metadata);
+        return BoxrecCommonTablesImprovedClass.parseTitles(this._metadata);
     }
 
     /**
@@ -477,7 +478,7 @@ export abstract class BoxrecCommonTablesClass {
      * @hidden
      */
     private getOutcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
-        return BoxrecCommonTablesClass.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
+        return BoxrecCommonTablesImprovedClass.parseOutcomeByWayOf(this._outcomeByWayOf, parseText);
     }
 
     /**

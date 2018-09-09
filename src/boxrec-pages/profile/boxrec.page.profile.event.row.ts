@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
 import {BoxrecBasic, Location} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -23,7 +23,7 @@ export class BoxrecPageProfileEventRow {
     }
 
     get location(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(getColumnData(this.$, 3));
+        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData(this.$, 3));
     }
 
     get metadata(): string | null {
