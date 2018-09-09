@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
@@ -24,7 +24,7 @@ export class BoxrecPageRatingsRow {
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesImprovedClass.parseDivision(getColumnData(this.$, 5, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 5, false));
     }
 
     get hasBoutScheduled(): boolean | null {
@@ -40,15 +40,15 @@ export class BoxrecPageRatingsRow {
     }
 
     get id(): number {
-        return BoxrecCommonTablesImprovedClass.parseId(getColumnData(this.$, 2)) as number;
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnData(this.$, 2)) as number;
     }
 
     get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesImprovedClass.parseLast6Column(this.getColumnData(6));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(6));
     }
 
     get name(): string {
-        return BoxrecCommonTablesImprovedClass.parseName(getColumnData(this.$, 2));
+        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 2));
     }
 
     get points(): number | null {
@@ -71,15 +71,15 @@ export class BoxrecPageRatingsRow {
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseRating(getColumnData(this.$, 4));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 4));
     }
 
     get record(): Record {
-        return BoxrecCommonTablesImprovedClass.parseRecord(this.getColumnData(6));
+        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(6));
     }
 
     get residence(): Location {
-        return BoxrecCommonTablesImprovedClass.parseLocationLink(this.getColumnData(8));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(this.getColumnData(8));
     }
 
     get stance(): Stance | null {

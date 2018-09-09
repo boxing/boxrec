@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {Location} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -21,11 +21,11 @@ export class BoxrecPageVenueEventsRow {
     }
 
     get id(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseId(getColumnData($, 5));
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnData($, 5));
     }
 
     get location(): Location {
-        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData($, 4), 2);
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData($, 4), 2);
     }
 
 }

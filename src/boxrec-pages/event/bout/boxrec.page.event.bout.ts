@@ -1,6 +1,6 @@
 import cheerio = require("cheerio");
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
@@ -80,12 +80,12 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesImprovedClass.parseDivision(this._division);
+        return BoxrecCommonTablesColumnsClass.parseDivision(this._division);
     }
 
     get firstBoxer(): BoxrecBasic {
         const boxer: string = this._name[0];
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(boxer);
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(boxer);
     }
 
     get firstBoxerAge(): number | null {
@@ -156,7 +156,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             }
 
             if (nameAndId) {
-                const {id, name} = BoxrecCommonTablesImprovedClass.parseNameAndId(nameAndId);
+                const {id, name} = BoxrecCommonTablesColumnsClass.parseNameAndId(nameAndId);
                 judgeObj.id = id;
                 judgeObj.name = name;
             }
@@ -195,12 +195,12 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get referee(): BoxrecBasic {
-        return BoxrecCommonTablesImprovedClass.parseReferee(this._referee);
+        return BoxrecCommonTablesColumnsClass.parseReferee(this._referee);
     }
 
     get secondBoxer(): BoxrecBasic {
         const boxer: string = this._name[1];
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(boxer);
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(boxer);
     }
 
     get secondBoxerAge(): number | null {
@@ -251,7 +251,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get titles(): BoxrecTitles[] {
-        return BoxrecCommonTablesImprovedClass.parseTitles(this._titles);
+        return BoxrecCommonTablesColumnsClass.parseTitles(this._titles);
     }
 
     /**
@@ -314,7 +314,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         let starRating: string | null = $(".starRating").parent().html();
         if (starRating) {
             starRating = `<div>${starRating}</div>`;
-            const ratingString: number | null = BoxrecCommonTablesImprovedClass.parseRating(starRating);
+            const ratingString: number | null = BoxrecCommonTablesColumnsClass.parseRating(starRating);
 
             if (ratingString) {
                 this._rating = ratingString;
@@ -367,7 +367,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
                 outcome.outcomeByWayOf = outcomeResult.outcomeByWayOf;
             }
 
-            const boxer: BoxrecBasic = BoxrecCommonTablesImprovedClass.parseNameAndId(boxerStr);
+            const boxer: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(boxerStr);
             outcome.boxer.id = boxer.id;
             outcome.boxer.name = boxer.name;
 
@@ -581,20 +581,20 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
 
             if (isFirstBoxer) {
                 const idNameStr: string = $.html(table.find("td:nth-child(1) a"));
-                idName = BoxrecCommonTablesImprovedClass.parseNameAndId(idNameStr);
+                idName = BoxrecCommonTablesColumnsClass.parseNameAndId(idNameStr);
             } else {
                 outcomeStr = table.find("td:nth-child(1) span").html();
             }
 
             const dateStr: string = $.html(table.find("td:nth-child(2) a"));
             // todo this is kind of abuse of this method but it works
-            const date: string | null = BoxrecCommonTablesImprovedClass.parseNameAndId(dateStr).name;
+            const date: string | null = BoxrecCommonTablesColumnsClass.parseNameAndId(dateStr).name;
 
             if (isFirstBoxer) {
                 outcomeStr = table.find("td:nth-child(3) span").html();
             } else {
                 const idNameStr: string = $.html(table.find("td:nth-child(3) a"));
-                idName = BoxrecCommonTablesImprovedClass.parseNameAndId(idNameStr);
+                idName = BoxrecCommonTablesColumnsClass.parseNameAndId(idNameStr);
             }
 
             if (outcomeStr) {
@@ -680,11 +680,11 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             if (firstMatch.length > 1) {
                 // is the first boxer
                 outcomeObj.outcomeByWayOf = values[firstMatch] as BoxingBoutOutcome;
-                outcomeObj.outcome = BoxrecCommonTablesImprovedClass.parseOutcome(secondMatch);
+                outcomeObj.outcome = BoxrecCommonTablesColumnsClass.parseOutcome(secondMatch);
             } else {
                 // is the second boxer
                 outcomeObj.outcomeByWayOf = values[secondMatch] as BoxingBoutOutcome;
-                outcomeObj.outcome = BoxrecCommonTablesImprovedClass.parseOutcome(firstMatch);
+                outcomeObj.outcome = BoxrecCommonTablesColumnsClass.parseOutcome(firstMatch);
             }
         }
 

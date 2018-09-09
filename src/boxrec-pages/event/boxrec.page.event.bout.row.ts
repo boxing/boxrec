@@ -1,5 +1,5 @@
 import {getColumnData} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventLinks} from "./boxrec.event.constants";
@@ -16,26 +16,26 @@ export class BoxrecPageEventBoutRow {
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesImprovedClass.parseDivision(getColumnData(this.$, 2, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 2, false));
     }
 
     get firstBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 3));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 3));
     }
 
     get firstBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesImprovedClass.parseLast6Column(this.getColumnData(5));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(5));
     }
 
     // returns an object with keys that contain a class other than `primaryIcon`
 
     get firstBoxerRecord(): Record {
-        return BoxrecCommonTablesImprovedClass.parseRecord(this.getColumnData(4));
+        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(4));
     }
 
     get firstBoxerWeight(): number | null {
         if (this.hasMoreColumns) {
-            return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 4, false));
+            return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 4, false));
         }
 
         return null;
@@ -89,12 +89,12 @@ export class BoxrecPageEventBoutRow {
     }
 
     get numberOfRounds(): Array<number | null> {
-        return BoxrecCommonTablesImprovedClass.parseNumberOfRounds(this.getColumnData(7, 2));
+        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(this.getColumnData(7, 2));
     }
 
     get outcome(): WinLossDraw | null {
         if (this.hasMoreColumns) {
-            return BoxrecCommonTablesImprovedClass.parseOutcome(getColumnData(this.$, 7, false));
+            return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 7, false));
         }
 
         return null;
@@ -102,31 +102,31 @@ export class BoxrecPageEventBoutRow {
 
     get outcomeByWayOf(): string | null {
         if (this.hasMoreColumns) {
-            return BoxrecCommonTablesImprovedClass.parseOutcomeByWayOf(getColumnData(this.$, 8));
+            return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnData(this.$, 8));
         }
 
         return null;
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseRating(this.getColumnData(11, 3));
+        return BoxrecCommonTablesColumnsClass.parseRating(this.getColumnData(11, 3));
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(this.getColumnData(8, 2));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(this.getColumnData(8, 2));
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesImprovedClass.parseLast6Column(this.getColumnData(10, 3));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(10, 3));
     }
 
     get secondBoxerRecord(): Record {
-        return BoxrecCommonTablesImprovedClass.parseRecord(this.getColumnData(9, 3));
+        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(9, 3));
     }
 
     get secondBoxerWeight(): number | null {
         if (this.hasMoreColumns) {
-            return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 11, false));
+            return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 11, false));
         }
 
         return null;
@@ -135,7 +135,7 @@ export class BoxrecPageEventBoutRow {
     // todo is this needed?  does it actually show up on the page?
     /*get outcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
         if (this.hasMoreColumns) {
-            return BoxrecCommonTablesImprovedClass.parseOutcomeByWayOf(getColumnData(this.$, 8), parseText);
+            return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnData(this.$, 8), parseText);
         }
 
         return null;

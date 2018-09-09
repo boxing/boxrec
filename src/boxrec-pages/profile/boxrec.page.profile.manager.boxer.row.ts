@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
@@ -32,11 +32,11 @@ export class BoxrecPageProfileManagerBoxerRow {
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesImprovedClass.parseDivision(getColumnData($, 2, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData($, 2, false));
     }
 
     get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesImprovedClass.parseLast6Column(getColumnData($, 4));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData($, 4));
     }
 
     get name(): string | null {
@@ -44,11 +44,11 @@ export class BoxrecPageProfileManagerBoxerRow {
     }
 
     get record(): Record {
-        return BoxrecCommonTablesImprovedClass.parseRecord(getColumnData($, 3));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData($, 3));
     }
 
     get residence(): Location {
-        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData($, 7));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData($, 7));
     }
 
     get stance(): Stance | null {

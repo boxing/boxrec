@@ -1,4 +1,5 @@
 import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
 import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
@@ -51,7 +52,7 @@ export abstract class BoxrecEvent {
         const doctors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesImprovedClass.parseNameAndId($.html(elem));
+            const doctor: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId($.html(elem));
             doctors.push(doctor);
         });
 
@@ -63,7 +64,7 @@ export abstract class BoxrecEvent {
         const inspectors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const inspector: BoxrecBasic = BoxrecCommonTablesImprovedClass.parseNameAndId($(elem).text());
+            const inspector: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId($(elem).text());
             inspectors.push(inspector);
         });
 

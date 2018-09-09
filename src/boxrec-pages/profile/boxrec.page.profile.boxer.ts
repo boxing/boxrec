@@ -1,5 +1,5 @@
 import {convertFractionsToNumber} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -86,7 +86,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get alias(): string | null {
-        return BoxrecCommonTablesImprovedClass.parseAlias(this._alias);
+        return BoxrecCommonTablesColumnsClass.parseAlias(this._alias);
     }
 
     /**
@@ -153,7 +153,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {WeightDivision | null}
      */
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesImprovedClass.parseDivision(this._division);
+        return BoxrecCommonTablesColumnsClass.parseDivision(this._division);
     }
 
     /**

@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecBasic, Location, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 
@@ -27,7 +27,7 @@ export class BoxrecPageProfileJudgeSupervisorBoutRow {
     }
 
     get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 2, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 2, false));
     }
 
     // todo this seems backwards but the previous code had it the same way.  Need to investigate
@@ -41,7 +41,7 @@ export class BoxrecPageProfileJudgeSupervisorBoutRow {
     }
 
     get location(): Location {
-        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData(this.$, 11));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 11));
     }
 
     get metadata(): string | null {
@@ -49,23 +49,23 @@ export class BoxrecPageProfileJudgeSupervisorBoutRow {
     }
 
     get numberOfRounds(): Array<number | null> {
-        return BoxrecCommonTablesImprovedClass.parseNumberOfRounds(getColumnData(this.$, 13, false));
+        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnData(this.$, 13, false));
     }
 
     get outcome(): WinLossDraw {
-        return BoxrecCommonTablesImprovedClass.parseOutcome(getColumnData(this.$, 12, false));
+        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 12, false));
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseRating(getColumnData(this.$, 14, false));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 14, false));
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 6));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 6));
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesImprovedClass.parseLast6Column(getColumnData(this.$, 10));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, 10));
     }
 
     get secondBoxerRating(): Array<number | null> {
@@ -77,11 +77,11 @@ export class BoxrecPageProfileJudgeSupervisorBoutRow {
     }
 
     get secondBoxerRecord(): Record {
-        return BoxrecCommonTablesImprovedClass.parseRecord(getColumnData(this.$, 9));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 9));
     }
 
     get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 7, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 7, false));
     }
 
     private get hasMoreColumns(): boolean {

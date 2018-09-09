@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecBasic, Location, WinLossDraw} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -18,11 +18,11 @@ export class BoxrecPageTitleRow {
     }
 
     get firstBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 2));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 2));
     }
 
     get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 3, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 3, false));
     }
 
     get links(): string {
@@ -31,7 +31,7 @@ export class BoxrecPageTitleRow {
     }
 
     get location(): Location {
-        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData(this.$, 7), 1);
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 7), 1);
     }
 
     get metadata(): string | null {
@@ -51,19 +51,19 @@ export class BoxrecPageTitleRow {
     }
 
     get outcome(): WinLossDraw {
-        return BoxrecCommonTablesImprovedClass.parseOutcome(getColumnData(this.$, 4, false));
+        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 4, false));
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseRating(getColumnData(this.$, 10));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 10));
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 5));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 5));
     }
 
     get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 6, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 6, false));
     }
 
 }

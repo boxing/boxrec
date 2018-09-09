@@ -8,7 +8,10 @@ const cheerio: CheerioAPI = require("cheerio");
 
 const $: CheerioStatic = cheerio.load("<div></div>");
 
-export abstract class BoxrecCommonTablesImprovedClass {
+/**
+ * Used to parse common columns
+ */
+export abstract class BoxrecCommonTablesColumnsClass {
 
     /**
      * @hidden

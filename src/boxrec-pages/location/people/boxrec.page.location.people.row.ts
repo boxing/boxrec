@@ -1,5 +1,5 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
-import {BoxrecCommonTablesImprovedClass} from "../../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {Location, Record} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
@@ -16,16 +16,16 @@ export class BoxrecPageLocationPeopleRow {
 
     // todo should only be for boxers
     get career(): Array<number | null> {
-        return BoxrecCommonTablesImprovedClass.parseCareer(getColumnData(this.$, 7));
+        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 7));
     }
 
     // todo should only be for boxers
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesImprovedClass.parseDivision(getColumnData(this.$, 6, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 6, false));
     }
 
     get id(): number {
-        return BoxrecCommonTablesImprovedClass.parseId(getColumnData(this.$, 3)) as number;
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnData(this.$, 3)) as number;
     }
 
     /**
@@ -34,7 +34,7 @@ export class BoxrecPageLocationPeopleRow {
      * @returns {Location}
      */
     get location(): Location {
-        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData(this.$, 2));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 2));
     }
 
     get miles(): number {
@@ -42,12 +42,12 @@ export class BoxrecPageLocationPeopleRow {
     }
 
     get name(): string {
-        return BoxrecCommonTablesImprovedClass.parseName(getColumnData(this.$, 3)) as string;
+        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 3)) as string;
     }
 
     // todo should only be for boxers
     get record(): Record {
-        return BoxrecCommonTablesImprovedClass.parseRecord(getColumnData(this.$, 5));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 5));
     }
 
     get sex(): "male" | "female" {
