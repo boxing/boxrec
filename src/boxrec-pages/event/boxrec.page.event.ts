@@ -1,5 +1,5 @@
-import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {BoxrecEvent} from "./boxrec.event";
 import {BoxrecPromoter} from "./boxrec.event.constants";
