@@ -25,7 +25,7 @@ describe("class BoxrecPageRatings", () => {
             let ratingsOutput: BoxrecPageRatingsRow;
 
             beforeAll(() => {
-                ratingsOutput = ratings.boxers[1];
+                ratingsOutput = ratings.boxers[0];
             });
 
             describe("getter ranking", () => {

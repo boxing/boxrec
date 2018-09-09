@@ -1,40 +1,36 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
 import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
-export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
+export class BoxrecPageRatingsRow {
 
-    private _age: string;
-    private _idName: string;
-    private _last6: string;
-    private _location: string;
-    private _points: string;
-    private _ranking: string;
-    private _record: string;
-    private _stance: string;
+    private $: CheerioStatic;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
-        $ = cheerio.load(html);
-
-        this.parse();
+        this.$ = cheerio.load(html);
     }
 
     get age(): number | null {
-        if (this._age) {
-            return parseInt(this._age, 10);
+        const age: string = this.getColumnData(5, false);
+        if (age) {
+            return parseInt(age, 10);
         }
 
         return null;
     }
 
+    get division(): WeightDivision | null {
+        return BoxrecCommonTablesImprovedClass.parseDivision(getColumnData(this.$, 5, false));
+    }
+
     get hasBoutScheduled(): boolean | null {
-        if (this._idName) {
-            const html: Cheerio = $(`<div>${this._idName}</div>`);
+        const idName: string = getColumnData(this.$, 2);
+        if (idName) {
+            const html: Cheerio = this.$(`<div>${idName}</div>`);
             let name: string = html.text();
             name = name.trim();
             return name.slice(-1) === "*";
@@ -44,19 +40,19 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get id(): number {
-        return BoxrecCommonTablesClass.parseId(this._idName) as number;
+        return BoxrecCommonTablesImprovedClass.parseId(getColumnData(this.$, 2)) as number;
     }
 
     get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesClass.parseLast6Column(this._last6);
+        return BoxrecCommonTablesImprovedClass.parseLast6Column(this.getColumnData(6));
     }
 
     get name(): string {
-        return BoxrecCommonTablesClass.parseName(this._idName);
+        return BoxrecCommonTablesImprovedClass.parseName(getColumnData(this.$, 2));
     }
 
     get points(): number | null {
-        const points: number = parseInt(this._points, 10);
+        const points: number = parseInt(getColumnData(this.$, 3, false), 10);
 
         if (!isNaN(points)) {
             return points;
@@ -66,53 +62,46 @@ export class BoxrecPageRatingsRow extends BoxrecCommonTablesClass {
     }
 
     get ranking(): number | null {
-        if (this._ranking) {
-            return parseInt(this._ranking, 10);
+        const ranking: string = getColumnData(this.$, 4);
+        if (ranking) {
+            return parseInt(ranking, 10);
         }
 
         return null;
+    }
+
+    get rating(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseRating(getColumnData(this.$, 4));
     }
 
     get record(): Record {
-        return BoxrecCommonTablesClass.parseRecord(this._record);
+        return BoxrecCommonTablesImprovedClass.parseRecord(this.getColumnData(6));
     }
 
     get residence(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._location);
+        return BoxrecCommonTablesImprovedClass.parseLocationLink(this.getColumnData(8));
     }
 
     get stance(): Stance | null {
-        if (this._stance) {
-            return trimRemoveLineBreaks(this._stance) as Stance;
+        const stance: string = this.getColumnData(7, false);
+        if (stance) {
+            return trimRemoveLineBreaks(stance) as Stance;
         }
 
         return null;
     }
 
-    private parse(): void {
-        // on pages where it's about a specific weight class, the division column is omitted
-        const hasDivision: boolean = $(`tr:nth-child(1) td`).length === 9;
-
-        this._ranking = getColumnData($, 1, false);
-        this._idName = getColumnData($, 2);
-        this._points = getColumnData($, 3, false);
-        this._rating = getColumnData($, 4);
-
-        if (hasDivision) {
-            this._division = getColumnData($, 5, false);
-            this._age = getColumnData($, 6, false);
-            this._record = getColumnData($, 7);
-            this._last6 = getColumnData($, 7);
-            this._stance = getColumnData($, 8, false);
-            this._location = getColumnData($, 9);
-        } else {
-            this._age = getColumnData($, 5, false);
-            this._record = getColumnData($, 6);
-            this._last6 = getColumnData($, 6);
-            this._stance = getColumnData($, 7, false);
-            this._location = getColumnData($, 8);
+    private getColumnData(colNum: number, returnHTML: boolean = true): string {
+        let columnNumber: number = colNum;
+        if (this.hasMoreColumns()) {
+            columnNumber++;
         }
+        return getColumnData(this.$, columnNumber, returnHTML);
+    }
 
+    private hasMoreColumns(): boolean {
+        // on pages where it's about a specific weight class, the division column is omitted
+        return this.$(`tr:nth-child(1) td`).length === 9;
     }
 
 }

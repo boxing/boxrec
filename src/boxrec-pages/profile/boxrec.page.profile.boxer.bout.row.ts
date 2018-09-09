@@ -1,30 +1,61 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
+import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
 
-    hasBoxerRatings: boolean = false;
-    private _date: string;
-    private _firstBoxerRating: string;
-    private _links: string;
-    private _location: string;
-    private _secondBoxerRating: string;
-    private _startColumn: number = 1;
+    private $: CheerioStatic;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
-        $ = cheerio.load(html);
-        this.parseBout();
-        this.parseMetadata();
+        this.$ = cheerio.load(html);
+    }
+
+    // todo remove
+    get _metadata(): string | null {
+        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
+    }
+
+    get firstBoxerWeight(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 3, false));
+    }
+
+    get metadata(): string | null {
+        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
+    }
+
+    get numberOfRounds(): Array<number | null> {
+        return BoxrecCommonTablesImprovedClass.parseNumberOfRounds(getColumnData(this.$, 14));
+    }
+
+    get outcome(): WinLossDraw {
+        return BoxrecCommonTablesImprovedClass.parseOutcome(getColumnData(this.$, 12, false));
+    }
+
+    get secondBoxer(): BoxrecBasic {
+        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 6));
+    }
+
+    get secondBoxerLast6(): WinLossDraw[] {
+        return BoxrecCommonTablesImprovedClass.parseLast6Column(getColumnData(this.$, 10));
+    }
+
+    get secondBoxerRecord(): Record {
+        return BoxrecCommonTablesImprovedClass.parseRecord(getColumnData(this.$, 9));
+    }
+
+    get secondBoxerWeight(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 7, false));
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(this._date);
+        return trimRemoveLineBreaks(getColumnData(this.$, 2, false));
     }
 
     /**
@@ -35,12 +66,27 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
      * @returns {(number | null)[]}
      */
     get firstBoxerRating(): Array<number | null> {
-        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(this._firstBoxerRating);
+        if (this.hasMoreColumns) {
+            return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnData(this.$, 4));
+        }
+
+        return [];
+    }
+
+    // todo this is similar to other code
+    get hasBoxerRatings(): boolean {
+        return this.hasMoreColumns;
+    }
+
+    get hasMoreColumns(): boolean {
+        // if the boxer ratings is showing, the number of columns changes from 14 to 16
+        return this.$(`tr:nth-child(1) td`).length === 16;
     }
 
     // returns an object with keys that contain a class other than `clickableIcon`
     get links(): BoxrecProfileBoutLinks { // object of strings
-        const html: Cheerio = $(this._links);
+        const linksStr: string = getColumnData(this.$, 16, true);
+        const html: Cheerio = this.$(linksStr);
         const obj: BoxrecProfileBoutLinks = {
             bout: null,
             bio_open: null,
@@ -49,8 +95,8 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
         };
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const div: Cheerio = $(elem).find("div");
-            const href: string = $(elem).attr("href");
+            const div: Cheerio = this.$(elem).find("div");
+            const href: string = this.$(elem).attr("href");
             const classAttr: string = div.attr("class");
             const hrefArr: string[] = classAttr.split(" ");
 
@@ -82,7 +128,8 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
             town: null,
             venue: null,
         };
-        const [venue, town] = this._location.split(",").map(item => item.trim());
+        const locationStr: string = getColumnData(this.$, 11, false);
+        const [venue, town] = locationStr.split(",").map(item => item.trim());
         location.town = town;
         location.venue = venue;
 
@@ -97,10 +144,19 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
      * @returns {(number | null)[]}
      */
     get secondBoxerRating(): Array<number | null> {
-        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(this._secondBoxerRating);
+        if (this.hasMoreColumns) {
+            return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnData(this.$, 8));
+        }
+
+        return [];
     }
 
-    private static parseBoxerRating(rating: string): Array<number | null> {
+    /**
+     * Parses Before/After ratings of a boxer
+     * @param {string} rating
+     * @returns {Array<number | null>}
+     */
+    static parseBoxerRating(rating: string): Array<number | null> {
         const ratings: Array<number | null> = [null, null];
         const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
             .replace(/,/g, "")
@@ -114,51 +170,17 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecCommonTablesClass {
         return ratings;
     }
 
-    private getColumnData(returnHtml: boolean = false): string {
-        this._startColumn++;
-        return getColumnData($, this._startColumn, returnHtml);
+    get rating(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseRating(getColumnData(this.$, 14));
     }
 
-    private parseBout(): void {
-        // if the boxer ratings is showing, the number of columns changes from 14 to 16
-        const numberOfColumns: number = $(`tr:nth-child(1) td`).length;
-
-        this.hasBoxerRatings = numberOfColumns === 16;
-
-        // whether the boxer ratings are showing or not, we'll deliver the correct data
-        // set the start column, when calling `getColumnData`, bump the number up
-        this._startColumn = 1;
-
-        this._date = this.getColumnData();
-        this._firstBoxerWeight = this.getColumnData();
-
-        if (this.hasBoxerRatings) {
-            this._firstBoxerRating = this.getColumnData(true);
-        }
-
-        // empty 4th/5th column, move the number ahead
-        this._startColumn++;
-
-        this._secondBoxer = this.getColumnData(true);
-        this._secondBoxerWeight = this.getColumnData();
-
-        if (this.hasBoxerRatings) {
-            this._secondBoxerRating = this.getColumnData(true);
-        }
-
-        this._secondBoxerRecord = this.getColumnData(true);
-        this._secondBoxerLast6 = this.getColumnData(true);
-        this._location = this.getColumnData();
-        this._outcome = this.getColumnData();
-        this._outcomeByWayOf = this.getColumnData(true);
-        this._numberOfRounds = this.getColumnData();
-        this._rating = this.getColumnData(true);
-        this._links = this.getColumnData(true);
+    private outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
+        return BoxrecCommonTablesImprovedClass.parseOutcomeByWayOf(htmlString, parseText);
     }
 
-    private parseMetadata(): void {
-        const el: Cheerio = $(`tr:nth-child(2) td:nth-child(1)`);
-        this._metadata = el.html() || "";
+    get result(): [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null] {
+        const result: string = getColumnData(this.$, 13);
+        return [this.outcome, this.outcomeByWayOf(result), this.outcomeByWayOf(result, true)];
     }
 
 }

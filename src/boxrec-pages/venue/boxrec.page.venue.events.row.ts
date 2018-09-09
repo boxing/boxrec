@@ -1,47 +1,31 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
 import {Location} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
-export class BoxrecPageVenueEventsRow extends BoxrecCommonTablesClass {
-
-    private _date: string;
-    private _day: string;
-    private _id: string;
-    private _location: string;
+export class BoxrecPageVenueEventsRow {
 
     constructor(boxrecBodyBout: string) {
-        super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         $ = cheerio.load(html);
-
-        this.parse();
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(this._date);
+        return trimRemoveLineBreaks(getColumnData($, 2));
     }
 
     get day(): string {
-        return this._day;
+        return getColumnData($, 3);
     }
 
     get id(): number | null {
-        return BoxrecCommonTablesClass.parseId(this._id);
+        return BoxrecCommonTablesImprovedClass.parseId(getColumnData($, 5));
     }
 
     get location(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._location, 2);
-    }
-
-    private parse(): void {
-        // first column is a map link
-        this._date = getColumnData($, 2);
-        this._day = getColumnData($, 3);
-        this._location = getColumnData($, 4);
-        this._id = getColumnData($, 5);
+        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData($, 4), 2);
     }
 
 }

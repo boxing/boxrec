@@ -1,40 +1,45 @@
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
-import {BoxrecBasic, Location} from "../boxrec.constants";
+import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
+import {BoxrecBasic, Location, WinLossDraw} from "../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
-export class BoxrecPageTitleRow extends BoxrecCommonTablesClass {
+export class BoxrecPageTitleRow {
 
-    private _date: string;
-    private _firstBoxer: string;
-    private _links: string;
-    private _location: string;
+    private $: CheerioStatic;
 
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
-        super();
         const html: string = `<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`;
-        $ = cheerio.load(html);
-
-        this.parse();
-        this.parseMetadata();
+        this.$ = cheerio.load(html);
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(this._date);
+        return trimRemoveLineBreaks(getColumnData(this.$, 1, false));
     }
 
     get firstBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesClass.parseNameAndId(this._firstBoxer);
+        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 2));
+    }
+
+    get firstBoxerWeight(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 3, false));
+    }
+
+    get links(): string {
+        // todo I think this was ever working properly
+        return getColumnData(this.$, 11);
     }
 
     get location(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._location, 1);
+        return BoxrecCommonTablesImprovedClass.parseLocationLink(getColumnData(this.$, 7), 1);
+    }
+
+    get metadata(): string | null {
+        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }
 
     get numberOfRounds(): number[] {
-        const numberOfRounds: string = trimRemoveLineBreaks(this._numberOfRounds);
+        const numberOfRounds: string = trimRemoveLineBreaks(getColumnData(this.$, 9, false));
         if (numberOfRounds.includes("/")) {
             // ended early
             return numberOfRounds.split("/").map(item => parseInt(item, 10));
@@ -45,27 +50,20 @@ export class BoxrecPageTitleRow extends BoxrecCommonTablesClass {
         return [parsedNumberOfRounds, parsedNumberOfRounds];
     }
 
+    get outcome(): WinLossDraw {
+        return BoxrecCommonTablesImprovedClass.parseOutcome(getColumnData(this.$, 4, false));
+    }
+
+    get rating(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseRating(getColumnData(this.$, 10));
+    }
+
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesClass.parseNameAndId(this._secondBoxer);
+        return BoxrecCommonTablesImprovedClass.parseNameAndId(getColumnData(this.$, 5));
     }
 
-    private parse(): void {
-        this._date = getColumnData($, 1, false);
-        this._firstBoxer = getColumnData($, 2);
-        this._firstBoxerWeight = getColumnData($, 3, false);
-        this._outcome = getColumnData($, 4, false);
-        this._secondBoxer = getColumnData($, 5);
-        this._secondBoxerWeight = getColumnData($, 6, false);
-        this._location = getColumnData($, 7);
-        this._outcomeByWayOf = getColumnData($, 8, false);
-        this._numberOfRounds = getColumnData($, 9, false);
-        this._rating = getColumnData($, 10);
-        this._links = getColumnData($, 11);
-    }
-
-    private parseMetadata(): void {
-        const el: Cheerio = $(`tr:nth-child(2) td:nth-child(1)`);
-        this._metadata = el.html() || "";
+    get secondBoxerWeight(): number | null {
+        return BoxrecCommonTablesImprovedClass.parseWeight(getColumnData(this.$, 6, false));
     }
 
 }
