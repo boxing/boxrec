@@ -223,8 +223,12 @@ export class BoxrecPageEvent extends BoxrecEvent {
         }
     }
 
+    private parseEventResults(): Cheerio {
+        return $("table");
+    }
+
     private parseEventData(): void {
-        const eventResults: Cheerio = $("table");
+        const eventResults: Cheerio = this.parseEventResults();
 
         $(eventResults).find("thead table tbody tr").each((i: number, elem: CheerioElement) => {
             const tag: string = $(elem).find("td:nth-child(1)").text().trim();
