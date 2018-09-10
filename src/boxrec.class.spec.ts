@@ -195,6 +195,15 @@ describe("class boxrec", () => {
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/judge/1");
         });
 
+        it("supplying an `offset` value will append this to the URL", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            spy.mockReturnValueOnce(Promise.resolve(mockProfileJudgeDaveMoretti));
+            await boxrec.getPersonById(1, BoxrecRole.judge, 20);
+            expect(getLastCall(spy, "qs")).toEqual({
+                offset: 20,
+            });
+        });
+
     });
 
     describe("method getEventById", () => {

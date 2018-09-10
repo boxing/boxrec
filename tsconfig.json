@@ -8,6 +8,7 @@
     "declaration": true,
     "strictPropertyInitialization": false,
     "lib": [
+      "dom",
       "es2015",
       "es2016.array.include",
       "es2015.symbol",

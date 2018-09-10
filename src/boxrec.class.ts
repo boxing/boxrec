@@ -242,11 +242,29 @@ export class Boxrec {
      * @param {number} globalId                 the BoxRec profile id
      * @param {BoxrecRole} role                 the role of the person in boxing (there seems to be multiple profiles for people if they fall under different roles)
      * @param {number} offset                   offset number of bouts/events in the profile.  Not used for boxers as boxer's profiles list all bouts they've been in
-     * @param {boolean} callWithToggleRatings   if true, will call the profile with `toggleRatings=y` to get all 16 columns in profile bouts
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
     async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
         return this.makeGetPersonByIdRequest(globalId, role, offset);
+    }
+
+    /**
+     * Downloads the PDF of a profile
+     * @param {number} globalId
+     * @param {BoxrecRole} role
+     * @returns {Promise<BoxrecPageRatings>}
+     */
+    async getPersonByIdPDF(globalId: number, role: BoxrecRole = BoxrecRole.boxer): Promise<Buffer> {
+        const uri: string = `http://boxrec.com/en/${role}/${globalId}?pdf=y`;
+
+        return rp.get({
+            encoding: null,
+            headers: {
+                "Content-type": "application/pdf",
+            },
+            jar: this._cookieJar,
+            uri,
+        });
     }
 
     /**
@@ -582,7 +600,7 @@ export class Boxrec {
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
             qs,
-            uri
+            uri,
         });
 
         let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager;

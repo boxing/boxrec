@@ -132,16 +132,6 @@ export class BoxrecPageEventBoutRow {
         return null;
     }
 
-    // todo is this needed?  does it actually show up on the page?
-    /*get outcomeByWayOf(parseText: boolean = false): BoxingBoutOutcome | string | null {
-        if (this.hasMoreColumns) {
-            return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnData(this.$, 8), parseText);
-        }
-
-        return null;
-    }
-    */
-
     private get hasMoreColumns(): boolean {
         // if event has occurred, there are number of different columns
         return this.$(`tr:nth-child(1) td`).length === 15;
