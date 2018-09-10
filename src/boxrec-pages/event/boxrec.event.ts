@@ -22,14 +22,14 @@ export abstract class BoxrecEvent {
     protected _matchmaker: string | null;
     protected _promoter: string | null;
     protected _television: string;
+    private $: CheerioStatic;
 
     protected constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parseBouts();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get bouts(): BoxrecPageEventBoutRow[] {
-        const bouts: Array<[string, string | null]> = [] = this._bouts;
+        const bouts: Array<[string, string | null]> = [] = this.parseBouts();
         const boutsList: BoxrecPageEventBoutRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
             const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
@@ -48,7 +48,7 @@ export abstract class BoxrecEvent {
     }
 
     get doctors(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._doctor}</div>`);
+        const html: Cheerio = this.$(`<div>${this._doctor}</div>`);
         const doctors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -60,11 +60,11 @@ export abstract class BoxrecEvent {
     }
 
     get inspectors(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._inspector}</div>`);
+        const html: Cheerio = this.$(`<div>${this._inspector}</div>`);
         const inspectors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const inspector: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId($(elem).text());
+            const inspector: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$(elem).text());
             inspectors.push(inspector);
         });
 
@@ -85,7 +85,7 @@ export abstract class BoxrecEvent {
             },
         };
 
-        const html: Cheerio = $(`<div>${this._location}</div>`);
+        const html: Cheerio = this.$(`<div>${this._location}</div>`);
         const links: Cheerio = html.find("a");
 
         locationObject.venue = BoxrecEvent.getVenueInformation(links);
@@ -94,13 +94,13 @@ export abstract class BoxrecEvent {
     }
 
     get matchmakers(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._matchmaker}</div>`);
+        const html: Cheerio = this.$(`<div>${this._matchmaker}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = $(elem).get(0).attribs.href.match(/(\d+)$/);
+            const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
             if (href) {
-                const name: string = $(elem).text();
+                const name: string = this.$(elem).text();
                 matchmaker.push({
                     id: parseInt(href[1], 10),
                     name,
@@ -113,12 +113,12 @@ export abstract class BoxrecEvent {
     }
 
     get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = $(`<div>${this._promoter}</div>`);
+        const html: Cheerio = this.$(`<div>${this._promoter}</div>`);
         const promoter: BoxrecPromoter[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: string = $(elem).get(0).attribs.href;
-            const name: string = $(elem).text();
+            const href: string = this.$(elem).get(0).attribs.href;
+            const name: string = this.$(elem).text();
             let id: number | null = null;
             let company: string | null = null;
 
@@ -265,8 +265,9 @@ export abstract class BoxrecEvent {
 
     private parseBouts(): void {
         const tr: Cheerio = $("table > tbody tr");
+
         tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = $(elem).attr("id");
+            const boutId: string = this.$(elem).attr("id");
 
             // skip rows that are associated with the previous fight
             if (!boutId || boutId.includes("second")) {
@@ -275,7 +276,7 @@ export abstract class BoxrecEvent {
 
             // we need to check to see if the next row is associated with this bout
             let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = $(elem).next();
+            let nextRow: Cheerio | null = this.$(elem).next();
             let nextRowId: string = nextRow.attr("id");
 
             if (nextRowId) {
@@ -287,10 +288,12 @@ export abstract class BoxrecEvent {
                 }
             } // else if no next bout exists
 
-            const html: string = $(elem).html() || "";
+            const html: string = this.$(elem).html() || "";
             const next: string | null = nextRow ? nextRow.html() : null;
-            this._bouts.push([html, next]);
+            bouts.push([html, next]);
         });
+
+        return bouts;
     }
 
 }
