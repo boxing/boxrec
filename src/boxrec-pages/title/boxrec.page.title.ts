@@ -3,7 +3,6 @@ import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * parse a BoxRec Title page
@@ -11,16 +10,10 @@ let $: CheerioStatic;
  */
 export class BoxrecPageTitle {
 
-    private _bouts: Array<[string, string | null]> = [];
-    private _champion: string | null;
-    private _name: string;
-    private _numberOfBouts: string;
+    private $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-
-        this.parse();
-        this.parseBouts();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     /**
@@ -28,7 +21,7 @@ export class BoxrecPageTitle {
      * @returns {BoxrecPageTitleRow[]}
      */
     get bouts(): BoxrecPageTitleRow[] {
-        const bouts: Array<[string, string | null]> = [] = this._bouts;
+        const bouts: Array<[string, string | null]> = [] = this.parseBouts();
         const boutsList: BoxrecPageTitleRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
             const bout: BoxrecPageTitleRow = new BoxrecPageTitleRow(val[0], val[1]);
@@ -43,7 +36,8 @@ export class BoxrecPageTitle {
      * @returns {BoxrecBasic}
      */
     get champion(): BoxrecBasic {
-        const html: Cheerio = $(`<div>${this._champion}</div>`);
+        const championStr: string | null = this.$("#pageOuter h2").html();
+        const html: Cheerio = this.$(`<div>${championStr}</div>`);
         const boxerLink: Cheerio = html.find("a");
 
         if (boxerLink) {
@@ -65,7 +59,8 @@ export class BoxrecPageTitle {
     }
 
     get name(): string {
-        return trimRemoveLineBreaks(this._name);
+        const name: string = this.$("h1").text();
+        return trimRemoveLineBreaks(name);
     }
 
     /**
@@ -73,20 +68,16 @@ export class BoxrecPageTitle {
      * @returns {number}
      */
     get numberOfBouts(): number {
-        return parseInt(this._numberOfBouts, 10);
-    }
-
-    private parse(): void {
-        this._name = $("h1").text();
-        this._champion = $("#pageOuter h2").html();
-        this._numberOfBouts = $(".pagerResults").text();
+        return parseInt(this.$(".pagerResults").text(), 10);
     }
 
     // todo this is extremely similar to boxrec.page.event.ts, can we merge?
-    private parseBouts(): void {
-        const tr: Cheerio = $(".dataTable > tbody tr");
-        $(tr).each((i: number, elem: CheerioElement) => {
-            const boutId: string = $(elem).attr("id");
+    private parseBouts(): Array<[string, string | null]> {
+        const tr: Cheerio = this.$(".dataTable > tbody tr");
+        const bouts: Array<[string, string | null]> = [];
+
+        this.$(tr).each((i: number, elem: CheerioElement) => {
+            const boutId: string = this.$(elem).attr("id");
 
             // skip rows that are associated with the previous fight
             if (!boutId || boutId.includes("second")) {
@@ -95,7 +86,7 @@ export class BoxrecPageTitle {
 
             // we need to check to see if the next row is associated with this bout
             let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = $(elem).next();
+            let nextRow: Cheerio | null = this.$(elem).next();
             let nextRowId: string = nextRow.attr("id");
 
             if (nextRowId) {
@@ -107,10 +98,11 @@ export class BoxrecPageTitle {
                 }
             } // else if no next bout exists
 
-            const html: string = $(elem).html() || "";
+            const html: string = this.$(elem).html() || "";
             const next: string | null = nextRow ? nextRow.html() : null;
-            this._bouts.push([html, next]);
+            bouts.push([html, next]);
         });
 
+        return bouts;
     }
 }
