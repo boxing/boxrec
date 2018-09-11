@@ -2,7 +2,6 @@ import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
 import {BoxrecSearch} from "./boxrec.search.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * parse a BoxRec Search Results page
@@ -10,30 +9,32 @@ let $: CheerioStatic;
  */
 export class BoxrecPageSearch {
 
-    private _searchResults: string[] = [];
+    private $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parse();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get results(): BoxrecSearch[] {
-        return this._searchResults.map(item => new BoxrecPageSearchRow(item));
+        return this.parse().map(item => new BoxrecPageSearchRow(item));
     }
 
     // takes the search page HTML and gets the dynamic param from the "Find People" box
     get searchBoxParam(): string {
         // lazy search in case the structure changes
-        return $("h2:contains('Find People')").parents("td").find("form").attr("name");
+        return this.$("h2:contains('Find People')").parents("td").find("form").attr("name");
     }
 
-    private parse(): void {
-        const tr: Cheerio = $(".dataTable tbody tr");
+    private parse(): string[] {
+        const tr: Cheerio = this.$(".dataTable tbody tr");
+        const searchResults: string[] = [];
 
         tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._searchResults.push(html);
+            const html: string = this.$(elem).html() || "";
+            searchResults.push(html);
         });
+
+        return searchResults;
     }
 
 }

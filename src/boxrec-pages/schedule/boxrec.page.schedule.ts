@@ -11,34 +11,27 @@ let $: CheerioStatic;
  */
 export class BoxrecPageSchedule {
 
-    private _events: string[] = [];
+    private $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parse();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get events(): BoxrecPageEvent[] {
-        const events: BoxrecPageEvent[] = [];
-
-        for (const event of this._events) {
-            const parsedEvent: BoxrecPageEvent = new BoxrecPageEvent(event);
-            events.push(parsedEvent);
-        }
-
-        return events;
+        return this.parse().map((event: string) => new BoxrecPageEvent(event));
     }
 
-    private parse(): void {
+    private parse(): string[] {
         // this is set up incredibly strange on BoxRec
         // so it's just a giant slew of `thead` and `tbody`
         // loop through, if `thead`, it's the new schedule
         // the last `tbody` before a `thead` is empty
-        const tableChildren: Cheerio = $(".calendarTable > *");
+        const tableChildren: Cheerio = this.$(".calendarTable > *");
         let event: string = "";
+        const events: string[] = [];
 
         tableChildren.each((i: number, elem: CheerioElement) => {
-            const el: Cheerio = $(elem);
+            const el: Cheerio = this.$(elem);
             const tagName: string = el.get(0).tagName; // this will either be `thead` or `tbody`
 
             if (tagName === "thead") { // is the date, location, event, wiki
@@ -53,12 +46,14 @@ export class BoxrecPageSchedule {
                     event += `<tbody>${el.html()}</tbody>`;
                 } else {
                     // wrap with `eventResults` to work with the events class
-                    this._events.push(`<table id="eventResults">${event}</table>`); // end of event
+                    events.push(`<table id="eventResults">${event}</table>`); // end of event
                     event = ""; // reset
                 }
             }
 
         });
+
+        return events;
     }
 
 }
