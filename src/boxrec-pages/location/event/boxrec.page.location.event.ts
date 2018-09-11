@@ -1,7 +1,6 @@
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * parse a BoxRec Locate Events results page
@@ -9,23 +8,25 @@ let $: CheerioStatic;
  */
 export class BoxrecPageLocationEvent {
 
-    _locations: string[] = [];
+    private $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parseLocation();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get events(): BoxrecPageLocationEventRow[] {
-        return this._locations.map(item => new BoxrecPageLocationEventRow(item));
+        return this.parseLocation().map(item => new BoxrecPageLocationEventRow(item));
     }
 
-    private parseLocation(): void {
-        const tr: Cheerio = $(".dataTable tbody tr");
+    private parseLocation(): string[] {
+        const tr: Cheerio = this.$(".dataTable tbody tr");
+        const locations: string[] = [];
         tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._locations.push(html);
+            const html: string = this.$(elem).html() || "";
+            locations.push(html);
         });
+
+        return locations;
     }
 
 }

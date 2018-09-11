@@ -5,36 +5,35 @@ import {BoxrecEvent} from "./boxrec.event";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * Parse an Event page
  */
 export class BoxrecPageEvent extends BoxrecEvent {
 
-    protected _date: string | null = null;
-
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         this.parseDate();
         this.parseEventData();
     }
 
     get date(): string | null {
-        if (this._date) {
-            return trimRemoveLineBreaks(this._date);
+        const date: string | null = this.parseDate();
+
+        if (date) {
+            return trimRemoveLineBreaks(date);
         }
 
-        return this._date;
+        return date;
     }
 
     get doctors(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._doctor}</div>`);
+        const html: Cheerio = this.$(`<div>${this._doctor}</div>`);
         const doctors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId($.html(elem));
+            const doctor: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$.html(elem));
             doctors.push(doctor);
         });
 
@@ -42,11 +41,11 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get inspectors(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._inspector}</div>`);
+        const html: Cheerio = this.$(`<div>${this._inspector}</div>`);
         const inspectors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const inspector: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId($(elem).text());
+            const inspector: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$(elem).text());
             inspectors.push(inspector);
         });
 
@@ -67,7 +66,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
             },
         };
 
-        const html: Cheerio = $(`<div>${this._location}</div>`);
+        const html: Cheerio = this.$(`<div>${this._location}</div>`);
         const links: Cheerio = html.find("a");
         const venueId: RegExpMatchArray | null = links.get(0).attribs.href.match(/(\d+)$/);
         const venueName: string | undefined = links.get(0).children[0].data;
@@ -105,13 +104,13 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get matchmakers(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._matchmaker}</div>`);
+        const html: Cheerio = this.$(`<div>${this._matchmaker}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = $(elem).get(0).attribs.href.match(/(\d+)$/);
+            const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
             if (href) {
-                const name: string = $(elem).text();
+                const name: string = this.$(elem).text();
                 matchmaker.push({
                     id: parseInt(href[1], 10),
                     name,
@@ -124,12 +123,12 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = $(`<div>${this._promoter}</div>`);
+        const html: Cheerio = this.$(`<div>${this._promoter}</div>`);
         const promoter: BoxrecPromoter[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: string = $(elem).get(0).attribs.href;
-            const name: string = $(elem).text();
+            const href: string = this.$(elem).get(0).attribs.href;
+            const name: string = this.$(elem).text();
             let id: number | null = null;
             let company: string | null = null;
 
@@ -214,25 +213,23 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return parseInt(this._id, 10);
     }
 
-    private parseDate(): void {
-        const eventResults: Cheerio = $("table");
-        const date: string = $(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
+    private parseDate(): string | null {
+        const eventResults: Cheerio = this.parseEventResults();
+        const date: string = this.$(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
         // if date hasn't been set, this will be an empty string, leave as null
         if (date) {
-            this._date = new Date(date).toISOString().slice(0, 10);
+            return new Date(date).toISOString().slice(0, 10);
         }
-    }
 
-    private parseEventResults(): Cheerio {
-        return $("table");
+        return null;
     }
 
     private parseEventData(): void {
         const eventResults: Cheerio = this.parseEventResults();
 
-        $(eventResults).find("thead table tbody tr").each((i: number, elem: CheerioElement) => {
-            const tag: string = $(elem).find("td:nth-child(1)").text().trim();
-            const val: Cheerio = $(elem).find("td:nth-child(2)");
+        this.$(eventResults).find("thead table tbody tr").each((i: number, elem: CheerioElement) => {
+            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
+            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
 
             if (tag === "commission") {
                 this._commission = val.text();
@@ -249,7 +246,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
             }
         });
 
-        const wikiHref: string | null = $(eventResults).find("h2").next().find(".bio_closedP").parent().attr("href");
+        const wikiHref: string | null = this.$(eventResults).find("h2").next().find(".bio_closedP").parent().attr("href");
         if (wikiHref) {
             const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
             if (wikiLink && wikiLink[1]) {
@@ -257,7 +254,11 @@ export class BoxrecPageEvent extends BoxrecEvent {
             }
         }
 
-        this._location = $(eventResults).find("thead table > tbody tr:nth-child(2) b").html();
+        this._location = this.$(eventResults).find("thead table > tbody tr:nth-child(2) b").html();
+    }
+
+    private parseEventResults(): Cheerio {
+        return this.$("table");
     }
 
 }

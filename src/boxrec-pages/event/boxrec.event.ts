@@ -22,7 +22,7 @@ export abstract class BoxrecEvent {
     protected _matchmaker: string | null;
     protected _promoter: string | null;
     protected _television: string;
-    private $: CheerioStatic;
+    protected $: CheerioStatic;
 
     protected constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);

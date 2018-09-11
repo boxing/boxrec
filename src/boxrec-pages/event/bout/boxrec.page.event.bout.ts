@@ -8,8 +8,6 @@ import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoxrecPageEvent} from "../boxrec.page.event";
 import {BoutPageBoutOutcome, BoutPageLast6, BoutPageOutcome} from "./boxrec.event.bout.constants";
 
-let $: CheerioStatic;
-
 /**
  * Parse a BoxRec bout page
  * Note: because BoxRec is using inline styles for a lot of things, can't guarantee perfect results.  Report issues
@@ -64,7 +62,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         this.parse();
         this.parseBoxers();
         this.parseJudges();
@@ -77,6 +75,17 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         this.parseLast6();
         this.parseTitles();
         this.parseLocation();
+    }
+
+    get date(): string | null {
+        let date: string | null = this.$(".page h2:nth-child(1) a").text();
+
+        if (date) {
+            date = trimRemoveLineBreaks(date);
+            return new Date(date).toISOString().slice(0, 10);
+        }
+
+        return date;
     }
 
     get division(): WeightDivision | null {
@@ -113,7 +122,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get firstBoxerRanking(): number | null {
-        const ranking: Cheerio = $(this._ranking);
+        const ranking: Cheerio = this.$(this._ranking);
         const td: Cheerio = ranking.find("td:nth-child(1)");
 
         if (td) {
@@ -140,7 +149,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         const judgesArr: string[] = this._judges;
 
         judgesArr.forEach(item => {
-            const judgeEl: Cheerio = $(`<tr>${item}</tr>`);
+            const judgeEl: Cheerio = this.$(`<tr>${item}</tr>`);
             const judgeObj: BoxrecJudge = {
                 id: null,
                 name: null,
@@ -228,7 +237,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get secondBoxerRanking(): number | null {
-        const ranking: Cheerio = $(this._ranking);
+        const ranking: Cheerio = this.$(this._ranking);
         const td: Cheerio = ranking.find("td:nth-child(3)");
 
         if (td) {
@@ -260,9 +269,8 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
      * @returns {Cheerio}
      */
     private findColumnByText(textToFind: string = ""): Cheerio {
-        const filteredCheerio: Cheerio = $("td b").filter(function (this: any): boolean {
-            const elem: any = $(this);
-            return elem.text().trim() === textToFind;
+        const filteredCheerio: Cheerio = this.$("td b").filter((index: number, elem: CheerioElement) => {
+            return this.$(elem).text().trim() === textToFind;
         });
 
         if (filteredCheerio.length > 1) {
@@ -275,11 +283,11 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     private getBoxersSideObjRow(): Cheerio[] {
         const boxers: Cheerio[] = [];
 
-        $("table .personLink").each((i: number, elem: CheerioElement) => {
-            const href: string = $(elem).attr("href");
+        this.$("table .personLink").each((i: number, elem: CheerioElement) => {
+            const href: string = this.$(elem).attr("href");
 
             if (href.includes("boxer") && boxers.length < 2) {
-                boxers.push($(elem).parent().parent().parent());
+                boxers.push(this.$(elem).parent().parent().parent());
             }
         });
 
@@ -304,14 +312,8 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     private parse(): void {
-        // date
-        const date: string = $(".page h2:nth-child(1)").text(); // ex. Saturday 5, May 2018
-        if (date) {
-            this._date = new Date(date).toISOString().slice(0, 10);
-        }
-
         // rating
-        let starRating: string | null = $(".starRating").parent().html();
+        let starRating: string | null = this.$(".starRating").parent().html();
         if (starRating) {
             starRating = `<div>${starRating}</div>`;
             const ratingString: number | null = BoxrecCommonTablesColumnsClass.parseRating(starRating);
@@ -353,11 +355,11 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             let outcomeString: string | undefined;
             if (textWon.length === 1) {
                 // first boxer won
-                boxerStr = $.html(objRow[0].find(".personLink")[0]);
+                boxerStr = this.$.html(objRow[0].find(".personLink")[0]);
                 outcomeString = textWon[0].children[0].data;
             } else {
                 // second boxer won
-                boxerStr = $.html(objRow[0].find(".personLink")[1]);
+                boxerStr = this.$.html(objRow[0].find(".personLink")[1]);
                 outcomeString = textWonSecond[0].children[0].data;
             }
 
@@ -480,18 +482,18 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         this._name = [];
         const alreadyAdded: string[] = [];
 
-        $("table a").each((i: number, elem: CheerioElement) => {
-            const href: string = $(elem).attr("href");
+        this.$("table a").each((i: number, elem: CheerioElement) => {
+            const href: string = this.$(elem).attr("href");
 
             if (this._name.length < 2 && href.includes("boxer") && !alreadyAdded.find(item => item === href)) {
                 alreadyAdded.push(href);
-                this._name.push($.html($(elem)));
+                this._name.push(this.$.html(this.$(elem)));
             }
         });
     }
 
     private parseDivision(): void {
-        const h2: CheerioElement = $("h2").get(2);
+        const h2: CheerioElement = this.$("h2").get(2);
 
         if (h2) {
             const division: string | undefined = h2.children[0].data; // ex. Middleweight Contest, 12 Rounds
@@ -524,14 +526,14 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     private parseJudges(): void {
-        const links: Cheerio = $(".responseLessDataTable a");
+        const links: Cheerio = this.$(".responseLessDataTable a");
         const judges: string[] = [];
 
         links.each((i: number, elem: CheerioElement) => {
-            const href: string = $(elem).attr("href");
+            const href: string = this.$(elem).attr("href");
 
             if (href.includes("judge")) {
-                const judgeString: string = $.html($(elem).parent().parent());
+                const judgeString: string = this.$.html(this.$(elem).parent().parent());
                 judges.push(judgeString);
             }
         });
@@ -549,12 +551,12 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             const tableSecond: Cheerio = ranking.find("td:nth-child(3) table");
 
             if (tableFirst) {
-                const firstBoxerTable: string = $.html(tableFirst);
+                const firstBoxerTable: string = this.$.html(tableFirst);
                 this._firstBoxerLast6.push(firstBoxerTable);
             }
 
             if (tableSecond) {
-                const secondBoxerTable: string = $.html(tableSecond);
+                const secondBoxerTable: string = this.$.html(tableSecond);
                 this._secondBoxerLast6.push(secondBoxerTable);
             }
         }
@@ -571,7 +573,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
                 outcome: null,
                 outcomeByWayOf: null,
             };
-            const table: Cheerio = $(last);
+            const table: Cheerio = this.$(last);
             let idName: BoxrecBasic = {
                 id: null,
                 name: null,
@@ -580,20 +582,20 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             let outcomeStr: string | null = null;
 
             if (isFirstBoxer) {
-                const idNameStr: string = $.html(table.find("td:nth-child(1) a"));
+                const idNameStr: string = this.$.html(table.find("td:nth-child(1) a"));
                 idName = BoxrecCommonTablesColumnsClass.parseNameAndId(idNameStr);
             } else {
                 outcomeStr = table.find("td:nth-child(1) span").html();
             }
 
-            const dateStr: string = $.html(table.find("td:nth-child(2) a"));
+            const dateStr: string = this.$.html(table.find("td:nth-child(2) a"));
             // todo this is kind of abuse of this method but it works
             const date: string | null = BoxrecCommonTablesColumnsClass.parseNameAndId(dateStr).name;
 
             if (isFirstBoxer) {
                 outcomeStr = table.find("td:nth-child(3) span").html();
             } else {
-                const idNameStr: string = $.html(table.find("td:nth-child(3) a"));
+                const idNameStr: string = this.$.html(table.find("td:nth-child(3) a"));
                 idName = BoxrecCommonTablesColumnsClass.parseNameAndId(idNameStr);
             }
 
@@ -618,7 +620,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
 
     // this is kind of a mess, there's a lot of elements just clumped together and using br
     private parseLocation(): void {
-        const elems: Cheerio = $(".page h2:nth-child(1)").parent();
+        const elems: Cheerio = this.$(".page h2:nth-child(1)").parent().clone(); // todo clone can be removed when/if this is a separate object
         const href: string = elems.find("a:nth-child(1)").attr("href");
 
         if (href && href.includes("date")) {
@@ -735,12 +737,12 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
 
     private parseRanking(): void {
         const ranking: Cheerio = this.parseMiddleRowByText("ranking") as Cheerio;
-        this._ranking = $.html(ranking.next());
+        this._ranking = this.$.html(ranking.next());
     }
 
     private parseTable(): void {
         // referee // todo this could change or be omitted, it should be stricter
-        const refereeLink: string = $.html($(".personLink").get(2));
+        const refereeLink: string = this.$.html(this.$(".personLink").get(2));
 
         if (refereeLink) {
             this._referee = refereeLink;
@@ -748,7 +750,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     private parseTitles(): void {
-        const titles: string | null = $(".titleColor").html();
+        const titles: string | null = this.$(".titleColor").html();
 
         if (titles) {
             this._titles = titles;

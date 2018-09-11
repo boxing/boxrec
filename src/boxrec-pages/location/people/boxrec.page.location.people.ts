@@ -1,4 +1,3 @@
-import {BoxrecRole} from "../../search/boxrec.search.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -10,26 +9,26 @@ let $: CheerioStatic;
  */
 export class BoxrecPageLocationPeople {
 
-    role: BoxrecRole;
+    private $: CheerioStatic;
 
-    private _locations: string[] = [];
-
-    constructor(boxrecBodyString: string, role: BoxrecRole = BoxrecRole.boxer) {
-        $ = cheerio.load(boxrecBodyString);
-        this.role = role;
-        this.parseLocation();
+    constructor(boxrecBodyString: string) {
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get boxers(): BoxrecPageLocationPeopleRow[] {
-        return this._locations.map(item => new BoxrecPageLocationPeopleRow(item, this.role));
+        return this.parseLocation().map(item => new BoxrecPageLocationPeopleRow(item));
     }
 
-    private parseLocation(): void {
-        const tr: Cheerio = $(".dataTable tbody tr");
+    private parseLocation(): string[] {
+        const tr: Cheerio = this.$(".dataTable tbody tr");
+        const locations: string[] = [];
+
         tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._locations.push(html);
+            const html: string = this.$(elem).html() || "";
+            locations.push(html);
         });
+
+        return locations;
     }
 
 }
