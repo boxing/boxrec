@@ -201,12 +201,14 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return promoter;
     }
 
-    get television(): string[] | null {
+    get television(): string[] {
         const television: string = this._television;
 
         if (television) {
             return television.split(",").map(item => trimRemoveLineBreaks(item));
         }
+
+        return [];
     }
 
     get id(): number {

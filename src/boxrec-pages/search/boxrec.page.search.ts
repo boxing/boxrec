@@ -29,6 +29,8 @@ export class BoxrecPageSearch {
         const tr: Cheerio = this.$(".dataTable tbody tr");
         const searchResults: string[] = [];
 
+        const a = tr.length;
+
         tr.each((i: number, elem: CheerioElement) => {
             const html: string = this.$(elem).html() || "";
             searchResults.push(html);

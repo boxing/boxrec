@@ -129,14 +129,9 @@ export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
         return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 14));
     }
 
-    get referee(): BoxrecBasic | null {
-        const metadata: string | null = this.metadata;
-
-        if (metadata) {
-            return BoxrecCommonTablesColumnsClass.parseReferee(metadata);
-        }
-
-        return null;
+    get referee(): BoxrecBasic {
+        const metadata: string = this.metadata || "";
+        return BoxrecCommonTablesColumnsClass.parseReferee(metadata);
     }
 
     get result(): [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null] {

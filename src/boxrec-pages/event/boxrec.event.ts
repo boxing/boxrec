@@ -32,7 +32,7 @@ export abstract class BoxrecEvent {
         const bouts: Array<[string, string | null]> = [] = this.parseBouts();
         const boutsList: BoxrecPageEventBoutRow[] = [];
         bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
+            const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1], true); // todo this can't be hardcoded here, wrecks dates
             boutsList.push(bout);
         });
 

@@ -10,27 +10,28 @@ export class BoxrecDateEvent extends BoxrecEvent {
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         this.parseLocation();
-        this.parseId();
     }
 
     get id(): number {
-        return parseInt(this._id, 10);
+        return parseInt(this.parseId(), 10);
     }
 
-    private parseId(): void {
-        const wikiHref: string | null = $("h2").next().find(".eventP").parent().attr("href");
+    private parseId(): string {
+        const wikiHref: string | null = this.$("h2").next().find(".eventP").parent().attr("href");
         if (wikiHref) {
             const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
             if (wikiLink && wikiLink[1]) {
-                this._id = wikiLink[1];
+                return wikiLink[1];
             }
         }
+
+        throw new Error("Could not find Event ID");
     }
 
     private parseLocation(): void {
-        this._location = $("h2").html();
+        this._location = this.$("h2").html();
     }
 
 }

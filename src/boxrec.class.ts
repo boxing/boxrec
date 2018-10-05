@@ -461,10 +461,6 @@ export class Boxrec {
             throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
         }
 
-        if (params.role && params.role !== BoxrecRole.boxer) {
-            throw new Error("Currently search only supports boxers");
-        }
-
         const qs: BoxrecSearchParamsTransformed = {};
         let searchParamWrap: string = this.searchParamWrap;
 

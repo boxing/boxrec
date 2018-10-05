@@ -2,16 +2,18 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {getColumnData} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecEventLinks} from "./boxrec.event.constants";
+import {BoxrecEventLinks, Sport} from "./boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageEventBoutRow {
 
     private $: CheerioStatic;
+    private isEventPage: boolean = false;
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+    constructor(boxrecBodyBout: string, additionalData: string | null = null, isEventPage = false) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
+        this.isEventPage = isEventPage; // should extend this class for date/event
         this.$ = cheerio.load(html);
     }
 
@@ -24,7 +26,8 @@ export class BoxrecPageEventBoutRow {
     }
 
     get firstBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(5));
+        const column: number = this.isEventPage ? 6 : 5;
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(column));
     }
 
     // returns an object with keys that contain a class other than `primaryIcon`
@@ -43,7 +46,9 @@ export class BoxrecPageEventBoutRow {
 
     // not the exact same as the other page links
     get links(): BoxrecEventLinks { // object of strings
-        const linksStr: string = this.getColumnData(12, 3);
+        const column: number = this.isEventPage ? 16 : 12;
+        const linksStr: string = this.getColumnData(column, 0, true);
+
         const html: Cheerio = this.$(linksStr);
         const obj: BoxrecEventLinks = {
             bio_open: null,
@@ -130,6 +135,17 @@ export class BoxrecPageEventBoutRow {
         }
 
         return null;
+    }
+
+    // todo this is used by both event and date searches, date searches don't contain the sport
+    // todo class should probably be extended
+    get sport(): Sport {
+        const html: string = this.getColumnData(12, 3);
+        const className: CheerioElement = this.$(html).find("div")[0];
+
+        console.log(className); // todo
+
+        return Sport.proBoxing;
     }
 
     private get hasMoreColumns(): boolean {

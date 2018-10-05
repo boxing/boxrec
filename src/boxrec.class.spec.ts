@@ -325,9 +325,10 @@ describe("class boxrec", () => {
             await boxrec.search({
                 first_name: "bla",
                 last_name: "",
-                role: BoxrecRole.boxer,
+                role: BoxrecRole.judge,
                 status: BoxrecStatus.all,
             });
+
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/search");
         });
 

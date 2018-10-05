@@ -5,6 +5,7 @@ import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champion
 import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
 import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
+import {BoxrecPageEventBoutRow} from "./boxrec-pages/event/boxrec.page.event.bout.row";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
@@ -792,7 +793,7 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return a list of bouts", () => {
-            expect(getEvent(765205).bouts[0].firstBoxer.name).toBe("Jorge Linares");
+            expect(getEvent(765205).bouts.length).not.toBe(0);
         });
 
         it("should return 0 wins/loss/draw for a boxer on his debut fight", () => {
@@ -804,6 +805,28 @@ describe("class Boxrec (E2E)", () => {
 
         it("should return a list of doctors", () => {
             expectId(getEvent(752960).doctors[0].id, 412676);
+        });
+
+        describe("getter bout", () => {
+
+            let bout: BoxrecPageEventBoutRow;
+
+            beforeAll(() => {
+                bout = getEvent(765205).bouts[0];
+            });
+
+            it("should return the second boxer's record", () => {
+                expect(bout.secondBoxerRecord).toEqual({
+                    draw: 0,
+                    loss: 1,
+                    win: 10,
+                });
+            });
+
+            it("should return the second boxer's last 6", () => {
+                expect(bout.secondBoxerLast6).toEqual(new Array(6).fill(WinLossDraw.win));
+            });
+
         });
 
     });

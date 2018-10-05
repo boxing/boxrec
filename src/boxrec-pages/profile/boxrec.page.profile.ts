@@ -184,6 +184,14 @@ export abstract class BoxrecPageProfile {
     protected parseProfileTableData(): void {
         const tr: Cheerio = $(".profileTable table.rowTable tbody tr");
 
+        const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
+
+        const d = tr.find("h2").length;
+
+        if (id && id.length) {
+            this._globalId = id[0];
+        }
+
         tr.each((i: number, elem: CheerioElement) => {
             let key: string | null = $(elem).find("td:nth-child(1)").text();
             let val: string | null = $(elem).find("td:nth-child(2)").html();
@@ -215,7 +223,6 @@ export abstract class BoxrecPageProfile {
         const metadata: string | null = $("script[type='application/ld+json']").html();
         if (metadata) {
             this._metadata = metadata;
-            this._globalId = this.metadata.url.match(/\d+$/);
         }
     }
 
