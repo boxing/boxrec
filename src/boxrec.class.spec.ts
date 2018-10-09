@@ -306,7 +306,7 @@ describe("class boxrec", () => {
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/search");
         });
 
-        it("should clone any keys in the object and wrap with `pf[]`", async () => {
+        it("should clone any keys in the object and wrap with `ktO[]`", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             await boxrec.search({
                 first_name: "bla",
@@ -314,7 +314,7 @@ describe("class boxrec", () => {
                 role: BoxrecRole.boxer,
                 status: BoxrecStatus.all,
             });
-            expect(getLastCall(spy, "qs")["pf[first_name]"]).toBe("bla");
+            expect(getLastCall(spy, "qs")["ktO[first_name]"]).toBe("bla");
         });
 
         it("should send role=boxer because that's all we can currently support", async () => {
@@ -325,10 +325,10 @@ describe("class boxrec", () => {
                 role: BoxrecRole.boxer,
                 status: BoxrecStatus.all,
             });
-            expect(getLastCall(spy, "qs")["pf[role]"]).toBe("boxer");
+            expect(getLastCall(spy, "qs")["ktO[role]"]).toBe("boxer");
         });
 
-        it("should not send any keys that aren't wrapped in pf[]", async () => {
+        it("should not send any keys that aren't wrapped in ktO[]", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             await boxrec.search({
                 first_name: "bla",

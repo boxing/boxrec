@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "description": "retrieve information from Boxrec",
   "main": "./dist/index.js",
   "types": "./dist/dist/index.d.ts",
@@ -31,7 +31,7 @@
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "babel-jest": "23.0.1",
-    "boxrec-mocks": "https://github.com/boxing/boxrec-mocks#0.8.1",
+    "boxrec-mocks": "https://github.com/boxing/boxrec-mocks#0.8.2",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",
     "husky": "1.0.0-rc.13",
