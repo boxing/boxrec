@@ -412,7 +412,7 @@ export class Boxrec {
         const qs: BoxrecSearchParamsTransformed = {};
 
         for (const i in params) {
-            (qs as any)[`pf[${i}]`] = (params as any)[i];
+            (qs as any)[`ktO[${i}]`] = (params as any)[i];
         }
 
         qs.offset = offset;

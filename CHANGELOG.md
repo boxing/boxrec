@@ -1,3 +1,9 @@
+## 0.18.2 (2018-10-09)
+
+### Fixed
+
+- BoxRec now uses `ktO` instead of `pf` in the search query params
+
 ## 0.18.1 (2018-08-30)
 
 ### Fixed

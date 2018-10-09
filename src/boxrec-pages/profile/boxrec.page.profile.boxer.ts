@@ -368,9 +368,9 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
 
     /**
      * Returns an array of belts that this boxer is currently holding
-     * @returns {string[] | null}
+     * @returns {string[]}
      */
-    get titlesHeld(): string[] | null {
+    get titlesHeld(): string[] {
         if (this._titlesHeld) {
             const html: Cheerio = $(this._titlesHeld);
 
@@ -382,7 +382,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
             }).get();
         }
 
-        return null;
+        return [];
     }
 
     /**
