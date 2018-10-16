@@ -42,6 +42,7 @@ const rp: any = require("request-promise");
 export class Boxrec {
 
     private _cookieJar: CookieJar = rp.jar();
+    private _searchParamWrap: string = "";
 
     get cookies(): Cookie[] {
         return this._cookieJar.getCookies("http://boxrec.com");
@@ -50,6 +51,10 @@ export class Boxrec {
     set cookies(cookiesArr: Cookie[]) {
         this._cookieJar = rp.jar(); // reset the cookieJar
         cookiesArr.forEach(item => this._cookieJar.setCookie(item, "http://boxrec.com"));
+    }
+
+    get searchParamWrap(): string {
+        return this._searchParamWrap;
     }
 
     /**
@@ -378,6 +383,7 @@ export class Boxrec {
                     if (data.statusCode !== 200 || errorMessage !== "") {
                         throw new Error(errorMessage);
                     }
+
                 });
         } catch (e) {
             throw new Error(e);
@@ -410,17 +416,24 @@ export class Boxrec {
         }
 
         const qs: BoxrecSearchParamsTransformed = {};
+        let searchParamWrap: string = this.searchParamWrap;
+
+        // if the `searchParamWrap` var is empty we fetch it again
+        // this may occur if the user doesn't login but sets the cookie
+        if (!searchParamWrap.length) {
+            searchParamWrap = await this.getSearchParamWrap();
+        }
 
         for (const i in params) {
-            (qs as any)[`ktO[${i}]`] = (params as any)[i];
+            (qs as any)[`${searchParamWrap}[${i}]`] = (params as any)[i];
         }
 
         qs.offset = offset;
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            uri: "http://boxrec.com/en/search",
             qs,
             jar: this._cookieJar,
+            uri: "http://boxrec.com/en/search",
         });
 
         return new BoxrecPageSearch(boxrecPageBody).results;
@@ -446,6 +459,16 @@ export class Boxrec {
         if (!this.hasRequiredCookiesForLogIn()) {
             throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");
         }
+    }
+
+    private async getSearchParamWrap(): Promise<string> {
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            uri: "http://boxrec.com/en/search",
+        });
+
+        this.setSearchParamWrap(boxrecPageBody);
+        return this.searchParamWrap;
     }
 
     /**
@@ -513,6 +536,17 @@ export class Boxrec {
 
         // calls itself with the toggle for `toggleRatings=y`
         return this.makeGetPersonByIdRequest(globalId, role, offset, true);
+    }
+
+    /**
+     * Sets the dynamic search param on BoxRec to prevent further errors
+     * It would be nice to get this from any page but the Navbar search is a POST and not as predictable as the search box one on the search page
+     * @param {string} bodyHTML     needs to be the body of the "search" page
+     * @returns {string}
+     */
+    private setSearchParamWrap(bodyHTML: string): string {
+        this._searchParamWrap = new BoxrecPageSearch(bodyHTML).searchBoxParam;
+        return this.searchParamWrap;
     }
 
 }

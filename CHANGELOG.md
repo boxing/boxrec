@@ -1,3 +1,9 @@
+## 0.18.3 (2018-10-15)
+
+### Fixed
+
+- Searching will now get the dynamic search parameter from the search page 
+
 ## 0.18.2 (2018-10-09)
 
 ### Fixed
