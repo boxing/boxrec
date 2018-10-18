@@ -108,7 +108,7 @@ export class BoxrecPageEventBoutRow extends BoxrecCommonTablesClass {
             this._firstBoxerRecord = getColumnData($, 4);
             this._firstBoxerLast6 = getColumnData($, 5);
             this._numberOfRounds = getColumnData($, 7);
-            this._secondBoxer = getColumnData($, 8, false);
+            this._secondBoxer = getColumnData($, 8);
             this._secondBoxerRecord = getColumnData($, 9);
             this._secondBoxerLast6 = getColumnData($, 10);
             this._rating = getColumnData($, 11);

@@ -44,15 +44,6 @@ const expectMatchDate: (date: string | null) => void = (date: string | null) =>
 
 describe("class Boxrec (E2E)", () => {
 
-    describe("method login", () => {
-
-        it("should return nothing if was successful", async () => {
-            const response: Error | void = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
-            expect(response).toBeUndefined();
-        });
-
-    });
-
     beforeAll(async () => {
         const response: Error | void = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
         expect(response).toBeUndefined();
@@ -197,7 +188,7 @@ describe("class Boxrec (E2E)", () => {
         describe("getter firstBoxerPointsBefore", () => {
 
             it("should return the points", () => {
-                expect(caneloKhanBout.firstBoxerPointsBefore).toBe(1143);
+                expect(caneloKhanBout.firstBoxerPointsBefore).toEqual(jasmine.any(Number));
             });
 
         });
@@ -569,6 +560,27 @@ describe("class Boxrec (E2E)", () => {
 
                 it("should include the date of an event", () => {
                     expectMatchDate(event.date);
+                });
+
+            });
+
+            describe("getter bouts", () => {
+
+                it("should be defined", () => {
+                    expect(event.bouts).toBeDefined();
+                });
+
+                describe("getter values", () => {
+
+                    it("firstBoxer", () => {
+                        expect(event.bouts[0].firstBoxer.id).not.toBeNull();
+                    });
+
+                    it("secondBoxer", () => {
+                        // second boxer could be empty, resulting in `null` values
+                        expect(event.bouts[0].secondBoxer).toBeDefined();
+                    });
+
                 });
 
             });
