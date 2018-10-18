@@ -1,8 +1,9 @@
-## 0.18.3 (2018-10-15)
+## 0.18.3 (2018-10-17)
 
 ### Fixed
 
-- Searching will now get the dynamic search parameter from the search page 
+- Searching will now get the dynamic search parameter from the search page
+- Second boxer information on event bouts will come back properly now
 
 ## 0.18.2 (2018-10-09)
 
