@@ -1,6 +1,6 @@
 import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
-import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
+import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
@@ -86,40 +86,9 @@ export abstract class BoxrecEvent {
 
         const html: Cheerio = $(`<div>${this._location}</div>`);
         const links: Cheerio = html.find("a");
-        const venueId: RegExpMatchArray | null = links.get(0).attribs.href.match(/(\d+)$/);
-        const venueName: string | undefined = links.get(0).children[0].data;
 
-        // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
-        const hrefPosition: number = +(links.length === 3 || links.length === 4);
-
-        const locationMatches: RegExpMatchArray | null = links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
-
-        if (venueId && venueId[1] && venueName) {
-            locationObject.venue.id = parseInt(venueId[1], 10);
-            locationObject.venue.name = venueName;
-        }
-
-        if (locationMatches) {
-            const [, country, region, townId] = locationMatches;
-
-            if (townId) {
-                locationObject.location.id = parseInt(townId, 10);
-            }
-            locationObject.location.town = links.get(1).children[0].data as string;
-
-            // there are 2-4 links
-            // 2-3 usually means `region` is missing, 4 means it has town, region, country and venue
-            if (links.length === 4) {
-                locationObject.location.region = links.get(2).children[0].data as string;
-                locationObject.location.country = links.get(3).children[0].data as string;
-            } else if (links.length === 3) {
-                locationObject.location.country = links.get(2).children[0].data as string;
-            } else if (links.length === 2) {
-                locationObject.location.town = links.get(0).children[0].data as string;
-                locationObject.location.country = links.get(1).children[0].data as string;
-            }
-        }
-
+        locationObject.venue = BoxrecEvent.getVenueInformation(links);
+        locationObject.location = BoxrecEvent.getLocationInformation(links);
         return locationObject;
     }
 
@@ -229,6 +198,68 @@ export abstract class BoxrecEvent {
         }
 
         return null;
+    }
+
+    private static getLocationInformation(links: Cheerio): Location {
+        // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
+        const hrefPosition: number = +(links.length === 3 || links.length === 4);
+
+        const locationObject: Location = {
+            country: null,
+            id: null,
+            region: null,
+            town: null,
+        };
+
+        const locationMatches: RegExpMatchArray | null = links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
+
+        if (locationMatches) {
+            const [, country, region, townId] = locationMatches;
+
+            if (townId) {
+                locationObject.id = parseInt(townId, 10);
+                locationObject.town = links.get(1).children[0].data as string;
+            }
+
+
+            // there are 1-4 links
+            // 2-3 usually means `region` is missing, 4 means it has town, region, country and venue
+            // 1 is only country
+            if (links.length === 4) {
+                locationObject.region = links.get(2).children[0].data as string;
+                locationObject.country = links.get(3).children[0].data as string;
+            } else if (links.length === 3) {
+                locationObject.country = links.get(2).children[0].data as string;
+            } else if (links.length === 2) {
+                locationObject.town = links.get(0).children[0].data as string;
+                locationObject.country = links.get(1).children[0].data as string;
+            } else if (links.length === 1) {
+                locationObject.country = links.get(0).children[0].data as string;
+            }
+        }
+
+        return locationObject;
+    }
+
+    private static getVenueInformation(links: Cheerio): BoxrecBasic {
+        const obj: BoxrecBasic = {
+            id: null,
+            name: null,
+        };
+
+        // if the number of links is 1, it's presumably missing the venue
+        // we wouldn't know the venue and know the location
+        if (links.length > 1) {
+            const venueId: RegExpMatchArray | null = links.get(0).attribs.href.match(/(\d+)$/);
+            const venueName: string | undefined = links.get(0).children[0].data;
+
+            if (venueId && venueId[1] && venueName) {
+                obj.id = parseInt(venueId[1], 10);
+                obj.name = venueName;
+            }
+        }
+
+        return obj;
     }
 
     private parseBouts(): void {

@@ -1,3 +1,9 @@
+## 0.18.4 (2018-10-20)
+
+### Fixed
+
+- Fixed exception that would occur when event had only country but no venue/town/region
+
 ## 0.18.3 (2018-10-17)
 
 ### Fixed

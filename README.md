@@ -49,10 +49,10 @@ boxrec.getPersonById(356831)
 .then(boxer => {
     console.log(boxer.name); // Gennady Golovkin
     console.log(boxer.division); // middleweight
-    console.log(boxer.titlesHeld); // currently held titles [International Boxing Organization World Middleweight Title, ...];
+    console.log(boxer.titlesHeld); // currently held titles
     console.log(boxer.otherInfo); // other info that couldn't be categorized
-    console.log(boxer.bouts); // list of bouts
     console.log(boxer.suspended); // will tell if boxer is currently suspended
+    console.log(boxer.bouts); // list of bouts
     console.log(boxer.bouts[37].opponent.name); // Saul Alvarez
 });
 

@@ -8,15 +8,19 @@ const mockEventBellewHaye2: string = fs.readFileSync(
     `${boxRecMocksModulePath}/events/mockEventPageBellewHaye2.html`, "utf8");
 const mockEventMayweatherMcGregor: string = fs.readFileSync(
     `${boxRecMocksModulePath}/events/mockEventPageMayweatherMcGregor.html`, "utf8");
+const mockEventPageNoVenueNoRegionTown: string = fs.readFileSync(
+    `${boxRecMocksModulePath}/events/mockEventPageNoVenueNoRegionTown.html`, "utf8");
 
 describe("class BoxrecPageEvent", () => {
 
     let eventBellewHaye2: BoxrecPageEvent;
     let eventMayweatherMcGregor: BoxrecPageEvent;
+    let eventNoVenueNoRegionTown: BoxrecPageEvent;
 
     beforeAll(() => {
         eventBellewHaye2 = new BoxrecPageEvent(mockEventBellewHaye2);
         eventMayweatherMcGregor = new BoxrecPageEvent(mockEventMayweatherMcGregor);
+        eventNoVenueNoRegionTown = new BoxrecPageEvent(mockEventPageNoVenueNoRegionTown);
     });
 
     describe("getter date", () => {
@@ -47,6 +51,19 @@ describe("class BoxrecPageEvent", () => {
                 expect(eventBellewHaye2.location.location.id).toBe(15965);
             });
 
+            describe("when region/town are missing", () => {
+                // todo
+                it("should return null values for region/town", () => {
+                    expect(eventNoVenueNoRegionTown.location.location.region).toBeNull();
+                    expect(eventNoVenueNoRegionTown.location.location.town).toBeNull();
+                });
+
+                it("should return the country name", () => {
+                    expect(eventNoVenueNoRegionTown.location.location.country).toBe("Austria");
+                });
+
+            });
+
         });
 
         describe("venue", () => {
@@ -57,6 +74,15 @@ describe("class BoxrecPageEvent", () => {
 
             it("should return the venue name", () => {
                 expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena (Millenium Dome)");
+            });
+
+            describe("when venue is missing", () => {
+
+                it("should return null values", () => {
+                    expect(eventNoVenueNoRegionTown.location.venue.name).toBeNull();
+                    expect(eventNoVenueNoRegionTown.location.venue.id).toBeNull();
+                });
+
             });
 
         });
