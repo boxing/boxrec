@@ -64,12 +64,27 @@ export class BoxrecPageEvent extends BoxrecEvent {
             },
         };
 
-        const location: string | null = this.$(this.parseEventResults()).find("thead table > tbody tr:nth-child(2) b").html();
-        const html: Cheerio = this.$(`<div>${location}</div>`);
-        const links: Cheerio = html.find("a");
 
-        locationObject.venue = BoxrecPageEvent.getVenueInformation(links);
-        locationObject.location = BoxrecPageEvent.getLocationInformation(links);
+        let location: string | null = this.$(this.parseEventResults()).find("thead table > tbody tr:nth-child(2) b").html();
+
+        if (location === null) {
+            // todo this is because one is for events, one if for bouts.  It's not the best approach and should be refactored
+            const locationClone: Cheerio = this.$(".content h2").parent().clone();
+            locationClone.remove("h2");
+            locationClone.find("a:nth-child(1)").remove();
+            locationClone.find(".titleColor").remove();
+            locationClone.find("a:last-child").remove();
+            location = locationClone.html();
+        }
+
+        if (location !== null) {
+            const html: Cheerio = this.$(`<div>${location}</div>`);
+            const links: Cheerio = html.find("a");
+
+            locationObject.venue = BoxrecPageEvent.getVenueInformation(links);
+            locationObject.location = BoxrecPageEvent.getLocationInformation(links);
+        }
+
         return locationObject;
     }
 
@@ -95,8 +110,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
     get promoters(): BoxrecPromoter[] {
         const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.promoter)}</div>`);
         const promoter: BoxrecPromoter[] = [];
-
-        const t: number = html.find("a").length;
 
         html.find("a").each((i: number, elem: CheerioElement) => {
             const href: string = this.$(elem).get(0).attribs.href;
@@ -209,6 +222,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return parseInt(id, 10);
     }
 
+    // todo can make this and the other one private/protected?
     getPeopleTable(): Cheerio {
         return this.$("table thead table tbody tr");
     }

@@ -31,6 +31,14 @@ describe("class BoxrecPageEventBout", () => {
 
     });
 
+    describe("getter location", () => {
+
+        it("should return the venue", () => {
+            expect(caneloGGG1.location.venue).toEqual({id: 246559, name: "T-Mobile Arena"});
+        });
+
+    });
+
     describe("getter division", () => {
 
         it("should return the division of this bout", () => {
