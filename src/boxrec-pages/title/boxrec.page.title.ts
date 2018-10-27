@@ -10,7 +10,7 @@ const cheerio: CheerioAPI = require("cheerio");
  */
 export class BoxrecPageTitle {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
@@ -59,8 +59,7 @@ export class BoxrecPageTitle {
     }
 
     get name(): string {
-        const name: string = this.$("h1").text();
-        return trimRemoveLineBreaks(name);
+        return trimRemoveLineBreaks(this.$("h1").text());
     }
 
     /**

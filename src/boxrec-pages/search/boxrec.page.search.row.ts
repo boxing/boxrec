@@ -7,7 +7,7 @@ const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageSearchRow {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodySearchRow: string) {
         const html: string = `<table><tr>${boxrecBodySearchRow}</tr></table>`;

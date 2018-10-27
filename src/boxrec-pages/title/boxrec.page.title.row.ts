@@ -6,7 +6,7 @@ const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageTitleRow {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
         const html: string = `<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`;

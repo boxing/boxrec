@@ -9,7 +9,7 @@ const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         /*super();*/

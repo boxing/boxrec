@@ -11,7 +11,7 @@ let $: CheerioStatic;
  */
 export class BoxrecPageSchedule {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);

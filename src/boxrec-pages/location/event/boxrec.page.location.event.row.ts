@@ -3,11 +3,10 @@ import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecBasic, Location} from "../../boxrec.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 export class BoxrecPageLocationEventRow {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;

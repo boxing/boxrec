@@ -8,8 +8,8 @@ const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageEventBoutRow {
 
-    private $: CheerioStatic;
-    private isEventPage: boolean = false;
+    private readonly $: CheerioStatic;
+    private readonly isEventPage: boolean = false;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null, isEventPage = false) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;

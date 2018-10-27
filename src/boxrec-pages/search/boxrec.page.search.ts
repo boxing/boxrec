@@ -9,7 +9,7 @@ const cheerio: CheerioAPI = require("cheerio");
  */
 export class BoxrecPageSearch {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
@@ -28,8 +28,6 @@ export class BoxrecPageSearch {
     private parse(): string[] {
         const tr: Cheerio = this.$(".dataTable tbody tr");
         const searchResults: string[] = [];
-
-        const a = tr.length;
 
         tr.each((i: number, elem: CheerioElement) => {
             const html: string = this.$(elem).html() || "";

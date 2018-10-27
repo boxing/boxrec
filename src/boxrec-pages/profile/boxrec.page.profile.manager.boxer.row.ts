@@ -7,7 +7,7 @@ const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageProfileManagerBoxerRow {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         const html: string = `<table><tr>${boxrecBodyString}</tr></table>`;

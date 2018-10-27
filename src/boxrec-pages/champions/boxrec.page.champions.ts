@@ -40,7 +40,7 @@ const weightDivisions: BoxrecChampionsByWeightDivision = {
 
 export class BoxrecPageChampions {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);

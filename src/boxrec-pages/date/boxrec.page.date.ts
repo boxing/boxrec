@@ -8,7 +8,7 @@ const cheerio: CheerioAPI = require("cheerio");
  */
 export class BoxrecPageDate {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);

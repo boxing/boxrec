@@ -9,7 +9,7 @@ let $: CheerioStatic;
  */
 export class BoxrecPageLocationPeople {
 
-    private $: CheerioStatic;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
