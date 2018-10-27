@@ -27,7 +27,7 @@ export class BoxrecPageEventBoutRow {
 
     get firstBoxerLast6(): WinLossDraw[] {
         const column: number = this.isEventPage ? 6 : 5;
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(column));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(column, 0, true));
     }
 
     // returns an object with keys that contain a class other than `primaryIcon`
@@ -46,7 +46,7 @@ export class BoxrecPageEventBoutRow {
 
     // not the exact same as the other page links
     get links(): BoxrecEventLinks { // object of strings
-        const column: number = this.isEventPage ? 16 : 12;
+        const column: number = this.isEventPage ? 15 : 12;
         const linksStr: string = this.getColumnData(column, 0, true);
 
         const html: Cheerio = this.$(linksStr);
@@ -142,9 +142,6 @@ export class BoxrecPageEventBoutRow {
     get sport(): Sport {
         const html: string = this.getColumnData(12, 3);
         const className: CheerioElement = this.$(html).find("div")[0];
-
-        console.log(className); // todo
-
         return Sport.proBoxing;
     }
 

@@ -1,6 +1,5 @@
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTablesImprovedClass} from "../boxrec-common-tables/boxrec-common-tables-improved.class";
 import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
@@ -13,6 +12,7 @@ let $: CheerioStatic;
  */
 export abstract class BoxrecEvent {
 
+    protected $: CheerioStatic;
     protected _bouts: Array<[string, string | null]> = [];
     protected _commission: string;
     protected _doctor: string | null;
@@ -22,7 +22,6 @@ export abstract class BoxrecEvent {
     protected _matchmaker: string | null;
     protected _promoter: string | null;
     protected _television: string;
-    protected $: CheerioStatic;
 
     protected constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
@@ -201,7 +200,7 @@ export abstract class BoxrecEvent {
         return null;
     }
 
-    private static getLocationInformation(links: Cheerio): Location {
+    protected static getLocationInformation(links: Cheerio): Location {
         // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
         const hrefPosition: number = +(links.length === 3 || links.length === 4);
 
@@ -222,7 +221,6 @@ export abstract class BoxrecEvent {
                 locationObject.town = links.get(1).children[0].data as string;
             }
 
-
             // there are 1-4 links
             // 2-3 usually means `region` is missing, 4 means it has town, region, country and venue
             // 1 is only country
@@ -242,7 +240,7 @@ export abstract class BoxrecEvent {
         return locationObject;
     }
 
-    private static getVenueInformation(links: Cheerio): BoxrecBasic {
+    protected static getVenueInformation(links: Cheerio): BoxrecBasic {
         const obj: BoxrecBasic = {
             id: null,
             name: null,
@@ -263,8 +261,9 @@ export abstract class BoxrecEvent {
         return obj;
     }
 
-    private parseBouts(): void {
-        const tr: Cheerio = $("table > tbody tr");
+    private parseBouts(): Array<[string, string | null]> {
+        const tr: Cheerio = this.$("table > tbody tr");
+        const bouts: Array<[string, string | null]> = [];
 
         tr.each((i: number, elem: CheerioElement) => {
             const boutId: string = this.$(elem).attr("id");
