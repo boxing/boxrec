@@ -88,7 +88,7 @@ export class BoxrecPageEventBoutRow {
 
         return obj;
     }
-    
+
     get metadata(): string | null {
         return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }

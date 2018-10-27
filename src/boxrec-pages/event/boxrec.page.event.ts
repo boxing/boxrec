@@ -1,6 +1,7 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecEvent} from "./boxrec.event";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 
@@ -14,22 +15,19 @@ export class BoxrecPageEvent extends BoxrecEvent {
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        this.parseDate();
-        this.parseEventData();
     }
 
-    get date(): string | null {
-        const date: string | null = this.parseDate();
-
-        if (date) {
-            return trimRemoveLineBreaks(date);
+    get commission(): string | null {
+        const commission: string = this.parseEventData("commission");
+        if (commission) {
+            return commission.trim();
         }
 
-        return date;
+        return null;
     }
 
     get doctors(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this._doctor}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.doctor)}</div>`);
         const doctors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -41,7 +39,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get inspectors(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this._inspector}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.inspector)}</div>`);
         const inspectors: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -66,7 +64,8 @@ export class BoxrecPageEvent extends BoxrecEvent {
             },
         };
 
-        const html: Cheerio = this.$(`<div>${this._location}</div>`);
+        const location: string | null = this.$(this.parseEventResults()).find("thead table > tbody tr:nth-child(2) b").html();
+        const html: Cheerio = this.$(`<div>${location}</div>`);
         const links: Cheerio = html.find("a");
 
         locationObject.venue = BoxrecPageEvent.getVenueInformation(links);
@@ -75,7 +74,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get matchmakers(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this._matchmaker}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.matchmaker)}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -94,8 +93,10 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = this.$(`<div>${this._promoter}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.promoter)}</div>`);
         const promoter: BoxrecPromoter[] = [];
+
+        const t: number = html.find("a").length;
 
         html.find("a").each((i: number, elem: CheerioElement) => {
             const href: string = this.$(elem).get(0).attribs.href;
@@ -173,17 +174,43 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get television(): string[] {
-        const television: string = this._television;
+        const television: string = this.parseEventData("television");
 
         if (television) {
-            return television.split(",").map(item => trimRemoveLineBreaks(item));
+            return television.split(",").map(item => {
+                const text: string = this.$(item).text();
+                return trimRemoveLineBreaks(text);
+            });
         }
 
         return [];
     }
 
+    get date(): string | null {
+        const date: string | null = this.parseDate();
+
+        if (date) {
+            return trimRemoveLineBreaks(date);
+        }
+
+        return date;
+    }
+
     get id(): number {
-        return parseInt(this._id, 10);
+        let id: string = "";
+        const wikiHref: string | null = this.$(this.parseEventResults()).find("h2").next().find(".bio_closedP").parent().attr("href");
+        if (wikiHref) {
+            const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
+            if (wikiLink && wikiLink[1]) {
+                id = wikiLink[1];
+            }
+        }
+
+        return parseInt(id, 10);
+    }
+
+    getPeopleTable(): Cheerio {
+        return this.$("table thead table tbody tr");
     }
 
     private parseDate(): string | null {
@@ -197,37 +224,22 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return null;
     }
 
-    private parseEventData(): void {
-        const eventResults: Cheerio = this.parseEventResults();
+    private parseEventData(role: BoxrecRole | "television" | "commission"): string {
+        let results: string | null = "";
 
-        this.$(eventResults).find("thead table tbody tr").each((i: number, elem: CheerioElement) => {
+        this.getPeopleTable().each((i: number, elem: CheerioElement) => {
             const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
             const val: Cheerio = this.$(elem).find("td:nth-child(2)");
 
-            if (tag === "commission") {
-                this._commission = val.text();
-            } else if (tag === "promoter") {
-                this._promoter = val.html();
-            } else if (tag === "matchmaker") {
-                this._matchmaker = val.html();
-            } else if (tag === "television") {
-                this._television = val.text();
-            } else if (tag === "doctor") {
-                this._doctor = val.html();
-            } else if (tag === "inspector") {
-                this._inspector = val.html();
+            if (tag === role) {
+                results = val.html();
+            } else if (tag === role) {
+                // tested if `television` might actually be a BoxRec role but it isn't
+                results = val.html();
             }
         });
 
-        const wikiHref: string | null = this.$(eventResults).find("h2").next().find(".bio_closedP").parent().attr("href");
-        if (wikiHref) {
-            const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
-            if (wikiLink && wikiLink[1]) {
-                this._id = wikiLink[1];
-            }
-        }
-
-        this._location = this.$(eventResults).find("thead table > tbody tr:nth-child(2) b").html();
+        return results;
     }
 
     private parseEventResults(): Cheerio {

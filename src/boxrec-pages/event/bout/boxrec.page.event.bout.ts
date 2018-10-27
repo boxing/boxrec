@@ -88,6 +88,10 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         return date;
     }
 
+    getPeopleTable(): Cheerio {
+        return this.$("h1").parent().find("table").last().find("tbody tr");
+    }
+
     get division(): WeightDivision | null {
         return BoxrecCommonTablesColumnsClass.parseDivision(this._division);
     }
