@@ -18,7 +18,6 @@ export class BoxrecPageDate {
         return this.parse().map((event: string) => new BoxrecDateEvent(event));
     }
 
-
     // todo duplicate, stolen from `schedule`
     // todo uses `calendarDate` for table
     private parse(): string[] {
