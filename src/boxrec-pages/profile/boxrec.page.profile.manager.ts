@@ -2,12 +2,11 @@ import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 export class BoxrecPageProfileManager extends BoxrecPageProfile {
 
-    private _boxersList: string[] = [];
-
+    protected readonly $: CheerioStatic;
+    
     /**
      * When instantiated the HTML for this page needs to be supplied
      * @param {string} boxrecBodyString     the HTML of the profile page
@@ -15,26 +14,28 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
      */
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         super.parseProfileTableData();
-        this.parseBoxers();
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
-        const boxers: string[] = this._boxersList;
+        const boxers: string[] = this.parseBoxers();
         const boxersList: BoxrecPageProfileManagerBoxerRow[] = [];
         boxers.forEach((val: string) => boxersList.push(new BoxrecPageProfileManagerBoxerRow(val)));
 
         return boxersList;
     }
 
-    private parseBoxers(): void {
-        const tr: Cheerio = $("#listManagedBoxers tbody tr");
+    private parseBoxers(): string[] {
+        const tr: Cheerio = this.$("#listManagedBoxers tbody tr");
+        const boxersList: string[] = [];
 
         tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._boxersList.push(html);
+            const html: string = this.$(elem).html() || "";
+            boxersList.push(html);
         });
+
+        return boxersList;
     }
 
 }

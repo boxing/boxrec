@@ -67,7 +67,7 @@ export abstract class BoxrecPageProfile {
      */
     protected _status: string;
 
-    private readonly $: CheerioStatic;
+    protected readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
