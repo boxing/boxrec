@@ -16,7 +16,6 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         $ = cheerio.load(boxrecBodyString);
-        super.parseName();
         super.parseProfileTableData();
         this.parseBoxers();
     }

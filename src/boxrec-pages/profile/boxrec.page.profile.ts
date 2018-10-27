@@ -1,7 +1,6 @@
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 export abstract class BoxrecPageProfile {
 
@@ -68,8 +67,10 @@ export abstract class BoxrecPageProfile {
      */
     protected _status: string;
 
+    private readonly $: CheerioStatic;
+
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     /**
@@ -101,20 +102,21 @@ export abstract class BoxrecPageProfile {
      * Returns an object of various metadata
      * @returns {Object}
      */
-    get metadata(): any {
-        return JSON.parse(this._metadata);
+    get metadata(): object | null {
+        const metadata: string | null = this.$("script[type='application/ld+json']").html();
+        if (metadata) {
+            JSON.parse(metadata);
+        }
+
+        return null;
     }
 
     /**
      * Returns the full name
-     * @returns {string | null}
+     * @returns {string}
      */
-    get name(): string | null {
-        return this._name || null;
-    }
-
-    set name(name: string | null) {
-        this._name = name;
+    get name(): string {
+        return this.$("h1").text();
     }
 
     /**
@@ -143,7 +145,7 @@ export abstract class BoxrecPageProfile {
      */
     protected parseBouts(tr: Cheerio): void {
         tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = $(elem).attr("id");
+            const boutId: string = this.$(elem).attr("id");
 
             // skip rows that are associated with the previous fight
             if (boutId.includes("second")) {
@@ -152,7 +154,7 @@ export abstract class BoxrecPageProfile {
 
             // we need to check to see if the next row is associated with this bout
             let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = $(elem).next();
+            let nextRow: Cheerio | null = this.$(elem).next();
             let nextRowId: string = nextRow.attr("id");
 
             if (nextRowId) {
@@ -164,17 +166,10 @@ export abstract class BoxrecPageProfile {
                 }
             } // else if no next bout exists
 
-            const html: string = $(elem).html() || "";
+            const html: string = this.$(elem).html() || "";
             const next: string | null = nextRow ? nextRow.html() : null;
             this._boutsList.push([html, next]);
         });
-    }
-
-    /**
-     * @hidden
-     */
-    protected parseName(): void {
-        this.name = $("h1").text();
     }
 
     /**
@@ -182,7 +177,7 @@ export abstract class BoxrecPageProfile {
      * @hidden
      */
     protected parseProfileTableData(): void {
-        const tr: Cheerio = $(".profileTable table.rowTable tbody tr");
+        const tr: Cheerio = this.$(".profileTable table.rowTable tbody tr");
 
         const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
 
@@ -193,8 +188,8 @@ export abstract class BoxrecPageProfile {
         }
 
         tr.each((i: number, elem: CheerioElement) => {
-            let key: string | null = $(elem).find("td:nth-child(1)").text();
-            let val: string | null = $(elem).find("td:nth-child(2)").html();
+            let key: string | null = this.$(elem).find("td:nth-child(1)").text();
+            let val: string | null = this.$(elem).find("td:nth-child(2)").html();
 
             // ranking doesn't have the key, therefore we can only check that `val` exists
             if (val) {
@@ -219,11 +214,6 @@ export abstract class BoxrecPageProfile {
                 }
             }
         });
-
-        const metadata: string | null = $("script[type='application/ld+json']").html();
-        if (metadata) {
-            this._metadata = metadata;
-        }
     }
 
 }
