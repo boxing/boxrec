@@ -17,11 +17,6 @@ export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
         this.$ = cheerio.load(html);
     }
 
-    // todo remove
-    get _metadata(): string | null {
-        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
-    }
-
     get date(): string {
         return trimRemoveLineBreaks(getColumnData(this.$, 2, false));
     }
@@ -65,8 +60,8 @@ export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
         const linksStr: string = getColumnData(this.$, 16, true);
         const html: Cheerio = this.$(linksStr);
         const obj: BoxrecProfileBoutLinks = {
-            bout: null,
             bio_open: null,
+            bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
         };
@@ -136,7 +131,11 @@ export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
 
     get result(): [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null] {
         const result: string = getColumnData(this.$, 13);
-        return [this.outcome, this.outcomeByWayOf(result), this.outcomeByWayOf(result, true)];
+        return [
+            this.outcome,
+            BoxrecPageProfileBoxerBoutRow.outcomeByWayOf(result),
+            BoxrecPageProfileBoxerBoutRow.outcomeByWayOf(result, true)
+        ];
     }
 
     get secondBoxer(): BoxrecBasic {
@@ -204,7 +203,7 @@ export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
         return ratings;
     }
 
-    private outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
+    private static outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
         return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(htmlString, parseText);
     }
 

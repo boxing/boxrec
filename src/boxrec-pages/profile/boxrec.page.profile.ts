@@ -4,6 +4,7 @@ const cheerio: CheerioAPI = require("cheerio");
 
 export abstract class BoxrecPageProfile {
 
+    protected readonly $: CheerioStatic;
     /**
      * @hidden
      */
@@ -67,8 +68,6 @@ export abstract class BoxrecPageProfile {
      */
     protected _status: string;
 
-    protected readonly $: CheerioStatic;
-
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
     }
@@ -90,9 +89,14 @@ export abstract class BoxrecPageProfile {
      * @returns {number | null}
      */
     get globalId(): number | null {
-        const globalId: number = parseInt(this._globalId, 10);
-        if (!isNaN(globalId)) {
-            return globalId;
+        const tr: Cheerio = this.getProfileTableRows();
+        const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
+
+        if (id) {
+            const globalId: number = parseInt(id[0] as string, 10);
+            if (!isNaN(globalId)) {
+                return globalId;
+            }
         }
 
         return null;
@@ -177,17 +181,7 @@ export abstract class BoxrecPageProfile {
      * @hidden
      */
     protected parseProfileTableData(): void {
-        const tr: Cheerio = this.$(".profileTable table.rowTable tbody tr");
-
-        const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
-
-        const d = tr.find("h2").length;
-
-        if (id && id.length) {
-            this._globalId = id[0];
-        }
-
-        tr.each((i: number, elem: CheerioElement) => {
+        this.getProfileTableRows().each((i: number, elem: CheerioElement) => {
             let key: string | null = this.$(elem).find("td:nth-child(1)").text();
             let val: string | null = this.$(elem).find("td:nth-child(2)").html();
 
@@ -214,6 +208,10 @@ export abstract class BoxrecPageProfile {
                 }
             }
         });
+    }
+
+    private getProfileTableRows(): Cheerio {
+        return this.$(".profileTable table.rowTable tbody tr");
     }
 
 }

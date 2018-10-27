@@ -6,7 +6,7 @@ const cheerio: CheerioAPI = require("cheerio");
 export class BoxrecPageProfileManager extends BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
-    
+
     /**
      * When instantiated the HTML for this page needs to be supplied
      * @param {string} boxrecBodyString     the HTML of the profile page

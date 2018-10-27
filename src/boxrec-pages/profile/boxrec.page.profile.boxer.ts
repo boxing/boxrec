@@ -5,13 +5,22 @@ import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * BoxRec Boxer Profile Page
  * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
 export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
+
+    protected readonly $: CheerioStatic;
+
+    /**
+     * @hidden
+     */
+    protected parseBouts(): void {
+        const tr: Cheerio = this.$(".dataTable tbody tr");
+        super.parseBouts(tr);
+    }
 
     /**
      * @hidden
@@ -61,7 +70,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      */
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         super.parseProfileTableData();
         this.parseBouts();
     }
@@ -93,7 +102,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get birthPlace(): string | null {
-        const birthPlace: string = $(this._birthPlace).text();
+        const birthPlace: string = this.$(this._birthPlace).text();
 
         if (birthPlace) {
             return birthPlace;
@@ -197,7 +206,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      */
     get nationality(): string | null {
         if (this._nationality) {
-            return $(this._nationality).text().trimLeft();
+            return this.$(this._nationality).text().trimLeft();
         }
 
         return null;
@@ -226,12 +235,12 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      */
     get ranking(): number[][] | null {
         if (this._ranking) {
-            const html: Cheerio = $(`<div>${this._ranking}</div>`);
+            const html: Cheerio = this.$(`<div>${this._ranking}</div>`);
             const links: Cheerio = html.find("a");
             const rankings: number[][] = [];
 
             links.each((i: number, elem: CheerioElement) => {
-                const text: string = $(elem).text();
+                const text: string = this.$(elem).text();
                 const parsedArr: number[] = text.trim().replace(",", "").split("/").map((str: string) => parseInt(str, 10));
                 rankings.push(parsedArr);
             });
@@ -247,7 +256,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number | null}
      */
     get rating(): number | null {
-        const html: Cheerio = $(this._rating);
+        const html: Cheerio = this.$(this._rating);
 
         if (html.get(0)) {
             const widthString: string = html.get(0).attribs.style;
@@ -291,7 +300,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      */
     // todo can this be converted to return Location?
     get residence(): string | null {
-        const residence: string = $(this._residence).text();
+        const residence: string = this.$(this._residence).text();
 
         if (residence) {
             return residence;
@@ -305,7 +314,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get role(): string | null {
-        const role: string = $(this._role).text(); // todo if boxer is promoter as well, should return promoter link
+        const role: string = this.$(this._role).text(); // todo if boxer is promoter as well, should return promoter link
         if (role) {
             return role;
         }
@@ -357,7 +366,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get suspended(): string | null {
-        const el: Cheerio = $("body").find("div:contains('suspended')");
+        const el: Cheerio = this.$("body").find("div:contains('suspended')");
         if (el.length) {
             return el.text();
         }
@@ -371,10 +380,11 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      */
     get titlesHeld(): string[] {
         if (this._titlesHeld) {
-            const html: Cheerio = $(this._titlesHeld);
+            const html: Cheerio = this.$(this._titlesHeld);
+            const tmpThis: CheerioStatic = this.$;
 
             return html.find("a").map(function (this: Cheerio): string {
-                let text: string = $(this).text();
+                let text: string = tmpThis(this).text();
                 // on the Gennady Golovkin profile I found one belt had two spaces in the middle of it
                 text = text.replace(/\s{2,}/g, " ");
                 return text.trim();
@@ -395,14 +405,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         }
 
         return null;
-    }
-
-    /**
-     * @hidden
-     */
-    protected parseBouts(): void {
-        const tr: Cheerio = $(".dataTable tbody tr");
-        super.parseBouts(tr);
     }
 
 }

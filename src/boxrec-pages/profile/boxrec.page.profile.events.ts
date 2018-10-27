@@ -2,20 +2,19 @@ import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * Parses profiles that have events listed
  */
 export class BoxrecPageProfileEvents extends BoxrecPageProfile {
 
+    protected readonly $: CheerioStatic;
     // found on promoter page
     private _company: string;
-    private _eventsList: string[] = [];
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         super.parseProfileTableData();
         this.parseEvents();
     }
@@ -30,20 +29,23 @@ export class BoxrecPageProfileEvents extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileEventRow[]}
      */
     get events(): BoxrecPageProfileEventRow[] {
-        const events: string[] = this._eventsList;
+        const events: string[] = this.parseEvents();
         const boutsList: BoxrecPageProfileEventRow[] = [];
         events.forEach((val: string) => boutsList.push(new BoxrecPageProfileEventRow(val)));
 
         return boutsList;
     }
 
-    private parseEvents(): void {
-        const tr: Cheerio = $("#listShowsResults tbody tr");
+    private parseEvents(): string[] {
+        const tr: Cheerio = this.$("#listShowsResults tbody tr");
+        const eventsList: string[] = [];
 
         tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._eventsList.push(html);
+            const html: string = this.$(elem).html() || "";
+            eventsList.push(html);
         });
+
+        return eventsList;
     }
 
 }

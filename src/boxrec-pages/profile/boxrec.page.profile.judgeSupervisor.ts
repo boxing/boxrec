@@ -2,7 +2,6 @@ import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * BoxRec Judge/Supervisor Profile Page
@@ -11,9 +10,11 @@ let $: CheerioStatic;
  */
 export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
 
+    protected readonly $: CheerioStatic;
+
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
         super.parseProfileTableData();
         this.parseBouts();
     }
@@ -29,7 +30,7 @@ export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
     }
 
     protected parseBouts(): void {
-        const tr: Cheerio = $("#listBoutsResults tbody tr");
+        const tr: Cheerio = this.$("#listBoutsResults tbody tr");
         super.parseBouts(tr);
     }
 
