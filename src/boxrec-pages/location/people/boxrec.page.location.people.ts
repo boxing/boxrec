@@ -1,7 +1,6 @@
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * parse a BoxRec Locate People results page
