@@ -13,15 +13,7 @@ const cheerio: CheerioAPI = require("cheerio");
  */
 export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
 
-    protected readonly $: CheerioStatic;
-
-    /**
-     * @hidden
-     */
-    protected parseBouts(): void {
-        const tr: Cheerio = this.$(".dataTable tbody tr");
-        super.parseBouts(tr);
-    }
+    protected $: CheerioStatic;
 
     /**
      * @hidden
@@ -37,6 +29,14 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
         this.parseBouts();
+    }
+
+    /**
+     * @hidden
+     */
+    protected parseBouts(): void {
+        const tr: Cheerio = this.$(".dataTable tbody tr");
+        super.parseBouts(tr);
     }
 
     /**
