@@ -7,12 +7,11 @@ import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profil
 
 const cheerio: CheerioAPI = require("cheerio");
 
-export class BoxrecPageProfileBoxerBoutRow /*extends BoxrecCommonTablesClass*/ {
+export class BoxrecPageProfileBoxerBoutRow {
 
     private readonly $: CheerioStatic;
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        /*super();*/
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         this.$ = cheerio.load(html);
     }

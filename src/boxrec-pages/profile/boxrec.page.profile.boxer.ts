@@ -26,30 +26,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     /**
      * @hidden
      */
-    protected _bouts: string;
-    /**
-     * @hidden
-     */
-    protected _division: string;
-    /**
-     * @hidden
-     */
-    protected _rating: string;
-    /**
-     * @hidden
-     */
-    protected _rounds: string;
-    /**
-     * @hidden
-     */
-    protected _stance: string;
-    /**
-     * @hidden
-     */
-    protected _titlesHeld: string;
-    /**
-     * @hidden
-     */
     protected _vadacbp: string;
 
     /**
