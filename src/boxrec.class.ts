@@ -244,7 +244,7 @@ export class Boxrec {
      * @param {number} offset                   offset number of bouts/events in the profile.  Not used for boxers as boxer's profiles list all bouts they've been in
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
-    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
         return this.makeGetPersonByIdRequest(globalId, role, offset);
     }
 
@@ -582,7 +582,7 @@ export class Boxrec {
         return !requiredCookies.length;
     }
 
-    private async makeGetPersonByIdRequest(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+    private async makeGetPersonByIdRequest(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
         this.checkIfLoggedIntoBoxRec();
         const uri: string = `http://boxrec.com/en/${role}/${globalId}`;
         let qs: PersonRequestParams = {};
@@ -599,7 +599,7 @@ export class Boxrec {
             uri,
         });
 
-        let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager;
+        let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter;
 
         // there are 9 roles on the BoxRec website
         // the differences are that the boxers have 2 more columns `last6` for each boxer
@@ -615,8 +615,9 @@ export class Boxrec {
             case BoxrecRole.referee:
                 boxrecProfile = new BoxrecPageProfileJudgeSupervisor(boxrecPageBody);
                 break;
-            case BoxrecRole.doctor:
             case BoxrecRole.promoter:
+                return new BoxrecPageProfilePromoter(boxrecPageBody);
+            case BoxrecRole.doctor:
             case BoxrecRole.inspector:
             case BoxrecRole.matchmaker:
                 return new BoxrecPageProfileEvents(boxrecPageBody);

@@ -78,19 +78,27 @@ export abstract class BoxrecPageProfile {
     }
 
     /**
+     * Additional info that was found on the profile but is unknown what to call it
+     * @returns {string[][]}
+     */
+    get otherInfo(): string[][] {
+        return this._otherInfo;
+    }
+
+    /**
      * Returns bout information in an array
-     * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): T}} type  this variable is a class that is instantiated
+     * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): U}} type  this variable is a class that is instantiated
      * a class is passed in and an array of that instantiated class is passed back
      * https://blog.rsuter.com/how-to-instantiate-a-generic-type-in-typescript/
      * @hidden
-     * @returns {T[]}
+     * @returns {U[]}
      */
-    getBouts<T>(type: (new (boxrecBodyBout: string, additionalData: string | null) => T)): T[] {
+    getBouts<U>(type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
         const bouts: Array<[string, string | null]> = this._boutsList;
-        const boutsList: T[] = [];
+        const boutsList: U[] = [];
 
         bouts.forEach((val: [string, string | null]) => {
-            const bout: T = new type(val[0], val[1]);
+            const bout: U = new type(val[0], val[1]);
             boutsList.push(bout);
         });
 
@@ -101,6 +109,7 @@ export abstract class BoxrecPageProfile {
      * Parses the bout information for the person
      * @hidden
      */
+    // todo move ? is used where
     protected parseBouts(tr: Cheerio): void {
         tr.each((i: number, elem: CheerioElement) => {
             const boutId: string = this.$(elem).attr("id");
@@ -150,16 +159,7 @@ export abstract class BoxrecPageProfile {
             } else {
                 if (keyToRetrieve === BoxrecProfileTable.ranking) {
                     // todo do better to remove this _ranking variable
-                    this.$(`.profileTable table.rowTable tbody`).find("a").each((i: number, elem: CheerioElement) => {
-                        // const href: string = this.$(elem)("href");
-                        const href: string = (elem as any).attribs("href");
 
-                        if (href.includes("/en/ratings")) { // ranking doesn't have the `key`
-                            if (val) {
-                                this._ranking = val;
-                            }
-                        }
-                    });
                 } else {
                     // either an error or returned something we haven't mapped
                     if (key && val) {
@@ -170,33 +170,6 @@ export abstract class BoxrecPageProfile {
 
         }
 
-        /*this.getProfileTableRows().each((i: number, elem: CheerioElement) => {
-            let key: string | null = this.$(elem).find("td:nth-child(1)").text();
-            let val: string | null = this.$(elem).find("td:nth-child(2)").html();
-
-            // ranking doesn't have the key, therefore we can only check that `val` exists
-            if (val) {
-                key = key.trim();
-                val = val.trim();
-                const enumVals: any[] = Object.keys(BoxrecProfileTable);
-                const enumKeys: any[] = enumVals.map(k => BoxrecProfileTable[k]);
-
-                if (enumKeys.includes(key)) {
-                    const idx: number = enumKeys.findIndex(item => item === key);
-                    const classKey: string = `_${enumVals[idx]}`;
-                    // the following line works but there is probably a probably a much better way with Typescript
-                    (this as any)[classKey] = val; // set the private var related to this, note: this doesn't consider if there is a setter
-                } else {
-
-                    if (val.includes("/en/ratings")) { // ranking doesn't have the `key`
-                        this._ranking = val;
-                    } else {
-                        // either an error or returned something we haven't mapped
-                        this._otherInfo.push([key, val]);
-                    }
-                }
-            }
-        });*/
     }
 
     private getProfileTableRows(): Cheerio {

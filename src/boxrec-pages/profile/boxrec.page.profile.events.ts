@@ -16,17 +16,6 @@ export class BoxrecPageProfileEvents extends BoxrecPageProfile {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
-    // found on promoter page
-    get company(): string | null {
-        const company: string | void = this.parseProfileTableData(BoxrecProfileTable.company);
-
-        if (company) {
-            return company;
-        }
-
-        return null;
-    }
-
     /**
      * Returns a list of events
      * is order from most recent to oldest

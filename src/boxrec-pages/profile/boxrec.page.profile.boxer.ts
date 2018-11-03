@@ -18,7 +18,15 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     /**
      * @hidden
      */
-    protected _vadacbp: string;
+    protected parseBouts(): void {
+        const tr: Cheerio = this.$(".dataTable tbody tr");
+        super.parseBouts(tr);
+    }
+
+    /**
+     * @hidden
+     */
+    protected _vadacbp: string = "";
 
     /**
      * When instantiated the HTML for this page needs to be supplied
@@ -29,14 +37,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
         this.parseBouts();
-    }
-
-    /**
-     * @hidden
-     */
-    protected parseBouts(): void {
-        const tr: Cheerio = this.$(".dataTable tbody tr");
-        super.parseBouts(tr);
     }
 
     /**
@@ -213,22 +213,14 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     }
 
     /**
-     * Additional info that was found on the profile but is unknown what to call it
-     * @returns {string[][]}
-     */
-    get otherInfo(): string[][] {
-        return this._otherInfo;
-    }
-
-    /**
      * Returns an array of where they stand in their division and in their country (by class)
      * @returns {number[][] | null}
      */
     get ranking(): number[][] | null {
-        const test: string | void = this.parseProfileTableData(BoxrecProfileTable.ranking);
+        const ranking: string | null = this.parseRanking();
 
-        if (test) {
-            const html: Cheerio = this.$(`<div>${test}</div>`);
+        if (ranking) {
+            const html: Cheerio = this.$(`<div>${ranking}</div>`);
             const links: Cheerio = html.find("a");
             const rankings: number[][] = [];
 
@@ -401,12 +393,14 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @example // may return "enrolled"
      * @returns {string | null}
      */
-    get vadacbp(): string | null {
-        if (this._vadacbp) {
-            return this._vadacbp;
-        }
+    get vadacbp(): boolean {
+        return !!this.parseProfileTableData(BoxrecProfileTable.vadacbp);
+    }
 
-        return null;
+    private parseRanking(): string | null {
+        const rankings: Cheerio = this.$(`.profileTable table td a[href*="/en/ratings"]`);
+
+        return rankings ? rankings.parent().html() : null;
     }
 
 }

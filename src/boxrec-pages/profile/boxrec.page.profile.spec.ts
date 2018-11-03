@@ -8,6 +8,7 @@ import {BoxrecPageProfileJudgeSupervisor} from "./boxrec.page.profile.judgeSuper
 import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
+import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
 
 const mockProfileBoxerRJJ: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
 const mockProfileBoxerGGG: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerGGG.html`, "utf8");
@@ -26,7 +27,7 @@ describe("class BoxrecPageProfile", () => {
     let boxerGGG: BoxrecPageProfileBoxer;
     let judgeDaveMoretti: BoxrecPageProfileJudgeSupervisor;
     let doctorAnthonyRuggeroli: BoxrecPageProfileEvents;
-    let promoterLeonardEllerbe: BoxrecPageProfileEvents;
+    let promoterLeonardEllerbe: BoxrecPageProfilePromoter;
     let refereeRobertByrd: BoxrecPageProfileJudgeSupervisor;
     let inspectorMichaelBuchato: BoxrecPageProfileEvents;
     let managerMichaelMcSorleyJr: BoxrecPageProfileManager;
@@ -38,7 +39,7 @@ describe("class BoxrecPageProfile", () => {
         boxerGGG = new BoxrecPageProfileBoxer(mockProfileBoxerGGG);
         judgeDaveMoretti = new BoxrecPageProfileJudgeSupervisor(mockProfileJudgeDaveMoretti);
         doctorAnthonyRuggeroli = new BoxrecPageProfileEvents(mockProfileDoctorAnthonyRuggeroli);
-        promoterLeonardEllerbe = new BoxrecPageProfileEvents(mockProfilePromoterLeonardEllerbe);
+        promoterLeonardEllerbe = new BoxrecPageProfilePromoter(mockProfilePromoterLeonardEllerbe);
         refereeRobertByrd = new BoxrecPageProfileJudgeSupervisor(mockProfileRefereeRobertByrd);
         inspectorMichaelBuchato = new BoxrecPageProfileEvents(mockProfileInspectorMichaelBuchato);
         managerMichaelMcSorleyJr = new BoxrecPageProfileManager(mockProfileManagerMichaelMcSorleyJr);
@@ -191,7 +192,26 @@ describe("class BoxrecPageProfile", () => {
 
     });
 
+    describe("getter vadacbp", () => {
+
+        it("should return boolean if VADA is on profile", () => {
+            expect(boxerGGG.vadacbp).toBe(true);
+        });
+
+        it("should return false if VADA is not on profile", () => {
+            expect(boxerRJJ.vadacbp).toBe(false);
+        });
+
+    });
+
     describe("getter ranking", () => {
+
+        it("should return the boxer's ranking", () => {
+            expect(boxerGGG.ranking).toEqual([
+                [jasmine.any(Number), jasmine.any(Number)],
+                [jasmine.any(Number), jasmine.any(Number)],
+            ]);
+        });
 
         it("should return null if the boxer is not ranked", () => {
             expect(boxerRJJ.ranking).toBeNull();

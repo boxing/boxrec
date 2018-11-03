@@ -18,9 +18,7 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
-        const boxers: string[] = this.parseBoxers();
-
-        return boxers.map((boxerRow: string) => new BoxrecPageProfileManagerBoxerRow(boxerRow));
+        return this.parseBoxers().map((boxerRow: string) => new BoxrecPageProfileManagerBoxerRow(boxerRow));
     }
 
     private parseBoxers(): string[] {

@@ -14,6 +14,7 @@ import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
@@ -503,10 +504,10 @@ describe("class Boxrec (E2E)", () => {
 
         describe("where role is promoter", () => {
 
-            let promoter: BoxrecPageProfileEvents;
+            let promoter: BoxrecPageProfilePromoter;
 
             beforeAll(async () => {
-                promoter = await boxrec.getPersonById(419406, BoxrecRole.promoter) as BoxrecPageProfileEvents;
+                promoter = await boxrec.getPersonById(419406, BoxrecRole.promoter) as BoxrecPageProfilePromoter;
             });
 
             it("should return the company name", () => {
