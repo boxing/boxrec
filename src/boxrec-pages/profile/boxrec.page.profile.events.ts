@@ -1,5 +1,6 @@
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
+import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 
@@ -16,11 +17,16 @@ export class BoxrecPageProfileEvents extends BoxrecPageProfile {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
         super.parseProfileTableData();
-        this.parseEvents();
     }
 
-    get company(): string {
-        return this._company;
+    get company(): string | null {
+        const company: string | void = this.parseProfileTableData(BoxrecProfileTable.company);
+
+        if (company) {
+            return company;
+        }
+
+        return null;
     }
 
     /**

@@ -193,13 +193,6 @@ describe("class BoxrecPageProfile", () => {
 
     describe("getter ranking", () => {
 
-        it("should return the boxer's ranking", () => {
-            expect(boxerGGG.ranking).toEqual([
-                [jasmine.any(Number), jasmine.any(Number)],
-                [jasmine.any(Number), jasmine.any(Number)],
-            ]);
-        });
-
         it("should return null if the boxer is not ranked", () => {
             expect(boxerRJJ.ranking).toBeNull();
         });
@@ -217,6 +210,7 @@ describe("class BoxrecPageProfile", () => {
     describe("getter birthPlace", () => {
 
         it("should return the birth place of the person", () => {
+            // todo this should be an object
             expect(boxerRJJ.birthPlace).toBe("Pensacola, Florida, USA");
         });
 

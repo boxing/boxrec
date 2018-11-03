@@ -3,6 +3,7 @@ import {convertFractionsToNumber} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
+import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 
@@ -25,10 +26,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     /**
      * @hidden
      */
-    protected _KOs: string;
-    /**
-     * @hidden
-     */
     protected _bouts: string;
     /**
      * @hidden
@@ -37,15 +34,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     /**
      * @hidden
      */
-    protected _height: string;
-    /**
-     * @hidden
-     */
     protected _rating: string;
-    /**
-     * @hidden
-     */
-    protected _reach: string;
     /**
      * @hidden
      */
@@ -80,10 +69,14 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number | null}
      */
     get KOs(): number | null {
-        const kos: number = parseInt(this._KOs, 10);
+        const ko: string | void = this.parseProfileTableData(BoxrecProfileTable.KOs);
 
-        if (!isNaN(kos)) {
-            return kos;
+        if (ko) {
+            const kos: number = parseInt(ko, 10);
+
+            if (!isNaN(kos)) {
+                return kos;
+            }
         }
 
         return null;
@@ -94,7 +87,13 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get alias(): string | null {
-        return BoxrecCommonTablesColumnsClass.parseAlias(this._alias);
+        const alias: string | void = this.parseProfileTableData(BoxrecProfileTable.alias);
+
+        if (alias) {
+            return BoxrecCommonTablesColumnsClass.parseAlias(alias);
+        }
+
+        return null;
     }
 
     /**
@@ -102,7 +101,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get birthPlace(): string | null {
-        const birthPlace: string = this.$(this._birthPlace).text();
+        const birthPlace: string = this.$(this.parseProfileTableData(BoxrecProfileTable.birthPlace)).text();
 
         if (birthPlace) {
             return birthPlace;
@@ -117,13 +116,14 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get born(): string | null {
-        if (this._born) {
+        const born: string | void = this.parseProfileTableData(BoxrecProfileTable.born);
+        if (born) {
             // some boxers have dob and age.  Match the YYYY-MM-DD
             const regex: RegExp = /(\d{4}\-\d{2}\-\d{2})/;
-            const born: RegExpMatchArray | null = this._born.match(regex);
+            const bornMatch: RegExpMatchArray | null = born.match(regex);
 
-            if (born) {
-                return born[1];
+            if (bornMatch) {
+                return bornMatch[1];
             }
         }
 
@@ -148,8 +148,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get debut(): string | null {
-        if (this._debut) {
-            return this._debut;
+        const debut: string | void = this.parseProfileTableData(BoxrecProfileTable.debut);
+
+        if (debut) {
+            return debut;
         }
 
         return null;
@@ -161,7 +163,13 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {WeightDivision | null}
      */
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(this._division);
+        const division: string | void = this.parseProfileTableData(BoxrecProfileTable.division);
+
+        if (division) {
+            return BoxrecCommonTablesColumnsClass.parseDivision(division);
+        }
+
+        return null;
     }
 
     /**
@@ -179,17 +187,18 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number[] | null}
      */
     get height(): number[] | null {
-        let height: number[] | null = null;
-        if (this._height) {
+        const height: string | void = this.parseProfileTableData(BoxrecProfileTable.height);
+
+        if (height) {
             const regex: RegExp = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
-            const heightMatch: RegExpMatchArray | null = this._height.match(regex);
+            const heightMatch: RegExpMatchArray | null = height.match(regex);
 
             if (heightMatch) {
                 const [, imperialFeet, imperialInches, fractionInches, metric] = heightMatch;
                 let formattedImperialInches: number = parseInt(imperialInches, 10);
                 formattedImperialInches += convertFractionsToNumber(fractionInches);
 
-                height = [
+                return [
                     parseInt(imperialFeet, 10),
                     formattedImperialInches,
                     parseInt(metric, 10),
@@ -197,7 +206,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
             }
         }
 
-        return height;
+        return null;
     }
 
     /**
@@ -205,8 +214,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get nationality(): string | null {
-        if (this._nationality) {
-            return this.$(this._nationality).text().trimLeft();
+        const nationality: string | void = this.parseProfileTableData(BoxrecProfileTable.nationality);
+
+        if (nationality) {
+            return this.$(nationality).text().trimLeft();
         }
 
         return null;
@@ -217,8 +228,13 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number}
      */
     get numberOfBouts(): number {
-        const bouts: number = parseInt(this._bouts, 10);
-        return !isNaN(bouts) ? bouts : 0;
+        const bouts: string | void = this.parseProfileTableData(BoxrecProfileTable.bouts);
+
+        if (bouts) {
+            return parseInt(bouts, 10);
+        }
+
+        return 0;
     }
 
     /**
@@ -234,8 +250,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number[][] | null}
      */
     get ranking(): number[][] | null {
-        if (this._ranking) {
-            const html: Cheerio = this.$(`<div>${this._ranking}</div>`);
+        const test: string | void = this.parseProfileTableData(BoxrecProfileTable.ranking);
+
+        if (test) {
+            const html: Cheerio = this.$(`<div>${test}</div>`);
             const links: Cheerio = html.find("a");
             const rankings: number[][] = [];
 
@@ -256,8 +274,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number | null}
      */
     get rating(): number | null {
-        const html: Cheerio = this.$(this._rating);
+        const rating: string | void = this.parseProfileTableData(BoxrecProfileTable.rating);
+        const html: Cheerio = this.$(rating);
 
+        // todo can this be better?
         if (html.get(0)) {
             const widthString: string = html.get(0).attribs.style;
             // this uses pixels, where the others use percentage
@@ -277,21 +297,22 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number[] | null}
      */
     get reach(): number[] | null {
-        let reach: number[] | null = null;
-        if (this._reach) {
+        const reach: string | void = this.parseProfileTableData(BoxrecProfileTable.reach);
+
+        if (reach) {
             const regex: RegExp = /^(\d{2})\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
-            const reachMatch: RegExpMatchArray | null = this._reach.match(regex);
+            const reachMatch: RegExpMatchArray | null = reach.match(regex);
 
             if (reachMatch) {
                 const [, inches, centimeters]: string[] = reachMatch;
-                reach = [
+                return [
                     parseInt(inches, 10),
                     parseInt(centimeters, 10),
                 ];
             }
         }
 
-        return reach;
+        return null;
     }
 
     /**
@@ -300,7 +321,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      */
     // todo can this be converted to return Location?
     get residence(): string | null {
-        const residence: string = this.$(this._residence).text();
+        const residence: string = this.$(this.parseProfileTableData(BoxrecProfileTable.residence)).text();
 
         if (residence) {
             return residence;
@@ -314,7 +335,8 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get role(): string | null {
-        const role: string = this.$(this._role).text(); // todo if boxer is promoter as well, should return promoter link
+        const role: string =  this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text();; // todo if boxer is promoter as well, should return promoter link
+
         if (role) {
             return role;
         }
@@ -327,10 +349,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number | null}
      */
     get rounds(): number | null {
-        const rounds: number = parseInt(this._rounds, 10);
+        const rounds: string | void = this.parseProfileTableData(BoxrecProfileTable.rounds);
 
-        if (!isNaN(rounds)) {
-            return rounds;
+        if (rounds) {
+            return parseInt(rounds, 10);
         }
 
         return null;
@@ -341,8 +363,9 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get stance(): string | null {
-        if (this._stance) {
-            return this._stance;
+        const stance: string | void = this.parseProfileTableData(BoxrecProfileTable.stance);
+        if (stance) {
+            return stance;
         }
 
         return null;
@@ -354,8 +377,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get status(): string | null {
-        if (this._status) {
-            return this._status;
+        const status: string | void = this.parseProfileTableData(BoxrecProfileTable.status);
+
+        if (status) {
+            return status;
         }
 
         return null;
@@ -379,8 +404,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string[]}
      */
     get titlesHeld(): string[] {
-        if (this._titlesHeld) {
-            const html: Cheerio = this.$(this._titlesHeld);
+        const titlesHeld: string | void = this.parseProfileTableData(BoxrecProfileTable.titlesHeld);
+
+        if (titlesHeld) {
+            const html: Cheerio = this.$(titlesHeld);
             const tmpThis: CheerioStatic = this.$;
 
             return html.find("a").map(function (this: Cheerio): string {

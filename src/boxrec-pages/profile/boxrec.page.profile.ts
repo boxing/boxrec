@@ -8,43 +8,7 @@ export abstract class BoxrecPageProfile {
     /**
      * @hidden
      */
-    protected _alias: string;
-    /**
-     * @hidden
-     */
-    protected _birthName: string;
-    /**
-     * @hidden
-     */
-    protected _birthPlace: string;
-    /**
-     * @hidden
-     */
-    protected _born: string;
-    /**
-     * @hidden
-     */
     protected _boutsList: Array<[string, string | null]> = [];
-    /**
-     * @hidden
-     */
-    protected _debut: string;
-    /**
-     * @hidden
-     */
-    protected _globalId: string;
-    /**
-     * @hidden
-     */
-    protected _metadata: string;
-    /**
-     * @hidden
-     */
-    protected _name: string | null;
-    /**
-     * @hidden
-     */
-    protected _nationality: string;
     /**
      * other stuff that we haven't seen yet
      * @hidden
@@ -55,18 +19,6 @@ export abstract class BoxrecPageProfile {
      */
         // todo required for parsing the `profileTable` for the time being
     protected _ranking: string;
-    /**
-     * @hidden
-     */
-    protected _residence: string;
-    /**
-     * @hidden
-     */
-    protected _role: string;
-    /**
-     * @hidden
-     */
-    protected _status: string;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
@@ -77,8 +29,10 @@ export abstract class BoxrecPageProfile {
      * @returns {string | null}
      */
     get birthName(): string | null {
-        if (this._birthName) {
-            return this._birthName;
+        const birthName: string | void = this.parseProfileTableData(BoxrecProfileTable.birthName);
+
+        if (birthName) {
+            return birthName;
         }
 
         return null;
@@ -180,8 +134,43 @@ export abstract class BoxrecPageProfile {
      * Parses the profile table data found at the top of the profile
      * @hidden
      */
-    protected parseProfileTableData(): void {
-        this.getProfileTableRows().each((i: number, elem: CheerioElement) => {
+    protected parseProfileTableData(keyToRetrieve?: BoxrecProfileTable): string | void {
+        // todo this should be looking for td:nth-child(1) and :contains
+        const tableRow: Cheerio = this.$(`.profileTable table.rowTable tbody tr:contains("${keyToRetrieve}")`);
+        const val: string | null = tableRow.find("td:nth-child(2)").html();
+        const key: string | null = tableRow.find("td:nth-child(1)").text();
+
+        if (keyToRetrieve) {
+
+            if (tableRow) {
+
+                if (val) {
+                    return val.trim();
+                }
+            } else {
+                if (keyToRetrieve === BoxrecProfileTable.ranking) {
+                    // todo do better to remove this _ranking variable
+                    this.$(`.profileTable table.rowTable tbody`).find("a").each((i: number, elem: CheerioElement) => {
+                        // const href: string = this.$(elem)("href");
+                        const href: string = (elem as any).attribs("href");
+
+                        if (href.includes("/en/ratings")) { // ranking doesn't have the `key`
+                            if (val) {
+                                this._ranking = val;
+                            }
+                        }
+                    });
+                } else {
+                    // either an error or returned something we haven't mapped
+                    if (key && val) {
+                        this._otherInfo.push([key, val]);
+                    }
+                }
+            }
+
+        }
+
+        /*this.getProfileTableRows().each((i: number, elem: CheerioElement) => {
             let key: string | null = this.$(elem).find("td:nth-child(1)").text();
             let val: string | null = this.$(elem).find("td:nth-child(2)").html();
 
@@ -207,7 +196,7 @@ export abstract class BoxrecPageProfile {
                     }
                 }
             }
-        });
+        });*/
     }
 
     private getProfileTableRows(): Cheerio {
