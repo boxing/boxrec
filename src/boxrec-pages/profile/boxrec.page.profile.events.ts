@@ -10,15 +10,13 @@ const cheerio: CheerioAPI = require("cheerio");
 export class BoxrecPageProfileEvents extends BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
-    // found on promoter page
-    private _company: string;
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        super.parseProfileTableData();
     }
 
+    // found on promoter page
     get company(): string | null {
         const company: string | void = this.parseProfileTableData(BoxrecProfileTable.company);
 

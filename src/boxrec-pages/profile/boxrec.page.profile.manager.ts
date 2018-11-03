@@ -15,15 +15,12 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        super.parseProfileTableData();
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
         const boxers: string[] = this.parseBoxers();
-        const boxersList: BoxrecPageProfileManagerBoxerRow[] = [];
-        boxers.forEach((val: string) => boxersList.push(new BoxrecPageProfileManagerBoxerRow(val)));
 
-        return boxersList;
+        return boxers.map((boxerRow: string) => new BoxrecPageProfileManagerBoxerRow(boxerRow));
     }
 
     private parseBoxers(): string[] {

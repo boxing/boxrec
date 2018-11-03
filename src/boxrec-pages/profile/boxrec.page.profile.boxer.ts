@@ -60,7 +60,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        super.parseProfileTableData();
         this.parseBouts();
     }
 
@@ -335,7 +334,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get role(): string | null {
-        const role: string =  this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text();; // todo if boxer is promoter as well, should return promoter link
+        const role: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text(); // todo if boxer is promoter as well, should return promoter link
 
         if (role) {
             return role;

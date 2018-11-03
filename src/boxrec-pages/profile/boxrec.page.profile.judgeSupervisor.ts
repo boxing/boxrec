@@ -20,7 +20,6 @@ export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        super.parseProfileTableData();
         this.parseBouts();
     }
 
