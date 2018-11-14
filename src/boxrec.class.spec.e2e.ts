@@ -622,7 +622,7 @@ describe("class Boxrec (E2E)", () => {
 
                     it("should include the region", () => {
                         // it can be null
-                        expect(event.location.location.region).not.toBeUndefined();
+                        expect(event.location.location.region).toBeDefined();
                     });
 
                 });
@@ -632,7 +632,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter promoter", () => {
 
                 it("should include the promotional company in an array", () => {
-                    expect(event.promoters).not.toBeUndefined();
+                    expect(event.promoters).toBeDefined();
                     expect(event.promoters.length).toBeGreaterThanOrEqual(0);
                 });
 
@@ -641,7 +641,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter matchmaker", () => {
 
                 it("should be included if it exists", () => {
-                    expect(event.matchmakers).not.toBeUndefined();
+                    expect(event.matchmakers).toBeDefined();
                 });
 
             });
@@ -649,7 +649,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter doctor", () => {
 
                 it("should include an array of doctors", () => {
-                    expect(event.doctors).not.toBeUndefined();
+                    expect(event.doctors).toBeDefined();
                     expect(event.doctors.length).toBeGreaterThanOrEqual(0);
                 });
 
@@ -658,7 +658,7 @@ describe("class Boxrec (E2E)", () => {
             describe("getter inspector", () => {
 
                 it("should include the id and name of the inspector", () => {
-                    expect(event.inspectors).not.toBeUndefined();
+                    expect(event.inspector).toBeDefined();
                 });
 
             });

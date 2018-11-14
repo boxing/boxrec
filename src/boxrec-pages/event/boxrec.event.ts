@@ -51,16 +51,18 @@ export abstract class BoxrecEvent {
         return doctors;
     }
 
-    get inspectors(): BoxrecBasic[] {
+    get inspector(): BoxrecBasic {
         const html: Cheerio = this.$(`<div>${this._inspector}</div>`);
-        const inspectors: BoxrecBasic[] = [];
+        let inspector: BoxrecBasic = {
+            id: null,
+            name: null,
+        };
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const inspector: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$(elem).text());
-            inspectors.push(inspector);
+            inspector = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$(elem).text());
         });
 
-        return inspectors;
+        return inspector;
     }
 
     get location(): BoxrecBoutLocation {

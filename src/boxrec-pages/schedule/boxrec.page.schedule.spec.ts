@@ -36,6 +36,15 @@ describe("class BoxrecPageSchedule", () => {
 
             });
 
+            describe("getter inspector", () => {
+
+                it("should not be an array, there is only one inspector", () => {
+                    expect(event.inspector.id).toBeDefined();
+                    expect(event.inspector.name).toBeDefined();
+                });
+
+            });
+
             describe("getter venue", () => {
 
                 it("should include the id", () => {
@@ -51,16 +60,16 @@ describe("class BoxrecPageSchedule", () => {
             describe("getter location", () => {
 
                 it("should return the country", () => {
-                    expect(event.location.location.country).not.toBeUndefined();
+                    expect(event.location.location.country).toBeDefined();
                 });
 
                 it("should return the region", () => {
                     // there's the possibility this is `null`
-                    expect(event.location.location.region).not.toBeUndefined();
+                    expect(event.location.location.region).toBeDefined();
                 });
 
                 it("should return the town which can be a string or null", () => {
-                    expect(event.location.location.town).not.toBeUndefined();
+                    expect(event.location.location.town).toBeDefined();
                 });
 
             });
