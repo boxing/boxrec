@@ -1,6 +1,5 @@
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
-import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 

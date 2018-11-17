@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
@@ -187,7 +188,12 @@ describe("class BoxrecPageProfile", () => {
     describe("getter residence", () => {
 
         it("should return the current residence of the person", () => {
-            expect(boxerRJJ.residence).toBe("Pensacola, Florida, USA");
+            expect(boxerRJJ.residence).toEqual({
+                country: Country.USA,
+                id: 18374,
+                region: "FL",
+                town: "Pensacola",
+            });
         });
 
     });
@@ -230,8 +236,12 @@ describe("class BoxrecPageProfile", () => {
     describe("getter birthPlace", () => {
 
         it("should return the birth place of the person", () => {
-            // todo this should be an object
-            expect(boxerRJJ.birthPlace).toBe("Pensacola, Florida, USA");
+            expect(boxerRJJ.birthPlace).toEqual({
+                country: Country.USA,
+                id: 18374,
+                region: "FL",
+                town: "Pensacola",
+            });
         });
 
     });

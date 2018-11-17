@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {convertFractionsToNumber} from "../../helpers";
+import {Location} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -13,26 +14,13 @@ const cheerio: CheerioAPI = require("cheerio");
  */
 export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
 
-    protected $: CheerioStatic;
+    protected readonly $: CheerioStatic;
 
-    /**
-     * @hidden
-     */
     protected parseBouts(): void {
         const tr: Cheerio = this.$(".dataTable tbody tr");
         super.parseBouts(tr);
     }
 
-    /**
-     * @hidden
-     */
-    protected _vadacbp: string = "";
-
-    /**
-     * When instantiated the HTML for this page needs to be supplied
-     * @param {string} boxrecBodyString     the HTML of the profile page
-     * @param {string} boxrecBodyString     the HTML of the profile page
-     */
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
@@ -73,16 +61,12 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
 
     /**
      * Returns the country of which the boxer was born
-     * @returns {string | null}
+     * @returns {Location}
      */
-    get birthPlace(): string | null {
-        const birthPlace: string = this.$(this.parseProfileTableData(BoxrecProfileTable.birthPlace)).text();
-
-        if (birthPlace) {
-            return birthPlace;
-        }
-
-        return null;
+    get birthPlace(): Location {
+        let birthPlace: string = this.parseProfileTableData(BoxrecProfileTable.birthPlace) || "";
+        birthPlace = `<div>${birthPlace}</div>`;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(birthPlace);
     }
 
     /**
@@ -113,9 +97,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileBoxerBoutRow[]}
      */
     get bouts(): BoxrecPageProfileBoxerBoutRow[] {
-        const boutsList: BoxrecPageProfileBoxerBoutRow[] = super.getBouts(BoxrecPageProfileBoxerBoutRow);
-        boutsList.reverse();
-        return boutsList;
+        return super.getBouts(BoxrecPageProfileBoxerBoutRow).reverse();
     }
 
     /**
@@ -284,17 +266,12 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
 
     /**
      * Returns the current residency of the boxer
-     * @returns {string | null}
+     * @returns {Location}
      */
-    // todo can this be converted to return Location?
-    get residence(): string | null {
-        const residence: string = this.$(this.parseProfileTableData(BoxrecProfileTable.residence)).text();
-
-        if (residence) {
-            return residence;
-        }
-
-        return null;
+    get residence(): Location {
+        let residence: string = this.parseProfileTableData(BoxrecProfileTable.residence) || "";
+        residence = `<div>${residence}</div>`;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(residence);
     }
 
     /**
