@@ -1,3 +1,5 @@
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {Location} from "../boxrec.constants";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -25,7 +27,7 @@ export abstract class BoxrecPageProfile {
     }
 
     /**
-     * The birth name of the boxer
+     * The birth name of the person
      * @returns {string | null}
      */
     get birthName(): string | null {
@@ -36,6 +38,16 @@ export abstract class BoxrecPageProfile {
         }
 
         return null;
+    }
+
+    /**
+     * Returns the country of which the person was born
+     * @returns {Location}
+     */
+    get birthPlace(): Location {
+        let birthPlace: string = this.parseProfileTableData(BoxrecProfileTable.birthPlace) || "";
+        birthPlace = `<div>${birthPlace}</div>`;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(birthPlace);
     }
 
     /**
@@ -86,6 +98,45 @@ export abstract class BoxrecPageProfile {
     }
 
     /**
+     * Returns the current residency of the person
+     * @returns {Location}
+     */
+    get residence(): Location {
+        let residence: string = this.parseProfileTableData(BoxrecProfileTable.residence) || "";
+        residence = `<div>${residence}</div>`;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(residence);
+    }
+
+    /**
+     * Returns the entire string of roles this person has
+     * @returns {string | null}
+     */
+    get role(): string | null {
+        const role: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text(); // todo if boxer is promoter as well, should return promoter link
+
+        if (role) {
+            return role;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns whether the person is active or inactive in boxing
+     * @example // returns "active"
+     * @returns {string | null}
+     */
+    get status(): string | null {
+        const status: string | void = this.parseProfileTableData(BoxrecProfileTable.status);
+
+        if (status) {
+            return status;
+        }
+
+        return null;
+    }
+
+    /**
      * Returns bout information in an array
      * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): U}} type  this variable is a class that is instantiated
      * a class is passed in and an array of that instantiated class is passed back
@@ -93,7 +144,7 @@ export abstract class BoxrecPageProfile {
      * @hidden
      * @returns {U[]}
      */
-    getBouts<U>(type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
+    protected getBouts<U>(type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
         const bouts: Array<[string, string | null]> = this._boutsList;
         const boutsList: U[] = [];
 

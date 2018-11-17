@@ -1,6 +1,5 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {convertFractionsToNumber} from "../../helpers";
-import {Location} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -57,16 +56,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         }
 
         return null;
-    }
-
-    /**
-     * Returns the country of which the boxer was born
-     * @returns {Location}
-     */
-    get birthPlace(): Location {
-        let birthPlace: string = this.parseProfileTableData(BoxrecProfileTable.birthPlace) || "";
-        birthPlace = `<div>${birthPlace}</div>`;
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(birthPlace);
     }
 
     /**
@@ -265,30 +254,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     }
 
     /**
-     * Returns the current residency of the boxer
-     * @returns {Location}
-     */
-    get residence(): Location {
-        let residence: string = this.parseProfileTableData(BoxrecProfileTable.residence) || "";
-        residence = `<div>${residence}</div>`;
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(residence);
-    }
-
-    /**
-     * Returns the entire string of roles this person has
-     * @returns {string | null}
-     */
-    get role(): string | null {
-        const role: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text(); // todo if boxer is promoter as well, should return promoter link
-
-        if (role) {
-            return role;
-        }
-
-        return null;
-    }
-
-    /**
      * Returns the number of rounds this boxer has been in in their professional career
      * @returns {number | null}
      */
@@ -310,21 +275,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         const stance: string | void = this.parseProfileTableData(BoxrecProfileTable.stance);
         if (stance) {
             return stance;
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns whether the boxer is active or inactive
-     * @example // returns "active"
-     * @returns {string | null}
-     */
-    get status(): string | null {
-        const status: string | void = this.parseProfileTableData(BoxrecProfileTable.status);
-
-        if (status) {
-            return status;
         }
 
         return null;
