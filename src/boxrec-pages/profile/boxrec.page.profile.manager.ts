@@ -18,10 +18,6 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
-        return this.parseBoxers().map((boxerRow: string) => new BoxrecPageProfileManagerBoxerRow(boxerRow));
-    }
-
-    private parseBoxers(): string[] {
         const tr: Cheerio = this.$("#listManagedBoxers tbody tr");
         const boxersList: string[] = [];
 
@@ -30,7 +26,6 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
             boxersList.push(html);
         });
 
-        return boxersList;
+        return boxersList.map((boxerRow: string) => new BoxrecPageProfileManagerBoxerRow(boxerRow));
     }
-
 }

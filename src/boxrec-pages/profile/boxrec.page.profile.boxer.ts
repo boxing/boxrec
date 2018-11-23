@@ -15,15 +15,9 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
 
-    protected parseBouts(): void {
-        const tr: Cheerio = this.$(".dataTable tbody tr");
-        super.parseBouts(tr);
-    }
-
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        this.parseBouts();
     }
 
     /**
@@ -86,7 +80,8 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileBoxerBoutRow[]}
      */
     get bouts(): BoxrecPageProfileBoxerBoutRow[] {
-        return super.getBouts(BoxrecPageProfileBoxerBoutRow).reverse();
+        const boutsList: Array<[string, string | null]> = this.parseBouts(this.$(".dataTable tbody tr"));
+        return super.getBouts(boutsList, BoxrecPageProfileBoxerBoutRow).reverse();
     }
 
     /**

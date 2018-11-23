@@ -12,15 +12,9 @@ export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
 
-    protected parseBouts(): void {
-        const tr: Cheerio = this.$("#listBoutsResults tbody tr");
-        super.parseBouts(tr);
-    }
-
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
-        this.parseBouts();
     }
 
     /**
@@ -30,7 +24,8 @@ export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileJudgeSupervisorBoutRow[]}
      */
     get bouts(): BoxrecPageProfileJudgeSupervisorBoutRow[] {
-        return super.getBouts(BoxrecPageProfileJudgeSupervisorBoutRow);
+        const boutsList: Array<[string, string | null]> = super.parseBouts(this.$("#listBoutsResults tbody tr"));
+        return super.getBouts(boutsList, BoxrecPageProfileJudgeSupervisorBoutRow);
     }
 
 }

@@ -10,6 +10,7 @@ import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.jud
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
+import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
 const mockProfileBoxerRJJ: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
 const mockProfileBoxerGGG: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerGGG.html`, "utf8");
@@ -543,6 +544,11 @@ describe("class BoxrecPageProfile", () => {
 
         it("should return an array", () => {
             expect(boxerGGG.otherInfo.length).toEqual(jasmine.any(Number));
+        });
+
+        it("should not contain known profile values like global id", () => {
+            const globalId: string[] | undefined = boxerGGG.otherInfo.find(key => key[0] === BoxrecProfileTable.globalId);
+            expect(globalId).toBeUndefined();
         });
 
     });

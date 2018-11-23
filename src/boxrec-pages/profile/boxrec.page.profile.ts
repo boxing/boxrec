@@ -1,4 +1,5 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
@@ -7,20 +8,6 @@ const cheerio: CheerioAPI = require("cheerio");
 export abstract class BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
-    /**
-     * @hidden
-     */
-    protected _boutsList: Array<[string, string | null]> = [];
-    /**
-     * other stuff that we haven't seen yet
-     * @hidden
-     */
-    protected _otherInfo: Array<[string, string]> = [];
-    /**
-     * @hidden
-     */
-        // todo required for parsing the `profileTable` for the time being
-    protected _ranking: string;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
@@ -55,7 +42,7 @@ export abstract class BoxrecPageProfile {
      * @returns {number | null}
      */
     get globalId(): number | null {
-        const tr: Cheerio = this.getProfileTableRows();
+        const tr: Cheerio = this.$(".profileTable table.rowTable tbody tr");
         const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
 
         if (id) {
@@ -94,7 +81,7 @@ export abstract class BoxrecPageProfile {
      * @returns {string[][]}
      */
     get otherInfo(): string[][] {
-        return this._otherInfo;
+        return this.parseOtherInfo();
     }
 
     /**
@@ -136,6 +123,10 @@ export abstract class BoxrecPageProfile {
         return null;
     }
 
+    private get profileTableBody(): Cheerio {
+        return this.$(`.profileTable table.rowTable tbody`);
+    }
+
     /**
      * Returns bout information in an array
      * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): U}} type  this variable is a class that is instantiated
@@ -144,8 +135,8 @@ export abstract class BoxrecPageProfile {
      * @hidden
      * @returns {U[]}
      */
-    protected getBouts<U>(type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
-        const bouts: Array<[string, string | null]> = this._boutsList;
+    protected getBouts<U>(boutsListArr: Array<[string, string | null]>, type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
+        const bouts: Array<[string, string | null]> = boutsListArr;
         const boutsList: U[] = [];
 
         bouts.forEach((val: [string, string | null]) => {
@@ -160,8 +151,9 @@ export abstract class BoxrecPageProfile {
      * Parses the bout information for the person
      * @hidden
      */
-    // todo move ? is used where
-    protected parseBouts(tr: Cheerio): void {
+    protected parseBouts(tr: Cheerio): Array<[string, string | null]> {
+        const boutsList: Array<[string, string | null]> = [];
+
         tr.each((i: number, elem: CheerioElement) => {
             const boutId: string = this.$(elem).attr("id");
 
@@ -186,8 +178,10 @@ export abstract class BoxrecPageProfile {
 
             const html: string = this.$(elem).html() || "";
             const next: string | null = nextRow ? nextRow.html() : null;
-            this._boutsList.push([html, next]);
+            boutsList.push([html, next]);
         });
+
+        return boutsList;
     }
 
     /**
@@ -196,35 +190,27 @@ export abstract class BoxrecPageProfile {
      */
     protected parseProfileTableData(keyToRetrieve?: BoxrecProfileTable): string | void {
         // todo this should be looking for td:nth-child(1) and :contains
-        const tableRow: Cheerio = this.$(`.profileTable table.rowTable tbody tr:contains("${keyToRetrieve}")`);
+        const tableRow: Cheerio = this.profileTableBody.find(`tr:contains("${keyToRetrieve}")`);
         const val: string | null = tableRow.find("td:nth-child(2)").html();
-        const key: string | null = tableRow.find("td:nth-child(1)").text();
 
-        if (keyToRetrieve) {
-
-            if (tableRow) {
-
-                if (val) {
-                    return val.trim();
-                }
-            } else {
-                if (keyToRetrieve === BoxrecProfileTable.ranking) {
-                    // todo do better to remove this _ranking variable
-
-                } else {
-                    // either an error or returned something we haven't mapped
-                    if (key && val) {
-                        this._otherInfo.push([key, val]);
-                    }
-                }
-            }
-
+        if (keyToRetrieve && tableRow && val) {
+            return val.trim();
         }
-
     }
 
-    private getProfileTableRows(): Cheerio {
-        return this.$(".profileTable table.rowTable tbody tr");
-    }
+    private parseOtherInfo(): Array<[string, string]> {
+        const otherInfo: Array<[string, string]> = [];
+        const knownTableColumnKeys: string[] = Object.values(BoxrecProfileTable);
+        this.profileTableBody.find("tr").each((i: number, elem: CheerioElement) => {
+            const val: string | null = this.$(elem).find("td:nth-child(2)").html();
+            const key: string | null = trimRemoveLineBreaks(this.$(elem).find("td:nth-child(1)").text());
 
+            // key.subtr because we don't want to match the `ID #` table row
+            if (key && val && key.substr(0, 2) !== "ID" && !knownTableColumnKeys.includes(key)) {
+                otherInfo.push([key, val]);
+            }
+        });
+
+        return otherInfo;
+    }
 }
