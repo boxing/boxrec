@@ -1,3 +1,4 @@
+import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";
 import {Options} from "request-promise";
 import {Cookie} from "tough-cookie";
@@ -16,6 +17,7 @@ import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {PersonRequestParams} from "./boxrec-pages/profile/boxrec.profile.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
 import {BoxrecResultsParams, BoxrecResultsParamsTransformed} from "./boxrec-pages/results/boxrec.results.constants";
@@ -31,6 +33,8 @@ import {
 } from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+
+const fs = require("fs");
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -87,6 +91,41 @@ export class Boxrec {
     }
 
     /**
+     * Makes a request to BoxRec to return/save the PDF version of a boxer profile
+     * @param {number} globalId     the BoxRec global id of the boxer
+     * @param {string} pathToSaveTo directory to save to.  if not used will only return data
+     * @param {string} fileName     file name to save as.  Will save as {globalId}.pdf as default
+     * @returns {Promise<string>}
+     */
+    async getBoxerPDF(globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = rp.get({
+            followAllRedirects: true,
+            headers: {"Content-type": "application/pdf"},
+            jar: this._cookieJar,
+            qs: {
+                pdf: "y",
+            },
+            uri: `http://boxrec.com/en/boxer/${globalId}`
+        });
+
+        if (pathToSaveTo) {
+            const fileNameToSaveAs: string = fileName ? fileName : `${globalId}.pdf`;
+            let updatedPathToSave: string = pathToSaveTo;
+
+            if (updatedPathToSave.slice(-1) !== "/") {
+                updatedPathToSave += "/";
+            }
+
+            const file: WriteStream = fs.createWriteStream(updatedPathToSave + fileNameToSaveAs);
+            boxrecPageBody.pipe(file);
+        }
+
+        return boxrecPageBody;
+    }
+
+    /**
      * Makes a request to BoxRec to return a list of current champions
      * @returns {Promise<BoxrecPageChampions>}
      */
@@ -111,7 +150,10 @@ export class Boxrec {
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
-            uri: `http://boxrec.com/en/date?date=${dateString}`,
+            qs: {
+                data: "dateString",
+            },
+            uri: `http://boxrec.com/en/date`,
         });
 
         return new BoxrecPageDate(boxrecPageBody);
@@ -314,7 +356,10 @@ export class Boxrec {
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
-            uri: `http://boxrec.com/en/venue/${venueId}?offset=${offset}`,
+            qs: {
+                offset,
+            },
+            uri: `http://boxrec.com/en/venue/${venueId}`,
         });
 
         return new BoxrecPageVenue(boxrecPageBody);
@@ -490,15 +535,19 @@ export class Boxrec {
 
     private async makeGetPersonByIdRequest(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
         this.checkIfLoggedIntoBoxRec();
-        let uri: string = `http://boxrec.com/en/${role}/${globalId}`;
+        const uri: string = `http://boxrec.com/en/${role}/${globalId}`;
+        let qs: PersonRequestParams = {};
 
         if (callWithToggleRatings) {
-            uri += `?toggleRatings=y`;
+            qs = {
+                toggleRatings: "y",
+            };
         }
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
-            uri,
+            qs,
+            uri
         });
 
         let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager;
