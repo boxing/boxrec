@@ -1,3 +1,10 @@
+## 0.19.0 (2018-11-24)
+
+### Added
+
+- can now return/save the PDF version of a boxer profile
+- can now return/save the printable version of a boxer profile
+
 ## 0.18.4 (2018-10-20)
 
 ### Fixed

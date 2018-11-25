@@ -286,9 +286,9 @@ describe("class boxrec", () => {
 
     describe("method getVenueById", () => {
 
-        it("should make a GET request to http://boxrec.ocm/en/venue/555?offset=20", async () => {
+        it("should make a GET request to http://boxrec.com/en/venue/555", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getVenueById(555, 20);
+            await boxrec.getVenueById(555);
             // todo get qs param
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/venue/555");
         });
