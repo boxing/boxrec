@@ -344,7 +344,7 @@ describe("class boxrec", () => {
 
         beforeEach(() => {
             spy = jest.spyOn(rp, "get").mockReturnValueOnce({
-                pipe: () => {
+                pipe: (a: string) => {
                     //
                 },
             });
@@ -373,6 +373,33 @@ describe("class boxrec", () => {
             const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
             await boxrec.getBoxerPDF(555, "./bla");
             expect(spyStream).toHaveBeenCalledWith("./bla/555.pdf");
+        });
+
+    });
+
+    describe("method getBoxerPrint", () => {
+
+        let spy: Mock<any>;
+
+        beforeEach(() => {
+            spy = jest.spyOn(rp, "get").mockReturnValueOnce({
+                pipe: () => {
+                    //
+                },
+            });
+        });
+
+        it("should make a GET request with query string that contains `print`", async () => {
+            await boxrec.getBoxerPrint(555);
+            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({
+                print: "y",
+            });
+        });
+
+        it("should save the file with `.html` file type", async () => {
+            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
+            await boxrec.getBoxerPrint(555, "./bla");
+            expect(spyStream).toHaveBeenCalledWith("./bla/555.html");
         });
 
     });

@@ -94,35 +94,26 @@ export class Boxrec {
      * Makes a request to BoxRec to return/save the PDF version of a boxer profile
      * @param {number} globalId     the BoxRec global id of the boxer
      * @param {string} pathToSaveTo directory to save to.  if not used will only return data
-     * @param {string} fileName     file name to save as.  Will save as {globalId}.pdf as default
+     * @param {string} fileName     file name to save as.  Will save as {globalId}.pdf as default.  Add .pdf to end of filename
      * @returns {Promise<string>}
      */
     async getBoxerPDF(globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
         this.checkIfLoggedIntoBoxRec();
 
-        const boxrecPageBody: RequestResponse["body"] = rp.get({
-            followAllRedirects: true,
-            headers: {"Content-type": "application/pdf"},
-            jar: this._cookieJar,
-            qs: {
-                pdf: "y",
-            },
-            uri: `http://boxrec.com/en/boxer/${globalId}`
-        });
+        return this.getBoxerOther(globalId, "pdf", pathToSaveTo, fileName);
+    }
 
-        if (pathToSaveTo) {
-            const fileNameToSaveAs: string = fileName ? fileName : `${globalId}.pdf`;
-            let updatedPathToSave: string = pathToSaveTo;
+    /**
+     * Makes a request to BoxRec to return/save the printable version of a boxer profile
+     * @param {number} globalId     the BoxRec global id of the boxer
+     * @param {string} pathToSaveTo directory to save to.  if not used will only return data
+     * @param {string} fileName     file name to save as.  Will save as {globalId}.html as default.  Add .html to end of filename
+     * @returns {Promise<string>}
+     */
+    async getBoxerPrint(globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
+        this.checkIfLoggedIntoBoxRec();
 
-            if (updatedPathToSave.slice(-1) !== "/") {
-                updatedPathToSave += "/";
-            }
-
-            const file: WriteStream = fs.createWriteStream(updatedPathToSave + fileNameToSaveAs);
-            boxrecPageBody.pipe(file);
-        }
-
-        return boxrecPageBody;
+        return this.getBoxerOther(globalId, "print", pathToSaveTo, fileName);
     }
 
     /**
@@ -504,6 +495,52 @@ export class Boxrec {
         if (!this.hasRequiredCookiesForLogIn()) {
             throw new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls");
         }
+    }
+
+    /**
+     * Returns/saves a boxer's profile in print/pdf format
+     * @param {number} globalId
+     * @param {"pdf" | "print"} type
+     * @param {string} pathToSaveTo
+     * @param {string} fileName
+     * @returns {Promise<string>}
+     */
+    private async getBoxerOther(globalId: number, type: "pdf" | "print", pathToSaveTo?: string, fileName?: string): Promise<string> {
+        const qs: PersonRequestParams = {};
+
+        if (type === "pdf") {
+            qs.pdf = "y";
+        } else {
+            qs.print = "y";
+        }
+
+        const boxrecPageBody: RequestResponse["body"] = rp.get({
+            followAllRedirects: true,
+            jar: this._cookieJar,
+            qs,
+            uri: `http://boxrec.com/en/boxer/${globalId}`
+        });
+
+        if (pathToSaveTo) {
+            let fileNameToSaveAs: string;
+
+            if (fileName) {
+                fileNameToSaveAs = fileName;
+            } else {
+                fileNameToSaveAs = `${globalId}.` + (type === "pdf" ? "pdf" : "html");
+            }
+
+            let updatedPathToSave: string = pathToSaveTo;
+
+            if (updatedPathToSave.slice(-1) !== "/") {
+                updatedPathToSave += "/";
+            }
+
+            const file: WriteStream = fs.createWriteStream(updatedPathToSave + fileNameToSaveAs);
+            boxrecPageBody.pipe(file);
+        }
+
+        return boxrecPageBody;
     }
 
     private async getSearchParamWrap(): Promise<string> {
