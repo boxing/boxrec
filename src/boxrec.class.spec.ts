@@ -22,6 +22,13 @@ jest.mock("request-promise");
 const rp: any = require("request-promise");
 
 export const getLastCall: Function = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
+const compareObjects: any = (obj: any, objToCompareTo: any) => expect(obj).toEqual(objToCompareTo);
+// for testing the file writing of `getBoxerPDF` and `getBoxerPrint`
+const testFileWrite: any = async (method: "getBoxerPDF" | "getBoxerPrint", pathToSaveTo: string, fileName: string, pathFileName: string) => {
+    const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
+    await boxrec[method](555, pathToSaveTo, fileName);
+    return expect(spyStream).toHaveBeenCalledWith(pathFileName);
+};
 
 describe("class boxrec", () => {
 
@@ -352,27 +359,23 @@ describe("class boxrec", () => {
 
         it("should make a GET request with query string that contains `pdf`", async () => {
             await boxrec.getBoxerPDF(555);
-            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({
+            compareObjects(spy.mock.calls[spy.mock.calls.length - 1][0].qs, {
                 pdf: "y",
             });
         });
 
-        it("should save to the directory it is called from if no path supplied", async () => {
-            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
-            await boxrec.getBoxerPDF(555, "./foo/", "bar.pdf");
-            expect(spyStream).toHaveBeenCalledWith("./foo/bar.pdf");
+        it("should not save to the directory it is called from if no path supplied", async () => {
+            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test2");
+            await boxrec.getBoxerPDF(555);
+            return expect(spyStream).not.toHaveBeenCalled();
         });
 
         it("should append a `/` to the path if one was not supplied", async () => {
-            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
-            await boxrec.getBoxerPDF(555, "./foo", "bar2.pdf");
-            expect(spyStream).toHaveBeenCalledWith("./foo/bar2.pdf");
+            testFileWrite("getBoxerPDF", "./foo", "bar.pdf", "./foo/bar.pdf");
         });
 
         it("should use the globalId of the boxer if no file name is supplied", async () => {
-            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
-            await boxrec.getBoxerPDF(555, "./bla");
-            expect(spyStream).toHaveBeenCalledWith("./bla/555.pdf");
+            testFileWrite("getBoxerPDF", "./foo", null, "./foo/555.pdf");
         });
 
     });
@@ -391,15 +394,13 @@ describe("class boxrec", () => {
 
         it("should make a GET request with query string that contains `print`", async () => {
             await boxrec.getBoxerPrint(555);
-            expect(spy.mock.calls[spy.mock.calls.length - 1][0].qs).toEqual({
+            compareObjects(spy.mock.calls[spy.mock.calls.length - 1][0].qs, {
                 print: "y",
             });
         });
 
         it("should save the file with `.html` file type", async () => {
-            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
-            await boxrec.getBoxerPrint(555, "./bla");
-            expect(spyStream).toHaveBeenCalledWith("./bla/555.html");
+            testFileWrite("getBoxerPrint", "./foo", null, "./foo/555.html");
         });
 
     });
