@@ -266,6 +266,21 @@ boxrec.getRatings({
 await boxrec.getTitle("6/Middleweight");
 ````
 
+### [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf)
+##### Return/save the PDF version of a BoxRec boxer profile
+```
+await boxrec.getBoxerPDF(555); // returns the PDF information
+await boxrec.getBoxerPDF(555, "./profile"); // saves the PDF to "./profile/555.pdf"
+await boxrec.getBoxerPDF(555, "./profile", "foo.pdf); // saves the PDF to "./profile/foo.pdf" 
+```
+
+### [getBoxerPrint](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerprint)
+##### Return/save the print version of a BoxRec boxer profile
+Follows the exact same format as [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf) method
+```
+await boxrec.getBoxerPrint(555); 
+```
+
 ## Documentation
 
 [Additional documentation](https://boxing.github.io/boxrec)

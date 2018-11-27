@@ -98,8 +98,6 @@ export class Boxrec {
      * @returns {Promise<string>}
      */
     async getBoxerPDF(globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
-        this.checkIfLoggedIntoBoxRec();
-
         return this.getBoxerOther(globalId, "pdf", pathToSaveTo, fileName);
     }
 
@@ -111,8 +109,6 @@ export class Boxrec {
      * @returns {Promise<string>}
      */
     async getBoxerPrint(globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
-        this.checkIfLoggedIntoBoxRec();
-
         return this.getBoxerOther(globalId, "print", pathToSaveTo, fileName);
     }
 
@@ -506,6 +502,8 @@ export class Boxrec {
      * @returns {Promise<string>}
      */
     private async getBoxerOther(globalId: number, type: "pdf" | "print", pathToSaveTo?: string, fileName?: string): Promise<string> {
+        this.checkIfLoggedIntoBoxRec();
+
         const qs: PersonRequestParams = {};
 
         if (type === "pdf") {
