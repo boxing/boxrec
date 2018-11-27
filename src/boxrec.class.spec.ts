@@ -8,6 +8,7 @@ import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.pa
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {Boxrec} from "./boxrec.class";
+import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
 
 const mockProfileBoxerRJJ: string = fs.readFileSync(
@@ -21,6 +22,13 @@ jest.mock("request-promise");
 const rp: any = require("request-promise");
 
 export const getLastCall: Function = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
+const compareObjects: any = (obj: any, objToCompareTo: any) => expect(obj).toEqual(objToCompareTo);
+// for testing the file writing of `getBoxerPDF` and `getBoxerPrint`
+const testFileWrite: any = async (method: "getBoxerPDF" | "getBoxerPrint", pathToSaveTo: string, fileName: string, pathFileName: string) => {
+    const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
+    await boxrec[method](555, pathToSaveTo, fileName);
+    return expect(spyStream).toHaveBeenCalledWith(pathFileName);
+};
 
 describe("class boxrec", () => {
 
@@ -285,10 +293,11 @@ describe("class boxrec", () => {
 
     describe("method getVenueById", () => {
 
-        it("should make a GET request to http://boxrec.ocm/en/venue/555?offset=20", async () => {
+        it("should make a GET request to http://boxrec.com/en/venue/555", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getVenueById(555, 20);
-            expect(getLastCall(spy)).toBe("http://boxrec.com/en/venue/555?offset=20");
+            await boxrec.getVenueById(555);
+            // todo get qs param
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/venue/555");
         });
 
     });
@@ -332,6 +341,66 @@ describe("class boxrec", () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             await boxrec.getChampions();
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/champions");
+        });
+
+    });
+
+    describe("method getBoxerPDF", () => {
+
+        let spy: Mock<any>;
+
+        beforeEach(() => {
+            spy = jest.spyOn(rp, "get").mockReturnValueOnce({
+                pipe: (a: string) => {
+                    //
+                },
+            });
+        });
+
+        it("should make a GET request with query string that contains `pdf`", async () => {
+            await boxrec.getBoxerPDF(555);
+            compareObjects(spy.mock.calls[spy.mock.calls.length - 1][0].qs, {
+                pdf: "y",
+            });
+        });
+
+        it("should not save to the directory it is called from if no path supplied", async () => {
+            const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test2");
+            await boxrec.getBoxerPDF(555);
+            return expect(spyStream).not.toHaveBeenCalled();
+        });
+
+        it("should append a `/` to the path if one was not supplied", async () => {
+            testFileWrite("getBoxerPDF", "./foo", "bar.pdf", "./foo/bar.pdf");
+        });
+
+        it("should use the globalId of the boxer if no file name is supplied", async () => {
+            testFileWrite("getBoxerPDF", "./foo", null, "./foo/555.pdf");
+        });
+
+    });
+
+    describe("method getBoxerPrint", () => {
+
+        let spy: Mock<any>;
+
+        beforeEach(() => {
+            spy = jest.spyOn(rp, "get").mockReturnValueOnce({
+                pipe: () => {
+                    //
+                },
+            });
+        });
+
+        it("should make a GET request with query string that contains `print`", async () => {
+            await boxrec.getBoxerPrint(555);
+            compareObjects(spy.mock.calls[spy.mock.calls.length - 1][0].qs, {
+                print: "y",
+            });
+        });
+
+        it("should save the file with `.html` file type", async () => {
+            testFileWrite("getBoxerPrint", "./foo", null, "./foo/555.html");
         });
 
     });

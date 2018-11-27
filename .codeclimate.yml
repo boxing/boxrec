@@ -35,11 +35,11 @@ checks:
   similar-code:
     enabled: true
     config:
-      threshold: #language-specific defaults. overrides affect all languages.
+      threshold: 80 #language-specific defaults. overrides affect all languages.
   identical-code:
     enabled: true
     config:
-      threshold: #language-specific defaults. overrides affect all languages.
+      threshold: 80 #language-specific defaults. overrides affect all languages.
 plugins:
  rubocop:
   enabled: true

@@ -268,7 +268,16 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-keyword">await</span> boxrec.getTitle(<span class="hljs-string">"6/Middleweight"</span>);
 <span class="hljs-string">`</span>
 </code></pre>
-				<h2 id="documentation">Documentation</h2>
+				<h3 id="getboxerpdf"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf">getBoxerPDF</a></h3>
+				<h5 id="return-save-the-pdf-version-of-a-boxrec-boxer-profile">Return/save the PDF version of a BoxRec boxer profile</h5>
+				<pre><code><span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>); <span class="hljs-comment">// returns the PDF information</span>
+<span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>); <span class="hljs-comment">// saves the PDF to "./profile/555.pdf"</span>
+<span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>, <span class="hljs-string">"foo.pdf); // saves the PDF to "</span>./profile/foo.pdf<span class="hljs-string">" </span>
+</code></pre><h3 id="getboxerprint"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerprint">getBoxerPrint</a></h3>
+				<h5 id="return-save-the-print-version-of-a-boxrec-boxer-profile">Return/save the print version of a BoxRec boxer profile</h5>
+				<p>Follows the exact same format as <a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf">getBoxerPDF</a> method</p>
+				<pre><code>await boxrec.getBoxerPrint(<span class="hljs-number">555</span>)<span class="hljs-comment">; </span>
+</code></pre><h2 id="documentation">Documentation</h2>
 				<p><a href="https://boxing.github.io/boxrec">Additional documentation</a></p>
 				<h2 id="note">Note</h2>
 				<p>Not affiliated with the website <a href="http://www.boxrec.com">BoxRec</a></p>
@@ -496,6 +505,9 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/location.html" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/personrequestparams.html" class="tsd-kind-icon">Person<wbr>Request<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/record.html" class="tsd-kind-icon">Record</a>

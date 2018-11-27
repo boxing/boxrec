@@ -66,3 +66,9 @@ export interface BoxrecProfileBoutLinks {
     event: number | null;
     other: string[];
 }
+
+export interface PersonRequestParams {
+    toggleRatings?: "y"; // hard coded but this value doesn't actually matter to BoxRec
+    pdf?: "y";
+    print?: "y";
+}
