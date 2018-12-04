@@ -3,7 +3,6 @@ import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecEvent} from "./boxrec.event";
-import {BoxrecPromoter} from "./boxrec.event.constants";
 
 const cheerio: CheerioAPI = require("cheerio");
 
@@ -26,6 +25,16 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return null;
     }
 
+    get date(): string | null {
+        const date: string | null = this.parseDate();
+
+        if (date) {
+            return trimRemoveLineBreaks(date);
+        }
+
+        return date;
+    }
+
     get doctors(): BoxrecBasic[] {
         const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.doctor)}</div>`);
         const doctors: BoxrecBasic[] = [];
@@ -36,6 +45,19 @@ export class BoxrecPageEvent extends BoxrecEvent {
         });
 
         return doctors;
+    }
+
+    get id(): number {
+        let id: string = "";
+        const wikiHref: string | null = this.$(this.parseEventResults()).find("h2").next().find(".bio_closedP").parent().attr("href");
+        if (wikiHref) {
+            const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
+            if (wikiLink && wikiLink[1]) {
+                id = wikiLink[1];
+            }
+        }
+
+        return parseInt(id, 10);
     }
 
     get inspector(): BoxrecBasic {
@@ -92,100 +114,26 @@ export class BoxrecPageEvent extends BoxrecEvent {
 
     get matchmakers(): BoxrecBasic[] {
         const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.matchmaker)}</div>`);
-        const matchmaker: BoxrecBasic[] = [];
+        const matchmakers: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
             const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
             if (href) {
                 const name: string = this.$(elem).text();
-                matchmaker.push({
-                    id: parseInt(href[1], 10),
+                const id: number = parseInt(href[i], 10);
+                matchmakers.push({
+                    id,
                     name,
                 });
             }
 
         });
 
-        return matchmaker;
+        return matchmakers;
     }
 
-    get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.promoter)}</div>`);
-        const promoter: BoxrecPromoter[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: string = this.$(elem).get(0).attribs.href;
-            const name: string = this.$(elem).text();
-            let id: number | null = null;
-            let company: string | null = null;
-
-            const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-
-            if (matches) {
-                id = parseInt(matches[0], 10);
-            }
-
-            const htmlString: string | null = html.html();
-
-            if (htmlString) {
-                // this regex may not work for everything (this comment was about `event` pages)
-                // turns out `events` page and `bout` page display promoters differently
-                // ex. of links between `event` pages and `bout` pages
-                // events - `Golden Boy Promotions - Oscar De La Hoya`
-                // bouts  - `Oscar De La Hoya (Golden Boy Promotions)`
-
-                // first we'll figure out which one we're looking at, then choose the proper regex to use
-                // we should also assume that both might fail
-
-                // these both share the same characters for company names
-                // capture forward slashes in it because `360/GGG/K2 Promotions`
-                const promoterEventsPageRegex: RegExp = /([\w\d\/\-\s]+)\s-\s<a\shref/g;
-                const promoterBoutsPageRegex: RegExp = /\(([\w\d\/\-\s]+)\)/g;
-
-                const eventsRegexReturnsResults: RegExpMatchArray | null = promoterEventsPageRegex.exec(htmlString);
-
-                let regexThatGetsResults: RegExp;
-
-                if (eventsRegexReturnsResults !== null) {
-                    regexThatGetsResults = promoterEventsPageRegex;
-                } else {
-                    const boutsRegexReturnsResults: RegExpMatchArray | null = promoterBoutsPageRegex.exec(htmlString);
-
-                    if (boutsRegexReturnsResults !== null) {
-                        regexThatGetsResults = promoterBoutsPageRegex;
-                    } else {
-                        // both regex did not work, either broken or they don't exist
-                        return promoter;
-                    }
-                }
-
-                regexThatGetsResults.lastIndex = 0; // reset the index of the `RegExp` // requires `g` flag on regex
-
-                let m: RegExpExecArray | null;
-                let j: number = 0;
-
-                do {
-                    m = regexThatGetsResults.exec(htmlString);
-                    if (m && m[1]) {
-                        if (j === promoter.length) {
-                            company = m[1].trim();
-                        }
-                    }
-                    j++;
-                } while (m);
-
-                if (company) {
-                    promoter.push({
-                        company,
-                        id,
-                        name,
-                    });
-                }
-            }
-
-        });
-
-        return promoter;
+    protected parsePromoters(): string {
+        return this.parseEventData(BoxrecRole.promoter);
     }
 
     get television(): string[] {
@@ -201,30 +149,8 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return [];
     }
 
-    get date(): string | null {
-        const date: string | null = this.parseDate();
-
-        if (date) {
-            return trimRemoveLineBreaks(date);
-        }
-
-        return date;
-    }
-
-    get id(): number {
-        let id: string = "";
-        const wikiHref: string | null = this.$(this.parseEventResults()).find("h2").next().find(".bio_closedP").parent().attr("href");
-        if (wikiHref) {
-            const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
-            if (wikiLink && wikiLink[1]) {
-                id = wikiLink[1];
-            }
-        }
-
-        return parseInt(id, 10);
-    }
-
     // todo can make this and the other one private/protected?
+    // todo this is duplicated
     getPeopleTable(): Cheerio {
         return this.$("table thead table tbody tr");
     }

@@ -17,6 +17,7 @@ import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {PersonRequestParams} from "./boxrec-pages/profile/boxrec.profile.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
@@ -585,12 +586,12 @@ export class Boxrec {
     private async makeGetPersonByIdRequest(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
         this.checkIfLoggedIntoBoxRec();
         const uri: string = `http://boxrec.com/en/${role}/${globalId}`;
-        let qs: PersonRequestParams = {};
+        const qs: PersonRequestParams = {
+            offset,
+        };
 
         if (callWithToggleRatings) {
-            qs = {
-                toggleRatings: "y",
-            };
+            qs.toggleRatings = "y";
         }
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({

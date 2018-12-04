@@ -499,14 +499,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         return "";
     }
 
-    private parseDoctors(): void {
-        const doctor: string | null = this.parseBottomDoctorPromoterRows("doctor");
-
-        if (doctor) {
-            this._doctor = doctor;
-        }
-    }
-
     private parseJudges(): string[] {
         const links: Cheerio = this.$(".responseLessDataTable a");
         const judges: string[] = [];

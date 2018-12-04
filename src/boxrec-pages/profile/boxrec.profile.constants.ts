@@ -68,6 +68,7 @@ export interface BoxrecProfileBoutLinks {
 }
 
 export interface PersonRequestParams {
+    offset?: number;
     toggleRatings?: "y"; // hard coded but this value doesn't actually matter to BoxRec
     pdf?: "y";
     print?: "y";

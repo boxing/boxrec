@@ -613,7 +613,8 @@ describe("class Boxrec (E2E)", () => {
                 describe("location", () => {
 
                     it("should include the town", () => {
-                        expect(event.location.location.town).toEqual(jasmine.any(String));
+                        // can be `null` ex. http://boxrec.com/en/event/776660
+                        expect(event.location.location.town).toBeDefined();
                     });
 
                     it("should include the country", () => {

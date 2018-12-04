@@ -1,11 +1,9 @@
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
+import {townRegionCountryRegex} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
 const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * Used specifically for Events page and Dates page
@@ -13,15 +11,7 @@ let $: CheerioStatic;
 export abstract class BoxrecEvent {
 
     protected $: CheerioStatic;
-    protected _bouts: Array<[string, string | null]> = [];
-    protected _commission: string;
-    protected _doctor: string | null;
-    protected _id: string;
-    protected _inspector: string | null;
-    protected _location: string | null;
     protected _matchmaker: string | null;
-    protected _promoter: string | null;
-    protected _television: string;
 
     protected constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
@@ -29,40 +19,6 @@ export abstract class BoxrecEvent {
 
     get bouts(): BoxrecPageEventBoutRow[] {
         return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageEventBoutRow(val[0], val[1], true));
-    }
-
-    get commission(): string | null {
-        if (this._commission) {
-            return this._commission.trim();
-        }
-
-        return null;
-    }
-
-    get doctors(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this._doctor}</div>`);
-        const doctors: BoxrecBasic[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId($.html(elem));
-            doctors.push(doctor);
-        });
-
-        return doctors;
-    }
-
-    get inspector(): BoxrecBasic {
-        const html: Cheerio = this.$(`<div>${this._inspector}</div>`);
-        let inspector: BoxrecBasic = {
-            id: null,
-            name: null,
-        };
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            inspector = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$(elem).text());
-        });
-
-        return inspector;
     }
 
     get location(): BoxrecBoutLocation {
@@ -79,7 +35,7 @@ export abstract class BoxrecEvent {
             },
         };
 
-        const html: Cheerio = this.$(`<div>${this._location}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseLocation()}</div>`);
         const links: Cheerio = html.find("a");
 
         locationObject.venue = BoxrecEvent.getVenueInformation(links);
@@ -88,7 +44,8 @@ export abstract class BoxrecEvent {
     }
 
     get matchmakers(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this._matchmaker}</div>`);
+        const test: string | null = this._matchmaker;
+        const html: Cheerio = this.$(`<div>${test}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -107,7 +64,7 @@ export abstract class BoxrecEvent {
     }
 
     get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = this.$(`<div>${this._promoter}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parsePromoters()}</div>`);
         const promoter: BoxrecPromoter[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -185,16 +142,6 @@ export abstract class BoxrecEvent {
         return promoter;
     }
 
-    get television(): string[] | null {
-        const television: string = this._television;
-
-        if (television) {
-            return television.split(",").map(item => trimRemoveLineBreaks(item));
-        }
-
-        return null;
-    }
-
     protected static getLocationInformation(links: Cheerio): Location {
         // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
         const hrefPosition: number = +(links.length === 3 || links.length === 4);
@@ -254,6 +201,16 @@ export abstract class BoxrecEvent {
         }
 
         return obj;
+    }
+
+    // to be overridden by child class
+    protected parseLocation(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    // to be overridden by child class
+    protected parsePromoters(): string {
+        throw new Error("Needs to be overridden by child class");
     }
 
     private parseBouts(): Array<[string, string | null]> {
