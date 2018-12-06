@@ -149,12 +149,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return [];
     }
 
-    // todo can make this and the other one private/protected?
-    // todo this is duplicated
-    getPeopleTable(): Cheerio {
-        return this.$("table thead table tbody tr");
-    }
-
     private parseDate(): string | null {
         const eventResults: Cheerio = this.parseEventResults();
         const date: string = this.$(eventResults).find("h2").text(); // ex. Saturday 5, May 2018
@@ -164,24 +158,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
         }
 
         return null;
-    }
-
-    private parseEventData(role: BoxrecRole | "television" | "commission"): string {
-        let results: string | null = "";
-
-        this.getPeopleTable().each((i: number, elem: CheerioElement) => {
-            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
-            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
-
-            if (tag === role) {
-                results = val.html();
-            } else if (tag === role) {
-                // tested if `television` might actually be a BoxRec role but it isn't
-                results = val.html();
-            }
-        });
-
-        return results;
     }
 
     private parseEventResults(): Cheerio {

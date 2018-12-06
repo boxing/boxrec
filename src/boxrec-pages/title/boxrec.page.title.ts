@@ -1,5 +1,7 @@
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
+import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
+import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
 const cheerio: CheerioAPI = require("cheerio");
@@ -8,11 +10,12 @@ const cheerio: CheerioAPI = require("cheerio");
  * parse a BoxRec Title page
  * <pre>ex. http://boxrec.com/en/title/6/Middleweight
  */
-export class BoxrecPageTitle {
+export class BoxrecPageTitle extends BoxrecParseBouts {
 
-    private readonly $: CheerioStatic;
+    protected readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
+        super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
     }
 
@@ -21,14 +24,7 @@ export class BoxrecPageTitle {
      * @returns {BoxrecPageTitleRow[]}
      */
     get bouts(): BoxrecPageTitleRow[] {
-        const bouts: Array<[string, string | null]> = [] = this.parseBouts();
-        const boutsList: BoxrecPageTitleRow[] = [];
-        bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecPageTitleRow = new BoxrecPageTitleRow(val[0], val[1]);
-            boutsList.push(bout);
-        });
-
-        return boutsList;
+        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageTitleRow(val[0], val[1]));
     }
 
     /**
@@ -70,38 +66,4 @@ export class BoxrecPageTitle {
         return parseInt(this.$(".pagerResults").text(), 10);
     }
 
-    // todo this is extremely similar to boxrec.page.event.ts, can we merge?
-    private parseBouts(): Array<[string, string | null]> {
-        const tr: Cheerio = this.$(".dataTable > tbody tr");
-        const bouts: Array<[string, string | null]> = [];
-
-        this.$(tr).each((i: number, elem: CheerioElement) => {
-            const boutId: string = this.$(elem).attr("id");
-
-            // skip rows that are associated with the previous fight
-            if (!boutId || boutId.includes("second")) {
-                return;
-            }
-
-            // we need to check to see if the next row is associated with this bout
-            let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = this.$(elem).next();
-            let nextRowId: string = nextRow.attr("id");
-
-            if (nextRowId) {
-                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
-
-                isNextRowAssociated = nextRowId === boutId;
-                if (!isNextRowAssociated) {
-                    nextRow = null;
-                }
-            } // else if no next bout exists
-
-            const html: string = this.$(elem).html() || "";
-            const next: string | null = nextRow ? nextRow.html() : null;
-            bouts.push([html, next]);
-        });
-
-        return bouts;
-    }
 }

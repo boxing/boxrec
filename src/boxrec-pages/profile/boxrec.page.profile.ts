@@ -136,15 +136,7 @@ export abstract class BoxrecPageProfile {
      * @returns {U[]}
      */
     protected getBouts<U>(boutsListArr: Array<[string, string | null]>, type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
-        const bouts: Array<[string, string | null]> = boutsListArr;
-        const boutsList: U[] = [];
-
-        bouts.forEach((val: [string, string | null]) => {
-            const bout: U = new type(val[0], val[1]);
-            boutsList.push(bout);
-        });
-
-        return boutsList;
+        return boutsListArr.map((val: [string, string | null]) => new type(val[0], val[1]));
     }
 
     /**

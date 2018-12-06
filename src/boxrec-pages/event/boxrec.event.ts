@@ -1,19 +1,22 @@
 import {townRegionCountryRegex} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
+import {BoxrecParseBouts} from "./boxrec.parse.bouts";
 
 const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * Used specifically for Events page and Dates page
  */
-export abstract class BoxrecEvent {
+export abstract class BoxrecEvent extends BoxrecParseBouts {
 
     protected $: CheerioStatic;
     protected _matchmaker: string | null;
 
     protected constructor(boxrecBodyString: string) {
+        super(boxrecBodyString)
         this.$ = cheerio.load(boxrecBodyString);
     }
 
@@ -203,6 +206,28 @@ export abstract class BoxrecEvent {
         return obj;
     }
 
+    protected getPeopleTable(): Cheerio {
+        return this.$("table thead table tbody tr");
+    }
+
+    protected parseEventData(role: BoxrecRole | "television" | "commission"): string {
+        let results: string | null = "";
+
+        this.getPeopleTable().each((i: number, elem: CheerioElement) => {
+            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
+            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
+
+            if (tag === role) {
+                results = val.html();
+            } else if (tag === role) {
+                // tested if `television` might actually be a BoxRec role but it isn't
+                results = val.html();
+            }
+        });
+
+        return results;
+    }
+
     // to be overridden by child class
     protected parseLocation(): string {
         throw new Error("Needs to be overridden by child class");
@@ -211,40 +236,6 @@ export abstract class BoxrecEvent {
     // to be overridden by child class
     protected parsePromoters(): string {
         throw new Error("Needs to be overridden by child class");
-    }
-
-    private parseBouts(): Array<[string, string | null]> {
-        const tr: Cheerio = this.$("table > tbody tr");
-        const bouts: Array<[string, string | null]> = [];
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = this.$(elem).attr("id");
-
-            // skip rows that are associated with the previous fight
-            if (!boutId || boutId.includes("second")) {
-                return;
-            }
-
-            // we need to check to see if the next row is associated with this bout
-            let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = this.$(elem).next();
-            let nextRowId: string = nextRow.attr("id");
-
-            if (nextRowId) {
-                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
-
-                isNextRowAssociated = nextRowId === boutId;
-                if (!isNextRowAssociated) {
-                    nextRow = null;
-                }
-            } // else if no next bout exists
-
-            const html: string = this.$(elem).html() || "";
-            const next: string | null = nextRow ? nextRow.html() : null;
-            bouts.push([html, next]);
-        });
-
-        return bouts;
     }
 
 }

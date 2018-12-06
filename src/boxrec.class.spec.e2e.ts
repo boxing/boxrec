@@ -76,7 +76,7 @@ describe("class Boxrec (E2E)", () => {
 
             // set cookie and make a request which we expect to fail
             boxrec.cookies = [];
-            expect(boxrec.getPersonById(352)).rejects.toEqual(new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls"));
+            await expect(boxrec.getPersonById(352)).rejects.toEqual(new Error("This package requires logging into BoxRec to work properly.  Please use the `login` method before any other calls"));
 
             // reset the cookie and the same request should not fail
             boxrec.cookies = tmpCookieStore;
