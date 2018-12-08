@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
-import {BoxrecPromoter} from "../event/boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecDateEvent} from "./boxrec.date.event";
 import {BoxrecPageDate} from "./boxrec.page.date";
@@ -11,11 +10,12 @@ const mockDate20181201: string = fs.readFileSync(`${boxRecMocksModulePath}/date/
 
 describe("class BoxrecPageDate", () => {
 
-    let date20100520: BoxrecPageDate, date20101201: BoxrecPageDate;
+    let date20100520: BoxrecPageDate;
+    let date20181201: BoxrecPageDate;
 
     beforeAll(() => {
         date20100520 = new BoxrecPageDate(mockDate20100520);
-        date20101201 = new BoxrecPageDate(mockDate20181201);
+        date20181201 = new BoxrecPageDate(mockDate20181201);
     });
 
     describe("getter events", () => {
@@ -58,38 +58,10 @@ describe("class BoxrecPageDate", () => {
 
             });
 
-            describe("getter promoters", () => {
-
-                it("should return an array, return values null on older dates, future dates may or not have values", () => {
-                    expect(firstEvent.promoters).toBeDefined();
-                    expect(firstEvent.promoters[0]).toBeUndefined();
-                });
-
-                describe("when promoter exists", () => {
-
-                    let promoter: BoxrecPromoter;
-
-                    beforeAll(() => {
-                        promoter = date20101201.events[3].promoters[0];
-                    });
-
-                    it("should return the promoter(s) company name", () => {
-                        expect(promoter.company).toBe("GYM Promotions");
-                    });
-
-                    it("should return the promoter(s) id", () => {
-                        expect(promoter.id).toBe(414185);
-                    });
-
-                });
-
-            });
-
             describe("getter matchmakers", () => {
 
-                it("should return an array, return values null on older dates, future dates may or not have values", () => {
-                    expect(firstEvent.matchmakers).toBeDefined();
-                    expect(firstEvent.matchmakers[0]).toBeUndefined();
+                it("should be defined but does not exist on page, should be empty array", () => {
+                    expect(firstEvent.matchmakers.length).toBe(0);
                 });
 
             });
