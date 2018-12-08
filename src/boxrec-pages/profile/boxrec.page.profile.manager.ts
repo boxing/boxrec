@@ -1,7 +1,6 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageProfileManager extends BoxrecPageProfile {
 

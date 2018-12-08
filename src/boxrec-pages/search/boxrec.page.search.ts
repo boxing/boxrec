@@ -1,7 +1,6 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
 import {BoxrecSearch} from "./boxrec.search.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * parse a BoxRec Search Results page

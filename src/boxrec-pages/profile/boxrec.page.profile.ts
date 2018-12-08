@@ -1,9 +1,8 @@
+import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 export abstract class BoxrecPageProfile {
 

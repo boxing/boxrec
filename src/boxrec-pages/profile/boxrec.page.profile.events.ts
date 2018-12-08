@@ -1,7 +1,6 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * Parses profiles that have events listed

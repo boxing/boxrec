@@ -1,13 +1,14 @@
 import * as fs from "fs";
 import {Response} from "request";
+import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
 import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
-import {Boxrec} from "./boxrec.class";
+import boxrec from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
 
@@ -16,10 +17,7 @@ const mockProfileBoxerRJJ: string = fs.readFileSync(
 const mockProfileJudgeDaveMoretti: string = fs.readFileSync(
     `${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
 
-const boxrec: Boxrec = require("./boxrec.class");
-
 jest.mock("request-promise");
-const rp: any = require("request-promise");
 
 export const getLastCall: Function = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
 const compareObjects: any = (obj: any, objToCompareTo: any) => expect(obj).toEqual(objToCompareTo);
@@ -46,6 +44,7 @@ describe("class boxrec", () => {
                     }
                 ],
                 setCookie: () => {
+                    //
                 }
             });
             await boxrec.login("", "");

@@ -1,10 +1,9 @@
+import * as cheerio from "cheerio";
 import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
 import {convertFractionsToNumber, townRegionCountryRegex, trimRemoveLineBreaks} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 const $: CheerioStatic = cheerio.load("<div></div>");
 

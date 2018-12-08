@@ -1,11 +1,10 @@
+import * as cheerio from "cheerio";
 import {townRegionCountryRegex} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 import {BoxrecParseBouts} from "./boxrec.parse.bouts";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * Used specifically for Events page and Dates page
@@ -15,7 +14,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
     protected $: CheerioStatic;
 
     protected constructor(boxrecBodyString: string) {
-        super(boxrecBodyString)
+        super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
     }
 
@@ -232,12 +231,12 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
     }
 
     // to be overridden by child class
-    protected parsePromoters(): string {
+    protected parseMatchmakers(): string {
         throw new Error("Needs to be overridden by child class");
     }
 
     // to be overridden by child class
-    protected parseMatchmakers(): string {
+    protected parsePromoters(): string {
         throw new Error("Needs to be overridden by child class");
     }
 

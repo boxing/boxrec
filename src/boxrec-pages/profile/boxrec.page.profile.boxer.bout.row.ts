@@ -1,11 +1,10 @@
+import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageProfileBoxerBoutRow {
 

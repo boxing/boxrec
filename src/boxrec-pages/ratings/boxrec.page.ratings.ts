@@ -1,6 +1,5 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * parse a BoxRec Ratings Page

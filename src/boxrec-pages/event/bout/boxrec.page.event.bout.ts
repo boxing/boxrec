@@ -1,4 +1,4 @@
-import cheerio = require("cheerio");
+import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../../helpers";

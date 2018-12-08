@@ -1,10 +1,8 @@
+import * as cheerio from "cheerio";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
-import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * parse a BoxRec Title page

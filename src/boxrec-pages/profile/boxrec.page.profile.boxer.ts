@@ -1,11 +1,10 @@
+import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {convertFractionsToNumber} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * BoxRec Boxer Profile Page

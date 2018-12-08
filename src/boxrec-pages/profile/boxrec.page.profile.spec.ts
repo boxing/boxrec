@@ -5,10 +5,10 @@ import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
-import {BoxrecPageProfileOtherCommon} from "./boxrec.page.profile.other.common";
-import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
+import {BoxrecPageProfileOtherCommon} from "./boxrec.page.profile.other.common";
+import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
 import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 

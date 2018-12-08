@@ -1,3 +1,4 @@
+import * as cheerio from "cheerio";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {
@@ -6,8 +7,6 @@ import {
     BoxrecUnformattedChampions,
     WeightDivision
 } from "./boxrec.champions.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,

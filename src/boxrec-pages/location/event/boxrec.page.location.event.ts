@@ -1,6 +1,5 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * parse a BoxRec Locate Events results page

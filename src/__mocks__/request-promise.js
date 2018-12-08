@@ -22,6 +22,7 @@ rp.jar = () => {
 };
 
 rp.cookie = () => {
+    return "cookie";
 };
 
 rp.get = () => {

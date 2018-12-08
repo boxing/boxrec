@@ -12,17 +12,16 @@ import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.pa
 import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
-import {Boxrec} from "./boxrec.class";
+import boxrec from "./boxrec.class";
 
-export const boxrec: Boxrec = require("./boxrec.class.ts");
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
 if (!BOXREC_USERNAME) {

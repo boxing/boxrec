@@ -1,8 +1,7 @@
+import * as cheerio from "cheerio";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * parse a BoxRec Venue page

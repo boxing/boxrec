@@ -1,10 +1,9 @@
+import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventLinks, Sport} from "./boxrec.event.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 export class BoxrecPageEventBoutRow {
 

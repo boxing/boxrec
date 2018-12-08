@@ -1,4 +1,4 @@
-const cheerio: CheerioAPI = require("cheerio");
+import * as cheerio from "cheerio";
 
 export abstract class BoxrecParseBouts {
 

@@ -1,5 +1,7 @@
+import * as fs from "fs";
 import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";
+import * as rp from "request-promise";
 import {Options} from "request-promise";
 import {Cookie} from "tough-cookie";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
@@ -15,8 +17,8 @@ import {
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {PersonRequestParams} from "./boxrec-pages/profile/boxrec.profile.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
@@ -35,16 +37,12 @@ import {
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 
-const fs = require("fs");
-
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
     (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol("asyncIterator");
 }
 
-const rp: any = require("request-promise");
-
-export class Boxrec {
+class Boxrec {
 
     private _cookieJar: CookieJar = rp.jar();
     private _searchParamWrap: string = "";
@@ -66,7 +64,7 @@ export class Boxrec {
      * Makes a request to get the PHPSESSID required to login
      * @returns {Promise<string[]>}
      */
-    private static async getSessionCookie(): Promise<string[]> {
+    private static async getSessionCookie(): Promise<string[] | undefined> {
         const options: Options = {
             resolveWithFullResponse: true,
             uri: "http://boxrec.com",
@@ -384,7 +382,7 @@ export class Boxrec {
         let rawCookies: string[];
 
         try {
-            rawCookies = await Boxrec.getSessionCookie();
+            rawCookies = await Boxrec.getSessionCookie() || [];
         } catch (e) {
             throw new Error("Could not get response from boxrec");
         }
@@ -393,7 +391,12 @@ export class Boxrec {
             throw new Error("Could not get cookie from initial request to boxrec");
         }
 
-        const cookie: Cookie = rp.cookie(rawCookies[0]);
+        const cookie: Cookie | undefined = rp.cookie(rawCookies[0]);
+
+        if (!cookie) {
+            throw new Error("Could not get cookie");
+        }
+
         this.cookies = [cookie];
 
         const options: Options = {
@@ -445,6 +448,7 @@ export class Boxrec {
         } else {
             throw new Error("Cookie did not have PHPSESSID and REMEMBERME");
         }
+
     }
 
     /**
@@ -651,4 +655,4 @@ export class Boxrec {
 
 }
 
-module.exports = new Boxrec();
+export default new Boxrec();

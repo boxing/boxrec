@@ -1,7 +1,6 @@
+import * as cheerio from "cheerio";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecDateEvent} from "./boxrec.date.event";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * Parse a BoxRec date page

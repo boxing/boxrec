@@ -1,7 +1,7 @@
+import * as cheerio from "cheerio";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 
-const cheerio: CheerioAPI = require("cheerio");
 let $: CheerioStatic;
 
 /**

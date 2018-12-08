@@ -1,7 +1,6 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
-
-const cheerio: CheerioAPI = require("cheerio");
 
 /**
  * BoxRec Judge/Supervisor Profile Page
