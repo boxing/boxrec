@@ -17,14 +17,9 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
-        const tr: Cheerio = this.$("#listManagedBoxers tbody tr");
-        const boxersList: string[] = [];
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = this.$(elem).html() || "";
-            boxersList.push(html);
-        });
-
-        return boxersList.map((boxerRow: string) => new BoxrecPageProfileManagerBoxerRow(boxerRow));
+        return this.$("#listManagedBoxers tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get()
+            .map(item => new BoxrecPageProfileManagerBoxerRow(item));
     }
 }

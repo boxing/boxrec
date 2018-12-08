@@ -18,15 +18,9 @@ export class BoxrecPageRatings {
     }
 
     private parseRatings(): string[] {
-        const tr: Cheerio = this.$(".dataTable tbody tr");
-        const ratings: string[] = [];
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = this.$(elem).html() || "";
-            ratings.push(html);
-        });
-
-        return ratings;
+        return this.$(".dataTable tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get();
     }
 
 }

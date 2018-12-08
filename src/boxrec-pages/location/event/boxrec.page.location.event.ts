@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import {BoxrecPageLocationPeopleRow} from "../people/boxrec.page.location.people.row";
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
 /**
@@ -14,18 +15,10 @@ export class BoxrecPageLocationEvent {
     }
 
     get events(): BoxrecPageLocationEventRow[] {
-        return this.parseLocation().map(item => new BoxrecPageLocationEventRow(item));
-    }
-
-    private parseLocation(): string[] {
-        const tr: Cheerio = this.$(".dataTable tbody tr");
-        const locations: string[] = [];
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = this.$(elem).html() || "";
-            locations.push(html);
-        });
-
-        return locations;
+        return this.$(".dataTable tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get()
+            .map(item => new BoxrecPageLocationEventRow(item));
     }
 
 }

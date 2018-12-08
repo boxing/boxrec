@@ -35,15 +35,11 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get doctors(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.doctor)}</div>`);
-        const doctors: BoxrecBasic[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(this.$.html(elem));
-            doctors.push(doctor);
-        });
-
-        return doctors;
+        return this.$(`<div>${this.parseEventData(BoxrecRole.doctor)}</div>`)
+            .find("a")
+            .map((i: number, elem: CheerioElement) => this.$.html(elem))
+            .get()
+            .map(item => BoxrecCommonTablesColumnsClass.parseNameAndId(item));
     }
 
     get id(): number {

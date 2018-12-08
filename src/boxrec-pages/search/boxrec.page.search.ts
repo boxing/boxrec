@@ -25,15 +25,9 @@ export class BoxrecPageSearch {
     }
 
     private parse(): string[] {
-        const tr: Cheerio = this.$(".dataTable tbody tr");
-        const searchResults: string[] = [];
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = this.$(elem).html() || "";
-            searchResults.push(html);
-        });
-
-        return searchResults;
+        return this.$(".dataTable tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get();
     }
 
 }

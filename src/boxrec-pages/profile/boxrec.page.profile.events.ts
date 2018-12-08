@@ -20,23 +20,10 @@ export class BoxrecPageProfileEvents extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileEventRow[]}
      */
     get events(): BoxrecPageProfileEventRow[] {
-        const events: string[] = this.parseEvents();
-        const boutsList: BoxrecPageProfileEventRow[] = [];
-        events.forEach((val: string) => boutsList.push(new BoxrecPageProfileEventRow(val)));
-
-        return boutsList;
-    }
-
-    private parseEvents(): string[] {
-        const tr: Cheerio = this.$("#listShowsResults tbody tr");
-        const eventsList: string[] = [];
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = this.$(elem).html() || "";
-            eventsList.push(html);
-        });
-
-        return eventsList;
+        return this.$("#listShowsResults tbody tr")
+            .map((index: number, elem: CheerioElement) => this.$(elem).html() || "")
+            .get() // Cheerio -> string[]
+            .map(item => new BoxrecPageProfileEventRow(item));
     }
 
 }

@@ -20,7 +20,10 @@ export class BoxrecPageVenue {
      * @returns {BoxrecPageVenueEventsRow[]} is in order of the page, events may have been inserted into BoxRec and the IDs will not always be in order
      */
     get events(): BoxrecPageVenueEventsRow[] {
-        return this.parseEvents().map(item => new BoxrecPageVenueEventsRow(item));
+        return this.$("#eventsTable tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get()
+            .map(item => new BoxrecPageVenueEventsRow(item));
     }
 
     // we're going to return the first event that has the Location object
@@ -73,18 +76,6 @@ export class BoxrecPageVenue {
         });
 
         return results;
-    }
-
-    private parseEvents(): string[] {
-        const events: string[] = [];
-        const tr: Cheerio = this.$("#eventsTable tbody tr");
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = this.$(elem).html() || "";
-            events.push(html);
-        });
-
-        return events;
     }
 
 }
