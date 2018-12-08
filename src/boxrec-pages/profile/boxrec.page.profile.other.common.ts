@@ -1,5 +1,5 @@
 import {BoxrecPageProfile} from "./boxrec.page.profile";
-import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
+import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
 
 const cheerio: CheerioAPI = require("cheerio");
 
@@ -8,7 +8,7 @@ const cheerio: CheerioAPI = require("cheerio");
  * <pre>ex. http://boxrec.com/en/judge/401002</pre>
  * <pre>ex. http://boxrec.com/en/supervisor/406714</pre>
  */
-export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
+export class BoxrecPageProfileOtherCommon extends BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
 
@@ -21,11 +21,11 @@ export class BoxrecPageProfileJudgeSupervisor extends BoxrecPageProfile {
      * Returns the bouts information for the judge/supervisor
      * is order from most recent to oldest
      * the number of columns is different of a boxer
-     * @returns {BoxrecPageProfileJudgeSupervisorBoutRow[]}
+     * @returns {BoxrecPageProfileOtherCommonBoutRow[]}
      */
-    get bouts(): BoxrecPageProfileJudgeSupervisorBoutRow[] {
+    get bouts(): BoxrecPageProfileOtherCommonBoutRow[] {
         const boutsList: Array<[string, string | null]> = super.parseBouts(this.$("#listBoutsResults tbody tr"));
-        return super.getBouts(boutsList, BoxrecPageProfileJudgeSupervisorBoutRow);
+        return super.getBouts(boutsList, BoxrecPageProfileOtherCommonBoutRow);
     }
 
 }

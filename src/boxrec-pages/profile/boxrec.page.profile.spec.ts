@@ -5,8 +5,8 @@ import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec.page.profile.judgeSupervisor";
-import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
+import {BoxrecPageProfileOtherCommon} from "./boxrec.page.profile.other.common";
+import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
@@ -27,26 +27,26 @@ describe("class BoxrecPageProfile", () => {
 
     let boxerRJJ: BoxrecPageProfileBoxer;
     let boxerGGG: BoxrecPageProfileBoxer;
-    let judgeDaveMoretti: BoxrecPageProfileJudgeSupervisor;
+    let judgeDaveMoretti: BoxrecPageProfileOtherCommon;
     let doctorAnthonyRuggeroli: BoxrecPageProfileEvents;
     let promoterLeonardEllerbe: BoxrecPageProfilePromoter;
-    let refereeRobertByrd: BoxrecPageProfileJudgeSupervisor;
+    let refereeRobertByrd: BoxrecPageProfileOtherCommon;
     let inspectorMichaelBuchato: BoxrecPageProfileEvents;
     let managerMichaelMcSorleyJr: BoxrecPageProfileManager;
     let matchmakerVeliPekkaMaeki: BoxrecPageProfileEvents;
-    let supervisorSammyMacias: BoxrecPageProfileJudgeSupervisor;
+    let supervisorSammyMacias: BoxrecPageProfileOtherCommon;
 
     beforeAll(() => {
         boxerRJJ = new BoxrecPageProfileBoxer(mockProfileBoxerRJJ);
         boxerGGG = new BoxrecPageProfileBoxer(mockProfileBoxerGGG);
-        judgeDaveMoretti = new BoxrecPageProfileJudgeSupervisor(mockProfileJudgeDaveMoretti);
+        judgeDaveMoretti = new BoxrecPageProfileOtherCommon(mockProfileJudgeDaveMoretti);
         doctorAnthonyRuggeroli = new BoxrecPageProfileEvents(mockProfileDoctorAnthonyRuggeroli);
         promoterLeonardEllerbe = new BoxrecPageProfilePromoter(mockProfilePromoterLeonardEllerbe);
-        refereeRobertByrd = new BoxrecPageProfileJudgeSupervisor(mockProfileRefereeRobertByrd);
+        refereeRobertByrd = new BoxrecPageProfileOtherCommon(mockProfileRefereeRobertByrd);
         inspectorMichaelBuchato = new BoxrecPageProfileEvents(mockProfileInspectorMichaelBuchato);
         managerMichaelMcSorleyJr = new BoxrecPageProfileManager(mockProfileManagerMichaelMcSorleyJr);
         matchmakerVeliPekkaMaeki = new BoxrecPageProfileEvents(mockProfileMatchmakerVeliPekkaMaeki);
-        supervisorSammyMacias = new BoxrecPageProfileJudgeSupervisor(mockProfileSupervisorSammyMacias);
+        supervisorSammyMacias = new BoxrecPageProfileOtherCommon(mockProfileSupervisorSammyMacias);
     });
 
     describe("getter name", () => {
@@ -356,9 +356,9 @@ describe("class BoxrecPageProfile", () => {
     describe("getter bouts", () => {
 
         let gggCanelo: BoxrecPageProfileBoxerBoutRow;
-        let judgeDaveMorettiLatestBout: BoxrecPageProfileJudgeSupervisorBoutRow;
-        let refereeRobertByrdLatestBout: BoxrecPageProfileJudgeSupervisorBoutRow;
-        let supervisorSammyMaciasLatestBout: BoxrecPageProfileJudgeSupervisorBoutRow;
+        let judgeDaveMorettiLatestBout: BoxrecPageProfileOtherCommonBoutRow;
+        let refereeRobertByrdLatestBout: BoxrecPageProfileOtherCommonBoutRow;
+        let supervisorSammyMaciasLatestBout: BoxrecPageProfileOtherCommonBoutRow;
 
         beforeAll(() => {
             gggCanelo = boxerGGG.bouts[37];

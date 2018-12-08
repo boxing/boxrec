@@ -21,8 +21,20 @@ export class BoxrecDateEvent extends BoxrecEvent {
         return this.$("h2").html() as string;
     }
 
+    /**
+     * Returns string format of promoters to be parsed by parent class
+     * @returns {string}
+     */
     protected parsePromoters(): string {
         return this.parseEventData(BoxrecRole.promoter);
+    }
+
+    /**
+     * Returns string format of matchmaker to be parsed by parent class
+     * @returns {string}
+     */
+    protected parseMatchmakers(): string {
+        return this.parseEventData(BoxrecRole.matchmaker);
     }
 
     private parseId(): string {

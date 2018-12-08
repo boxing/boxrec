@@ -12,7 +12,7 @@ import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.pa
 import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
@@ -353,8 +353,8 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPersonById", () => {
 
-        const boxers: Map<number, BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = new Map();
-        const getBoxer: Function = (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
+        const boxers: Map<number, BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = new Map();
+        const getBoxer: Function = (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
 
         beforeAll(async () => {
             await boxers.set(352, await boxrec.getPersonById(352)); // Floyd Mayweather Jr.
@@ -467,10 +467,10 @@ describe("class Boxrec (E2E)", () => {
 
         describe("where role is judge", () => {
 
-            let judge: BoxrecPageProfileJudgeSupervisor;
+            let judge: BoxrecPageProfileOtherCommon;
 
             beforeAll(async () => {
-                judge = await boxrec.getPersonById(401615, BoxrecRole.judge) as BoxrecPageProfileJudgeSupervisor;
+                judge = await boxrec.getPersonById(401615, BoxrecRole.judge) as BoxrecPageProfileOtherCommon;
             });
 
             it("should return the person's information", () => {
@@ -674,8 +674,8 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPeopleByName", () => {
 
-        let results: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
-        let nextResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
+        let results: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
+        let nextResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
 
         beforeAll(async () => {
             results = await boxrec.getPeopleByName("Floyd", "Mayweather");
@@ -683,14 +683,14 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return Floyd Sr. and then Floyd Jr.", async () => {
-            let boxer: IteratorResult<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await results.next();
+            let boxer: IteratorResult<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await results.next();
             expect(boxer.value.globalId).toEqual(15480);
             boxer = await results.next();
             expect(boxer.value.globalId).toEqual(352);
         });
 
         it("should return different results if `offset` is used", async () => {
-            const boxer: IteratorResult<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await nextResults.next();
+            const boxer: IteratorResult<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await nextResults.next();
             // we expect only one page when searching Floyd Mayweather
             expect(boxer.value).toBeUndefined();
             expect(boxer.done).toBe(true);

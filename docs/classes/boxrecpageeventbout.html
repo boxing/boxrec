@@ -98,7 +98,6 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#_" class="tsd-kind-icon">$</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#_matchmaker" class="tsd-kind-icon">_matchmaker</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -152,6 +151,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#parsebouts" class="tsd-kind-icon">parse<wbr>Bouts</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#parseeventdata" class="tsd-kind-icon">parse<wbr>Event<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#parselocation" class="tsd-kind-icon">parse<wbr>Location</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#parsematchmakers" class="tsd-kind-icon">parse<wbr>Matchmakers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected"><a href="boxrecpageeventbout.html#parsepromoters" class="tsd-kind-icon">parse<wbr>Promoters</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-static"><a href="boxrecpageeventbout.html#getlocationinformation" class="tsd-kind-icon">get<wbr>Location<wbr>Information</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-static"><a href="boxrecpageeventbout.html#getvenueinformation" class="tsd-kind-icon">get<wbr>Venue<wbr>Information</a></li>
@@ -201,17 +201,6 @@
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="_matchmaker" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _matchmaker</h3>
-					<div class="tsd-signature tsd-kind-icon">_matchmaker<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#_matchmaker">_matchmaker</a></p>
-						<ul>
-							<li>Defined in boxrec-pages/event/boxrec.event.ts:16</li>
-						</ul>
-					</aside>
-				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
@@ -226,7 +215,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#bouts">bouts</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/event/boxrec.event.ts:23</li>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:22</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="boxrecpageeventboutrow.html" class="tsd-signature-type">BoxrecPageEventBoutRow</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -660,7 +649,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#promoters">promoters</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/event/boxrec.event.ts:69</li>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:67</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/boxrecpromoter.html" class="tsd-signature-type">BoxrecPromoter</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -997,7 +986,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#parseeventdata">parseEventData</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/event/boxrec.event.ts:213</li>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:211</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1021,7 +1010,25 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#parselocation">parseLocation</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/event/boxrec.event.ts:232</li>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:230</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="parsematchmakers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> parse<wbr>Matchmakers</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Matchmakers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#parsematchmakers">parseMatchmakers</a></p>
+								<ul>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:240</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1058,7 +1065,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#getlocationinformation">getLocationInformation</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/event/boxrec.event.ts:148</li>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:146</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1082,7 +1089,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="boxrecevent.html">BoxrecEvent</a>.<a href="boxrecevent.html#getvenueinformation">getVenueInformation</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/event/boxrec.event.ts:188</li>
+									<li>Defined in boxrec-pages/event/boxrec.event.ts:186</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1117,9 +1124,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected">
 								<a href="boxrecpageeventbout.html#_" class="tsd-kind-icon">$</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="boxrecpageeventbout.html#_matchmaker" class="tsd-kind-icon">_matchmaker</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="boxrecpageeventbout.html#bouts" class="tsd-kind-icon">bouts</a>
@@ -1249,6 +1253,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="boxrecpageeventbout.html#parselocation" class="tsd-kind-icon">parse<wbr>Location</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="boxrecpageeventbout.html#parsematchmakers" class="tsd-kind-icon">parse<wbr>Matchmakers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected">
 								<a href="boxrecpageeventbout.html#parsepromoters" class="tsd-kind-icon">parse<wbr>Promoters</a>

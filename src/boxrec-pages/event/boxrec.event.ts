@@ -13,7 +13,6 @@ const cheerio: CheerioAPI = require("cheerio");
 export abstract class BoxrecEvent extends BoxrecParseBouts {
 
     protected $: CheerioStatic;
-    protected _matchmaker: string | null;
 
     protected constructor(boxrecBodyString: string) {
         super(boxrecBodyString)
@@ -47,8 +46,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
     }
 
     get matchmakers(): BoxrecBasic[] {
-        const test: string | null = this._matchmaker;
-        const html: Cheerio = this.$(`<div>${test}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseMatchmakers()}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
@@ -235,6 +233,11 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
 
     // to be overridden by child class
     protected parsePromoters(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    // to be overridden by child class
+    protected parseMatchmakers(): string {
         throw new Error("Needs to be overridden by child class");
     }
 

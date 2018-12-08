@@ -5,7 +5,7 @@ import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.ro
 
 const cheerio: CheerioAPI = require("cheerio");
 
-export class BoxrecPageProfileJudgeSupervisorBoutRow {
+export class BoxrecPageProfileOtherCommonBoutRow {
 
     private readonly $: CheerioStatic;
 

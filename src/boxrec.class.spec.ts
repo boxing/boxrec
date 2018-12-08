@@ -4,7 +4,7 @@ import {Cookie} from "tough-cookie";
 import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec-pages/profile/boxrec.page.profile.judgeSupervisor";
+import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {Boxrec} from "./boxrec.class";
@@ -229,7 +229,7 @@ describe("class boxrec", () => {
     describe("method getPeopleByName", () => {
 
         it("should return a generator of boxers it found", async () => {
-            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await boxrec.getPeopleByName("test", "test");
+            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await boxrec.getPeopleByName("test", "test");
             expect(searchResults.next()).toBeDefined();
         });
 
@@ -238,7 +238,7 @@ describe("class boxrec", () => {
             spy.mockReturnValue(Promise.resolve(mockProfileBoxerRJJ));
             const getSpy: SpyInstance = jest.spyOn(boxrec, "getPersonById");
             jest.spyOn(boxrec, "search").mockReturnValueOnce([{id: 999}, {id: 888}]);
-            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileJudgeSupervisor | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await boxrec.getPeopleByName("test", "test");
+            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await boxrec.getPeopleByName("test", "test");
             expect(getSpy).toHaveBeenCalledTimes(0);
             await searchResults.next(); // makes an API call
             expect(getSpy).toHaveBeenCalledTimes(1);
