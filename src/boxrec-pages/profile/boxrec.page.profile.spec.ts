@@ -351,6 +351,15 @@ describe("class BoxrecPageProfile", () => {
 
         });
 
+        describe("getter links", () => {
+
+            // todo should return an object
+            it("should be defined", () => {
+                expect(leonardEllerbeEvent.links).toBeDefined();
+            });
+
+        });
+
     });
 
     describe("getter bouts", () => {

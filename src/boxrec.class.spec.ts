@@ -78,7 +78,6 @@ describe("class boxrec", () => {
                 request: any;
             }
 
-            // todo should be done better
             const emptyUriPathName: MiniReponse | Partial<Response> = {
                 request: {
                     uri: {
@@ -304,7 +303,6 @@ describe("class boxrec", () => {
         it("should make a GET request to http://boxrec.com/en/venue/555", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             await boxrec.getVenueById(555);
-            // todo get qs param
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/venue/555");
         });
 

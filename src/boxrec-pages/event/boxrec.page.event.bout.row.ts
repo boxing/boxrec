@@ -44,7 +44,7 @@ export class BoxrecPageEventBoutRow {
     }
 
     // not the exact same as the other page links
-    get links(): BoxrecEventLinks { // object of strings
+    get links(): BoxrecEventLinks {
         const column: number = this.isEventPage ? 15 : 12;
         const linksStr: string = this.getColumnData(column, 0, true);
 

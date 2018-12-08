@@ -1,52 +1,39 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, Location} from "../boxrec.constants";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {Location} from "../boxrec.constants";
+import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
 
-export class BoxrecPageProfileEventRow {
+// used for profiles other than boxers
+export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
 
-    private readonly $: CheerioStatic;
+    protected readonly $: CheerioStatic;
+
+    protected getVenueColumnData(): Cheerio {
+        return this.$(`<div>${this.getColumnData(2)}</div>`);
+    }
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
+        super(html);
         this.$ = cheerio.load(html);
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(getColumnData(this.$, 1, false));
+        return trimRemoveLineBreaks(this.getColumnData(1, false));
     }
 
+    // todo should return object
     get links(): string {
-        // todo does this even work?
-        return getColumnData(this.$, 4);
+        return this.getColumnData(4);
     }
 
     get location(): Location {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 3));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(this.getColumnData(3));
     }
 
     get metadata(): string | null {
         return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
-    }
-
-    // todo same as another we can remove this
-    get venue(): BoxrecBasic {
-        const html: Cheerio = this.$(`<div>${getColumnData(this.$, 2)}</div>`);
-        const venue: BoxrecBasic = {
-            id: null,
-            name: null,
-        };
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
-            if (href) {
-                venue.name = this.$(elem).text();
-                venue.id = parseInt(href[1], 10);
-            }
-
-        });
-
-        return venue;
     }
 
 }
