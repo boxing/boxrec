@@ -60,6 +60,20 @@ class Boxrec {
         return this._searchParamWrap;
     }
 
+    private static buildResultsSchedulesParams<T>(params: T, offset: number): T {
+        const qs: any = {};
+
+        for (const i in params) {
+            if (params.hasOwnProperty(i)) {
+                (qs as any)[`c[${i}]`] = (params as any)[i];
+            }
+        }
+
+        qs.offset = offset;
+
+        return qs as T;
+    }
+
     /**
      * Makes a request to get the PHPSESSID required to login
      * @returns {Promise<string[]>}
@@ -248,25 +262,6 @@ class Boxrec {
     }
 
     /**
-     * Downloads the PDF of a profile
-     * @param {number} globalId
-     * @param {BoxrecRole} role
-     * @returns {Promise<BoxrecPageRatings>}
-     */
-    async getPersonByIdPDF(globalId: number, role: BoxrecRole = BoxrecRole.boxer): Promise<Buffer> {
-        const uri: string = `http://boxrec.com/en/${role}/${globalId}?pdf=y`;
-
-        return rp.get({
-            encoding: null,
-            headers: {
-                "Content-type": "application/pdf",
-            },
-            jar: this._cookieJar,
-            uri,
-        });
-    }
-
-    /**
      * Makes a request to BoxRec to get a list of ratings/rankings, either P4P or by a single weight class
      * @param {BoxrecRatingsParams} params      params included in this search
      * @param {number} offset                   the number of rows to offset the search
@@ -283,9 +278,9 @@ class Boxrec {
         qs.offset = offset;
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
             qs,
             uri: "http://boxrec.com/en/ratings",
-            jar: this._cookieJar,
         });
 
         return new BoxrecPageRatings(boxrecPageBody);
@@ -296,13 +291,13 @@ class Boxrec {
      * Uses same class
      * @param {BoxrecResultsParams} params  params included in this search
      * @param {number} offset               the number of rows to offset this search
-     * @returns {Promise<BoxrecPageResults>}
+     * @returns {Promise<BoxrecPageSchedule>}
      */
     async getResults(params: BoxrecResultsParams, offset: number = 0): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
 
         const qs: BoxrecResultsParamsTransformed =
-            this.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
+            Boxrec.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
@@ -323,7 +318,7 @@ class Boxrec {
         this.checkIfLoggedIntoBoxRec();
 
         const qs: BoxrecResultsParamsTransformed =
-            this.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
+            Boxrec.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
@@ -476,30 +471,20 @@ class Boxrec {
         }
 
         for (const i in params) {
-            (qs as any)[`${searchParamWrap}[${i}]`] = (params as any)[i];
+            if (params.hasOwnProperty(i)) {
+                (qs as any)[`${searchParamWrap}[${i}]`] = (params as any)[i];
+            }
         }
 
         qs.offset = offset;
 
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            qs,
             jar: this._cookieJar,
+            qs,
             uri: "http://boxrec.com/en/search",
         });
 
         return new BoxrecPageSearch(boxrecPageBody).results;
-    }
-
-    private buildResultsSchedulesParams<T>(params: any, offset: number): T {
-        const qs: any = {};
-
-        for (const i in params) {
-            (qs as any)[`c[${i}]`] = (params as any)[i];
-        }
-
-        qs.offset = offset;
-
-        return qs as T;
     }
 
     /**

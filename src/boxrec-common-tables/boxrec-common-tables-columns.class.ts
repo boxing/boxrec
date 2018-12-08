@@ -411,21 +411,4 @@ export abstract class BoxrecCommonTablesColumnsClass {
         return formattedWeight;
     }
 
-    /**
-     * @hidden
-     */
-    private parseNumberOfRounds(htmlString: string): Array<number | null> {
-        let numberOfRounds: Array<number | null> = [null, null];
-
-        const splitRounds: string[] = htmlString.trim().split("/");
-        const formattedSplitRounds: number[] = splitRounds.map(item => parseInt(item, 10));
-        if (formattedSplitRounds.length === 2) {
-            numberOfRounds = formattedSplitRounds;
-        } else if (formattedSplitRounds.length === 1 && !isNaN(formattedSplitRounds[0])) {
-            numberOfRounds = [null, formattedSplitRounds[0]];
-        }
-
-        return numberOfRounds;
-    }
-
 }

@@ -8,7 +8,7 @@ export abstract class BoxrecPageProfile {
 
     protected readonly $: CheerioStatic;
 
-    constructor(boxrecBodyString: string) {
+    protected constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
@@ -128,6 +128,7 @@ export abstract class BoxrecPageProfile {
 
     /**
      * Returns bout information in an array
+     * @param boutsListArr  Array of bouts
      * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): U}} type  this variable is a class that is instantiated
      * a class is passed in and an array of that instantiated class is passed back
      * https://blog.rsuter.com/how-to-instantiate-a-generic-type-in-typescript/

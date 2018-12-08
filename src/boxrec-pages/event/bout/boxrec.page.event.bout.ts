@@ -299,15 +299,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         return null;
     }
 
-    /**
-     * Used to get the string of the table row which is promoter, matchmaker, doctors, etc.
-     * @param {string} textToFind
-     * @returns {string | null}
-     */
-    private parseBottomDoctorPromoterRows(textToFind: string = ""): string | null {
-        return this.findColumnByText(textToFind).parent().next().html();
-    }
-
     private parseBoutOutcome(): BoutPageBoutOutcome {
         const outcome: BoutPageBoutOutcome = {
             boxer: {

@@ -2,8 +2,6 @@ import * as cheerio from "cheerio";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 
-let $: CheerioStatic;
-
 /**
  * BoxRec Results/Schedule Page
  * <pre>ex. http://boxrec.com/en/schedule?c%5BcountryCode%5D=&c%5Bdivision%5D=Light+Middleweight&c%5Btv%5D=&c_go=</pre>

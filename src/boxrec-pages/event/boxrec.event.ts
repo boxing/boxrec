@@ -156,7 +156,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         const locationMatches: RegExpMatchArray | null = links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
 
         if (locationMatches) {
-            const [, country, region, townId] = locationMatches;
+            const [, , , townId] = locationMatches;
 
             if (townId) {
                 locationObject.id = parseInt(townId, 10);
