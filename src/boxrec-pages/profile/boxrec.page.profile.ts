@@ -2,13 +2,15 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
+import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
-export abstract class BoxrecPageProfile {
+export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
     protected readonly $: CheerioStatic;
 
     protected constructor(boxrecBodyString: string) {
+        super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
     }
 
@@ -144,36 +146,7 @@ export abstract class BoxrecPageProfile {
      * @hidden
      */
     protected parseBouts(tr: Cheerio): Array<[string, string | null]> {
-        const boutsList: Array<[string, string | null]> = [];
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = this.$(elem).attr("id");
-
-            // skip rows that are associated with the previous fight
-            if (boutId.includes("second")) {
-                return;
-            }
-
-            // we need to check to see if the next row is associated with this bout
-            let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = this.$(elem).next();
-            let nextRowId: string = nextRow.attr("id");
-
-            if (nextRowId) {
-                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
-
-                isNextRowAssociated = nextRowId === boutId;
-                if (!isNextRowAssociated) {
-                    nextRow = null;
-                }
-            } // else if no next bout exists
-
-            const html: string = this.$(elem).html() || "";
-            const next: string | null = nextRow ? nextRow.html() : null;
-            boutsList.push([html, next]);
-        });
-
-        return boutsList;
+        return this.returnBouts(tr);
     }
 
     /**

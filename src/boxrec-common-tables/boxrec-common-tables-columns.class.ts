@@ -78,10 +78,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
             const matches: RegExpMatchArray | null = href.match(/judge\/(\d+)$/);
 
             if (matches && matches[1]) {
-                const id: number = parseInt(matches[1], 10);
-                let name: string = $(elem).text();
-                name = trimRemoveLineBreaks(name);
-
+                const {id, name} = BoxrecCommonTablesColumnsClass.parseIdAndName(elem, matches);
                 const scoreCardRegex: RegExp = /<\/a>\s(\d{1,3})-(\d{1,3})/g;
                 const scorecard: number[] = [];
 
@@ -332,7 +329,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
      */
     static parseReferee(htmlString: string): BoxrecBasic {
         const html: Cheerio = $(`<div>${htmlString}</div>`);
-        const referee: BoxrecBasic = {
+        let referee: BoxrecBasic = {
             id: null,
             name: null,
         };
@@ -342,12 +339,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
             const matches: RegExpMatchArray | null = href.match(/referee\/(\d+)$/);
 
             if (matches && matches[1]) {
-                const id: number = parseInt(matches[1], 10);
-                let name: string = $(elem).text();
-                name = trimRemoveLineBreaks(name);
-
-                referee.id = id;
-                referee.name = name;
+                referee = BoxrecCommonTablesColumnsClass.parseIdAndName(elem, matches);
             }
         });
 
@@ -409,6 +401,17 @@ export abstract class BoxrecCommonTablesColumnsClass {
         }
 
         return formattedWeight;
+    }
+
+    private static parseIdAndName(elem: CheerioElement, matches: RegExpMatchArray): BoxrecBasic {
+        const id: number = parseInt(matches[1], 10);
+        let name: string = $(elem).text();
+        name = trimRemoveLineBreaks(name);
+
+        return {
+            id,
+            name,
+        };
     }
 
 }

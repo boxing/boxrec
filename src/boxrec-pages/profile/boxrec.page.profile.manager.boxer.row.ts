@@ -4,6 +4,7 @@ import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
+// used for boxer rows under a manager
 export class BoxrecPageProfileManagerBoxerRow {
 
     private readonly $: CheerioStatic;

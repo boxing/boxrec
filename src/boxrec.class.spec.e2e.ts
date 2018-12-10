@@ -85,15 +85,6 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
-    describe("method getPersonByIdPDF", () => {
-
-        it("should get the PDF of a profile", async () => {
-            const dannyGarcia: Buffer = await boxrec.getPersonByIdPDF(429442);
-            expect(dannyGarcia).toBeDefined();
-        });
-
-    });
-
     describe("method getBout", () => {
 
         let caneloKhanBout: BoxrecPageEventBout;

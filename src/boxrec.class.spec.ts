@@ -86,6 +86,23 @@ describe("class boxrec", () => {
                 },
             };
 
+            // creates a spy with only 1 of 2 required keys and then sets the expect condition
+            const cookieTest: any = async (key: "REMEMBERME" | "PHPSESSID"): Promise<any> => {
+                const spy: SpyInstance = jest.spyOn(rp, "jar");
+                spy.mockReturnValueOnce({
+                    getCookies: () => [
+                        {
+                            key,
+                        },
+                    ],
+                    setCookie: () => {
+                        //
+                    }
+                });
+
+                await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
+            };
+
             it("should make a POST request to http://boxrec.com/en/login", async () => {
                 const spy: SpyInstance = jest.spyOn(rp, "post");
                 await boxrec.login("", "");
@@ -116,33 +133,11 @@ describe("class boxrec", () => {
             });
 
             it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "jar");
-                spy.mockReturnValueOnce({
-                    getCookies: () => [
-                        {
-                            key: "REMEMBERME",
-                        },
-                    ],
-                    setCookie: () => {
-                        //
-                    }
-                });
-                await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
+                await cookieTest("REMEMBERME");
             });
 
             it("should throw if after successfully logging in the cookie does not include REMEMBERME", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "jar");
-                spy.mockReturnValueOnce({
-                    getCookies: () => [
-                        {
-                            key: "PHPSESSID",
-                        },
-                    ],
-                    setCookie: () => {
-                        //
-                    }
-                });
-                await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
+                await cookieTest("PHPSESSID");
             });
 
         });
