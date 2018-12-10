@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
@@ -88,8 +89,14 @@ describe("class BoxrecPageProfile", () => {
 
     describe("getter role", () => {
 
-        it("should return a string of the person's roles", () => {
-            expect(boxerRJJ.role).toBe("boxer promoter");
+        it("should return an object of the person's roles", () => {
+            expect(boxerRJJ.role).toEqual([{
+                id: 774820,
+                name: BoxrecRole.boxer,
+            }, {
+                id: 774820,
+                name: BoxrecRole.promoter,
+            }]);
         });
 
     });

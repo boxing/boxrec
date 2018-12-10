@@ -3,7 +3,8 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
-import {BoxrecProfileTable} from "./boxrec.profile.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
+import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
 
 export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
@@ -96,17 +97,58 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
-     * Returns the entire string of roles this person has
-     * @returns {string | null}
+     * Returns an array of BoxRec roles in order by the role name
+     * Contains all ids as there may be a possibility of different ids
+     * @returns {BoxrecProfileRole[]}
      */
-    get role(): string | null {
-        const role: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text(); // todo if boxer is promoter as well, should return promoter link
+    get role(): BoxrecProfileRole[] {
+        const role: string | null = `<div>${this.$(this.parseProfileTableData(BoxrecProfileTable.role))}</div>`;
+        const rolesStr: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text();
+        const rolesWithLinks: BoxrecProfileRole[] = [];
 
         if (role) {
-            return role;
+            const rolesStrSplit: string[] = rolesStr.split(" ");
+
+            this.$(role).find("a").each((index: number, elem: CheerioElement) => {
+                const hrefMatches: RegExpMatchArray | null = elem.attribs.href.match(/(\d+)$/);
+                const type: string = this.$(elem).text();
+
+                if (hrefMatches && type) {
+                    rolesWithLinks.push({
+                        id: parseInt(hrefMatches[1], 10),
+                        name: type as BoxrecRole,
+                    });
+                }
+            }).get();
+
+            // if a boxer is a boxer and promoter, and it's the boxer's profile page.  The `boxer` text will just be text and not a link
+            // loop through and convert any to links as well.  There should only be one that is text
+            for (const roleName of rolesStrSplit) {
+                const found: boolean = !!rolesWithLinks.find(item => item.name === roleName);
+
+                if (!found) {
+                    rolesWithLinks.push({
+                        id: this.globalId,
+                        name: roleName as BoxrecRole,
+                    });
+                }
+            }
+
+            // sort so `name` is in order
+            rolesWithLinks.sort((a: BoxrecProfileRole, b: BoxrecProfileRole) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                return 0;
+            });
         }
 
-        return null;
+        return rolesWithLinks;
     }
 
     /**
@@ -154,7 +196,6 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @hidden
      */
     protected parseProfileTableData(keyToRetrieve?: BoxrecProfileTable): string | void {
-        // todo this should be looking for td:nth-child(1) and :contains
         const tableRow: Cheerio = this.profileTableBody.find(`tr:contains("${keyToRetrieve}")`);
         const val: string | null = tableRow.find("td:nth-child(2)").html();
 

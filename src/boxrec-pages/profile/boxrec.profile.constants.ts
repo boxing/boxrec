@@ -1,4 +1,5 @@
 import {BoxrecBout} from "../boxrec.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 
 export interface BoxrecProfile {
     KOs: number | null;
@@ -72,4 +73,9 @@ export interface PersonRequestParams {
     pdf?: "y";
     print?: "y";
     toggleRatings?: "y"; // hard coded but this value doesn't actually matter to BoxRec
+}
+
+export interface BoxrecProfileRole {
+    id: number | null;
+    name: BoxrecRole;
 }
