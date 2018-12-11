@@ -289,20 +289,6 @@ export abstract class BoxrecCommonTablesColumnsClass {
         return rating;
     }
 
-    /*    static parseBoxerRating(rating: string): Array<number | null> {
-            const ratings: Array<number | null> = [null, null];
-            const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
-                .replace(/,/g, "")
-                .match(/^(\d{1,5})&#x279E;(\d{1,5})$/);
-
-            if (ratingsMatch) {
-                ratings[0] = parseInt(ratingsMatch[1], 10);
-                ratings[1] = parseInt(ratingsMatch[2], 10);
-            }
-
-            return ratings;
-        }*/
-
     static parseRecord(htmlString: string): Record {
         const record: Record = {
             draw: null,

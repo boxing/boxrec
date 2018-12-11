@@ -123,7 +123,10 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         return judges;
     }
 
-    // todo can we use the parse method?
+    /**
+     * Returns a number of rounds sanctioned for this bout if it has that number
+     * @returns {number | null}
+     */
     get numberOfRounds(): number | null {
         const numberOfRounds: string = this.parseDivision("numberOfRounds");
         if (numberOfRounds) {
@@ -133,13 +136,19 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         return null;
     }
 
-    // todo this is different than the other `outcome` getters?
     get outcome(): BoutPageBoutOutcome {
         return this.parseBoutOutcome();
     }
 
     get rating(): number | null {
-        return this.parse();
+        let starRating: string | null = this.$(".starRating").parent().html();
+        if (starRating) {
+            starRating = `<div>${starRating}</div>`;
+
+            return BoxrecCommonTablesColumnsClass.parseRating(starRating);
+        }
+
+        return null;
     }
 
     get referee(): BoxrecBasic {
@@ -285,18 +294,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             loss: parseInt(lost, 10),
             win: parseInt(won, 10),
         };
-    }
-
-    private parse(): number | null {
-        // rating
-        let starRating: string | null = this.$(".starRating").parent().html();
-        if (starRating) {
-            starRating = `<div>${starRating}</div>`;
-
-            return BoxrecCommonTablesColumnsClass.parseRating(starRating);
-        }
-
-        return null;
     }
 
     private parseBoutOutcome(): BoutPageBoutOutcome {
@@ -560,7 +557,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             }
 
             const dateStr: string = this.$.html(table.find("td:nth-child(2) a"));
-            // todo this is kind of abuse of this method but it works
             const date: string | null = BoxrecCommonTablesColumnsClass.parseNameAndId(dateStr).name;
 
             if (isFirstBoxer) {
