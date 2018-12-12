@@ -202,7 +202,8 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     }
 
     /**
-     * Returns the boxer's overall BoxRec rating
+     * Returns the boxer's BoxRec star rating
+     * this is not their ranking in their division or in their country
      * @returns {number | null}
      */
     get rating(): number | null {

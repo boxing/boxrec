@@ -13,6 +13,7 @@ import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.c
 import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
+// todo this is a mess.  This file needs to be broken up better
 const mockProfileBoxerRJJ: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
 const mockProfileBoxerGGG: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerGGG.html`, "utf8");
 const mockProfileJudgeDaveMoretti: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
@@ -75,6 +76,14 @@ describe("class BoxrecPageProfile", () => {
 
         it("should return the judge globalId", () => {
             expect(judgeDaveMoretti.globalId).toBe(401002);
+        });
+
+    });
+
+    describe("getter rating", () => {
+
+        it("should return the boxer's star rating", () => {
+            expect(boxerGGG.rating).toEqual(jasmine.any(Number));
         });
 
     });
@@ -360,9 +369,12 @@ describe("class BoxrecPageProfile", () => {
 
         describe("getter links", () => {
 
-            // todo should return an object
-            it("should be defined", () => {
-                expect(leonardEllerbeEvent.links).toBeDefined();
+            it("should return an object with `event` in it", () => {
+                expect(leonardEllerbeEvent.links).toEqual(
+                    {
+                        event: 778241,
+                    }
+                );
             });
 
         });
@@ -385,6 +397,27 @@ describe("class BoxrecPageProfile", () => {
 
         it("should have bouts for people other than boxers", () => {
             expect(judgeDaveMoretti.bouts.length).toBeGreaterThan(0);
+        });
+
+        describe("getter links", () => {
+
+            it("should return an object of links", () => {
+                expect(supervisorSammyMaciasLatestBout.links).toEqual({
+                    bio_open: 2056855,
+                    bout: 2056855,
+                    event: 726555,
+                    other: [],
+                });
+            });
+
+        });
+
+        describe("getter rating", () => {
+
+            it("should return the rating of the bout", () => {
+                expect(gggCanelo.rating).toBe(100);
+            });
+
         });
 
         describe("getter date", () => {

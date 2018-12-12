@@ -1,8 +1,10 @@
 import * as cheerio from "cheerio";
+import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
+import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
 
 // used for profiles other than boxers
 export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
@@ -13,7 +15,7 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
         return this.$(`<div>${this.getColumnData(2)}</div>`);
     }
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+    protected constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         super(html);
         this.$ = cheerio.load(html);
@@ -23,9 +25,23 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
         return trimRemoveLineBreaks(this.getColumnData(1, false));
     }
 
-    // todo should return object
-    get links(): string {
-        return this.getColumnData(4);
+    get links(): BoxrecProfileEventLinks {
+        const linksStr: string = `<div>${this.getColumnData(4)}</div>`;
+        const html: Cheerio = this.$(linksStr);
+        const obj: BoxrecProfileEventLinks = {
+            event: null,
+        };
+
+        html.find("a").each((i: number, elem: CheerioElement) => {
+            const div: Cheerio = this.$(elem).find("div");
+            const href: string = this.$(elem).attr("href");
+            const classAttr: string = div.attr("class");
+            const hrefArr: string[] = classAttr.split(" ");
+
+            return BoxrecCommonLinks.parseLinks<BoxrecProfileEventLinks>(hrefArr, href, obj);
+        });
+
+        return obj;
     }
 
     get location(): Location {

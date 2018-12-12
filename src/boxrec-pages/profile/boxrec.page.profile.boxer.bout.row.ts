@@ -4,7 +4,7 @@ import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
-import {BoxrecProfileBoutLinks, BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
+import {BoxrecProfileBoutLocation, BoxrecProfileBoxerBoutLinks} from "./boxrec.profile.constants";
 
 export class BoxrecPageProfileBoxerBoutRow {
 
@@ -54,10 +54,10 @@ export class BoxrecPageProfileBoxerBoutRow {
     }
 
     // returns an object with keys that contain a class other than `clickableIcon`
-    get links(): BoxrecProfileBoutLinks { // object of strings
+    get links(): BoxrecProfileBoxerBoutLinks { // object of strings
         const linksStr: string = getColumnData(this.$, 16, true);
         const html: Cheerio = this.$(linksStr);
-        const obj: BoxrecProfileBoutLinks = {
+        const obj: BoxrecProfileBoxerBoutLinks = {
             bio_open: null,
             bout: null,
             event: null,
@@ -119,7 +119,7 @@ export class BoxrecPageProfileBoxerBoutRow {
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 14));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 15));
     }
 
     get referee(): BoxrecBasic {

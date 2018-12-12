@@ -62,6 +62,19 @@ describe("class BoxrecPageSearch", () => {
 
             });
 
+            describe("getter links", () => {
+
+                it("should return an object", () => {
+                    expect(mostRecentBout.links).toEqual({
+                        bio_closed: 2289611,
+                        bout: "777131/2289611",
+                        event: 777131,
+                        other: []
+                    });
+                });
+
+            });
+
             describe("getter firstBoxer", () => {
 
                 it("should include the name and id of the first boxer", () => {

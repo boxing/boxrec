@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-import {BoxrecPageLocationPeopleRow} from "../people/boxrec.page.location.people.row";
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
 /**

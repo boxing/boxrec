@@ -3,6 +3,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, Location, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
+import {BoxrecProfileBoxerBoutLinks} from "./boxrec.profile.constants";
 
 export class BoxrecPageProfileOtherCommonBoutRow {
 
@@ -36,7 +37,41 @@ export class BoxrecPageProfileOtherCommonBoutRow {
 
     // todo does this work, what is it?
     get links(): string {
-        return getColumnData(this.$, 15);
+        const html: Cheerio = this.$(getColumnData(this.$, 14));
+        const obj: BoxrecProfileBoxerBoutLinks = {
+            bio_open: null,
+            bout: null,
+            event: null,
+            other: [], // any other links we'll throw the whole href attribute in here
+        };
+
+        html.find("a").each((i: number, elem: CheerioElement) => {
+            const div: Cheerio = this.$(elem).find("div");
+            const href: string = this.$(elem).attr("href");
+            const classAttr: string = div.attr("class");
+            const hrefArr: string[] = classAttr.split(" ");
+
+            hrefArr.forEach(cls => {
+                if (cls !== "primaryIcon" && cls !== "clickableIcon") {
+                    const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
+                    if (matches && matches[1] && matches[1] !== "other") {
+
+                        let formattedCls: string = cls;
+                        // for some reason they add a `P` to the end of the class name, we will remove it
+                        if (cls.slice(-1) === "P") {
+                            formattedCls = cls.slice(0, -1);
+                        }
+
+                        (obj as any)[formattedCls] = parseInt(matches[1], 10);
+                    } else {
+                        (obj as any).other.push(href);
+                    }
+                }
+            });
+        });
+
+        return obj;
+
     }
 
     get location(): Location {
