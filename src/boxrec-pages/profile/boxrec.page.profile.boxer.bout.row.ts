@@ -4,14 +4,20 @@ import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
-import {BoxrecProfileBoutLocation, BoxrecProfileBoxerBoutLinks} from "./boxrec.profile.constants";
+import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
+import {BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
-export class BoxrecPageProfileBoxerBoutRow {
+export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
-    private readonly $: CheerioStatic;
+    protected readonly $: CheerioStatic;
+
+    protected parseLinks(): Cheerio {
+        return this.$(getColumnData(this.$, 16, true));
+    }
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
+        super(html);
         this.$ = cheerio.load(html);
     }
 
@@ -51,45 +57,6 @@ export class BoxrecPageProfileBoxerBoutRow {
         }
 
         return [];
-    }
-
-    // returns an object with keys that contain a class other than `clickableIcon`
-    get links(): BoxrecProfileBoxerBoutLinks { // object of strings
-        const linksStr: string = getColumnData(this.$, 16, true);
-        const html: Cheerio = this.$(linksStr);
-        const obj: BoxrecProfileBoxerBoutLinks = {
-            bio_open: null,
-            bout: null,
-            event: null,
-            other: [], // any other links we'll throw the whole href attribute in here
-        };
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const div: Cheerio = this.$(elem).find("div");
-            const href: string = this.$(elem).attr("href");
-            const classAttr: string = div.attr("class");
-            const hrefArr: string[] = classAttr.split(" ");
-
-            hrefArr.forEach(cls => {
-                if (cls !== "primaryIcon") {
-                    const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-                    if (matches && matches[1] && matches[1] !== "other") {
-
-                        let formattedCls: string = cls;
-                        // for some reason they add a `P` to the end of the class name, we will remove it
-                        if (cls.slice(-1) === "P") {
-                            formattedCls = cls.slice(0, -1);
-                        }
-
-                        (obj as any)[formattedCls] = parseInt(matches[1], 10);
-                    } else {
-                        (obj as any).other.push(href);
-                    }
-                }
-            });
-        });
-
-        return obj;
     }
 
     get location(): BoxrecProfileBoutLocation {

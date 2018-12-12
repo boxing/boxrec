@@ -15,7 +15,7 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
         return this.$(`<div>${this.getColumnData(2)}</div>`);
     }
 
-    protected constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         super(html);
         this.$ = cheerio.load(html);

@@ -2,7 +2,7 @@ export class BoxrecCommonLinks {
 
     static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
         hrefArr.forEach((cls: string) => {
-            if (cls !== "primaryIcon") {
+            if (cls !== "primaryIcon" && cls !== "clickableIcon") {
                 const matches: RegExpMatchArray | null = href.match(/([\d\/]+)$/);
                 if (matches && matches[1] && matches[1] !== "other") {
 
@@ -12,8 +12,13 @@ export class BoxrecCommonLinks {
                         formattedCls = cls.slice(0, -1);
                     }
 
+                    // check if it contains "/" but is not the first character
                     if (matches[1].includes("/")) {
-                        (obj as any)[formattedCls] = matches[1].substring(1);
+                        const formattedMatch: string = matches[1].substring(1);
+                        const numberOfSlashes: RegExpMatchArray | null = matches[1].match(/(\/)/g);
+
+                        // if there are more than 1 slash, it's a string otherwise we've stripped it off and can make it a number
+                        (obj as any)[formattedCls] = numberOfSlashes && numberOfSlashes.length > 1 ? formattedMatch : parseInt(formattedMatch, 10);
                     } else {
                         (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     }
