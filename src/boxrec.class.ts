@@ -56,7 +56,7 @@ class Boxrec {
         cookiesArr.forEach(item => this._cookieJar.setCookie(item, "http://boxrec.com"));
     }
 
-    get searchParamWrap(): string {
+    private get searchParamWrap(): string {
         return this._searchParamWrap;
     }
 
@@ -331,14 +331,14 @@ class Boxrec {
 
     /**
      * Makes a request to BoxRec to the specific title URL to get a belt's history
-     * @param {string} titleUrl     in the format of "6/Middleweight" which would be the WBC Middleweight title
+     * @param {string} titleId      in the format of "6/Middleweight" which would be the WBC Middleweight title
      * @param {number} offset       the number of rows to offset the search
      * @returns {Promise<BoxrecPageTitle>}
      */
-    async getTitle(titleUrl: string = "", offset: number = 0): Promise<BoxrecPageTitle> {
+    async getTitleById(titleId: string, offset: number = 0): Promise<BoxrecPageTitle> {
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
-            uri: `http://boxrec.com/en/title/${titleUrl}`,
+            uri: `http://boxrec.com/en/title/${titleId}`,
         });
 
         return new BoxrecPageTitle(boxrecPageBody);

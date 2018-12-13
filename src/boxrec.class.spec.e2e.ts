@@ -895,13 +895,13 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
-    describe("method getTitle", () => {
+    describe("method getTitleById", () => {
 
         const WBCMiddleweightEndpoint: string = "6/Middleweight";
         let WBCMiddleweightResult: BoxrecPageTitle;
 
         beforeAll(async () => {
-            WBCMiddleweightResult = await boxrec.getTitle(WBCMiddleweightEndpoint);
+            WBCMiddleweightResult = await boxrec.getTitleById(WBCMiddleweightEndpoint);
         });
 
         describe("getter name", () => {

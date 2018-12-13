@@ -1,3 +1,7 @@
+### Fixed
+
+- Typescript and typings now working properly
+
 ## 0.19.0 (2018-11-26)
 
 ### Added

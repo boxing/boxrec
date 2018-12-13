@@ -257,13 +257,13 @@ boxrec.getRatings({
     };
 ```
 
-### [getTitle](https://boxing.github.io/boxrec/classes/boxrec.html#gettitle)
+### [getTitleById](https://boxing.github.io/boxrec/classes/boxrec.html#gettitlebyid)
 ##### Get title information including all bouts that occurred for this title
 ```javascript
 
 // WBC Middleweight information
 // to get this parameter, the link is on a boxer's profile
-await boxrec.getTitle("6/Middleweight");
+await boxrec.getTitleById("6/Middleweight");
 ````
 
 ### [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf)

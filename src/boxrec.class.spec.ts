@@ -283,11 +283,11 @@ describe("class boxrec", () => {
 
     });
 
-    describe("method getTitle", () => {
+    describe("method getTitleById", () => {
 
         it("should make a GET request to http://boxrec.cox/en/title/${title}", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getTitle("6/Middleweight");
+            await boxrec.getTitleById("6/Middleweight");
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/title/6/Middleweight");
         });
 
