@@ -35,6 +35,12 @@ import {
     BoxrecStatus
 } from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
+import {
+    BoxrecTitlesParams,
+    BoxrecTitlesParamsTransformed,
+    WeightDivisionCapitalized
+} from "./boxrec-pages/titles/boxrec.page.title.constants";
+import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
@@ -186,7 +192,9 @@ class Boxrec {
         const qs: BoxrecLocationEventParams = {};
 
         for (const i in params) {
-            (qs as any)[`l[${i}]`] = (params as any)[i];
+            if (params.hasOwnProperty(i)) {
+                (qs as any)[`l[${i}]`] = (params as any)[i];
+            }
         }
 
         qs.offset = offset;
@@ -211,7 +219,9 @@ class Boxrec {
         const qs: BoxrecLocationsPeopleParamsTransformed = {};
 
         for (const i in params) {
-            (qs as any)[`l[${i}]`] = (params as any)[i];
+            if (params.hasOwnProperty(i)) {
+                (qs as any)[`l[${i}]`] = (params as any)[i];
+            }
         }
 
         qs.offset = offset;
@@ -272,7 +282,9 @@ class Boxrec {
         const qs: BoxrecRatingsParamsTransformed = {};
 
         for (const i in params) {
-            (qs as any)[`r[${i}]`] = (params as any)[i];
+            if (params.hasOwnProperty(i)) {
+                (qs as any)[`r[${i}]`] = (params as any)[i];
+            }
         }
 
         qs.offset = offset;
@@ -331,17 +343,39 @@ class Boxrec {
 
     /**
      * Makes a request to BoxRec to the specific title URL to get a belt's history
-     * @param {string} titleId      in the format of "6/Middleweight" which would be the WBC Middleweight title
+     * @param {string} titleString  in the format of "6/Middleweight" which would be the WBC Middleweight title
      * @param {number} offset       the number of rows to offset the search
      * @returns {Promise<BoxrecPageTitle>}
      */
-    async getTitleById(titleId: string, offset: number = 0): Promise<BoxrecPageTitle> {
+    async getTitleById(titleString: string, offset: number = 0): Promise<BoxrecPageTitle> {
         const boxrecPageBody: RequestResponse["body"] = await rp.get({
             jar: this._cookieJar,
-            uri: `http://boxrec.com/en/title/${titleId}`,
+            uri: `http://boxrec.com/en/title/${titleString}`,
         });
 
         return new BoxrecPageTitle(boxrecPageBody);
+    }
+
+    async getTitles(params: BoxrecTitlesParams, offset: number = 0): Promise<any> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const qs: BoxrecTitlesParamsTransformed = {};
+
+        for (const i in params) {
+            if (params.hasOwnProperty(i)) {
+                (qs as any)[`WcX[${i}]`] = (params as any)[i];
+            }
+        }
+
+        qs.offset = offset;
+
+        const boxrecPageBody: RequestResponse["body"] = await rp.get({
+            jar: this._cookieJar,
+            qs,
+            uri: `http://boxrec.com/en/titles`,
+        });
+
+        return new BoxrecPageTitles(boxrecPageBody);
     }
 
     /**

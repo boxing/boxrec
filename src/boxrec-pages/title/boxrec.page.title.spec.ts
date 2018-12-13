@@ -104,20 +104,13 @@ describe("class BoxrecPageSearch", () => {
 
             describe("getter location", () => {
 
-                it("should include the town", () => {
-                    expect(mostRecentBout.location.town).not.toBeNull();
-                });
-
-                it("should include the region", () => {
-                    expect(mostRecentBout.location.region).not.toBeNull();
-                });
-
-                it("should include the country", () => {
-                    expect(mostRecentBout.location.country).not.toBeNull();
-                });
-
-                it("should include the id", () => {
-                    expect(mostRecentBout.location.id).not.toBeNull();
+                it("should be a location object", () => {
+                    expect(mostRecentBout.location).toEqual({
+                        country: jasmine.any(String),
+                        id: jasmine.any(Number),
+                        region: jasmine.any(String),
+                        town: jasmine.any(String),
+                    });
                 });
 
             });

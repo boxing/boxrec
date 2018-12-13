@@ -8,6 +8,7 @@ import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profil
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
+import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import boxrec from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
@@ -403,6 +404,23 @@ describe("class boxrec", () => {
 
         it("should save the file with `.html` file type", async () => {
             testFileWrite("getBoxerPrint", "./foo", null, "./foo/555.html");
+        });
+
+    });
+
+    describe("method getTitles", () => {
+
+        it("should wrap passed in parameters with `WcX`", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.getTitles({
+                bout_title: 72,
+                division: WeightDivisionCapitalized.superMiddleweight,
+            });
+            expect(getLastCall(spy, "qs")).toEqual({
+                "WcX[bout_title]": 72,
+                "WcX[division]": WeightDivisionCapitalized.superMiddleweight,
+                "offset": 0,
+            });
         });
 
     });

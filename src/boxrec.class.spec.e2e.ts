@@ -19,6 +19,9 @@ import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
+import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title.constants";
+import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
+import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import boxrec from "./boxrec.class";
 
@@ -964,6 +967,40 @@ describe("class Boxrec (E2E)", () => {
                     expect(mostRecentWBCBout.numberOfRounds[1]).toBeGreaterThan(0);
                 });
 
+            });
+
+        });
+
+    });
+
+    describe("method getTitles", () => {
+
+        let titleBouts: BoxrecPageTitles;
+
+        beforeAll(async () => {
+            titleBouts = await boxrec.getTitles({
+                bout_title: 322,
+                division: WeightDivisionCapitalized.welterweight,
+            });
+        });
+
+        describe("getter bouts", () => {
+
+            let firstBout: BoxrecPageTitlesRow;
+
+            beforeAll(() => {
+                firstBout = titleBouts.bouts[0];
+            });
+
+            it("should include the date", () => {
+                expect(firstBout.date).toMatch(/\d{4}\-\d{2}\-\d{2}/);
+            });
+
+            it("should include the rounds", () => {
+                expect(firstBout.numberOfRounds).toEqual([
+                    jasmine.any([Number]),
+                    jasmine.any([Number]),
+                ]);
             });
 
         });
