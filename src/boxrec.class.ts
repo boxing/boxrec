@@ -1,8 +1,8 @@
+import BoxrecRequests from "boxrec-requests";
 import * as fs from "fs";
 import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";
 import * as rp from "request-promise";
-import {Options} from "request-promise";
 import {Cookie} from "tough-cookie";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
@@ -10,10 +10,7 @@ import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.b
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {
-    BoxrecLocationsPeopleParams,
-    BoxrecLocationsPeopleParamsTransformed,
-} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecLocationsPeopleParams,} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
@@ -22,8 +19,8 @@ import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.p
 import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {PersonRequestParams} from "./boxrec-pages/profile/boxrec.profile.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
-import {BoxrecRatingsParams, BoxrecRatingsParamsTransformed} from "./boxrec-pages/ratings/boxrec.ratings.constants";
-import {BoxrecResultsParams, BoxrecResultsParamsTransformed} from "./boxrec-pages/results/boxrec.results.constants";
+import {BoxrecRatingsParams} from "./boxrec-pages/ratings/boxrec.ratings.constants";
+import {BoxrecResultsParams} from "./boxrec-pages/results/boxrec.results.constants";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
@@ -31,15 +28,10 @@ import {
     BoxrecRole,
     BoxrecSearch,
     BoxrecSearchParams,
-    BoxrecSearchParamsTransformed,
     BoxrecStatus
 } from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
-import {
-    BoxrecTitlesParams,
-    BoxrecTitlesParamsTransformed,
-    WeightDivisionCapitalized
-} from "./boxrec-pages/titles/boxrec.page.title.constants";
+import {BoxrecTitlesParams,} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 
@@ -51,7 +43,6 @@ if (typeof (Symbol as any).asyncIterator === "undefined") {
 class Boxrec {
 
     private _cookieJar: CookieJar = rp.jar();
-    private _searchParamWrap: string = "";
 
     get cookies(): Cookie[] {
         return this._cookieJar.getCookies("http://boxrec.com");
@@ -62,37 +53,6 @@ class Boxrec {
         cookiesArr.forEach(item => this._cookieJar.setCookie(item, "http://boxrec.com"));
     }
 
-    private get searchParamWrap(): string {
-        return this._searchParamWrap;
-    }
-
-    private static buildResultsSchedulesParams<T>(params: T, offset: number): T {
-        const qs: any = {};
-
-        for (const i in params) {
-            if (params.hasOwnProperty(i)) {
-                (qs as any)[`c[${i}]`] = (params as any)[i];
-            }
-        }
-
-        qs.offset = offset;
-
-        return qs as T;
-    }
-
-    /**
-     * Makes a request to get the PHPSESSID required to login
-     * @returns {Promise<string[]>}
-     */
-    private static async getSessionCookie(): Promise<string[] | undefined> {
-        const options: Options = {
-            resolveWithFullResponse: true,
-            uri: "http://boxrec.com",
-        };
-
-        return rp.get(options).then((data: RequestResponse) => data.headers["set-cookie"]);
-    }
-
     /**
      * Makes a request to BoxRec to get information about an individual bout
      * @param {string} eventBoutId
@@ -100,11 +60,7 @@ class Boxrec {
      */
     async getBout(eventBoutId: string): Promise<BoxrecPageEventBout> {
         this.checkIfLoggedIntoBoxRec();
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            uri: `http://boxrec.com/en/event/${eventBoutId}`,
-        });
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getBout(this._cookieJar, eventBoutId);
 
         return new BoxrecPageEventBout(boxrecPageBody);
     }
@@ -137,11 +93,7 @@ class Boxrec {
      */
     async getChampions(): Promise<BoxrecPageChampions> {
         this.checkIfLoggedIntoBoxRec();
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            uri: "http://boxrec.com/en/champions",
-        });
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getChampions(this._cookieJar);
 
         return new BoxrecPageChampions(boxrecPageBody);
     }
@@ -153,14 +105,7 @@ class Boxrec {
      */
     async getDate(dateString: string): Promise<BoxrecPageDate> {
         this.checkIfLoggedIntoBoxRec();
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs: {
-                data: "dateString",
-            },
-            uri: `http://boxrec.com/en/date`,
-        });
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getDate(this._cookieJar, dateString);
 
         return new BoxrecPageDate(boxrecPageBody);
     }
@@ -172,11 +117,7 @@ class Boxrec {
      */
     async getEventById(eventId: number): Promise<BoxrecPageEvent> {
         this.checkIfLoggedIntoBoxRec();
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            uri: `http://boxrec.com/en/event/${eventId}`,
-        });
+        const boxrecPageBody: RequestResponse["body"] = BoxrecRequests.getEventById(this._cookieJar, eventId);
 
         return new BoxrecPageEvent(boxrecPageBody);
     }
@@ -189,21 +130,8 @@ class Boxrec {
      */
     async getEventsByLocation(params: BoxrecLocationEventParams, offset: number = 0): Promise<BoxrecPageLocationEvent> {
         this.checkIfLoggedIntoBoxRec();
-        const qs: BoxrecLocationEventParams = {};
-
-        for (const i in params) {
-            if (params.hasOwnProperty(i)) {
-                (qs as any)[`l[${i}]`] = (params as any)[i];
-            }
-        }
-
-        qs.offset = offset;
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: `http://boxrec.com/en/locations/event`,
-        });
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getEventsByLocation(this._cookieJar, params, offset);
 
         return new BoxrecPageLocationEvent(boxrecPageBody);
     }
@@ -216,21 +144,8 @@ class Boxrec {
      */
     async getPeopleByLocation(params: BoxrecLocationsPeopleParams, offset: number = 0): Promise<BoxrecPageLocationPeople> {
         this.checkIfLoggedIntoBoxRec();
-        const qs: BoxrecLocationsPeopleParamsTransformed = {};
-
-        for (const i in params) {
-            if (params.hasOwnProperty(i)) {
-                (qs as any)[`l[${i}]`] = (params as any)[i];
-            }
-        }
-
-        qs.offset = offset;
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: `http://boxrec.com/en/locations/people`,
-        });
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getPeopleByLocation(this._cookieJar, params, offset);
 
         return new BoxrecPageLocationPeople(boxrecPageBody);
     }
@@ -268,7 +183,32 @@ class Boxrec {
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
     async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
-        return this.makeGetPersonByIdRequest(globalId, role, offset);
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getPersonById(this._cookieJar, globalId, role, offset);
+
+        // there are 9 roles on the BoxRec website
+        // the differences are that the boxers have 2 more columns `last6` for each boxer
+        // the judge and others don't have those columns
+        // the doctor and others have `events`
+        // manager is unique in that the table is a list of boxers that they manage
+        switch (role) {
+            case BoxrecRole.boxer:
+                return new BoxrecPageProfileBoxer(boxrecPageBody);
+            case BoxrecRole.judge:
+            case BoxrecRole.supervisor:
+            case BoxrecRole.referee:
+                return new BoxrecPageProfileOtherCommon(boxrecPageBody);
+            case BoxrecRole.promoter:
+                return new BoxrecPageProfilePromoter(boxrecPageBody);
+            case BoxrecRole.doctor:
+            case BoxrecRole.inspector:
+            case BoxrecRole.matchmaker:
+                return new BoxrecPageProfileEvents(boxrecPageBody);
+            case BoxrecRole.manager:
+                return new BoxrecPageProfileManager(boxrecPageBody);
+        }
+
+        // by default we'll use the boxer profile so at least some of the data will be returned
+        return new BoxrecPageProfileBoxer(boxrecPageBody);
     }
 
     /**
@@ -279,21 +219,7 @@ class Boxrec {
      */
     async getRatings(params: BoxrecRatingsParams, offset: number = 0): Promise<BoxrecPageRatings> {
         this.checkIfLoggedIntoBoxRec();
-        const qs: BoxrecRatingsParamsTransformed = {};
-
-        for (const i in params) {
-            if (params.hasOwnProperty(i)) {
-                (qs as any)[`r[${i}]`] = (params as any)[i];
-            }
-        }
-
-        qs.offset = offset;
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: "http://boxrec.com/en/ratings",
-        });
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getRatings(this._cookieJar, params, offset);
 
         return new BoxrecPageRatings(boxrecPageBody);
     }
@@ -307,15 +233,8 @@ class Boxrec {
      */
     async getResults(params: BoxrecResultsParams, offset: number = 0): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
-
-        const qs: BoxrecResultsParamsTransformed =
-            Boxrec.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: "http://boxrec.com/en/results",
-        });
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getResults(this._cookieJar, params, offset);
 
         return new BoxrecPageSchedule(boxrecPageBody);
     }
@@ -328,15 +247,8 @@ class Boxrec {
      */
     async getSchedule(params: BoxrecScheduleParams, offset: number = 0): Promise<BoxrecPageSchedule> {
         this.checkIfLoggedIntoBoxRec();
-
-        const qs: BoxrecResultsParamsTransformed =
-            Boxrec.buildResultsSchedulesParams<BoxrecResultsParamsTransformed>(params, offset);
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: "http://boxrec.com/en/schedule",
-        });
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getSchedule(this._cookieJar, params, offset);
 
         return new BoxrecPageSchedule(boxrecPageBody);
     }
@@ -348,32 +260,15 @@ class Boxrec {
      * @returns {Promise<BoxrecPageTitle>}
      */
     async getTitleById(titleString: string, offset: number = 0): Promise<BoxrecPageTitle> {
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            uri: `http://boxrec.com/en/title/${titleString}`,
-        });
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getTitleById(this._cookieJar, titleString, offset);
 
         return new BoxrecPageTitle(boxrecPageBody);
     }
 
     async getTitles(params: BoxrecTitlesParams, offset: number = 0): Promise<any> {
         this.checkIfLoggedIntoBoxRec();
-
-        const qs: BoxrecTitlesParamsTransformed = {};
-
-        for (const i in params) {
-            if (params.hasOwnProperty(i)) {
-                (qs as any)[`WcX[${i}]`] = (params as any)[i];
-            }
-        }
-
-        qs.offset = offset;
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: `http://boxrec.com/en/titles`,
-        });
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getTitles(this._cookieJar, params, offset);
 
         return new BoxrecPageTitles(boxrecPageBody);
     }
@@ -386,14 +281,8 @@ class Boxrec {
      */
     async getVenueById(venueId: number, offset: number = 0): Promise<BoxrecPageVenue> {
         this.checkIfLoggedIntoBoxRec();
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs: {
-                offset,
-            },
-            uri: `http://boxrec.com/en/venue/${venueId}`,
-        });
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getVenueById(this._cookieJar, venueId, offset);
 
         return new BoxrecPageVenue(boxrecPageBody);
     }
@@ -408,76 +297,7 @@ class Boxrec {
      * @returns {Promise<void>}     If the response is undefined, you have successfully logged in.  Otherwise an error will be thrown
      */
     async login(username: string, password: string): Promise<void> {
-        let rawCookies: string[];
-
-        try {
-            rawCookies = await Boxrec.getSessionCookie() || [];
-        } catch (e) {
-            throw new Error("Could not get response from boxrec");
-        }
-
-        if (!rawCookies || !rawCookies[0]) {
-            throw new Error("Could not get cookie from initial request to boxrec");
-        }
-
-        const cookie: Cookie | undefined = rp.cookie(rawCookies[0]);
-
-        if (!cookie) {
-            throw new Error("Could not get cookie");
-        }
-
-        this.cookies = [cookie];
-
-        const options: Options = {
-            followAllRedirects: true, // 302 redirect occurs
-            formData: {
-                "_password": password,
-                "_remember_me": "on",
-                "_target_path": "http://boxrec.com", // not required,
-                "_username": username,
-                "login[go]": "", // not required
-            },
-            jar: this._cookieJar,
-            resolveWithFullResponse: true,
-            url: "http://boxrec.com/en/login", // boxrec does not support HTTPS
-        };
-
-        try {
-            await rp.post(options)
-                .then((data: RequestResponse) => {
-
-                    let errorMessage: string = "";
-
-                    // if the user hasn't given consent, the user is redirected to a user that contains `gdpr`
-                    if (data.request.uri.pathname.includes("gdpr") || data.body.toLowerCase().includes("gdpr")) {
-                        errorMessage = "GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account";
-                    }
-
-                    // the following are when login has failed
-                    // an unsuccessful login returns a 200, we'll look for phrases to determine the error
-                    if (data.body.includes("your password is incorrect")) {
-                        errorMessage = "Your password is incorrect";
-                    }
-
-                    if (data.body.includes("username does not exist")) {
-                        errorMessage = "Username does not exist";
-                    }
-
-                    if (data.statusCode !== 200 || errorMessage !== "") {
-                        throw new Error(errorMessage);
-                    }
-
-                });
-        } catch (e) {
-            throw new Error(e);
-        }
-
-        if (this.hasRequiredCookiesForLogIn()) {
-            return; // success
-        } else {
-            throw new Error("Cookie did not have PHPSESSID and REMEMBERME");
-        }
-
+        this._cookieJar = await BoxrecRequests.login(username, password);
     }
 
     /**
@@ -489,34 +309,7 @@ class Boxrec {
      */
     async search(params: BoxrecSearchParams, offset: number = 0): Promise<BoxrecSearch[]> {
         this.checkIfLoggedIntoBoxRec();
-
-        if (!params.first_name && !params.last_name) {
-            // BoxRec says 2 or more characters, it's actually 3 or more
-            throw new Error("Requires `first_name` or `last_name` - minimum 3 characters long");
-        }
-
-        const qs: BoxrecSearchParamsTransformed = {};
-        let searchParamWrap: string = this.searchParamWrap;
-
-        // if the `searchParamWrap` var is empty we fetch it again
-        // this may occur if the user doesn't login but sets the cookie
-        if (!searchParamWrap.length) {
-            searchParamWrap = await this.getSearchParamWrap();
-        }
-
-        for (const i in params) {
-            if (params.hasOwnProperty(i)) {
-                (qs as any)[`${searchParamWrap}[${i}]`] = (params as any)[i];
-            }
-        }
-
-        qs.offset = offset;
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri: "http://boxrec.com/en/search",
-        });
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.search(this._cookieJar, params, offset);
 
         return new BoxrecPageSearch(boxrecPageBody).results;
     }
@@ -543,19 +336,15 @@ class Boxrec {
         this.checkIfLoggedIntoBoxRec();
 
         const qs: PersonRequestParams = {};
+        let boxrecPageBody: RequestResponse["body"];
 
         if (type === "pdf") {
             qs.pdf = "y";
+            boxrecPageBody = await BoxrecRequests.getBoxerPDF(this._cookieJar, globalId, pathToSaveTo, fileName);
         } else {
             qs.print = "y";
+            boxrecPageBody = await BoxrecRequests.getBoxerPrint(this._cookieJar, globalId, pathToSaveTo, fileName);
         }
-
-        const boxrecPageBody: RequestResponse["body"] = rp.get({
-            followAllRedirects: true,
-            jar: this._cookieJar,
-            qs,
-            uri: `http://boxrec.com/en/boxer/${globalId}`
-        });
 
         if (pathToSaveTo) {
             let fileNameToSaveAs: string;
@@ -579,16 +368,6 @@ class Boxrec {
         return boxrecPageBody;
     }
 
-    private async getSearchParamWrap(): Promise<string> {
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            uri: "http://boxrec.com/en/search",
-        });
-
-        this.setSearchParamWrap(boxrecPageBody);
-        return this.searchParamWrap;
-    }
-
     /**
      * Checks cookie jar to see if all required cookies are set
      * this does not necessarily mean the session is logged in
@@ -604,72 +383,6 @@ class Boxrec {
         });
 
         return !requiredCookies.length;
-    }
-
-    private async makeGetPersonByIdRequest(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0, callWithToggleRatings: boolean = false): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
-        this.checkIfLoggedIntoBoxRec();
-        const uri: string = `http://boxrec.com/en/${role}/${globalId}`;
-        const qs: PersonRequestParams = {
-            offset,
-        };
-
-        if (callWithToggleRatings) {
-            qs.toggleRatings = "y";
-        }
-
-        const boxrecPageBody: RequestResponse["body"] = await rp.get({
-            jar: this._cookieJar,
-            qs,
-            uri,
-        });
-
-        let boxrecProfile: BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter;
-
-        // there are 9 roles on the BoxRec website
-        // the differences are that the boxers have 2 more columns `last6` for each boxer
-        // the judge and others don't have those columns
-        // the doctor and others have `events`
-        // manager is unique in that the table is a list of boxers that they manage
-        switch (role) {
-            case BoxrecRole.boxer:
-                boxrecProfile = new BoxrecPageProfileBoxer(boxrecPageBody);
-                break;
-            case BoxrecRole.judge:
-            case BoxrecRole.supervisor:
-            case BoxrecRole.referee:
-                boxrecProfile = new BoxrecPageProfileOtherCommon(boxrecPageBody);
-                break;
-            case BoxrecRole.promoter:
-                return new BoxrecPageProfilePromoter(boxrecPageBody);
-            case BoxrecRole.doctor:
-            case BoxrecRole.inspector:
-            case BoxrecRole.matchmaker:
-                return new BoxrecPageProfileEvents(boxrecPageBody);
-            case BoxrecRole.manager:
-                return new BoxrecPageProfileManager(boxrecPageBody);
-            default:
-                throw new Error("could not match one of the `BoxrecRole`");
-        }
-
-        // this is not applicable to all roles
-        // the roles that return and don't have `bouts` on their profile page will never hit this point
-        if (boxrecProfile.bouts && boxrecProfile.bouts[0].hasBoxerRatings) {
-            return boxrecProfile;
-        }
-
-        // calls itself with the toggle for `toggleRatings=y`
-        return this.makeGetPersonByIdRequest(globalId, role, offset, true);
-    }
-
-    /**
-     * Sets the dynamic search param on BoxRec to prevent further errors
-     * It would be nice to get this from any page but the Navbar search is a POST and not as predictable as the search box one on the search page
-     * @param {string} bodyHTML     needs to be the body of the "search" page
-     * @returns {string}
-     */
-    private setSearchParamWrap(bodyHTML: string): string {
-        this._searchParamWrap = new BoxrecPageSearch(bodyHTML).searchBoxParam;
-        return this.searchParamWrap;
     }
 
 }

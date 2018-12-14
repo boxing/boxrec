@@ -13,14 +13,6 @@ describe("class BoxrecPageSearch", () => {
         searchResults = new BoxrecPageSearch(mockSearchResults);
     });
 
-    describe("getter searchBoxParam", () => {
-
-        it("should not be empty", () => {
-            expect(searchResults.searchBoxParam.length).toBeGreaterThan(0);
-        });
-
-    });
-
     describe("getter results", () => {
 
         it("should return an array of search results", () => {

@@ -711,6 +711,13 @@ boom@5.x.x:
   version "0.8.3"
   resolved "https://github.com/boxing/boxrec-mocks#e2124b160d899f191078a1c17cc5c607d22001b2"
 
+boxrec-requests@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-1.0.0.tgz#d9243c97dbfe2b218c422056265bc3d255c6d94f"
+  integrity sha512-78b6haiKJAuAW62WqwcVfy2so8TwD9/8UWouK1MUzax4KrzccttEuh7CRI2xpSkGoYNFaUhJ327dszZoIi9Jqg==
+  dependencies:
+    request-promise "^4.2.2"
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"

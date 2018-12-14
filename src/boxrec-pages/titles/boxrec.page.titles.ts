@@ -1,6 +1,5 @@
 import * as cheerio from "cheerio";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
-import {BoxrecPageTitleRow} from "../title/boxrec.page.title.row";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 
 /**

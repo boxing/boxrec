@@ -18,12 +18,6 @@ export class BoxrecPageSearch {
         return this.parse().map(item => new BoxrecPageSearchRow(item));
     }
 
-    // takes the search page HTML and gets the dynamic param from the "Find People" box
-    get searchBoxParam(): string {
-        // lazy search in case the structure changes
-        return this.$("h2:contains('Find People')").parents("td").find("form").attr("name");
-    }
-
     private parse(): string[] {
         return this.$(".dataTable tbody tr")
             .map((i: number, elem: CheerioElement) => this.$(elem).html())

@@ -3,7 +3,8 @@ import {boxRecMocksModulePath} from "../boxrec.constants";
 import {BoxrecPageTitles} from "./boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 
-const mockTitlesSuperMiddleweight: string = fs.readFileSync(`${boxRecMocksModulePath}/titles/mockTitlesSuperMiddleweight.html`, "utf8");
+const mockTitlesSuperMiddleweight: string =
+    fs.readFileSync(`${boxRecMocksModulePath}/titles/mockTitlesSuperMiddleweight.html`, "utf8");
 
 describe("class BoxrecPageTitles", () => {
 

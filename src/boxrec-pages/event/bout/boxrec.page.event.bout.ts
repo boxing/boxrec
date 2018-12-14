@@ -367,8 +367,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             text = trimRemoveLineBreaks(text); // found there was a line break at the end of this text and double spaces
             let height: number[] | null = null;
 
-            text = trimRemoveLineBreaks(text);
-
             if (text) {
                 // todo this regex is very close to `boxrec.page.profile` but there were some differences
                 // this regex was built off GGG Canelo 1 Bout // 5′ 10½″   /   179cm

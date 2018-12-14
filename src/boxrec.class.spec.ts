@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import {Response} from "request";
 import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
 import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
@@ -20,129 +19,126 @@ const mockProfileJudgeDaveMoretti: string = fs.readFileSync(
 
 jest.mock("request-promise");
 
-export const getLastCall: Function = (spy: any, type = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
+export const getLastCall: (spy: SpyInstance, type?: any) => any =
+    (spy: SpyInstance, type: any = "uri") => spy.mock.calls[spy.mock.calls.length - 1][0][type];
 const compareObjects: any = (obj: any, objToCompareTo: any) => expect(obj).toEqual(objToCompareTo);
 // for testing the file writing of `getBoxerPDF` and `getBoxerPrint`
-const testFileWrite: any = async (method: "getBoxerPDF" | "getBoxerPrint", pathToSaveTo: string, fileName: string, pathFileName: string) => {
-    const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
-    await boxrec[method](555, pathToSaveTo, fileName);
-    return expect(spyStream).toHaveBeenCalledWith(pathFileName);
-};
+const testFileWrite: any =
+    async (method: "getBoxerPDF" | "getBoxerPrint", pathToSaveTo: string, fileName: string, pathFileName: string) => {
+        const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
+        await boxrec[method](555, pathToSaveTo, fileName);
+        return expect(spyStream).toHaveBeenCalledWith(pathFileName);
+    };
 
 describe("class boxrec", () => {
 
-    describe("method login", () => {
+    afterAll(async () => {
+        const spy: SpyInstance = jest.spyOn(rp, "jar");
+        spy.mockReturnValueOnce({
+            getCookies: () => [
+                {
+                    key: "PHPSESSID",
+                },
+                {
+                    key: "REMEMBERME",
+                }
+            ],
+            setCookie: () => {
+                //
+            }
+        });
+        await boxrec.login("", "");
+    });
 
-        afterAll(async () => {
+    describe("getting PHPSESSID", () => {
+
+        it("should make a GET request to http://boxrec.com to get the PHPSESSID", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            await boxrec.login("", "");
+            expect(spy.mock.calls[0][0].uri).toBe("http://boxrec.com");
+        });
+
+        it("should throw if it could not get the initial PHPSESSID", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            spy.mockReturnValueOnce(Promise.resolve({headers: {"set-cookie": []}}));
+            await expect(boxrec.login("", "")).rejects.toThrowError("Could not get cookie from initial request to boxrec");
+        });
+
+        it("should throw if the HTTP status code is an error code", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "get");
+            spy.mockReturnValueOnce(Promise.reject({headers: {"set-cookie": "works"}}));
+            await expect(boxrec.login("", "")).rejects.toThrowError("Could not get response from boxrec");
+        });
+
+    });
+
+    describe("logging in", () => {
+
+        interface MiniReponse {
+            request: any;
+        }
+
+        const emptyUriPathName: MiniReponse | Partial<Response> = {
+            request: {
+                uri: {
+                    pathname: "",
+                },
+            },
+        };
+
+        // creates a spy with only 1 of 2 required keys and then sets the expect condition
+        const cookieTest: any = async (key: "REMEMBERME" | "PHPSESSID"): Promise<any> => {
             const spy: SpyInstance = jest.spyOn(rp, "jar");
             spy.mockReturnValueOnce({
                 getCookies: () => [
                     {
-                        key: "PHPSESSID",
+                        key,
                     },
-                    {
-                        key: "REMEMBERME",
-                    }
                 ],
                 setCookie: () => {
                     //
                 }
             });
+
+            await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
+        };
+
+        it("should make a POST request to http://boxrec.com/en/login", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "post");
             await boxrec.login("", "");
+            expect(spy.mock.calls[0][0].url).toBe("http://boxrec.com/en/login");
         });
 
-        describe("getting PHPSESSID", () => {
-
-            it("should make a GET request to http://boxrec.com to get the PHPSESSID", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "get");
-                await boxrec.login("", "");
-                expect(spy.mock.calls[0][0].uri).toBe("http://boxrec.com");
-            });
-
-            it("should throw if it could not get the initial PHPSESSID", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "get");
-                spy.mockReturnValueOnce(Promise.resolve({headers: {"set-cookie": []}}));
-                await expect(boxrec.login("", "")).rejects.toThrowError("Could not get cookie from initial request to boxrec");
-            });
-
-            it("should throw if the HTTP status code is an error code", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "get");
-                spy.mockReturnValueOnce(Promise.reject({headers: {"set-cookie": "works"}}));
-                await expect(boxrec.login("", "")).rejects.toThrowError("Could not get response from boxrec");
-            });
-
+        it("should throw if boxrec returns that the username does not exist", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "post");
+            spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>username does not exist</div>"}, emptyUriPathName))); // resolve because 200 response
+            await expect(boxrec.login("", "")).rejects.toThrowError("Username does not exist");
         });
 
-        describe("logging in", () => {
-
-            interface MiniReponse {
-                request: any;
-            }
-
-            const emptyUriPathName: MiniReponse | Partial<Response> = {
-                request: {
-                    uri: {
-                        pathname: "",
-                    },
-                },
-            };
-
-            // creates a spy with only 1 of 2 required keys and then sets the expect condition
-            const cookieTest: any = async (key: "REMEMBERME" | "PHPSESSID"): Promise<any> => {
-                const spy: SpyInstance = jest.spyOn(rp, "jar");
-                spy.mockReturnValueOnce({
-                    getCookies: () => [
-                        {
-                            key,
-                        },
-                    ],
-                    setCookie: () => {
-                        //
-                    }
-                });
-
-                await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
-            };
-
-            it("should make a POST request to http://boxrec.com/en/login", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "post");
-                await boxrec.login("", "");
-                expect(spy.mock.calls[0][0].url).toBe("http://boxrec.com/en/login");
-            });
-
-            it("should throw if boxrec returns that the username does not exist", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "post");
-                spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>username does not exist</div>"}, emptyUriPathName))); // resolve because 200 response
-                await expect(boxrec.login("", "")).rejects.toThrowError("Username does not exist");
-            });
-
-            it("should throw an error if GDPR consent has not been given to BoxRec", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "post");
-                spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>GDPR</div>"}, emptyUriPathName)));
-                await expect(boxrec.login("", "")).rejects.toThrowError("GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account");
-            });
-
-            it("should throw if boxrec returns that the password is not correct", async () => {
-                const spy: SpyInstance = jest.spyOn(rp, "post");
-                spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>your password is incorrect</div>"}, emptyUriPathName))); // resolve because 200 response
-                await expect(boxrec.login("", "")).rejects.toThrowError("Your password is incorrect");
-            });
-
-            it("should return undefined if it was a success", async () => {
-                const response: Error | void = await boxrec.login("", "");
-                expect(response).toBeUndefined();
-            });
-
-            it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
-                await cookieTest("REMEMBERME");
-            });
-
-            it("should throw if after successfully logging in the cookie does not include REMEMBERME", async () => {
-                await cookieTest("PHPSESSID");
-            });
-
+        it("should throw an error if GDPR consent has not been given to BoxRec", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "post");
+            spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>GDPR</div>"}, emptyUriPathName)));
+            await expect(boxrec.login("", "")).rejects.toThrowError("GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account");
         });
 
+        it("should throw if boxrec returns that the password is not correct", async () => {
+            const spy: SpyInstance = jest.spyOn(rp, "post");
+            spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>your password is incorrect</div>"}, emptyUriPathName))); // resolve because 200 response
+            await expect(boxrec.login("", "")).rejects.toThrowError("Your password is incorrect");
+        });
+
+        it("should return undefined if it was a success", async () => {
+            const response: Error | void = await boxrec.login("", "");
+            expect(response).toBeUndefined();
+        });
+
+        it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
+            await cookieTest("REMEMBERME");
+        });
+
+        it("should throw if after successfully logging in the cookie does not include REMEMBERME", async () => {
+            await cookieTest("PHPSESSID");
+        });
     });
 
     describe("getter cookie", () => {

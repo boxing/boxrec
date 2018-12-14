@@ -1,3 +1,4 @@
+import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecTitleLinks} from "../title/boxrec.title.common";
 
@@ -5,12 +6,12 @@ export abstract class BoxrecTitlesCommon {
 
     protected readonly $: CheerioStatic;
 
-    constructor(html: string) {
-        this.$(html);
+    protected constructor(html: string) {
+        this.$ = cheerio.load(html);
     }
 
-
-    protected links(html: Cheerio): BoxrecTitleLinks {
+    get links(): BoxrecTitleLinks {
+        const html: Cheerio = this.parseLinks();
         const obj: BoxrecTitleLinks = {
             bio_closed: null,
             bout: null,
@@ -28,6 +29,10 @@ export abstract class BoxrecTitlesCommon {
         });
 
         return obj;
+    }
+
+    protected parseLinks(): Cheerio {
+        throw new Error("Needs to be overridden by child class");
     }
 
 }

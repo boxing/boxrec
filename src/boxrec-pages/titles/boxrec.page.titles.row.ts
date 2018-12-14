@@ -1,15 +1,17 @@
 import * as cheerio from "cheerio";
-import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, Location, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecTitleLinks} from "../title/boxrec.title.common";
 import {BoxrecTitlesCommon} from "./boxrec.titles.common";
 
 export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
 
     protected readonly $: CheerioStatic;
+
+    protected parseLinks(): Cheerio {
+        return this.$(getColumnData(this.$, 12));
+    }
 
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
         const html: string = `<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`;
@@ -31,11 +33,6 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
 
     get firstBoxerWeight(): number | null {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 4, false));
-    }
-
-    get links(): BoxrecTitleLinks {
-        const html: Cheerio = this.$(getColumnData(this.$, 12));
-        // return super.links(html);
     }
 
     get location(): Location {

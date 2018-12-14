@@ -32,6 +32,7 @@
     "@types/request-promise": "^4.1.41",
     "babel-jest": "23.0.1",
     "boxrec-mocks": "https://github.com/boxing/boxrec-mocks#0.8.3",
+    "boxrec-requests": "^1.0.0",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",
     "husky": "1.0.0-rc.13",
