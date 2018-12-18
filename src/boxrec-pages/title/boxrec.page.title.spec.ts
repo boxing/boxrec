@@ -5,7 +5,7 @@ import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
 const mockTitleInformation: string = fs.readFileSync(`${boxRecMocksModulePath}/title/mockMiddleweightWBCbelt.html`, "utf8");
 
-describe("class BoxrecPageSearch", () => {
+describe("class BoxrecPageTitle", () => {
 
     let title: BoxrecPageTitle;
 

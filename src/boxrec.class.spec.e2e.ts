@@ -50,7 +50,6 @@ describe("class Boxrec (E2E)", () => {
 
     beforeAll(async () => {
         const response: Error | void = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
-        expect(response).toBeUndefined();
     });
 
     describe("getter cookie", () => {

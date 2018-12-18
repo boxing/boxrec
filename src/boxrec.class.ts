@@ -45,6 +45,10 @@ class Boxrec {
     private _cookieJar: CookieJar = rp.jar();
 
     get cookies(): Cookie[] {
+        // if the login failed, this will be undefined, therefore we reset it.
+        if (!this._cookieJar) {
+            this.cookies = [];
+        }
         return this._cookieJar.getCookies("http://boxrec.com");
     }
 
@@ -142,7 +146,8 @@ class Boxrec {
      * @param {number} offset                       the number of rows to offset the search
      * @returns {Promise<BoxrecPageLocationPeople>}
      */
-    async getPeopleByLocation(params: BoxrecLocationsPeopleParams, offset: number = 0): Promise<BoxrecPageLocationPeople> {
+    async getPeopleByLocation(params: BoxrecLocationsPeopleParams, offset: number = 0):
+        Promise<BoxrecPageLocationPeople> {
         this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody: RequestResponse["body"] =
             await BoxrecRequests.getPeopleByLocation(this._cookieJar, params, offset);
@@ -160,7 +165,8 @@ class Boxrec {
      * @param {number} offset               the number of rows to offset the search
      * @yields {BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager}         returns a generator to fetch the next person by ID
      */
-    async* getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all, offset: number = 0): AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+    async* getPeopleByName(firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all, offset: number = 0):
+        AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
         this.checkIfLoggedIntoBoxRec();
         const params: BoxrecSearchParams = {
             first_name: firstName,
@@ -182,7 +188,8 @@ class Boxrec {
      * @param {number} offset                   offset number of bouts/events in the profile.  Not used for boxers as boxer's profiles list all bouts they've been in
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
-    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0): Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
+    async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0):
+        Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getPersonById(this._cookieJar, globalId, role, offset);
 
         // there are 9 roles on the BoxRec website
@@ -219,7 +226,8 @@ class Boxrec {
      */
     async getRatings(params: BoxrecRatingsParams, offset: number = 0): Promise<BoxrecPageRatings> {
         this.checkIfLoggedIntoBoxRec();
-        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getRatings(this._cookieJar, params, offset);
+        const boxrecPageBody: RequestResponse["body"] =
+            await BoxrecRequests.getRatings(this._cookieJar, params, offset);
 
         return new BoxrecPageRatings(boxrecPageBody);
     }
@@ -260,12 +268,19 @@ class Boxrec {
      * @returns {Promise<BoxrecPageTitle>}
      */
     async getTitleById(titleString: string, offset: number = 0): Promise<BoxrecPageTitle> {
+        this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody: RequestResponse["body"] =
             await BoxrecRequests.getTitleById(this._cookieJar, titleString, offset);
 
         return new BoxrecPageTitle(boxrecPageBody);
     }
 
+    /**
+     * Makes a request to BoxRec to return scheduled and previous bouts in regards to a belt/division
+     * @param {BoxrecTitlesParams} params
+     * @param {number} offset
+     * @returns {Promise<any>}
+     */
     async getTitles(params: BoxrecTitlesParams, offset: number = 0): Promise<any> {
         this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getTitles(this._cookieJar, params, offset);

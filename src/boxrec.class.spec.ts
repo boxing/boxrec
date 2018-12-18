@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import {CookieJar} from "request";
 import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
 import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
@@ -30,7 +31,9 @@ const testFileWrite: any =
         return expect(spyStream).toHaveBeenCalledWith(pathFileName);
     };
 
-describe("class boxrec", () => {
+const tmpCookie: CookieJar = rp.jar();
+
+describe("class Boxrec", () => {
 
     afterAll(async () => {
         const spy: SpyInstance = jest.spyOn(rp, "jar");

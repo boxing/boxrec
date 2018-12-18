@@ -52,11 +52,11 @@ describe("class BoxrecPageEvent", () => {
         describe("venue", () => {
 
             it("should return the venue id", () => {
-                expect(eventBellewHaye2.location.venue.id).toBe(28476);
+                expect(eventBellewHaye2.location.venue.id).toBe(258072);
             });
 
             it("should return the venue name", () => {
-                expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena (Millenium Dome)");
+                expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena");
             });
 
         });
