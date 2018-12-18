@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import {CookieJar} from "request";
 import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
 import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
@@ -30,8 +29,6 @@ const testFileWrite: any =
         await boxrec[method](555, pathToSaveTo, fileName);
         return expect(spyStream).toHaveBeenCalledWith(pathFileName);
     };
-
-const tmpCookie: CookieJar = rp.jar();
 
 describe("class Boxrec", () => {
 
@@ -403,23 +400,6 @@ describe("class Boxrec", () => {
 
         it("should save the file with `.html` file type", async () => {
             testFileWrite("getBoxerPrint", "./foo", null, "./foo/555.html");
-        });
-
-    });
-
-    describe("method getTitles", () => {
-
-        it("should wrap passed in parameters with `WcX`", async () => {
-            const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getTitles({
-                bout_title: 72,
-                division: WeightDivisionCapitalized.superMiddleweight,
-            });
-            expect(getLastCall(spy, "qs")).toEqual({
-                "WcX[bout_title]": 72,
-                "WcX[division]": WeightDivisionCapitalized.superMiddleweight,
-                "offset": 0,
-            });
         });
 
     });

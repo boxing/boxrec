@@ -49,7 +49,7 @@ const expectMatchDate: (date: string | null) => void = (date: string | null) =>
 describe("class Boxrec (E2E)", () => {
 
     beforeAll(async () => {
-        const response: Error | void = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+        await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
     });
 
     describe("getter cookie", () => {
@@ -997,8 +997,8 @@ describe("class Boxrec (E2E)", () => {
 
             it("should include the rounds", () => {
                 expect(firstBout.numberOfRounds).toEqual([
-                    jasmine.any([Number]),
-                    jasmine.any([Number]),
+                    jasmine.any(Number),
+                    jasmine.any(Number),
                 ]);
             });
 

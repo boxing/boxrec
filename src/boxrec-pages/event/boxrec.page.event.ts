@@ -83,7 +83,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
             },
         };
 
-
         let location: string | null = this.$(this.parseEventResults()).find("thead table > tbody tr:nth-child(2) b").html();
 
         if (location === null) {

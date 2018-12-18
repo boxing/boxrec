@@ -24,6 +24,9 @@
       "pre-commit": "npm run generate-docs && git add ./docs"
     }
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/cheerio": "^0.22.7",

@@ -47,14 +47,14 @@ class Boxrec {
     get cookies(): Cookie[] {
         // if the login failed, this will be undefined, therefore we reset it.
         if (!this._cookieJar) {
-            this.cookies = [];
+            this._cookieJar = rp.jar();
         }
         return this._cookieJar.getCookies("http://boxrec.com");
     }
 
     set cookies(cookiesArr: Cookie[]) {
-        this._cookieJar = rp.jar(); // reset the cookieJar
-        cookiesArr.forEach(item => this._cookieJar.setCookie(item, "http://boxrec.com"));
+        this._cookieJar = rp.jar();
+        cookiesArr.forEach((item: Cookie) => this._cookieJar.setCookie(item.toString(), "http://boxrec.com"));
     }
 
     /**
@@ -121,7 +121,7 @@ class Boxrec {
      */
     async getEventById(eventId: number): Promise<BoxrecPageEvent> {
         this.checkIfLoggedIntoBoxRec();
-        const boxrecPageBody: RequestResponse["body"] = BoxrecRequests.getEventById(this._cookieJar, eventId);
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getEventById(this._cookieJar, eventId);
 
         return new BoxrecPageEvent(boxrecPageBody);
     }
@@ -190,6 +190,7 @@ class Boxrec {
      */
     async getPersonById(globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0):
         Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
+        this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getPersonById(this._cookieJar, globalId, role, offset);
 
         // there are 9 roles on the BoxRec website
@@ -312,7 +313,8 @@ class Boxrec {
      * @returns {Promise<void>}     If the response is undefined, you have successfully logged in.  Otherwise an error will be thrown
      */
     async login(username: string, password: string): Promise<void> {
-        this._cookieJar = await BoxrecRequests.login(username, password);
+        const cookieJar: CookieJar = await BoxrecRequests.login(username, password);
+        this.cookies = cookieJar.getCookies("http://boxrec.com");
     }
 
     /**

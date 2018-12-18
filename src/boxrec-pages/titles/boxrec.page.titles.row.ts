@@ -44,7 +44,7 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get numberOfRounds(): number[] {
-        const numberOfRounds: string = trimRemoveLineBreaks(getColumnData(this.$, 9, false));
+        const numberOfRounds: string = trimRemoveLineBreaks(getColumnData(this.$, 10, false));
         if (numberOfRounds.includes("/")) {
             // ended early
             return numberOfRounds.split("/").map(item => parseInt(item, 10));
