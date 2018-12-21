@@ -10,7 +10,8 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     protected readonly $: CheerioStatic;
 
     protected parseLinks(): Cheerio {
-        return this.$(getColumnData(this.$, 12));
+        const column: number = this.isDivisionPage ? 12 : 8;
+        return this.$(getColumnData(this.$, column));
     }
 
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
@@ -36,7 +37,8 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get location(): Location {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 8), 1);
+        const column: number = this.isDivisionPage ? 8 : 5;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, column), 1);
     }
 
     get metadata(): string | null {
@@ -44,7 +46,8 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get numberOfRounds(): number[] {
-        const numberOfRounds: string = trimRemoveLineBreaks(getColumnData(this.$, 10, false));
+        const column: number = this.isDivisionPage ? 10 : 6;
+        const numberOfRounds: string = trimRemoveLineBreaks(getColumnData(this.$, column, false));
         if (numberOfRounds.includes("/")) {
             // ended early
             return numberOfRounds.split("/").map(item => parseInt(item, 10));
@@ -64,11 +67,22 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 6));
+        const column: number = this.isDivisionPage ? 6 : 4;
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, column));
     }
 
     get secondBoxerWeight(): number | null {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 7, false));
+    }
+
+    /**
+     * returns if it's a page where division was selected
+     * @returns {number}
+     */
+    private get isDivisionPage(): boolean {
+        // division page has 12 columns
+        // "all scheduled" page has 8 columns
+        return this.$("dataTable tbody tr td").length === 12;
     }
 
 }

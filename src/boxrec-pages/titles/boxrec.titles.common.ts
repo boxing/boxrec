@@ -23,8 +23,9 @@ export abstract class BoxrecTitlesCommon {
             const div: Cheerio = this.$(elem).find("div");
             const href: string = this.$(elem).attr("href");
             const classAttr: string = div.attr("class");
+            // todo for the one titles test for schedule fight, this classAttr comes up undefined
+            console.log("@", classAttr)
             const hrefArr: string[] = classAttr.split(" ");
-
             return BoxrecCommonLinks.parseLinks<BoxrecTitleLinks>(hrefArr, href, obj);
         });
 
