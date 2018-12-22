@@ -1,4 +1,4 @@
-import BoxrecRequests from "boxrec-requests";
+import {BoxrecRequests} from "boxrec-requests";
 import * as fs from "fs";
 import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";

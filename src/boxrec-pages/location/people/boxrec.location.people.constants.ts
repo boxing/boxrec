@@ -1,9 +1,10 @@
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
+import {WeightDivisionCapitalized} from "../../titles/boxrec.page.title.constants";
 
 export interface BoxrecLocationsPeopleParams {
     country?: Country;
-    division?: WeightDivision;
+    division?: WeightDivisionCapitalized;
     l_go?: any; // BoxRec param that doesn't do anything
     region?: string;
     role?: BoxrecRole;
@@ -12,7 +13,7 @@ export interface BoxrecLocationsPeopleParams {
 
 export interface BoxrecLocationsPeopleParamsTransformed {
     "l[country]"?: Country;
-    "l[division]"?: WeightDivision;
+    "l[division]"?: WeightDivisionCapitalized;
     "l[region]"?: string;
     "l[role]"?: BoxrecRole;
     "l[town]"?: string;

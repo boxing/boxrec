@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "0.19.0",
+  "version": "1.0.0",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/dist/index.d.ts",
@@ -34,8 +34,8 @@
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "babel-jest": "23.0.1",
-    "boxrec-mocks": "0.9.2",
-    "boxrec-requests": "^2.0.1",
+    "boxrec-mocks": "1.0.0",
+    "boxrec-requests": "^4.0.0",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",
     "husky": "1.0.0-rc.13",

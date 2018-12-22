@@ -155,16 +155,10 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/ratings", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getRatings({});
-            expect(getLastCall(spy)).toBe("http://boxrec.com/en/ratings");
-        });
-
-        it("should clone any keys in the object and wrap with `r[]`", async () => {
-            const spy: SpyInstance = jest.spyOn(rp, "get");
             await boxrec.getRatings({
-                division: "bar",
-            }, 0);
-            expect(getLastCall(spy, "qs")).toEqual({"offset": 0, "r[division]": "bar"});
+                sex: "M",
+            });
+            expect(getLastCall(spy)).toBe("http://boxrec.com/en/ratings");
         });
 
     });

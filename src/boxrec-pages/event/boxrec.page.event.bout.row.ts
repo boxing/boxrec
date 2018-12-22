@@ -4,7 +4,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {getColumnData} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecEventLinks, Sport} from "./boxrec.event.constants";
+import {BoxrecEventLinks} from "./boxrec.event.constants";
 
 export class BoxrecPageEventBoutRow {
 
@@ -114,14 +114,6 @@ export class BoxrecPageEventBoutRow {
         }
 
         return null;
-    }
-
-    // todo this is used by both event and date searches, date searches don't contain the sport
-    // todo class should probably be extended
-    get sport(): Sport {
-        const html: string = this.getColumnData(12, 3);
-        const className: CheerioElement = this.$(html).find("div")[0];
-        return Sport.proBoxing;
     }
 
     private get hasMoreColumns(): boolean {

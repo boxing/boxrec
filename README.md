@@ -266,6 +266,14 @@ boxrec.getRatings({
 await boxrec.getTitleById("6/Middleweight");
 ````
 
+### [getTitles](https://boxing.github.io/boxrec/classes/boxrec.html#gettitles)
+```javascript
+await boxrec.getTitles({
+    bout_title: 322,
+    division: WeightDivisionCapitalized.welterweight,
+})
+```
+
 ### [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf)
 ##### Return/save the PDF version of a BoxRec boxer profile
 ```

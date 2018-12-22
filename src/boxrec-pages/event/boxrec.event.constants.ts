@@ -21,8 +21,3 @@ export interface BoxrecEventLinks {
     bout: number | null;
     other: string[];
 }
-
-export enum Sport {
-    proBoxing = "Pro Boxing",
-    worldSeries = "World Series", // http://boxrec.com/en/event/775965
-}

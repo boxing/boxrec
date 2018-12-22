@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
-import {BoxrecPromoter, Sport} from "./boxrec.event.constants";
+import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
@@ -130,7 +130,7 @@ describe("class BoxrecPageEvent", () => {
     describe("getter bouts", () => {
 
         it("should return an array of bouts", () => {
-            expect(eventBellewHaye2.bouts[0].firstBoxer.name).toBe("Paul Butler");
+            expect(eventBellewHaye2.bouts[0].firstBoxer.name).toBe("Tony Bellew");
             expect(eventBellewHaye2.bouts[6].secondBoxer.name).toBe("Troy James");
         });
 
@@ -139,21 +139,13 @@ describe("class BoxrecPageEvent", () => {
             let bout: BoxrecPageEventBoutRow;
 
             beforeAll(() => {
-                bout = eventBellewHaye2.bouts[3]; // Bellew Haye 2
+                bout = eventBellewHaye2.bouts[0]; // Bellew Haye 2
             });
 
             describe("getter firstBoxerLast6", () => {
 
                 it("should return last 6", () => {
                     expect(bout.firstBoxerLast6).toEqual(Array(6).fill(WinLossDraw.win));
-                });
-
-            });
-
-            describe("getter sport", () => {
-
-                it("should return `Pro Boxing`", () => {
-                    expect(bout.sport).toBe(Sport.proBoxing);
                 });
 
             });

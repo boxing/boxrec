@@ -217,8 +217,6 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
             const val: Cheerio = this.$(elem).find("td:nth-child(2)");
 
             if (tag === role) {
-                results = val.html();
-            } else if (tag === role) {
                 // tested if `television` might actually be a BoxRec role but it isn't
                 results = val.html();
             }
