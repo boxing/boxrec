@@ -63,7 +63,8 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 11));
+        const column: number = this.isDivisionPage ? 11 : 7;
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, column));
     }
 
     get secondBoxer(): BoxrecBasic {
@@ -82,7 +83,15 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     private get isDivisionPage(): boolean {
         // division page has 12 columns
         // "all scheduled" page has 8 columns
-        return this.$("dataTable tbody tr td").length === 12;
+        const len: number = this.$("tr:nth-child(1) td").length;
+
+        if (len === 12) {
+            return true;
+        } else if (len === 8) {
+            return false;
+        }
+
+        throw new Error(`Number of columns has changed, received: ${len}`);
     }
 
 }

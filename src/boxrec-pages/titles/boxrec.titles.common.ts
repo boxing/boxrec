@@ -12,8 +12,9 @@ export abstract class BoxrecTitlesCommon {
 
     get links(): BoxrecTitleLinks {
         const html: Cheerio = this.parseLinks();
+        // the links returned could contain `bio_closed` or `bio_open` as well
+        // `bio_open` for events that haven't concluded.  `bio_closed` for belt/division selected
         const obj: BoxrecTitleLinks = {
-            bio_closed: null,
             bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
@@ -22,10 +23,7 @@ export abstract class BoxrecTitlesCommon {
         html.find("a").each((i: number, elem: CheerioElement) => {
             const div: Cheerio = this.$(elem).find("div");
             const href: string = this.$(elem).attr("href");
-            const classAttr: string = div.attr("class");
-            // todo for the one titles test for schedule fight, this classAttr comes up undefined
-            console.log("@", classAttr)
-            const hrefArr: string[] = classAttr.split(" ");
+            const hrefArr: string[] = div.attr("class").split(" ");
             return BoxrecCommonLinks.parseLinks<BoxrecTitleLinks>(hrefArr, href, obj);
         });
 
