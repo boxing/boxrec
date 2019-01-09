@@ -200,11 +200,11 @@ describe("class Boxrec", () => {
 
     });
 
-    describe("method getBout", () => {
+    describe("method getBoutById", () => {
 
         it("should make a GET request to http://boxrec.com/en/event (with bout)", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getBout("771321/2257534");
+            await boxrec.getBoutById("771321/2257534");
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/event/771321/2257534");
         });
 

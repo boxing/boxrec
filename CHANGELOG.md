@@ -1,4 +1,4 @@
-## 1.0.0 (2019-01-05)
+## 1.0.0 (2019-01-08)
 
 ### Added
 
@@ -12,7 +12,7 @@
 
 - Pages aren't parsed on initialization and instead only on getter requests.  Prevents unnecessary parsing
 - Changed `getTitle` to `getTitleById` to get previous title fights by the belt ID
-
+- Changed `getBout` to `getBoutById` to match `getTitleById` format
 
 ## 0.19.0 (2018-11-26)
 

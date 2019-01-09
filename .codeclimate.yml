@@ -15,7 +15,7 @@ checks:
   method-complexity:
     enabled: true
     config:
-      threshold: 15 # follows the tlint.json param `cyclomatic-complexity`
+      threshold: 15 # follows the tslint.json param `cyclomatic-complexity`
   method-count:
     enabled: true
     config:

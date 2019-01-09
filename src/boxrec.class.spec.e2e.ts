@@ -87,12 +87,12 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
-    describe("method getBout", () => {
+    describe("method getBoutById", () => {
 
         let caneloKhanBout: BoxrecPageEventBout;
 
         beforeAll(async () => {
-            caneloKhanBout = await boxrec.getBout("726555/2037455");
+            caneloKhanBout = await boxrec.getBoutById("726555/2037455");
         });
 
         describe("getter rating", () => {

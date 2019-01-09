@@ -213,11 +213,11 @@ boxrec.getDate("2018-08-21");
 ```
 
 
-### [getBout](https://boxing.github.io/boxrec/classes/boxrec.html#getbout)
+### [getBoutById](https://boxing.github.io/boxrec/classes/boxrec.html#getboutbyid)
 ##### Returns detailed information on a single bout
 
 ```javascript
-boxrec.getBout("726555/2037455");
+boxrec.getBoutById("726555/2037455");
 ```
 
 ### [getRatings](https://boxing.github.io/boxrec/classes/boxrec.html#getratings)

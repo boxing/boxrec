@@ -62,7 +62,7 @@ class Boxrec {
      * @param {string} eventBoutId
      * @returns {Promise<BoxrecPageEventBout>}
      */
-    async getBout(eventBoutId: string): Promise<BoxrecPageEventBout> {
+    async getBoutById(eventBoutId: string): Promise<BoxrecPageEventBout> {
         this.checkIfLoggedIntoBoxRec();
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getBout(this._cookieJar, eventBoutId);
 
