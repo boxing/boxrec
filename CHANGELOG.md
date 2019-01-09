@@ -1,3 +1,19 @@
+## 1.0.0 (2019-01-08)
+
+### Added
+
+- Can now make `getTitles` call that returns scheduled title fights
+
+### Fixed
+
+- Typescript and typings now working properly
+
+### Changed
+
+- Pages aren't parsed on initialization and instead only on getter requests.  Prevents unnecessary parsing
+- Changed `getTitle` to `getTitleById` to get previous title fights by the belt ID
+- Changed `getBout` to `getBoutById` to match `getTitleById` format
+
 ## 0.19.0 (2018-11-26)
 
 ### Added

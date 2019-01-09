@@ -5,7 +5,7 @@ import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
 const mockTitleInformation: string = fs.readFileSync(`${boxRecMocksModulePath}/title/mockMiddleweightWBCbelt.html`, "utf8");
 
-describe("class BoxrecPageSearch", () => {
+describe("class BoxrecPageTitle", () => {
 
     let title: BoxrecPageTitle;
 
@@ -62,6 +62,19 @@ describe("class BoxrecPageSearch", () => {
 
             });
 
+            describe("getter links", () => {
+
+                it("should return an object", () => {
+                    expect(mostRecentBout.links).toEqual({
+                        bio_closed: 2289611,
+                        bout: "777131/2289611",
+                        event: 777131,
+                        other: []
+                    });
+                });
+
+            });
+
             describe("getter firstBoxer", () => {
 
                 it("should include the name and id of the first boxer", () => {
@@ -91,20 +104,13 @@ describe("class BoxrecPageSearch", () => {
 
             describe("getter location", () => {
 
-                it("should include the town", () => {
-                    expect(mostRecentBout.location.town).not.toBeNull();
-                });
-
-                it("should include the region", () => {
-                    expect(mostRecentBout.location.region).not.toBeNull();
-                });
-
-                it("should include the country", () => {
-                    expect(mostRecentBout.location.country).not.toBeNull();
-                });
-
-                it("should include the id", () => {
-                    expect(mostRecentBout.location.id).not.toBeNull();
+                it("should be a location object", () => {
+                    expect(mostRecentBout.location).toEqual({
+                        country: jasmine.any(String),
+                        id: jasmine.any(Number),
+                        region: jasmine.any(String),
+                        town: jasmine.any(String),
+                    });
                 });
 
             });

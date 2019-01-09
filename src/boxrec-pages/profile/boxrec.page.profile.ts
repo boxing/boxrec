@@ -1,87 +1,42 @@
-import {BoxrecProfileTable} from "./boxrec.profile.constants";
+import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {Location} from "../boxrec.constants";
+import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
+import {BoxrecRole} from "../search/boxrec.search.constants";
+import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
 
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
+export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
-export abstract class BoxrecPageProfile {
+    protected readonly $: CheerioStatic;
 
-    /**
-     * @hidden
-     */
-    protected _alias: string;
-    /**
-     * @hidden
-     */
-    protected _birthName: string;
-    /**
-     * @hidden
-     */
-    protected _birthPlace: string;
-    /**
-     * @hidden
-     */
-    protected _born: string;
-    /**
-     * @hidden
-     */
-    protected _boutsList: Array<[string, string | null]> = [];
-    /**
-     * @hidden
-     */
-    protected _debut: string;
-    /**
-     * @hidden
-     */
-    protected _globalId: string;
-    /**
-     * @hidden
-     */
-    protected _metadata: string;
-    /**
-     * @hidden
-     */
-    protected _name: string | null;
-    /**
-     * @hidden
-     */
-    protected _nationality: string;
-    /**
-     * other stuff that we haven't seen yet
-     * @hidden
-     */
-    protected _otherInfo: Array<[string, string]> = [];
-    /**
-     * @hidden
-     */
-        // todo required for parsing the `profileTable` for the time being
-    protected _ranking: string;
-    /**
-     * @hidden
-     */
-    protected _residence: string;
-    /**
-     * @hidden
-     */
-    protected _role: string;
-    /**
-     * @hidden
-     */
-    protected _status: string;
-
-    constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
+    protected constructor(boxrecBodyString: string) {
+        super(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     /**
-     * The birth name of the boxer
+     * The birth name of the person
      * @returns {string | null}
      */
     get birthName(): string | null {
-        if (this._birthName) {
-            return this._birthName;
+        const birthName: string | void = this.parseProfileTableData(BoxrecProfileTable.birthName);
+
+        if (birthName) {
+            return birthName;
         }
 
         return null;
+    }
+
+    /**
+     * Returns the country of which the person was born
+     * @returns {Location}
+     */
+    get birthPlace(): Location {
+        let birthPlace: string = this.parseProfileTableData(BoxrecProfileTable.birthPlace) || "";
+        birthPlace = `<div>${birthPlace}</div>`;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(birthPlace);
     }
 
     /**
@@ -89,9 +44,14 @@ export abstract class BoxrecPageProfile {
      * @returns {number | null}
      */
     get globalId(): number | null {
-        const globalId: number = parseInt(this._globalId, 10);
-        if (!isNaN(globalId)) {
-            return globalId;
+        const tr: Cheerio = this.$(".profileTable table.rowTable tbody tr");
+        const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
+
+        if (id) {
+            const globalId: number = parseInt(id[0] as string, 10);
+            if (!isNaN(globalId)) {
+                return globalId;
+            }
         }
 
         return null;
@@ -101,122 +61,162 @@ export abstract class BoxrecPageProfile {
      * Returns an object of various metadata
      * @returns {Object}
      */
-    get metadata(): any {
-        return JSON.parse(this._metadata);
+    get metadata(): object | null {
+        const metadata: string | null = this.$("script[type='application/ld+json']").html();
+        if (metadata) {
+            JSON.parse(metadata);
+        }
+
+        return null;
     }
 
     /**
      * Returns the full name
-     * @returns {string | null}
+     * @returns {string}
      */
-    get name(): string | null {
-        return this._name || null;
+    get name(): string {
+        return this.$("h1").text();
     }
 
-    set name(name: string | null) {
-        this._name = name;
+    /**
+     * Additional info that was found on the profile but is unknown what to call it
+     * @returns {string[][]}
+     */
+    get otherInfo(): string[][] {
+        return this.parseOtherInfo();
+    }
+
+    /**
+     * Returns the current residency of the person
+     * @returns {Location}
+     */
+    get residence(): Location {
+        let residence: string = this.parseProfileTableData(BoxrecProfileTable.residence) || "";
+        residence = `<div>${residence}</div>`;
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(residence);
+    }
+
+    /**
+     * Returns an array of BoxRec roles in order by the role name
+     * Contains all ids as there may be a possibility of different ids
+     * @returns {BoxrecProfileRole[]}
+     */
+    get role(): BoxrecProfileRole[] {
+        const role: string | null = `<div>${this.$(this.parseProfileTableData(BoxrecProfileTable.role))}</div>`;
+        const rolesStr: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text();
+        const rolesWithLinks: BoxrecProfileRole[] = [];
+
+        if (role) {
+            const rolesStrSplit: string[] = rolesStr.split(" ");
+
+            this.$(role).find("a").each((index: number, elem: CheerioElement) => {
+                const hrefMatches: RegExpMatchArray | null = elem.attribs.href.match(/(\d+)$/);
+                const type: string = this.$(elem).text();
+
+                if (hrefMatches && type) {
+                    rolesWithLinks.push({
+                        id: parseInt(hrefMatches[1], 10),
+                        name: type as BoxrecRole,
+                    });
+                }
+            }).get();
+
+            // if a boxer is a boxer and promoter, and it's the boxer's profile page.  The `boxer` text will just be text and not a link
+            // loop through and convert any to links as well.  There should only be one that is text
+            for (const roleName of rolesStrSplit) {
+                const found: boolean = !!rolesWithLinks.find(item => item.name === roleName);
+
+                if (!found) {
+                    rolesWithLinks.push({
+                        id: this.globalId,
+                        name: roleName as BoxrecRole,
+                    });
+                }
+            }
+
+            // sort so `name` is in order
+            rolesWithLinks.sort((a: BoxrecProfileRole, b: BoxrecProfileRole) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                return 0;
+            });
+        }
+
+        return rolesWithLinks;
+    }
+
+    /**
+     * Returns whether the person is active or inactive in boxing
+     * @example // returns "active"
+     * @returns {string | null}
+     */
+    get status(): string | null {
+        const status: string | void = this.parseProfileTableData(BoxrecProfileTable.status);
+
+        if (status) {
+            return status;
+        }
+
+        return null;
+    }
+
+    private get profileTableBody(): Cheerio {
+        return this.$(`.profileTable table.rowTable tbody`);
     }
 
     /**
      * Returns bout information in an array
-     * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): T}} type  this variable is a class that is instantiated
+     * @param boutsListArr  Array of bouts
+     * @param {{new(boxrecBodyBout: string, additionalData: (string | null)): U}} type  this variable is a class that is instantiated
      * a class is passed in and an array of that instantiated class is passed back
      * https://blog.rsuter.com/how-to-instantiate-a-generic-type-in-typescript/
      * @hidden
-     * @returns {T[]}
+     * @returns {U[]}
      */
-    getBouts<T>(type: (new (boxrecBodyBout: string, additionalData: string | null) => T)): T[] {
-        const bouts: Array<[string, string | null]> = this._boutsList;
-        const boutsList: T[] = [];
-
-        bouts.forEach((val: [string, string | null]) => {
-            const bout: T = new type(val[0], val[1]);
-            boutsList.push(bout);
-        });
-
-        return boutsList;
+    protected getBouts<U>(boutsListArr: Array<[string, string | null]>, type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
+        return boutsListArr.map((val: [string, string | null]) => new type(val[0], val[1]));
     }
 
     /**
      * Parses the bout information for the person
      * @hidden
      */
-    protected parseBouts(tr: Cheerio): void {
-        tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = $(elem).attr("id");
-
-            // skip rows that are associated with the previous fight
-            if (boutId.includes("second")) {
-                return;
-            }
-
-            // we need to check to see if the next row is associated with this bout
-            let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = $(elem).next();
-            let nextRowId: string = nextRow.attr("id");
-
-            if (nextRowId) {
-                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
-
-                isNextRowAssociated = nextRowId === boutId;
-                if (!isNextRowAssociated) {
-                    nextRow = null;
-                }
-            } // else if no next bout exists
-
-            const html: string = $(elem).html() || "";
-            const next: string | null = nextRow ? nextRow.html() : null;
-            this._boutsList.push([html, next]);
-        });
-    }
-
-    /**
-     * @hidden
-     */
-    protected parseName(): void {
-        this.name = $("h1").text();
+    protected parseBouts(tr: Cheerio): Array<[string, string | null]> {
+        return this.returnBouts(tr);
     }
 
     /**
      * Parses the profile table data found at the top of the profile
      * @hidden
      */
-    protected parseProfileTableData(): void {
-        const tr: Cheerio = $(".profileTable table.rowTable tbody tr");
+    protected parseProfileTableData(keyToRetrieve?: BoxrecProfileTable): string | void {
+        const tableRow: Cheerio = this.profileTableBody.find(`tr:contains("${keyToRetrieve}")`);
+        const val: string | null = tableRow.find("td:nth-child(2)").html();
 
-        tr.each((i: number, elem: CheerioElement) => {
-            let key: string | null = $(elem).find("td:nth-child(1)").text();
-            let val: string | null = $(elem).find("td:nth-child(2)").html();
-
-            // ranking doesn't have the key, therefore we can only check that `val` exists
-            if (val) {
-                key = key.trim();
-                val = val.trim();
-                const enumVals: any[] = Object.keys(BoxrecProfileTable);
-                const enumKeys: any[] = enumVals.map(k => BoxrecProfileTable[k]);
-
-                if (enumKeys.includes(key)) {
-                    const idx: number = enumKeys.findIndex(item => item === key);
-                    const classKey: string = `_${enumVals[idx]}`;
-                    // the following line works but there is probably a probably a much better way with Typescript
-                    (this as any)[classKey] = val; // set the private var related to this, note: this doesn't consider if there is a setter
-                } else {
-
-                    if (val.includes("/en/ratings")) { // ranking doesn't have the `key`
-                        this._ranking = val;
-                    } else {
-                        // either an error or returned something we haven't mapped
-                        this._otherInfo.push([key, val]);
-                    }
-                }
-            }
-        });
-
-        const metadata: string | null = $("script[type='application/ld+json']").html();
-        if (metadata) {
-            this._metadata = metadata;
-            this._globalId = this.metadata.url.match(/\d+$/);
+        if (keyToRetrieve && tableRow && val) {
+            return val.trim();
         }
     }
 
+    private parseOtherInfo(): Array<[string, string]> {
+        const otherInfo: Array<[string, string]> = [];
+        const knownTableColumnKeys: string[] = Object.values(BoxrecProfileTable);
+        this.profileTableBody.find("tr").each((i: number, elem: CheerioElement) => {
+            const val: string | null = this.$(elem).find("td:nth-child(2)").html();
+            const key: string | null = trimRemoveLineBreaks(this.$(elem).find("td:nth-child(1)").text());
+
+            // key.subtr because we don't want to match the `ID #` table row
+            if (key && val && key.substr(0, 2) !== "ID" && !knownTableColumnKeys.includes(key)) {
+                otherInfo.push([key, val]);
+            }
+        });
+
+        return otherInfo;
+    }
 }

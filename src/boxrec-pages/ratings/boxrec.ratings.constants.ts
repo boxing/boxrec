@@ -1,16 +1,13 @@
 import {BoxrecBasic, Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {Country} from "../location/people/boxrec.location.people.constants";
+import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
 
 export interface BoxrecRatingsParams {
-    division?: string;
-    sex?: "M" | "F";
-    status?: "a" | "";
-}
-
-export interface BoxrecRatingsParamsTransformed {
-    offset?: number;
-    "r[division]"?: string;
-    "r[sex]"?: "M" | "F";
-    "r[status]"?: "a" | "";
+    country?: Country | "";
+    division?: WeightDivisionCapitalized;
+    sex: "M" | "F"; // whatever reason this is necessary, figured it would default to Male but it does not
+    stance?: "O" | "S"; // orthodox // southpaw // undefined is both
+    status?: "a" | ""; // defaults to active/inactive
 }
 
 export interface BoxrecRating extends BoxrecBasic {

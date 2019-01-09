@@ -1,4 +1,5 @@
 import {BoxrecBout} from "../boxrec.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 
 export interface BoxrecProfile {
     KOs: number | null;
@@ -60,15 +61,25 @@ export interface BoxrecProfileBoutLocation {
     venue: string | null;
 }
 
-export interface BoxrecProfileBoutLinks {
+export interface BoxrecProfileLinks {
     bio_open: number | null;  // this is the wiki link
     bout: number | null;
     event: number | null;
     other: string[];
 }
 
+export interface BoxrecProfileEventLinks {
+    event: number | null;
+}
+
 export interface PersonRequestParams {
-    toggleRatings?: "y"; // hard coded but this value doesn't actually matter to BoxRec
+    offset?: number;
     pdf?: "y";
     print?: "y";
+    toggleRatings?: "y"; // hard coded but this value doesn't actually matter to BoxRec
+}
+
+export interface BoxrecProfileRole {
+    id: number | null;
+    name: BoxrecRole;
 }

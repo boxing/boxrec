@@ -1,71 +1,55 @@
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
-import {BoxrecBasic, Location} from "../boxrec.constants";
-import {BoxrecRole} from "../search/boxrec.search.constants";
+import * as cheerio from "cheerio";
+import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {Location} from "../boxrec.constants";
+import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
+import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
 
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
+// used for profiles other than boxers
+export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
 
-export class BoxrecPageProfileEventRow extends BoxrecCommonTablesClass {
+    protected readonly $: CheerioStatic;
 
-    protected role: BoxrecRole = BoxrecRole.boxer;
-    private _date: string;
-    private _links: string;
-    private _location: string;
-    private _startColumn: number = 0;
-    private _venue: string;
+    protected getVenueColumnData(): Cheerio {
+        return this.$(`<div>${this.getColumnData(2)}</div>`);
+    }
 
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        super();
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
-        $ = cheerio.load(html);
-        this.parseBout();
-        this.parseMetadata();
+        super(html);
+        this.$ = cheerio.load(html);
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(this._date);
+        return trimRemoveLineBreaks(this.getColumnData(1, false));
     }
 
-    get location(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._location);
-    }
-
-    // todo same as another we can remove this
-    get venue(): BoxrecBasic {
-        const html: Cheerio = $(`<div>${this._venue}</div>`);
-        const venue: BoxrecBasic = {
-            id: null,
-            name: null,
+    get links(): BoxrecProfileEventLinks {
+        const linksStr: string = `<div>${this.getColumnData(4)}</div>`;
+        const html: Cheerio = this.$(linksStr);
+        const obj: BoxrecProfileEventLinks = {
+            event: null,
         };
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = $(elem).get(0).attribs.href.match(/(\d+)$/);
-            if (href) {
-                venue.name = $(elem).text();
-                venue.id = parseInt(href[1], 10);
-            }
+            const div: Cheerio = this.$(elem).find("div");
+            const href: string = this.$(elem).attr("href");
+            const classAttr: string = div.attr("class");
+            const hrefArr: string[] = classAttr.split(" ");
 
+            return BoxrecCommonLinks.parseLinks<BoxrecProfileEventLinks>(hrefArr, href, obj);
         });
 
-        return venue;
+        return obj;
     }
 
-    private getColumnData(returnHtml: boolean = false): string {
-        this._startColumn++;
-        return getColumnData($, this._startColumn, returnHtml);
+    get location(): Location {
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(this.getColumnData(3));
     }
 
-    private parseBout(): void {
-        this._date = this.getColumnData();
-        this._venue = this.getColumnData(true);
-        this._location = this.getColumnData(true);
-        this._links = this.getColumnData(true);
-    }
-
-    private parseMetadata(): void {
-        const el: Cheerio = $(`tr:nth-child(2) td:nth-child(1)`);
-        this._metadata = el.html() || "";
+    get metadata(): string | null {
+        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }
 
 }

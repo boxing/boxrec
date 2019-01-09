@@ -1,7 +1,5 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
-
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 /**
  * parse a BoxRec Ratings Page
@@ -9,24 +7,20 @@ let $: CheerioStatic;
  */
 export class BoxrecPageRatings {
 
-    private _ratings: string[] = [];
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parseRatings();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get boxers(): BoxrecPageRatingsRow[] {
-        return this._ratings.map(item => new BoxrecPageRatingsRow(item));
+        return this.parseRatings().map(item => new BoxrecPageRatingsRow(item));
     }
 
-    private parseRatings(): void {
-        const tr: Cheerio = $(".dataTable tbody tr");
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._ratings.push(html);
-        });
+    private parseRatings(): string[] {
+        return this.$(".dataTable tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get();
     }
 
 }

@@ -1,7 +1,7 @@
 {
   "name": "boxrec",
-  "version": "0.19.0",
-  "description": "retrieve information from Boxrec",
+  "version": "1.0.0",
+  "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/dist/index.d.ts",
   "scripts": {
@@ -24,6 +24,9 @@
       "pre-commit": "npm run generate-docs && git add ./docs"
     }
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
@@ -31,7 +34,8 @@
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "babel-jest": "23.0.1",
-    "boxrec-mocks": "https://github.com/boxing/boxrec-mocks#0.8.3",
+    "boxrec-mocks": "1.0.0",
+    "boxrec-requests": "^4.0.0",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",
     "husky": "1.0.0-rc.13",
@@ -46,7 +50,7 @@
     "typescript": "2.9.1",
     "uglifyjs-webpack-plugin": "^1.2.0",
     "webpack": "4.9.1",
-    "webpack-cli": "^2.0.13",
+    "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.1"
   },
   "bugs": {

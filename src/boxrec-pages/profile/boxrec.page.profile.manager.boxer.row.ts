@@ -1,72 +1,64 @@
+import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
-import {Location, Record, Stance} from "../boxrec.constants";
+import {Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
+// used for boxer rows under a manager
+export class BoxrecPageProfileManagerBoxerRow {
 
-export class BoxrecPageProfileManagerBoxerRow extends BoxrecCommonTablesClass {
-
-    private _age: string;
-    private _debut: string;
-    private _last6: string;
-    private _name: string;
-    private _record: string;
-    private _residence: string;
-    private _stance: string;
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        super();
         const html: string = `<table><tr>${boxrecBodyString}</tr></table>`;
-        $ = cheerio.load(html);
-        this.parseBoxer();
+        this.$ = cheerio.load(html);
     }
 
     get age(): number | null {
-        if (this._age) {
-            return parseInt(this._age, 10);
+        const age: string = getColumnData(this.$, 6, false);
+        if (age) {
+            return parseInt(age, 10);
         }
 
         return null;
     }
 
     get debut(): string | null {
-        if (this._debut) {
-            return this._debut;
+        const debut: string = getColumnData(this.$, 7, false);
+        if (debut) {
+            return debut;
         }
 
         return null;
+    }
+
+    get division(): WeightDivision | null {
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 2, false));
+    }
+
+    get last6(): WinLossDraw[] {
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, 4));
     }
 
     get name(): string | null {
-        return this._name || null;
+        return getColumnData(this.$, 1, false) || null;
     }
 
     get record(): Record {
-        return BoxrecCommonTablesClass.parseRecord(this._record);
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 3));
     }
 
     get residence(): Location {
-        return BoxrecCommonTablesClass.parseLocationLink(this._residence);
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 7));
     }
 
     get stance(): Stance | null {
-        if (this._stance) {
-            return trimRemoveLineBreaks(this._stance) as Stance;
+        const stance: string = getColumnData(this.$, 5, false);
+        if (stance) {
+            return trimRemoveLineBreaks(stance) as Stance;
         }
 
         return null;
-    }
-
-    private parseBoxer(): void {
-        this._name = getColumnData($, 1, false);
-        this._division = getColumnData($, 2, false);
-        this._record = getColumnData($, 3);
-        this._last6 = getColumnData($, 4);
-        this._stance = getColumnData($, 5, false);
-        this._age = getColumnData($, 6, false);
-        this._debut = getColumnData($, 7, false);
-        this._residence = getColumnData($, 7);
     }
 
 }

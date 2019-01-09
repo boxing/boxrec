@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageRatings} from "./boxrec.page.ratings";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
@@ -25,7 +24,7 @@ describe("class BoxrecPageRatings", () => {
             let ratingsOutput: BoxrecPageRatingsRow;
 
             beforeAll(() => {
-                ratingsOutput = ratings.boxers[1];
+                ratingsOutput = ratings.boxers[0];
             });
 
             describe("getter ranking", () => {
@@ -55,7 +54,7 @@ describe("class BoxrecPageRatings", () => {
             describe("getter division", () => {
 
                 it("should return `null` as weight class if the weight class was specified because they know the weight class", () => {
-                    expect((Object as any).values(WeightDivision)).toContain(ratingsOutput.division);
+                    expect((Object as any).values([null])).toContain(ratingsOutput.division);
                 });
 
             });

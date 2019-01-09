@@ -1,7 +1,6 @@
+import * as cheerio from "cheerio";
 import {BoxrecEvent} from "../event/boxrec.event";
-
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
+import {BoxrecRole} from "../search/boxrec.search.constants";
 
 /**
  * Used by the BoxRec Date page for event information
@@ -10,27 +9,43 @@ export class BoxrecDateEvent extends BoxrecEvent {
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
-        this.parseLocation();
-        this.parseId();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get id(): number {
-        return parseInt(this._id, 10);
+        return parseInt(this.parseId(), 10);
     }
 
-    private parseId(): void {
-        const wikiHref: string | null = $("h2").next().find(".eventP").parent().attr("href");
+    protected parseLocation(): string {
+        return this.$("h2").html() as string;
+    }
+
+    /**
+     * Returns string format of matchmaker to be parsed by parent class
+     * @returns {string}
+     */
+    protected parseMatchmakers(): string {
+        return this.parseEventData(BoxrecRole.matchmaker);
+    }
+
+    /**
+     * Returns string format of promoters to be parsed by parent class
+     * @returns {string}
+     */
+    protected parsePromoters(): string {
+        return this.parseEventData(BoxrecRole.promoter);
+    }
+
+    private parseId(): string {
+        const wikiHref: string | null = this.$("h2").next().find(".eventP").parent().attr("href");
         if (wikiHref) {
             const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
             if (wikiLink && wikiLink[1]) {
-                this._id = wikiLink[1];
+                return wikiLink[1];
             }
         }
-    }
 
-    private parseLocation(): void {
-        this._location = $("h2").html();
+        throw new Error("Could not find Event ID");
     }
 
 }

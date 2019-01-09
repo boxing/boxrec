@@ -8,19 +8,15 @@ const mockEventBellewHaye2: string = fs.readFileSync(
     `${boxRecMocksModulePath}/events/mockEventPageBellewHaye2.html`, "utf8");
 const mockEventMayweatherMcGregor: string = fs.readFileSync(
     `${boxRecMocksModulePath}/events/mockEventPageMayweatherMcGregor.html`, "utf8");
-const mockEventPageNoVenueNoRegionTown: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/events/mockEventPageNoVenueNoRegionTown.html`, "utf8");
 
 describe("class BoxrecPageEvent", () => {
 
     let eventBellewHaye2: BoxrecPageEvent;
     let eventMayweatherMcGregor: BoxrecPageEvent;
-    let eventNoVenueNoRegionTown: BoxrecPageEvent;
 
     beforeAll(() => {
         eventBellewHaye2 = new BoxrecPageEvent(mockEventBellewHaye2);
         eventMayweatherMcGregor = new BoxrecPageEvent(mockEventMayweatherMcGregor);
-        eventNoVenueNoRegionTown = new BoxrecPageEvent(mockEventPageNoVenueNoRegionTown);
     });
 
     describe("getter date", () => {
@@ -51,38 +47,16 @@ describe("class BoxrecPageEvent", () => {
                 expect(eventBellewHaye2.location.location.id).toBe(15965);
             });
 
-            describe("when region/town are missing", () => {
-                // todo
-                it("should return null values for region/town", () => {
-                    expect(eventNoVenueNoRegionTown.location.location.region).toBeNull();
-                    expect(eventNoVenueNoRegionTown.location.location.town).toBeNull();
-                });
-
-                it("should return the country name", () => {
-                    expect(eventNoVenueNoRegionTown.location.location.country).toBe("Austria");
-                });
-
-            });
-
         });
 
         describe("venue", () => {
 
             it("should return the venue id", () => {
-                expect(eventBellewHaye2.location.venue.id).toBe(28476);
+                expect(eventBellewHaye2.location.venue.id).toBe(258072);
             });
 
             it("should return the venue name", () => {
-                expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena (Millenium Dome)");
-            });
-
-            describe("when venue is missing", () => {
-
-                it("should return null values", () => {
-                    expect(eventNoVenueNoRegionTown.location.venue.name).toBeNull();
-                    expect(eventNoVenueNoRegionTown.location.venue.id).toBeNull();
-                });
-
+                expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena");
             });
 
         });
@@ -109,11 +83,11 @@ describe("class BoxrecPageEvent", () => {
                 };
 
             it("should give the first promoter", () => {
-                expectPromoter(eventBellewHaye2.promoters[0], "Hayemaker Promotions", 550318, "David Haye");
+                expectPromoter(eventBellewHaye2.promoters[0], "Matchroom Boxing", 596434, "Eddie Hearn");
             });
 
             it("should give the second promoter", () => {
-                expectPromoter(eventBellewHaye2.promoters[1], "Matchroom Boxing", 596434, "Eddie Hearn");
+                expectPromoter(eventBellewHaye2.promoters[1], "Hayemaker Promotions", 550318, "David Haye");
             });
 
         });
@@ -130,9 +104,17 @@ describe("class BoxrecPageEvent", () => {
 
     describe("getter matchmakers", () => {
 
-        it("should return the matchmaker", () => {
-            expect(eventBellewHaye2.matchmakers[0].id).toBe(809320);
-            expect(eventBellewHaye2.matchmakers[0].name).toBe("Paul Ready");
+        it("should be an array as there can be multiple matchmakers", () => {
+            expect(eventBellewHaye2.matchmakers).toEqual([
+                {
+                    id: 418276,
+                    name: "Neil Bowers",
+                },
+                {
+                    id: 809320,
+                    name: "Paul Ready"
+                }
+            ]);
         });
 
     });
@@ -148,7 +130,7 @@ describe("class BoxrecPageEvent", () => {
     describe("getter bouts", () => {
 
         it("should return an array of bouts", () => {
-            expect(eventBellewHaye2.bouts[0].firstBoxer.name).toBe("Paul Butler");
+            expect(eventBellewHaye2.bouts[0].firstBoxer.name).toBe("Tony Bellew");
             expect(eventBellewHaye2.bouts[6].secondBoxer.name).toBe("Troy James");
         });
 
@@ -157,7 +139,7 @@ describe("class BoxrecPageEvent", () => {
             let bout: BoxrecPageEventBoutRow;
 
             beforeAll(() => {
-                bout = eventBellewHaye2.bouts[3]; // Bellew Haye 2
+                bout = eventBellewHaye2.bouts[0]; // Bellew Haye 2
             });
 
             describe("getter firstBoxerLast6", () => {

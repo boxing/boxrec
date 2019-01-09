@@ -1,3 +1,4 @@
+import * as cheerio from "cheerio";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {
@@ -6,9 +7,6 @@ import {
     BoxrecUnformattedChampions,
     WeightDivision
 } from "./boxrec.champions.constants";
-
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
 
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,
@@ -41,25 +39,23 @@ const weightDivisions: BoxrecChampionsByWeightDivision = {
 
 export class BoxrecPageChampions {
 
-    private _champions: BoxrecUnformattedChampions[] = [];
-    private _listOfBoxingOrganizations: string[] = [];
+    private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parse();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get boxingOrganizations(): string[] {
-        return this._listOfBoxingOrganizations;
+        return this.parseBoxingOrganizations();
     }
 
     get champions(): BoxrecUnformattedChampions[] {
-        return this._champions;
+        return this.parseChampions();
     }
 
     getByWeightDivision(): BoxrecChampionsByWeightDivision {
         const championsFormatted: BoxrecChampionsByWeightDivision = weightDivisions;
-        const champions: BoxrecUnformattedChampions[] = this.champions;
+        const champions: BoxrecUnformattedChampions[] = this.parseChampions();
 
         for (const weightDivision of champions) {
             const weightDivisionFormatted: string = changeToCamelCase(weightDivision.weightDivision);
@@ -69,12 +65,10 @@ export class BoxrecPageChampions {
         return championsFormatted;
     }
 
-    private parse(): void {
-        const obj: BoxrecUnformattedChampions[] = [];
+    private parseBoxingOrganizations(): string[] {
         const listOfBoxingOrganizations: string[] = [];
-
-        $(".dataTable tr:nth-child(1) th").each((index: number, elem: CheerioElement) => {
-            let boxingOrganization: string = $(elem).text();
+        this.$(".dataTable tr:nth-child(1) th").each((index: number, elem: CheerioElement) => {
+            let boxingOrganization: string = this.$(elem).text();
             boxingOrganization = boxingOrganization.trim();
 
             if (boxingOrganization.length > 0) {
@@ -82,34 +76,39 @@ export class BoxrecPageChampions {
             }
         });
 
-        this._listOfBoxingOrganizations = listOfBoxingOrganizations;
+        return listOfBoxingOrganizations;
+    }
 
-        $(".dataTable tr").each((index: number, elem: CheerioElement) => {
+    private parseChampions(): BoxrecUnformattedChampions[] {
+        const champions: BoxrecUnformattedChampions[] = [];
+        const listOfBoxingOrganizations: string[] = this.parseBoxingOrganizations();
+
+        this.$(".dataTable tr").each((index: number, elem: CheerioElement) => {
             // the first row is the list of belt name
             // the second part of this is that there are empty table rows between weight classes
             if (index !== 0 && index % 2 !== 0) {
-                const weightDivision: string = $(elem).find("td:nth-child(1)").text();
+                const weightDivision: string = this.$(elem).find("td:nth-child(1)").text();
 
-                obj.push({
-                    weightDivision: weightDivision as WeightDivision,
+                champions.push({
                     beltHolders: Object.assign({}, beltOrganizations),
+                    weightDivision: weightDivision as WeightDivision,
                 });
-                const last: number = obj.length - 1;
+                const last: number = champions.length - 1;
 
-                $(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
+                this.$(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
                     if (tdIndex !== 0) {
                         const boxer: BoxrecBasic | null = {
                             id: null,
                             name: null,
                         };
-                        const firstLink: Cheerio = $(tdElem).find("a:nth-child(1)");
+                        const firstLink: Cheerio = this.$(tdElem).find("a:nth-child(1)");
 
                         if (firstLink.length) {
-                            let name: string | null = $(tdElem).html();
+                            let name: string | null = this.$(tdElem).html();
 
                             if (name) {
                                 name = name.replace("<br>", " ");
-                                name = $(name).text();
+                                name = this.$(name).text();
                                 name = trimRemoveLineBreaks(name);
 
                                 if (firstLink[0] && firstLink[0].attribs) {
@@ -118,8 +117,7 @@ export class BoxrecPageChampions {
                                     if (href && href[1]) {
                                         boxer.id = parseInt(href[1], 10);
                                         boxer.name = name;
-
-                                        (obj as any)[last].beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
+                                        (champions as any)[last].beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
                                     }
                                 }
                             }
@@ -128,6 +126,7 @@ export class BoxrecPageChampions {
                 });
             }
         });
-        this._champions = obj;
+
+        return champions;
     }
 }

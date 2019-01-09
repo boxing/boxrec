@@ -6,13 +6,16 @@ import {BoxrecPageDate} from "./boxrec.page.date";
 
 const mockDate20100520: string = fs.readFileSync(
     `${boxRecMocksModulePath}/date/mockDate2010-05-20.html`, "utf8");
+const mockDate20181201: string = fs.readFileSync(`${boxRecMocksModulePath}/date/mockDate2018-12-01.html`, "utf8");
 
 describe("class BoxrecPageDate", () => {
 
     let date20100520: BoxrecPageDate;
+    let date20181201: BoxrecPageDate;
 
     beforeAll(() => {
         date20100520 = new BoxrecPageDate(mockDate20100520);
+        date20181201 = new BoxrecPageDate(mockDate20181201);
     });
 
     describe("getter events", () => {
@@ -55,18 +58,10 @@ describe("class BoxrecPageDate", () => {
 
             });
 
-            describe("getter promoters", () => {
-
-                it("should return an array, return values null on older dates, future dates may or not have values", () => {
-                    expect(firstEvent.promoters[0]).toBeUndefined();
-                });
-
-            });
-
             describe("getter matchmakers", () => {
 
-                it("should return an array, return values null on older dates, future dates may or not have values", () => {
-                    expect(firstEvent.matchmakers[0]).toBeUndefined();
+                it("should be defined but does not exist on page, should be empty array", () => {
+                    expect(firstEvent.matchmakers.length).toBe(0);
                 });
 
             });

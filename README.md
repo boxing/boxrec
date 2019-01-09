@@ -213,11 +213,11 @@ boxrec.getDate("2018-08-21");
 ```
 
 
-### [getBout](https://boxing.github.io/boxrec/classes/boxrec.html#getbout)
+### [getBoutById](https://boxing.github.io/boxrec/classes/boxrec.html#getboutbyid)
 ##### Returns detailed information on a single bout
 
 ```javascript
-boxrec.getBout("726555/2037455");
+boxrec.getBoutById("726555/2037455");
 ```
 
 ### [getRatings](https://boxing.github.io/boxrec/classes/boxrec.html#getratings)
@@ -257,14 +257,22 @@ boxrec.getRatings({
     };
 ```
 
-### [getTitle](https://boxing.github.io/boxrec/classes/boxrec.html#gettitle)
+### [getTitleById](https://boxing.github.io/boxrec/classes/boxrec.html#gettitlebyid)
 ##### Get title information including all bouts that occurred for this title
 ```javascript
 
 // WBC Middleweight information
 // to get this parameter, the link is on a boxer's profile
-await boxrec.getTitle("6/Middleweight");
+await boxrec.getTitleById("6/Middleweight");
 ````
+
+### [getTitles](https://boxing.github.io/boxrec/classes/boxrec.html#gettitles)
+```javascript
+await boxrec.getTitles({
+    bout_title: 322,
+    division: WeightDivisionCapitalized.welterweight,
+})
+```
 
 ### [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf)
 ##### Return/save the PDF version of a BoxRec boxer profile

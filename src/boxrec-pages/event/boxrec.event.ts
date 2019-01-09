@@ -1,73 +1,25 @@
-import {townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecCommonTablesClass} from "../boxrec-common-tables/boxrec-common-tables.class";
+import * as cheerio from "cheerio";
+import {townRegionCountryRegex} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
-
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
+import {BoxrecParseBouts} from "./boxrec.parse.bouts";
 
 /**
  * Used specifically for Events page and Dates page
  */
-export abstract class BoxrecEvent {
+export abstract class BoxrecEvent extends BoxrecParseBouts {
 
-    protected _bouts: Array<[string, string | null]> = [];
-    protected _commission: string;
-    protected _doctor: string | null;
-    protected _id: string;
-    protected _inspector: string | null;
-    protected _location: string | null;
-    protected _matchmaker: string | null;
-    protected _promoter: string | null;
-    protected _television: string;
+    protected $: CheerioStatic;
 
     protected constructor(boxrecBodyString: string) {
-        $ = cheerio.load(boxrecBodyString);
-        this.parseBouts();
+        super(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get bouts(): BoxrecPageEventBoutRow[] {
-        const bouts: Array<[string, string | null]> = [] = this._bouts;
-        const boutsList: BoxrecPageEventBoutRow[] = [];
-        bouts.forEach((val: [string, string | null]) => {
-            const bout: BoxrecPageEventBoutRow = new BoxrecPageEventBoutRow(val[0], val[1]);
-            boutsList.push(bout);
-        });
-
-        return boutsList;
-    }
-
-    get commission(): string | null {
-        if (this._commission) {
-            return this._commission.trim();
-        }
-
-        return null;
-    }
-
-    get doctors(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._doctor}</div>`);
-        const doctors: BoxrecBasic[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const doctor: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($.html(elem));
-            doctors.push(doctor);
-        });
-
-        return doctors;
-    }
-
-    get inspectors(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._inspector}</div>`);
-        const inspectors: BoxrecBasic[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const inspector: BoxrecBasic = BoxrecCommonTablesClass.parseNameAndId($(elem).text());
-            inspectors.push(inspector);
-        });
-
-        return inspectors;
+        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageEventBoutRow(val[0], val[1], true));
     }
 
     get location(): BoxrecBoutLocation {
@@ -84,7 +36,7 @@ export abstract class BoxrecEvent {
             },
         };
 
-        const html: Cheerio = $(`<div>${this._location}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseLocation()}</div>`);
         const links: Cheerio = html.find("a");
 
         locationObject.venue = BoxrecEvent.getVenueInformation(links);
@@ -92,14 +44,15 @@ export abstract class BoxrecEvent {
         return locationObject;
     }
 
+    // does not exist on dates page
     get matchmakers(): BoxrecBasic[] {
-        const html: Cheerio = $(`<div>${this._matchmaker}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parseMatchmakers()}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = $(elem).get(0).attribs.href.match(/(\d+)$/);
+            const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
             if (href) {
-                const name: string = $(elem).text();
+                const name: string = this.$(elem).text();
                 matchmaker.push({
                     id: parseInt(href[1], 10),
                     name,
@@ -111,13 +64,14 @@ export abstract class BoxrecEvent {
         return matchmaker;
     }
 
+    // does not exist on dates page
     get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = $(`<div>${this._promoter}</div>`);
+        const html: Cheerio = this.$(`<div>${this.parsePromoters()}</div>`);
         const promoter: BoxrecPromoter[] = [];
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: string = $(elem).get(0).attribs.href;
-            const name: string = $(elem).text();
+            const href: string = this.$(elem).get(0).attribs.href;
+            const name: string = this.$(elem).text();
             let id: number | null = null;
             let company: string | null = null;
 
@@ -190,17 +144,7 @@ export abstract class BoxrecEvent {
         return promoter;
     }
 
-    get television(): string[] | null {
-        const television: string = this._television;
-
-        if (television) {
-            return television.split(",").map(item => trimRemoveLineBreaks(item));
-        }
-
-        return null;
-    }
-
-    private static getLocationInformation(links: Cheerio): Location {
+    protected static getLocationInformation(links: Cheerio): Location {
         // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
         const hrefPosition: number = +(links.length === 3 || links.length === 4);
 
@@ -214,13 +158,12 @@ export abstract class BoxrecEvent {
         const locationMatches: RegExpMatchArray | null = links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
 
         if (locationMatches) {
-            const [, country, region, townId] = locationMatches;
+            const [, , , townId] = locationMatches;
 
             if (townId) {
                 locationObject.id = parseInt(townId, 10);
                 locationObject.town = links.get(1).children[0].data as string;
             }
-
 
             // there are 1-4 links
             // 2-3 usually means `region` is missing, 4 means it has town, region, country and venue
@@ -241,7 +184,7 @@ export abstract class BoxrecEvent {
         return locationObject;
     }
 
-    private static getVenueInformation(links: Cheerio): BoxrecBasic {
+    protected static getVenueInformation(links: Cheerio): BoxrecBasic {
         const obj: BoxrecBasic = {
             id: null,
             name: null,
@@ -262,34 +205,39 @@ export abstract class BoxrecEvent {
         return obj;
     }
 
-    private parseBouts(): void {
-        const tr: Cheerio = $("table > tbody tr");
-        tr.each((i: number, elem: CheerioElement) => {
-            const boutId: string = $(elem).attr("id");
+    protected getPeopleTable(): Cheerio {
+        return this.$("table thead table tbody tr");
+    }
 
-            // skip rows that are associated with the previous fight
-            if (!boutId || boutId.includes("second")) {
-                return;
+    protected parseEventData(role: BoxrecRole | "television" | "commission"): string {
+        let results: string | null = "";
+
+        this.getPeopleTable().each((i: number, elem: CheerioElement) => {
+            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
+            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
+
+            if (tag === role) {
+                // tested if `television` might actually be a BoxRec role but it isn't
+                results = val.html();
             }
-
-            // we need to check to see if the next row is associated with this bout
-            let isNextRowAssociated: boolean = false;
-            let nextRow: Cheerio | null = $(elem).next();
-            let nextRowId: string = nextRow.attr("id");
-
-            if (nextRowId) {
-                nextRowId = nextRowId.replace(/[a-zA-Z]/g, "");
-
-                isNextRowAssociated = nextRowId === boutId;
-                if (!isNextRowAssociated) {
-                    nextRow = null;
-                }
-            } // else if no next bout exists
-
-            const html: string = $(elem).html() || "";
-            const next: string | null = nextRow ? nextRow.html() : null;
-            this._bouts.push([html, next]);
         });
+
+        return results;
+    }
+
+    // to be overridden by child class
+    protected parseLocation(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    // to be overridden by child class
+    protected parseMatchmakers(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    // to be overridden by child class
+    protected parsePromoters(): string {
+        throw new Error("Needs to be overridden by child class");
     }
 
 }

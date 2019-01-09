@@ -1,14 +1,19 @@
 import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {Country} from "../location/people/boxrec.location.people.constants";
+import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
-import {BoxrecPageProfileJudgeSupervisor} from "./boxrec.page.profile.judgeSupervisor";
-import {BoxrecPageProfileJudgeSupervisorBoutRow} from "./boxrec.page.profile.judgeSupervisor.bout.row";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
+import {BoxrecPageProfileOtherCommon} from "./boxrec.page.profile.other.common";
+import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
+import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
+import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
+// todo this is a mess.  This file needs to be broken up better
 const mockProfileBoxerRJJ: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
 const mockProfileBoxerGGG: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerGGG.html`, "utf8");
 const mockProfileJudgeDaveMoretti: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
@@ -24,26 +29,26 @@ describe("class BoxrecPageProfile", () => {
 
     let boxerRJJ: BoxrecPageProfileBoxer;
     let boxerGGG: BoxrecPageProfileBoxer;
-    let judgeDaveMoretti: BoxrecPageProfileJudgeSupervisor;
+    let judgeDaveMoretti: BoxrecPageProfileOtherCommon;
     let doctorAnthonyRuggeroli: BoxrecPageProfileEvents;
-    let promoterLeonardEllerbe: BoxrecPageProfileEvents;
-    let refereeRobertByrd: BoxrecPageProfileJudgeSupervisor;
+    let promoterLeonardEllerbe: BoxrecPageProfilePromoter;
+    let refereeRobertByrd: BoxrecPageProfileOtherCommon;
     let inspectorMichaelBuchato: BoxrecPageProfileEvents;
     let managerMichaelMcSorleyJr: BoxrecPageProfileManager;
     let matchmakerVeliPekkaMaeki: BoxrecPageProfileEvents;
-    let supervisorSammyMacias: BoxrecPageProfileJudgeSupervisor;
+    let supervisorSammyMacias: BoxrecPageProfileOtherCommon;
 
     beforeAll(() => {
         boxerRJJ = new BoxrecPageProfileBoxer(mockProfileBoxerRJJ);
         boxerGGG = new BoxrecPageProfileBoxer(mockProfileBoxerGGG);
-        judgeDaveMoretti = new BoxrecPageProfileJudgeSupervisor(mockProfileJudgeDaveMoretti);
+        judgeDaveMoretti = new BoxrecPageProfileOtherCommon(mockProfileJudgeDaveMoretti);
         doctorAnthonyRuggeroli = new BoxrecPageProfileEvents(mockProfileDoctorAnthonyRuggeroli);
-        promoterLeonardEllerbe = new BoxrecPageProfileEvents(mockProfilePromoterLeonardEllerbe);
-        refereeRobertByrd = new BoxrecPageProfileJudgeSupervisor(mockProfileRefereeRobertByrd);
+        promoterLeonardEllerbe = new BoxrecPageProfilePromoter(mockProfilePromoterLeonardEllerbe);
+        refereeRobertByrd = new BoxrecPageProfileOtherCommon(mockProfileRefereeRobertByrd);
         inspectorMichaelBuchato = new BoxrecPageProfileEvents(mockProfileInspectorMichaelBuchato);
         managerMichaelMcSorleyJr = new BoxrecPageProfileManager(mockProfileManagerMichaelMcSorleyJr);
         matchmakerVeliPekkaMaeki = new BoxrecPageProfileEvents(mockProfileMatchmakerVeliPekkaMaeki);
-        supervisorSammyMacias = new BoxrecPageProfileJudgeSupervisor(mockProfileSupervisorSammyMacias);
+        supervisorSammyMacias = new BoxrecPageProfileOtherCommon(mockProfileSupervisorSammyMacias);
     });
 
     describe("getter name", () => {
@@ -75,6 +80,14 @@ describe("class BoxrecPageProfile", () => {
 
     });
 
+    describe("getter rating", () => {
+
+        it("should return the boxer's star rating", () => {
+            expect(boxerGGG.rating).toEqual(jasmine.any(Number));
+        });
+
+    });
+
     describe("getter numberOfBouts", () => {
 
         it("should return the number of bouts this boxer has been in, not including scheduled bouts", () => {
@@ -85,8 +98,14 @@ describe("class BoxrecPageProfile", () => {
 
     describe("getter role", () => {
 
-        it("should return a string of the person's roles", () => {
-            expect(boxerRJJ.role).toBe("boxer promoter");
+        it("should return an object of the person's roles", () => {
+            expect(boxerRJJ.role).toEqual([{
+                id: 774820,
+                name: BoxrecRole.boxer,
+            }, {
+                id: 774820,
+                name: BoxrecRole.promoter,
+            }]);
         });
 
     });
@@ -186,7 +205,33 @@ describe("class BoxrecPageProfile", () => {
     describe("getter residence", () => {
 
         it("should return the current residence of the person", () => {
-            expect(boxerRJJ.residence).toBe("Pensacola, Florida, USA");
+            expect(boxerRJJ.residence).toEqual({
+                country: Country.USA,
+                id: 18374,
+                region: "FL",
+                town: "Pensacola",
+            });
+        });
+
+        it("should return the residence for other roles", () => {
+            expect(judgeDaveMoretti.residence).toEqual({
+                country: Country.USA,
+                id: 20388,
+                region: "NV",
+                town: "Las Vegas",
+            });
+        });
+
+    });
+
+    describe("getter vadacbp", () => {
+
+        it("should return boolean if VADA is on profile", () => {
+            expect(boxerGGG.vadacbp).toBe(true);
+        });
+
+        it("should return false if VADA is not on profile", () => {
+            expect(boxerRJJ.vadacbp).toBe(false);
         });
 
     });
@@ -217,7 +262,21 @@ describe("class BoxrecPageProfile", () => {
     describe("getter birthPlace", () => {
 
         it("should return the birth place of the person", () => {
-            expect(boxerRJJ.birthPlace).toBe("Pensacola, Florida, USA");
+            expect(boxerRJJ.birthPlace).toEqual({
+                country: Country.USA,
+                id: 18374,
+                region: "FL",
+                town: "Pensacola",
+            });
+        });
+
+        it("should return the birth place of other roles", () => {
+            expect(judgeDaveMoretti.birthPlace).toEqual({
+                country: null,
+                id: null,
+                region: null,
+                town: null,
+            });
         });
 
     });
@@ -308,14 +367,26 @@ describe("class BoxrecPageProfile", () => {
 
         });
 
+        describe("getter links", () => {
+
+            it("should return an object with `event` in it", () => {
+                expect(leonardEllerbeEvent.links).toEqual(
+                    {
+                        event: 778241,
+                    }
+                );
+            });
+
+        });
+
     });
 
     describe("getter bouts", () => {
 
         let gggCanelo: BoxrecPageProfileBoxerBoutRow;
-        let judgeDaveMorettiLatestBout: BoxrecPageProfileJudgeSupervisorBoutRow;
-        let refereeRobertByrdLatestBout: BoxrecPageProfileJudgeSupervisorBoutRow;
-        let supervisorSammyMaciasLatestBout: BoxrecPageProfileJudgeSupervisorBoutRow;
+        let judgeDaveMorettiLatestBout: BoxrecPageProfileOtherCommonBoutRow;
+        let refereeRobertByrdLatestBout: BoxrecPageProfileOtherCommonBoutRow;
+        let supervisorSammyMaciasLatestBout: BoxrecPageProfileOtherCommonBoutRow;
 
         beforeAll(() => {
             gggCanelo = boxerGGG.bouts[37];
@@ -324,8 +395,33 @@ describe("class BoxrecPageProfile", () => {
             supervisorSammyMaciasLatestBout = supervisorSammyMacias.bouts[0];
         });
 
+        it("should have all bouts to offset the ad that BoxRec has in the list of profile bouts", () => {
+            expect(boxerGGG.bouts.length).toBeGreaterThanOrEqual(40);
+        });
+
         it("should have bouts for people other than boxers", () => {
             expect(judgeDaveMoretti.bouts.length).toBeGreaterThan(0);
+        });
+
+        describe("getter links", () => {
+
+            it("should return an object of links", () => {
+                expect(supervisorSammyMaciasLatestBout.links).toEqual({
+                    bio_open: 2056855,
+                    bout: 2056855,
+                    event: 726555,
+                    other: [],
+                });
+            });
+
+        });
+
+        describe("getter rating", () => {
+
+            it("should return the rating of the bout", () => {
+                expect(gggCanelo.rating).toBe(100);
+            });
+
         });
 
         describe("getter date", () => {
@@ -501,6 +597,11 @@ describe("class BoxrecPageProfile", () => {
 
         it("should return an array", () => {
             expect(boxerGGG.otherInfo.length).toEqual(jasmine.any(Number));
+        });
+
+        it("should not contain known profile values like global id", () => {
+            const globalId: string[] | undefined = boxerGGG.otherInfo.find(key => key[0] === BoxrecProfileTable.globalId);
+            expect(globalId).toBeUndefined();
         });
 
     });

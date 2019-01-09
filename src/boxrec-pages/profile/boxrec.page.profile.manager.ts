@@ -1,12 +1,10 @@
+import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 
-const cheerio: CheerioAPI = require("cheerio");
-let $: CheerioStatic;
-
 export class BoxrecPageProfileManager extends BoxrecPageProfile {
 
-    private _boxersList: string[] = [];
+    protected readonly $: CheerioStatic;
 
     /**
      * When instantiated the HTML for this page needs to be supplied
@@ -15,27 +13,13 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
      */
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
-        $ = cheerio.load(boxrecBodyString);
-        super.parseName();
-        super.parseProfileTableData();
-        this.parseBoxers();
+        this.$ = cheerio.load(boxrecBodyString);
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
-        const boxers: string[] = this._boxersList;
-        const boxersList: BoxrecPageProfileManagerBoxerRow[] = [];
-        boxers.forEach((val: string) => boxersList.push(new BoxrecPageProfileManagerBoxerRow(val)));
-
-        return boxersList;
+        return this.$("#listManagedBoxers tbody tr")
+            .map((i: number, elem: CheerioElement) => this.$(elem).html())
+            .get()
+            .map(item => new BoxrecPageProfileManagerBoxerRow(item));
     }
-
-    private parseBoxers(): void {
-        const tr: Cheerio = $("#listManagedBoxers tbody tr");
-
-        tr.each((i: number, elem: CheerioElement) => {
-            const html: string = $(elem).html() || "";
-            this._boxersList.push(html);
-        });
-    }
-
 }
