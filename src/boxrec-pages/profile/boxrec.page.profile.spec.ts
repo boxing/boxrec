@@ -395,6 +395,10 @@ describe("class BoxrecPageProfile", () => {
             supervisorSammyMaciasLatestBout = supervisorSammyMacias.bouts[0];
         });
 
+        it("should have all bouts to offset the ad that BoxRec has in the list of profile bouts", () => {
+            expect(boxerGGG.bouts.length).toBeGreaterThanOrEqual(40);
+        });
+
         it("should have bouts for people other than boxers", () => {
             expect(judgeDaveMoretti.bouts.length).toBeGreaterThan(0);
         });
