@@ -2,10 +2,21 @@ import * as fs from "fs";
 import {boxRecMocksModulePath, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
+import {BoutPageLast6} from "./boxrec.event.bout.constants";
 import {BoxrecPageEventBout} from "./boxrec.page.event.bout";
 
 const mockBoutCaneloGGG1: string = fs.readFileSync(
     `${boxRecMocksModulePath}/events/bout/mockBoutCaneloGGG1.html`, "utf8");
+
+const testLast6: (last6Obj: BoutPageLast6, expectations: BoutPageLast6) => void =
+    (last6Obj: BoutPageLast6, expectations: BoutPageLast6): void => {
+        const {date, id, name, outcome, outcomeByWayOf} = last6Obj;
+        expect(name).toBe(expectations.name);
+        expect(id).toBe(expectations.id);
+        expect(date).toBe(expectations.date);
+        expect(outcome).toBe(expectations.outcome);
+        expect(outcomeByWayOf).toBe(expectations.outcomeByWayOf);
+    };
 
 describe("class BoxrecPageEventBout", () => {
 
@@ -250,21 +261,26 @@ describe("class BoxrecPageEventBout", () => {
         describe("array of last 6 boxers", () => {
 
             it("should give the first boxer information", () => {
-                const {date, id, name, outcome, outcomeByWayOf} = caneloGGG1.firstBoxerLast6[0];
-                expect(name).toBe("Daniel Jacobs");
-                expect(id).toBe(432984);
-                expect(date).toBe("2017-03-18");
-                expect(outcome).toBe(WinLossDraw.win);
-                expect(outcomeByWayOf).toBe(BoxingBoutOutcome.UD);
+
+                testLast6(caneloGGG1.firstBoxerLast6[0], {
+                    date: "2017-03-18",
+                    id: 432984,
+                    name: "Daniel Jacobs",
+                    outcome: WinLossDraw.win,
+                    outcomeByWayOf: BoxingBoutOutcome.UD,
+                });
+
             });
 
             it("should give the second boxer information", () => {
-                const {date, id, name, outcome, outcomeByWayOf} = caneloGGG1.firstBoxerLast6[1];
-                expect(name).toBe("Kell Brook");
-                expect(id).toBe(272717);
-                expect(date).toBe("2016-09-10");
-                expect(outcome).toBe(WinLossDraw.win);
-                expect(outcomeByWayOf).toBe(BoxingBoutOutcome.TKO);
+                testLast6(caneloGGG1.firstBoxerLast6[1], {
+                    date: "2016-09-10",
+                    id: 272717,
+                    name: "Kell Brook",
+                    outcome: WinLossDraw.win,
+                    outcomeByWayOf: BoxingBoutOutcome.TKO,
+                });
+
             });
 
         });
@@ -276,21 +292,23 @@ describe("class BoxrecPageEventBout", () => {
         describe("array of last 6 boxers", () => {
 
             it("should give the first boxer information", () => {
-                const {date, id, name, outcome, outcomeByWayOf} = caneloGGG1.secondBoxerLast6[0];
-                expect(name).toBe("Julio Cesar Chavez Jr");
-                expect(id).toBe(214371);
-                expect(date).toBe("2017-05-06");
-                expect(outcome).toBe(WinLossDraw.win);
-                expect(outcomeByWayOf).toBe(BoxingBoutOutcome.UD);
+                testLast6(caneloGGG1.secondBoxerLast6[0], {
+                    date: "2017-05-06",
+                    id: 214371,
+                    name: "Julio Cesar Chavez Jr",
+                    outcome: WinLossDraw.win,
+                    outcomeByWayOf: BoxingBoutOutcome.UD,
+                });
             });
 
             it("should give the second boxer information", () => {
-                const {date, id, name, outcome, outcomeByWayOf} = caneloGGG1.secondBoxerLast6[1];
-                expect(name).toBe("Liam Smith");
-                expect(id).toBe(466535);
-                expect(date).toBe("2016-09-17");
-                expect(outcome).toBe(WinLossDraw.win);
-                expect(outcomeByWayOf).toBe(BoxingBoutOutcome.KO);
+                testLast6(caneloGGG1.secondBoxerLast6[1], {
+                    date: "2016-09-17",
+                    id: 466535,
+                    name: "Liam Smith",
+                    outcome: WinLossDraw.win,
+                    outcomeByWayOf: BoxingBoutOutcome.KO,
+                });
             });
 
         });
