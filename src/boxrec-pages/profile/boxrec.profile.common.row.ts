@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecProfileLinks} from "./boxrec.profile.constants";
 
 // contains common functionality of profiles rows
@@ -20,10 +21,7 @@ export abstract class BoxrecProfileCommonRow {
         };
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const div: Cheerio = this.$(elem).find("div");
-            const href: string = this.$(elem).attr("href");
-            const classAttr: string = div.attr("class");
-            const hrefArr: string[] = classAttr.split(" ");
+            const {href, hrefArr} = BoxrecCommonLinks.parseLinkInformation(elem);
 
             hrefArr.forEach(cls => {
                 if (cls !== "primaryIcon" && cls !== "clickableIcon") {
