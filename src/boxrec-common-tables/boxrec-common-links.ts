@@ -12,22 +12,19 @@ interface LinksObj {
 export class BoxrecCommonLinks {
 
     /**
-     * Takes a link column and returns the needed data to parse it
-     * @param {CheerioElement} elem
-     * @returns {LinksObj}
+     * Loops through Cheerio object and gets link information
+     * @param {Cheerio} html
+     * @param {T} obj
+     * @returns {T}
      */
-    static parseLinkInformation(elem: CheerioElement): LinksObj {
-        const div: Cheerio = $(elem).find("div");
-        const href: string = $(elem).attr("href");
-        const classAttr: string = div.attr("class");
-        const hrefArr: string[] = classAttr.split(" ");
+    static parseLinkInformation<T>(html: Cheerio, obj: T): T {
+        html.find("a").each((i: number, elem: CheerioElement) => {
+            const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
 
-        return {
-            classAttr,
-            div,
-            href,
-            hrefArr,
-        };
+            return BoxrecCommonLinks.parseLinks<T>(hrefArr, href, obj);
+        });
+
+        return obj;
     }
 
     static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
@@ -60,6 +57,25 @@ export class BoxrecCommonLinks {
         });
 
         return obj;
+    }
+
+    /**
+     * Takes a link column and returns the needed data to parse it
+     * @param {CheerioElement} elem
+     * @returns {LinksObj}
+     */
+    static parseLinksColumn(elem: CheerioElement): LinksObj {
+        const div: Cheerio = $(elem).find("div");
+        const href: string = $(elem).attr("href");
+        const classAttr: string = div.attr("class");
+        const hrefArr: string[] = classAttr.split(" ");
+
+        return {
+            classAttr,
+            div,
+            href,
+            hrefArr,
+        };
     }
 
 }

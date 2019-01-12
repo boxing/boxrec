@@ -35,13 +35,7 @@ export class BoxrecPageTitleRow {
             other: [], // any other links we'll throw the whole href attribute in here
         };
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const {href, hrefArr} = BoxrecCommonLinks.parseLinkInformation(elem);
-
-            return BoxrecCommonLinks.parseLinks<BoxrecTitleLinks>(hrefArr, href, obj);
-        });
-
-        return obj;
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecTitleLinks>(html, obj);
     }
 
     get location(): Location {

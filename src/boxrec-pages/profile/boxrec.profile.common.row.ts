@@ -21,7 +21,7 @@ export abstract class BoxrecProfileCommonRow {
         };
 
         html.find("a").each((i: number, elem: CheerioElement) => {
-            const {href, hrefArr} = BoxrecCommonLinks.parseLinkInformation(elem);
+            const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
 
             hrefArr.forEach(cls => {
                 if (cls !== "primaryIcon" && cls !== "clickableIcon") {

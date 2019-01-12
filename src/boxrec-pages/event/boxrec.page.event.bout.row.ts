@@ -56,13 +56,7 @@ export class BoxrecPageEventBoutRow {
             other: [], // any other links we'll throw the whole href attribute in here
         };
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const {href, hrefArr} = BoxrecCommonLinks.parseLinkInformation(elem);
-
-            return BoxrecCommonLinks.parseLinks<BoxrecEventLinks>(hrefArr, href, obj);
-        });
-
-        return obj;
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecEventLinks>(html, obj);
     }
 
     get metadata(): string | null {
