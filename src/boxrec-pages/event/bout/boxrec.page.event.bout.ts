@@ -65,14 +65,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get firstBoxerRanking(): number | null {
-        const ranking: Cheerio = this.$(this.parseRanking());
-        const td: Cheerio = ranking.find("td:nth-child(1)");
-
-        if (td) {
-            return parseInt(td.text(), 10);
-        }
-
-        return null;
+        return this.parseRankingData(1);
     }
 
     get firstBoxerReach(): number[] | null {
@@ -187,14 +180,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get secondBoxerRanking(): number | null {
-        const ranking: Cheerio = this.$(this.parseRanking());
-        const td: Cheerio = ranking.find("td:nth-child(3)");
-
-        if (td) {
-            return parseInt(td.text(), 10);
-        }
-
-        return null;
+        return this.parseRankingData(3);
     }
 
     get secondBoxerReach(): number[] | null {
@@ -638,6 +624,17 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     private parseRanking(): string {
         const ranking: Cheerio = this.parseMiddleRowByText("ranking") as Cheerio;
         return this.$.html(ranking.next());
+    }
+
+    private parseRankingData(columnNumber: number = 1): number | null {
+        const ranking: Cheerio = this.$(this.parseRanking());
+        const td: Cheerio = ranking.find(`td:nth-child(${columnNumber})`);
+
+        if (td.text()) {
+            return parseInt(td.text(), 10);
+        }
+
+        return null;
     }
 
     private parseTitles(): string | null {

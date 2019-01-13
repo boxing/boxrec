@@ -53,7 +53,7 @@ exclude_patterns:
 - "**/node_modules/"
 - "script/"
 - "**/spec/"
-- "**/spec.ts"
+- "**/*.spec.ts"
 - "**/test/"
 - "**/tests/"
 - "**/vendor/"

@@ -4,6 +4,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
+import {BoxrecTitleLinks} from "../title/boxrec.title.common";
 import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
 
 // used for profiles other than boxers
@@ -32,16 +33,7 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
             event: null,
         };
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const div: Cheerio = this.$(elem).find("div");
-            const href: string = this.$(elem).attr("href");
-            const classAttr: string = div.attr("class");
-            const hrefArr: string[] = classAttr.split(" ");
-
-            return BoxrecCommonLinks.parseLinks<BoxrecProfileEventLinks>(hrefArr, href, obj);
-        });
-
-        return obj;
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecProfileEventLinks>(html, obj);
     }
 
     get location(): Location {

@@ -35,16 +35,7 @@ export class BoxrecPageTitleRow {
             other: [], // any other links we'll throw the whole href attribute in here
         };
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const div: Cheerio = this.$(elem).find("div");
-            const href: string = this.$(elem).attr("href");
-            const classAttr: string = div.attr("class");
-            const hrefArr: string[] = classAttr.split(" ");
-
-            return BoxrecCommonLinks.parseLinks<BoxrecTitleLinks>(hrefArr, href, obj);
-        });
-
-        return obj;
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecTitleLinks>(html, obj);
     }
 
     get location(): Location {
