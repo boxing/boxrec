@@ -4,6 +4,7 @@ import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoutPageLast6} from "./boxrec.event.bout.constants";
 import {BoxrecPageEventBout} from "./boxrec.page.event.bout";
+import mock = jest.mock;
 
 const mockBoutCaneloGGG1: string = fs.readFileSync(
     `${boxRecMocksModulePath}/events/bout/mockBoutCaneloGGG1.html`, "utf8");
@@ -21,9 +22,17 @@ const testLast6: (last6Obj: BoutPageLast6, expectations: BoutPageLast6) => void 
 describe("class BoxrecPageEventBout", () => {
 
     let caneloGGG1: BoxrecPageEventBout;
+    let caneloGGG1Fake: BoxrecPageEventBout;
 
     beforeAll(() => {
         caneloGGG1 = new BoxrecPageEventBout(mockBoutCaneloGGG1);
+
+        // create additional HTML mock so we can modify it for testing
+        let modifiedCaneloGGG1: string = mockBoutCaneloGGG1;
+
+        // change the ranking for the first boxer to be empty
+        modifiedCaneloGGG1 = modifiedCaneloGGG1.replace(/\>\d\</, "><");
+        caneloGGG1Fake = new BoxrecPageEventBout(modifiedCaneloGGG1);
     });
 
     describe("getter date", () => {
@@ -132,6 +141,11 @@ describe("class BoxrecPageEventBout", () => {
 
         it("should be the first boxer's rating", () => {
             expect(caneloGGG1.firstBoxerRanking).toBe(2);
+        });
+
+        it("should return null if cannot find the boxer's ranking", () => {
+
+            expect(caneloGGG1Fake.firstBoxerRanking).toBe(null);
         });
 
     });

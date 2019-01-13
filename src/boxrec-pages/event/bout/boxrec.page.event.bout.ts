@@ -630,7 +630,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         const ranking: Cheerio = this.$(this.parseRanking());
         const td: Cheerio = ranking.find(`td:nth-child(${columnNumber})`);
 
-        if (td) {
+        if (td.text()) {
             return parseInt(td.text(), 10);
         }
 
