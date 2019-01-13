@@ -109,10 +109,6 @@ describe("class BoxrecPageRatings", () => {
 
             describe("getter residence", () => {
 
-                it("should have the id", () => {
-                    expect(ratingsOutput.residence.id).toEqual(jasmine.any(Number));
-                });
-
                 it("should return the country", () => {
                     expect(ratingsOutput.residence.country).toEqual(jasmine.any(String));
                 });
