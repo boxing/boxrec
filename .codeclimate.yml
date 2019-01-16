@@ -53,8 +53,9 @@ exclude_patterns:
 - "**/node_modules/"
 - "script/"
 - "**/spec/"
-- "**/*.spec.ts"
+- "**/*.spec.ts" # todo remove as it doesn't hurt to watch maintainability on spec files
 - "**/test/"
 - "**/tests/"
 - "**/vendor/"
 - "**/*.d.ts"
+- "**/docs/" # ignore docs

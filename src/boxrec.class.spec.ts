@@ -7,7 +7,7 @@ import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profil
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
-import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title.constants";
+import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
 import boxrec from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
@@ -394,6 +394,24 @@ describe("class Boxrec", () => {
 
         it("should save the file with `.html` file type", async () => {
             testFileWrite("getBoxerPrint", "./foo", null, "./foo/555.html");
+        });
+
+    });
+
+    describe("method watch", () => {
+
+        it("should throw an error if the boxer doesn't appear in the list", async () => {
+            jest.spyOn(BoxrecPageWatch.prototype, "checkForBoxerInList").mockReturnValueOnce(false);
+            await expect(boxrec.watch(352)).rejects.toThrowError("Boxer did not appear in list after being added");
+        });
+
+    });
+
+    describe("method unwatch", () => {
+
+        it("should throw an error if the boxer does appear in the list", async () => {
+            jest.spyOn(BoxrecPageWatch.prototype, "checkForBoxerInList").mockReturnValueOnce(true);
+            await expect(boxrec.unwatch(352)).rejects.toThrowError("Boxer appears in list after being removed");
         });
 
     });

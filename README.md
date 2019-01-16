@@ -289,6 +289,25 @@ Follows the exact same format as [getBoxerPDF](https://boxing.github.io/boxrec/c
 await boxrec.getBoxerPrint(555); 
 ```
 
+### [watch](https://boxing.github.io/boxrec/classes/boxrec.html#watch)
+##### Add the boxer to the user's watch list
+```
+await boxrec.watch(555); 
+```
+
+### [unwatch](https://boxing.github.io/boxrec/classes/boxrec.html#unwatch)
+##### Remove the boxer from the user's watch list
+```
+await boxrec.unwatch(555); 
+```
+
+### [getWatched](https://boxing.github.io/boxrec/classes/boxrec.html#getwatched)
+##### Return an array of boxers that the user is watching
+```
+await boxrec.getWatched(); 
+```
+
+
 ## Documentation
 
 [Additional documentation](https://boxing.github.io/boxrec)
