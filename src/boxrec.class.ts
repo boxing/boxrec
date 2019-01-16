@@ -34,6 +34,8 @@ import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecTitlesParams,} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
+import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
@@ -304,6 +306,17 @@ class Boxrec {
     }
 
     /**
+     * Lists all boxers that are watched
+     * @returns {Promise<BoxrecPageWatchRow>}
+     */
+    async getWatched(): Promise<BoxrecPageWatchRow[]> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.watch(this._cookieJar, 0);
+        return new BoxrecPageWatch(boxrecPageBody).list();
+    }
+
+    /**
      * Makes a request to BoxRec to log the user in
      * This is required before making any additional calls
      * The session cookie is stored inside this class and lost
@@ -329,6 +342,42 @@ class Boxrec {
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.search(this._cookieJar, params, offset);
 
         return new BoxrecPageSearch(boxrecPageBody).results;
+    }
+
+    /**
+     * Removes the boxer from the users watch list, returns true if they were successfully removed
+     * @param {number} boxerGlobalId
+     * @returns {Promise<boolean>}
+     */
+    async unwatch(boxerGlobalId: number): Promise<boolean> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.unwatch(this._cookieJar, boxerGlobalId);
+        const isBoxerInList: boolean = new BoxrecPageWatch(boxrecPageBody).checkForBoxerInList(boxerGlobalId);
+
+        if (isBoxerInList) {
+            throw new Error("Boxer appears in list after being removed");
+        }
+
+        return !isBoxerInList;
+    }
+
+    /**
+     * Adds the boxer to the users watch list, returns true if they were successfully added to the list
+     * @param {number} boxerGlobalId
+     * @returns {Promise<boolean>}
+     */
+    async watch(boxerGlobalId: number): Promise<boolean> {
+        this.checkIfLoggedIntoBoxRec();
+
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.watch(this._cookieJar, boxerGlobalId);
+        const isBoxerInList: boolean = new BoxrecPageWatch(boxrecPageBody).checkForBoxerInList(boxerGlobalId);
+
+        if (!isBoxerInList) {
+            throw new Error("Boxer did not appear in list after being added");
+        }
+
+        return isBoxerInList;
     }
 
     /**

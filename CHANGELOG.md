@@ -1,3 +1,11 @@
+## 1.1.0 (2019-01-15)
+
+### Added
+
+- Can now use `watch` method watch a boxer
+- Can now use `unwatch` method to unwatch a boxer
+- Can now use `getWatched` method to list boxers that the user is watching
+
 ## 1.0.0 (2019-01-08)
 
 ### Added

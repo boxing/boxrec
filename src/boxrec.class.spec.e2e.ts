@@ -23,6 +23,7 @@ import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
+import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 import boxrec from "./boxrec.class";
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -1002,6 +1003,34 @@ describe("class Boxrec (E2E)", () => {
                 ]);
             });
 
+        });
+
+    });
+
+    describe("method watch", () => {
+
+        it("should add the boxer to the list", async () => {
+            const response: boolean = await boxrec.watch(447121); // Terence Crawford
+            expect(response).toBe(true);
+        });
+
+    });
+
+    describe("method getWatched", () => {
+
+        it("should include watched boxers", async () => {
+            const response: BoxrecPageWatchRow[] = await boxrec.getWatched();
+            const find: BoxrecPageWatchRow | undefined = response.find(item => item.globalId === 447121);
+            expect(find).toBeDefined();
+        });
+
+    });
+
+    describe("method unwatch", () => {
+
+        it("should remove the boxer from the list", async () => {
+            const response: boolean = await boxrec.unwatch(447121); // Terence Crawford
+            expect(response).toBe(true);
         });
 
     });

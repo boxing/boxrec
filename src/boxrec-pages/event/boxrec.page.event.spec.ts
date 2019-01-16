@@ -14,9 +14,15 @@ describe("class BoxrecPageEvent", () => {
     let eventBellewHaye2: BoxrecPageEvent;
     let eventMayweatherMcGregor: BoxrecPageEvent;
 
+    // the BoxRec events page keeps changing where it positions Haye/Bellew fight
+    // get the index to prevent the tests from failing
+    let bellewHayeIndex: number = 0;
+
     beforeAll(() => {
         eventBellewHaye2 = new BoxrecPageEvent(mockEventBellewHaye2);
         eventMayweatherMcGregor = new BoxrecPageEvent(mockEventMayweatherMcGregor);
+
+        bellewHayeIndex = eventBellewHaye2.bouts.findIndex(item => item.firstBoxer.id === 425328);
     });
 
     describe("getter date", () => {
@@ -130,8 +136,8 @@ describe("class BoxrecPageEvent", () => {
     describe("getter bouts", () => {
 
         it("should return an array of bouts", () => {
-            expect(eventBellewHaye2.bouts[0].firstBoxer.name).toBe("Tony Bellew");
-            expect(eventBellewHaye2.bouts[6].secondBoxer.name).toBe("Troy James");
+            expect(eventBellewHaye2.bouts[bellewHayeIndex].firstBoxer.name).toBe("Tony Bellew");
+            expect(eventBellewHaye2.bouts[bellewHayeIndex].secondBoxer.name).toBe("David Haye");
         });
 
         describe("bouts values", () => {
@@ -139,7 +145,7 @@ describe("class BoxrecPageEvent", () => {
             let bout: BoxrecPageEventBoutRow;
 
             beforeAll(() => {
-                bout = eventBellewHaye2.bouts[0]; // Bellew Haye 2
+                bout = eventBellewHaye2.bouts[bellewHayeIndex];
             });
 
             describe("getter firstBoxerLast6", () => {

@@ -707,13 +707,13 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-boxrec-mocks@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/boxrec-mocks/-/boxrec-mocks-1.0.0.tgz#1f9647bcbb72686ad492b9930d2f3bc421234680"
+boxrec-mocks@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/boxrec-mocks/-/boxrec-mocks-1.1.0.tgz#e957e823a070f49db7b30b11b24a31f6bbfaae50"
 
-boxrec-requests@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-4.0.0.tgz#fd47141d85ba80ccad77c40e36bc246303168154"
+boxrec-requests@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-4.1.0.tgz#c55468465f281eefac101d10504716c09c9ac6fe"
   dependencies:
     cheerio "^1.0.0-rc.2"
     request-promise "^4.2.2"

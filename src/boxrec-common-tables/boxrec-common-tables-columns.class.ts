@@ -105,9 +105,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
 
     static parseLast6Column(htmlString: string): WinLossDraw[] {
         const last6: WinLossDraw[] = [];
-        const opponentLast6: Cheerio = $(htmlString);
-
-        opponentLast6.find("div.last6").each((i: number, elem: CheerioElement) => {
+        $(htmlString).find("div.last6").each((i: number, elem: CheerioElement) => {
             const className: string = elem.attribs.class;
             if (className.includes("bgW")) {
                 last6.push(WinLossDraw.win);
@@ -297,7 +295,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
         };
         const html: Cheerio = $(`<div>${htmlString}</div>`);
 
-        if (html.find(".textWon") && !htmlString.includes("debut")) { // has fought/or fighter picked
+        if (html.find(".textWon").length && !htmlString.includes("debut")) { // has fought/or fighter picked
             record.win = parseInt(html.find(".textWon").text(), 10);
             record.loss = parseInt(html.find(".textLost").text(), 10);
             record.draw = parseInt(html.find(".textDraw").text(), 10);
