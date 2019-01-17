@@ -63,6 +63,7 @@ describe("class BoxrecPageChampions", () => {
             expect(list.heavyweight.IBF).toEqual({
                 id: 659461,
                 name: "Anthony Joshua",
+                picture: "https://static.boxrec.com/thumb/9/94/Anthony_Joshua1.jpeg/200px-Anthony_Joshua1.jpeg",
             });
         });
 

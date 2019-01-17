@@ -20,13 +20,17 @@ export interface BoxrecChampionsByWeightDivision {
     welterweight: BoxrecBelts;
 }
 
+export interface BoxrecChampion extends BoxrecBasic {
+    picture: string | null;
+}
+
 export interface BoxrecBelts {
-    BoxRec: BoxrecBasic | null;
-    IBF: BoxrecBasic | null;
-    IBO: BoxrecBasic | null;
-    WBA: BoxrecBasic | null;
-    WBC: BoxrecBasic | null;
-    WBO: BoxrecBasic | null;
+    BoxRec: BoxrecChampion | null;
+    IBF: BoxrecChampion | null;
+    IBO: BoxrecChampion | null;
+    WBA: BoxrecChampion | null;
+    WBC: BoxrecChampion | null;
+    WBO: BoxrecChampion | null;
 }
 
 export interface BoxrecUnformattedChampions {
