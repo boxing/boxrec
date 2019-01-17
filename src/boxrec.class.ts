@@ -306,13 +306,13 @@ class Boxrec {
     }
 
     /**
-     * Lists all boxers that are watched
+     * Lists all boxers that are watched by the user
      * @returns {Promise<BoxrecPageWatchRow>}
      */
     async getWatched(): Promise<BoxrecPageWatchRow[]> {
         this.checkIfLoggedIntoBoxRec();
 
-        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.watch(this._cookieJar, 0);
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getWatched(this._cookieJar);
         return new BoxrecPageWatch(boxrecPageBody).list();
     }
 

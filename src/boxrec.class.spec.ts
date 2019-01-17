@@ -1,3 +1,4 @@
+import {BoxrecRequests} from "boxrec-requests";
 import * as fs from "fs";
 import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
@@ -412,6 +413,18 @@ describe("class Boxrec", () => {
         it("should throw an error if the boxer does appear in the list", async () => {
             jest.spyOn(BoxrecPageWatch.prototype, "checkForBoxerInList").mockReturnValueOnce(true);
             await expect(boxrec.unwatch(352)).rejects.toThrowError("Boxer appears in list after being removed");
+        });
+
+    });
+
+    describe("method getWatched", () => {
+
+        it("should return a list of watched boxers", async () => {
+            const spy: SpyInstance = jest.spyOn(BoxrecRequests, "getWatched");
+            const spyList: SpyInstance = jest.spyOn(BoxrecPageWatch.prototype, "list");
+            await boxrec.getWatched();
+            expect(spy).toHaveBeenCalled();
+            expect(spyList).toHaveBeenCalled();
         });
 
     });
