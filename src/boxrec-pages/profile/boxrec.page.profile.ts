@@ -86,6 +86,10 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
         return this.parseOtherInfo();
     }
 
+    get picture(): string {
+        return this.$(".profileTablePhoto img").attr("src");
+    }
+
     /**
      * Returns the current residency of the person
      * @returns {Location}

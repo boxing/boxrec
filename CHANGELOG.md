@@ -1,3 +1,10 @@
+## 1.2.0 (2019-01-16)
+
+### Added
+
+- `getPersonById` now supports a getter for the profile picture by using `picture`
+- Champions method `getByWeightDivision` now supports the picture of the champion
+
 ## 1.1.0 (2019-01-15)
 
 ### Added

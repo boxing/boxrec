@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {
-    BoxrecBelts,
+    BoxrecBelts, BoxrecChampion,
     BoxrecChampionsByWeightDivision,
     BoxrecUnformattedChampions,
     WeightDivision
@@ -97,9 +97,10 @@ export class BoxrecPageChampions {
 
                 this.$(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
                     if (tdIndex !== 0) {
-                        const boxer: BoxrecBasic | null = {
+                        const boxer: BoxrecChampion | null = {
                             id: null,
                             name: null,
+                            picture: null,
                         };
                         const firstLink: Cheerio = this.$(tdElem).find("a:nth-child(1)");
 
@@ -113,10 +114,12 @@ export class BoxrecPageChampions {
 
                                 if (firstLink[0] && firstLink[0].attribs) {
                                     const href: RegExpMatchArray | null = firstLink[0].attribs.href.match(/(\d+)$/);
+                                    const picture: string = this.$(tdElem).find("img").attr("src");
 
                                     if (href && href[1]) {
                                         boxer.id = parseInt(href[1], 10);
                                         boxer.name = name;
+                                        boxer.picture = picture;
                                         (champions as any)[last].beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
                                     }
                                 }

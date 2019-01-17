@@ -88,6 +88,14 @@ describe("class BoxrecPageProfile", () => {
 
     });
 
+    describe("getter picture", () => {
+
+        it("should return the URL of the person's profile picture", () => {
+            expect(boxerRJJ.picture).toBe("https://static.boxrec.com/thumb/1/12/RoyJonesJrPP.jpg/200px-RoyJonesJrPP.jpg");
+        });
+
+    });
+
     describe("getter numberOfBouts", () => {
 
         it("should return the number of bouts this boxer has been in, not including scheduled bouts", () => {

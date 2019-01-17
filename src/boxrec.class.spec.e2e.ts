@@ -509,6 +509,10 @@ describe("class Boxrec (E2E)", () => {
 
         });
 
+        it("should return the URL of the person's profile picture", () => {
+            expect((boxers.get(352) as BoxrecPageProfileBoxer).picture).toContain("FloydMayweather");
+        });
+
     });
 
     describe("method getResults", () => {
