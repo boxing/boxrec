@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecTitleLinks} from "../title/boxrec.title.common";
+import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
 
 export abstract class BoxrecTitlesCommon {
 
@@ -10,11 +10,12 @@ export abstract class BoxrecTitlesCommon {
         this.$ = cheerio.load(html);
     }
 
-    get links(): BoxrecTitleLinks {
+    get links(): BoxrecGeneralLinks {
         const html: Cheerio = this.parseLinks();
         // the links returned could contain `bio_closed` or `bio_open` as well
         // `bio_open` for events that haven't concluded.  `bio_closed` for belt/division selected
-        const obj: BoxrecTitleLinks = {
+        const obj: BoxrecGeneralLinks = {
+            bio: null,
             bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
@@ -24,7 +25,7 @@ export abstract class BoxrecTitlesCommon {
             const div: Cheerio = this.$(elem).find("div");
             const href: string = this.$(elem).attr("href");
             const hrefArr: string[] = div.attr("class").split(" ");
-            return BoxrecCommonLinks.parseLinks<BoxrecTitleLinks>(hrefArr, href, obj);
+            return BoxrecCommonLinks.parseLinks<BoxrecGeneralLinks>(hrefArr, href, obj);
         });
 
         return obj;

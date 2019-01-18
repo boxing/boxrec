@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, Location, WinLossDraw} from "../boxrec.constants";
-import {BoxrecTitleLinks} from "./boxrec.title.common";
 
 export class BoxrecPageTitleRow {
 
@@ -26,16 +26,16 @@ export class BoxrecPageTitleRow {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 3, false));
     }
 
-    get links(): BoxrecTitleLinks {
+    get links(): BoxrecGeneralLinks {
         const html: Cheerio = this.$(getColumnData(this.$, 11));
-        const obj: BoxrecTitleLinks = {
-            bio_closed: null,
+        const obj: BoxrecGeneralLinks = {
+            bio: null,
             bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
         };
 
-        return BoxrecCommonLinks.parseLinkInformation<BoxrecTitleLinks>(html, obj);
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecGeneralLinks>(html, obj);
     }
 
     get location(): Location {

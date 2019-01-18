@@ -66,7 +66,7 @@ describe("class BoxrecPageTitle", () => {
 
                 it("should return an object", () => {
                     expect(mostRecentBout.links).toEqual({
-                        bio_closed: 2289611,
+                        bio: 2289611,
                         bout: "777131/2289611",
                         event: 777131,
                         other: []

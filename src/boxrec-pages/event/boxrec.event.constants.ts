@@ -17,7 +17,7 @@ export enum BoxingBoutOutcome {
 }
 
 export interface BoxrecEventLinks {
-    bio_open: number | null; // this is the wiki link
+    bio: number | null; // this is the wiki link
     bout: number | null;
     other: string[];
 }

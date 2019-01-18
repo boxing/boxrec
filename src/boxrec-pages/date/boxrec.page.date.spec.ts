@@ -157,7 +157,7 @@ describe("class BoxrecPageDate", () => {
                 });
 
                 it("should return the wiki link", () => {
-                    expect(firstEventFirstBout.links.bio_open).toBe(1513428);
+                    expect(firstEventFirstBout.links.bio).toBe(1513428);
                 });
 
             });

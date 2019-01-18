@@ -51,7 +51,7 @@ export class BoxrecPageEventBoutRow {
 
         const html: Cheerio = this.$(linksStr);
         const obj: BoxrecEventLinks = {
-            bio_open: null,
+            bio: null,
             bout: null,
             other: [], // any other links we'll throw the whole href attribute in here
         };

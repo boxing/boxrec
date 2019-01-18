@@ -61,13 +61,6 @@ export interface BoxrecProfileBoutLocation {
     venue: string | null;
 }
 
-export interface BoxrecProfileLinks {
-    bio_open: number | null;  // this is the wiki link
-    bout: number | null;
-    event: number | null;
-    other: string[];
-}
-
 export interface BoxrecProfileEventLinks {
     event: number | null;
 }
