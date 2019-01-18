@@ -42,17 +42,27 @@ export class BoxrecPageEvent extends BoxrecEvent {
             .map(item => BoxrecCommonTablesColumnsClass.parseNameAndId(item));
     }
 
-    get id(): number {
-        let id: string = "";
-        const wikiHref: string | null = this.$(this.parseEventResults()).find("h2").next().find(".bio_closedP").parent().attr("href");
-        if (wikiHref) {
-            const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
-            if (wikiLink && wikiLink[1]) {
-                id = wikiLink[1];
+    get id(): number | null {
+        // attempts to parse the link information
+        const getLink: (href: string | null) => number | null = (href: string | null): number | null => {
+            if (href) {
+                const wikiLink: RegExpMatchArray | null = href.match(/(\d+)$/);
+                if (wikiLink && wikiLink[1]) {
+                    return parseInt(wikiLink[1], 10);
+                }
             }
+
+            return null;
+        };
+
+        const parent: Cheerio = this.$(this.parseEventResults()).find("h2").next();
+        let wikiHref: string | null = parent.find(".bio_closedP").parent().attr("href");
+        if (wikiHref) {
+            return getLink(wikiHref);
         }
 
-        return parseInt(id, 10);
+        wikiHref = parent.find(".bio_openP").parent().attr("href");
+        return getLink(wikiHref);
     }
 
     get inspector(): BoxrecBasic {

@@ -33,7 +33,7 @@ describe("class BoxrecPageTitles", () => {
     // tests for bio_closed links
     const bioClosedTestObject: (firstBout: BoxrecPageTitlesRow) => void = (firstBout: BoxrecPageTitlesRow) => {
         expect(firstBout.links).toEqual({
-            bio_closed: jasmine.any(Number),
+            bio: jasmine.any(Number),
             bout: jasmine.any(String),
             event: jasmine.any(Number),
             other: [],
@@ -110,8 +110,7 @@ describe("class BoxrecPageTitles", () => {
 
                 it("should include an object of links", () => {
                     expect(firstBout.links).toEqual({
-                        // todo this will keep changing
-                        bio_open: jasmine.any(Number),
+                        bio: jasmine.any(Number),
                         bout: jasmine.any(String),
                         event: jasmine.any(Number),
                         other: [],
@@ -153,7 +152,7 @@ describe("class BoxrecPageTitles", () => {
 
                 it("should include an object of links", () => {
                     expect(firstBout.links).toEqual({
-                        bio_open: jasmine.any(Number),
+                        bio: jasmine.any(Number),
                         bout: jasmine.any(String),
                         event: jasmine.any(Number),
                         other: [],

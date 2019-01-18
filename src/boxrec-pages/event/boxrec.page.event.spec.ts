@@ -77,6 +77,14 @@ describe("class BoxrecPageEvent", () => {
 
     });
 
+    describe("getter id", () => {
+
+        it("should return the id", () => {
+            expect(eventBellewHaye2.id).toBe(761332);
+        });
+
+    });
+
     describe("getter promoter", () => {
 
         describe("listing the promoter(s)", () => {
@@ -160,7 +168,7 @@ describe("class BoxrecPageEvent", () => {
 
                 it("should return links in an object", () => {
                     expect(bout.links.bout).toBe("761332/2209971");
-                    expect(bout.links.bio_open).toBe(2209971);
+                    expect(bout.links.bio).toBe(2209971);
                 });
 
                 it("should return unknown links in the other object", () => {

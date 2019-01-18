@@ -39,6 +39,9 @@ export class BoxrecCommonLinks {
                         formattedCls = cls.slice(0, -1);
                     }
 
+                    // if it's one of the `bio_closed/bio_open` link, change it to just `bio`
+                    formattedCls = formattedCls === "bio_open" || formattedCls === "bio_closed" ? "bio" : formattedCls;
+
                     // check if it contains "/" but is not the first character
                     if (matches[1].includes("/")) {
                         const formattedMatch: string = matches[1].substring(1);

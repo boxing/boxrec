@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecProfileLinks} from "./boxrec.profile.constants";
+import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
 
 // contains common functionality of profiles rows
 export abstract class BoxrecProfileCommonRow {
@@ -11,10 +11,10 @@ export abstract class BoxrecProfileCommonRow {
         this.$ = cheerio.load(html);
     }
 
-    get links(): BoxrecProfileLinks {
+    get links(): BoxrecGeneralLinks {
         const html: Cheerio = this.parseLinks();
-        const obj: BoxrecProfileLinks = {
-            bio_open: null,
+        const obj: BoxrecGeneralLinks = {
+            bio: null,
             bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
@@ -33,6 +33,10 @@ export abstract class BoxrecProfileCommonRow {
                         if (cls.slice(-1) === "P") {
                             formattedCls = cls.slice(0, -1);
                         }
+
+                        // if it's one of the `bio_closed/bio_open` link, change it to just `bio`
+                        formattedCls =
+                            formattedCls === "bio_open" || formattedCls === "bio_closed" ? "bio" : formattedCls;
 
                         (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     } else {

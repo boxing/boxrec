@@ -4,7 +4,6 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Location} from "../boxrec.constants";
 import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
-import {BoxrecTitleLinks} from "../title/boxrec.title.common";
 import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
 
 // used for profiles other than boxers
