@@ -1,18 +1,16 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../../boxrec.constants";
+import {mockUSALocation} from "boxrec-mocks";
+import {WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {Country} from "./boxrec.location.people.constants";
 import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
-
-const mockLocation: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockUSALocation.html`, "utf8");
 
 describe("class BoxrecPageLocationPeople", () => {
 
     let location: BoxrecPageLocationPeople;
 
     beforeAll(() => {
-        location = new BoxrecPageLocationPeople(mockLocation);
+        location = new BoxrecPageLocationPeople(mockUSALocation);
     });
 
     describe("getter boxers", () => {

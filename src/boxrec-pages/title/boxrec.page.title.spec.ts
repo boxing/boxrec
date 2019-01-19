@@ -1,16 +1,14 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, Location} from "../boxrec.constants";
+import {mockMiddleweightWBCBelt} from "boxrec-mocks";
+import {Location} from "../boxrec.constants";
 import {BoxrecPageTitle} from "./boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
-
-const mockTitleInformation: string = fs.readFileSync(`${boxRecMocksModulePath}/title/mockMiddleweightWBCbelt.html`, "utf8");
 
 describe("class BoxrecPageTitle", () => {
 
     let title: BoxrecPageTitle;
 
     beforeAll(() => {
-        title = new BoxrecPageTitle(mockTitleInformation);
+        title = new BoxrecPageTitle(mockMiddleweightWBCBelt);
     });
 
     describe("getter name", () => {

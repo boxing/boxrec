@@ -1,16 +1,13 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath} from "../boxrec.constants";
+import {mockScheduleWorldwide} from "boxrec-mocks";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
-
-const mockSearchResults: string = fs.readFileSync(`${boxRecMocksModulePath}/schedule/mockScheduleWorldwide.html`, "utf8");
 
 describe("class BoxrecPageSchedule", () => {
 
     let events: BoxrecPageSchedule;
 
     beforeAll(() => {
-        events = new BoxrecPageSchedule(mockSearchResults);
+        events = new BoxrecPageSchedule(mockScheduleWorldwide);
     });
 
     describe("getter events", () => {

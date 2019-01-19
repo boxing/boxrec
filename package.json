@@ -33,7 +33,6 @@
     "@types/jest": "^22.1.1",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
-    "boxrec-mocks": "1.1.0",
     "boxrec-requests": "4.2.0",
     "cheerio": "^1.0.0-rc.2",
     "coveralls": "^3.0.0",

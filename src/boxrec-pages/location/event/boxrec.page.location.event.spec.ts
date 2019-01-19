@@ -1,15 +1,12 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath} from "../../boxrec.constants";
+import {mockEventsLondon2017} from "boxrec-mocks";
 import {BoxrecPageLocationEvent} from "./boxrec.page.location.event";
-
-const mockLocationEvents: string = fs.readFileSync(`${boxRecMocksModulePath}/location/mockEventsLondon2017.html`, "utf8");
 
 describe("class BoxrecPageLocationEvent", () => {
 
     let events: BoxrecPageLocationEvent;
 
     beforeAll(() => {
-        events = new BoxrecPageLocationEvent(mockLocationEvents);
+        events = new BoxrecPageLocationEvent(mockEventsLondon2017);
     });
 
     describe("getter events", () => {

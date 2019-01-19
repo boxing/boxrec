@@ -1,15 +1,10 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath} from "../boxrec.constants";
+import {
+    mockTitlesAllTitleAllScheduled,
+    mockTitlesTitleSelectedAllScheduled,
+    mockTitlesTitleSelectedSuperMiddleweight
+} from "boxrec-mocks";
 import {BoxrecPageTitles} from "./boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
-import Any = jasmine.Any;
-
-const mockTitlesTitleSelectedSuperMiddleweight: string =
-    fs.readFileSync(`${boxRecMocksModulePath}/titles/mockTitlesTitleSelectedSuperMiddleweight.html`, "utf8");
-const mockTitlesTitleSelectedAllScheduled: string =
-    fs.readFileSync(`${boxRecMocksModulePath}/titles/mockTitlesTitleSelectedAllScheduled.html`, "utf8");
-const mockTitlesAllTitleAllScheduled: string =
-    fs.readFileSync(`${boxRecMocksModulePath}/titles/mockTitlesAllTitleAllScheduled.html`, "utf8");
 
 describe("class BoxrecPageTitles", () => {
 

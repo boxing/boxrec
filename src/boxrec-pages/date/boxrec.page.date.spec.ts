@@ -1,12 +1,8 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {mockDate20100520, mockDate20181201} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecDateEvent} from "./boxrec.date.event";
 import {BoxrecPageDate} from "./boxrec.page.date";
-
-const mockDate20100520: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/date/mockDate2010-05-20.html`, "utf8");
-const mockDate20181201: string = fs.readFileSync(`${boxRecMocksModulePath}/date/mockDate2018-12-01.html`, "utf8");
 
 describe("class BoxrecPageDate", () => {
 

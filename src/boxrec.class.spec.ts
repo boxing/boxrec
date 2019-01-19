@@ -1,8 +1,8 @@
+import {mockProfileBoxerRJJ, mockProfileJudgeDaveMoretti} from "boxrec-mocks";
 import {BoxrecRequests} from "boxrec-requests";
 import * as fs from "fs";
 import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
-import {boxRecMocksModulePath} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
@@ -12,11 +12,6 @@ import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
 import boxrec from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
-
-const mockProfileBoxerRJJ: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
-const mockProfileJudgeDaveMoretti: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
 
 jest.mock("request-promise");
 
