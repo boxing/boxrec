@@ -1,13 +1,8 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {mockEventPageBellewHaye2, mockEventPageMayweatherMcGregor} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
-
-const mockEventBellewHaye2: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/events/mockEventPageBellewHaye2.html`, "utf8");
-const mockEventMayweatherMcGregor: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/events/mockEventPageMayweatherMcGregor.html`, "utf8");
 
 describe("class BoxrecPageEvent", () => {
 
@@ -19,8 +14,8 @@ describe("class BoxrecPageEvent", () => {
     let bellewHayeIndex: number = 0;
 
     beforeAll(() => {
-        eventBellewHaye2 = new BoxrecPageEvent(mockEventBellewHaye2);
-        eventMayweatherMcGregor = new BoxrecPageEvent(mockEventMayweatherMcGregor);
+        eventBellewHaye2 = new BoxrecPageEvent(mockEventPageBellewHaye2);
+        eventMayweatherMcGregor = new BoxrecPageEvent(mockEventPageMayweatherMcGregor);
 
         bellewHayeIndex = eventBellewHaye2.bouts.findIndex(item => item.firstBoxer.id === 425328);
     });

@@ -1,16 +1,14 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {mockSearchMayweather} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageSearch} from "./boxrec.page.search";
 import {BoxrecSearch} from "./boxrec.search.constants";
-
-const mockSearchResults: string = fs.readFileSync(`${boxRecMocksModulePath}/search/mockSearchMayweather.html`, "utf8");
 
 describe("class BoxrecPageSearch", () => {
 
     let searchResults: BoxrecPageSearch;
 
     beforeAll(() => {
-        searchResults = new BoxrecPageSearch(mockSearchResults);
+        searchResults = new BoxrecPageSearch(mockSearchMayweather);
     });
 
     describe("getter results", () => {

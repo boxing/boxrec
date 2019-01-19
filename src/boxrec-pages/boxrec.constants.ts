@@ -2,9 +2,6 @@ import {BoxrecGeneralLinks} from "../boxrec-common-tables/boxrec-common.constant
 import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
 import {BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
 
-// used to get mocks from boxrec-mocks repo
-export const boxRecMocksModulePath: string = "./node_modules/boxrec-mocks/dist/pages/";
-
 export interface Location {
     country: string | null;
     id: number | null;

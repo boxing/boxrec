@@ -1,10 +1,8 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {mockWatched} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageWatch} from "./boxrec.page.watch";
 import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
-
-const mockHeatherHardy: string = fs.readFileSync(`${boxRecMocksModulePath}/watch/mockWatchHeatherHardy.html`, "utf8");
 
 const findBoxerByName: (listArr: BoxrecPageWatchRow[], globalId: number) => BoxrecPageWatchRow | undefined
     = (listArr: BoxrecPageWatchRow[], globalId: number): BoxrecPageWatchRow | undefined => {
@@ -16,7 +14,7 @@ describe("class BoxrecPageWatch", () => {
     let boxrecWatch: BoxrecPageWatch;
 
     beforeAll(() => {
-        boxrecWatch = new BoxrecPageWatch(mockHeatherHardy);
+        boxrecWatch = new BoxrecPageWatch(mockWatched);
     });
 
     describe("method checkForBoxerInList", () => {

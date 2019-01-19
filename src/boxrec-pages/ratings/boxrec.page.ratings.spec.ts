@@ -1,9 +1,7 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../boxrec.constants";
+import {mockRatings} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec.page.ratings";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
-
-const mockRatings: string = fs.readFileSync(`${boxRecMocksModulePath}/ratings/mockRatings.html`, "utf8");
 
 describe("class BoxrecPageRatings", () => {
 

@@ -1,13 +1,9 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath, WinLossDraw} from "../../boxrec.constants";
+import {mockBoutCaneloGGG1} from "boxrec-mocks";
+import {WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoutPageLast6} from "./boxrec.event.bout.constants";
 import {BoxrecPageEventBout} from "./boxrec.page.event.bout";
-import mock = jest.mock;
-
-const mockBoutCaneloGGG1: string = fs.readFileSync(
-    `${boxRecMocksModulePath}/events/bout/mockBoutCaneloGGG1.html`, "utf8");
 
 const testLast6: (last6Obj: BoutPageLast6, expectations: BoutPageLast6) => void =
     (last6Obj: BoutPageLast6, expectations: BoutPageLast6): void => {

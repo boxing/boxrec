@@ -1,9 +1,6 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath} from "../boxrec.constants";
+import {mockVenueMGMGrand} from "boxrec-mocks";
 import {BoxrecPageVenue} from "./boxrec.page.venue";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
-
-const mockVenueMGMGrand: string = fs.readFileSync(`${boxRecMocksModulePath}/venue/mockVenueMGMGrand.html`, "utf8");
 
 describe("class BoxrecPageVenue", () => {
 

@@ -1,16 +1,14 @@
-import * as fs from "fs";
-import {boxRecMocksModulePath} from "../boxrec.constants";
+import {mockMiddleweightWBCBelt} from "boxrec-mocks";
+import {Location} from "../boxrec.constants";
 import {BoxrecPageTitle} from "./boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
-
-const mockTitleInformation: string = fs.readFileSync(`${boxRecMocksModulePath}/title/mockMiddleweightWBCbelt.html`, "utf8");
 
 describe("class BoxrecPageTitle", () => {
 
     let title: BoxrecPageTitle;
 
     beforeAll(() => {
-        title = new BoxrecPageTitle(mockTitleInformation);
+        title = new BoxrecPageTitle(mockMiddleweightWBCBelt);
     });
 
     describe("getter name", () => {
@@ -66,9 +64,9 @@ describe("class BoxrecPageTitle", () => {
 
                 it("should return an object", () => {
                     expect(mostRecentBout.links).toEqual({
-                        bio: 2289611,
-                        bout: "777131/2289611",
-                        event: 777131,
+                        bio: jasmine.any(Number),
+                        bout: jasmine.any(String),
+                        event: jasmine.any(Number),
                         other: []
                     });
                 });
@@ -105,12 +103,11 @@ describe("class BoxrecPageTitle", () => {
             describe("getter location", () => {
 
                 it("should be a location object", () => {
-                    expect(mostRecentBout.location).toEqual({
-                        country: jasmine.any(String),
-                        id: jasmine.any(Number),
-                        region: jasmine.any(String),
-                        town: jasmine.any(String),
-                    });
+                    const location: Location = mostRecentBout.location;
+                    expect(location.country).toBeDefined();
+                    expect(location.id).toBeDefined();
+                    expect(location.region).toBeDefined();
+                    expect(location.town).toBeDefined();
                 });
 
             });
