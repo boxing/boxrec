@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import {stripCommas} from "../../helpers";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 import {BoxrecPageScheduleCommon} from "./boxrec.page.schedule.common";
 
@@ -18,6 +19,11 @@ export class BoxrecPageSchedule extends BoxrecPageScheduleCommon {
 
     get events(): BoxrecPageEvent[] {
         return this.parse().map((event: string) => new BoxrecPageEvent(event));
+    }
+
+    get numberOfPages(): number {
+        const text: string = this.$(".filterBarFloat .pagerElement:nth-last-child(3)").text() || "0";
+        return parseInt(stripCommas(text), 10);
     }
 
 }

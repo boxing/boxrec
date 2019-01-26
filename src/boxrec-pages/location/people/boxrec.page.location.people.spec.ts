@@ -13,6 +13,14 @@ describe("class BoxrecPageLocationPeople", () => {
         location = new BoxrecPageLocationPeople(mockUSALocation);
     });
 
+    describe("getter numberOfPages", () => {
+
+        it("should return a number", () => {
+            expect(location.numberOfPages).toBeGreaterThanOrEqual(1);
+        });
+
+    });
+
     describe("getter boxers", () => {
 
         it("should return an array of location data", () => {

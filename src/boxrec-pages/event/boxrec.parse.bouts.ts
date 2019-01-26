@@ -14,4 +14,9 @@ export abstract class BoxrecParseBouts extends BoxrecParseBoutsParseBouts {
         return this.returnBouts(this.$("tbody tr"));
     }
 
+    get numberOfBouts(): number {
+        const text: string = this.$(".pagerResults").text() || "0";
+        return parseInt(text, 10);
+    }
+
 }

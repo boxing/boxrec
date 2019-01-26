@@ -1,5 +1,4 @@
 import {mockMiddleweightWBCBelt} from "boxrec-mocks";
-import {Location} from "../boxrec.constants";
 import {BoxrecPageTitle} from "./boxrec.page.title";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
@@ -71,6 +70,10 @@ describe("class BoxrecPageTitle", () => {
                     });
                 });
 
+                it("`bout` should match string separated by forward slash", () => {
+                    expect(mostRecentBout.links.bout).toMatch(/\d+\/\d+/);
+                });
+
             });
 
             describe("getter firstBoxer", () => {
@@ -99,19 +102,7 @@ describe("class BoxrecPageTitle", () => {
                 });
 
             });
-
-            describe("getter location", () => {
-
-                it("should be a location object", () => {
-                    const location: Location = mostRecentBout.location;
-                    expect(location.country).toBeDefined();
-                    expect(location.id).toBeDefined();
-                    expect(location.region).toBeDefined();
-                    expect(location.town).toBeDefined();
-                });
-
-            });
-
+            
         });
 
     });

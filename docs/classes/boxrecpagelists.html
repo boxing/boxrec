@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BoxrecPageRatings | boxrec</title>
+	<title>BoxrecPageLists | boxrec</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,32 +54,30 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="boxrecpageratings.html">BoxrecPageRatings</a>
+					<a href="boxrecpagelists.html">BoxrecPageLists</a>
 				</li>
 			</ul>
-			<h1>Class BoxrecPageRatings</h1>
+			<h1>Class BoxrecPageLists</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>parse a BoxRec Ratings Page</p>
-						<pre>ex. http://boxrec.com/en/ratings</pre>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="boxrecpagelists.html" class="tsd-signature-type">BoxrecPageLists</a>
+						<span class="target">BoxrecPageLists</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">BoxrecPageRatings</span>
+								<a href="boxrecpagelocationevent.html" class="tsd-signature-type">BoxrecPageLocationEvent</a>
+							</li>
+							<li>
+								<a href="boxrecpagelocationpeople.html" class="tsd-signature-type">BoxrecPageLocationPeople</a>
+							</li>
+							<li>
+								<a href="boxrecpageratings.html" class="tsd-signature-type">BoxrecPageRatings</a>
 							</li>
 						</ul>
 					</li>
@@ -92,20 +90,19 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="boxrecpageratings.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="boxrecpagelists.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="boxrecpageratings.html#_" class="tsd-kind-icon">$</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="boxrecpagelists.html#_" class="tsd-kind-icon">$</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boxrecpageratings.html#boxers" class="tsd-kind-icon">boxers</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="boxrecpageratings.html#numberofpages" class="tsd-kind-icon">number<wbr>OfPages</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boxrecpagelists.html#numberofpages" class="tsd-kind-icon">number<wbr>OfPages</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,18 +110,17 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Boxrec<wbr>Page<wbr>Ratings<span class="tsd-signature-symbol">(</span>boxrecBodyString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpageratings.html" class="tsd-signature-type">BoxrecPageRatings</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Boxrec<wbr>Page<wbr>Lists<span class="tsd-signature-symbol">(</span>boxrecBodyString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpagelists.html" class="tsd-signature-type">BoxrecPageLists</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="boxrecpagelists.html">BoxrecPageLists</a>.<a href="boxrecpagelists.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in boxrec-pages/ratings/boxrec.page.ratings.ts:12</li>
+									<li>Defined in boxrec-common-tables/boxrec-page-lists.ts:6</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -133,21 +129,20 @@
 									<h5>boxrecBodyString: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="boxrecpageratings.html" class="tsd-signature-type">BoxrecPageRatings</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="boxrecpagelists.html" class="tsd-signature-type">BoxrecPageLists</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 					<a name="_" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> $</h3>
 					<div class="tsd-signature tsd-kind-icon">$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CheerioStatic</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="boxrecpagelists.html">BoxrecPageLists</a>.<a href="boxrecpagelists.html#_">$</a></p>
 						<ul>
-							<li>Defined in boxrec-pages/ratings/boxrec.page.ratings.ts:12</li>
+							<li>Defined in boxrec-common-tables/boxrec-page-lists.ts:6</li>
 						</ul>
 					</aside>
 				</section>
@@ -155,32 +150,14 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="boxers" class="tsd-anchor"></a>
-					<h3>boxers</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> boxers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boxrecpageratingsrow.html" class="tsd-signature-type">BoxrecPageRatingsRow</a><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in boxrec-pages/ratings/boxrec.page.ratings.ts:19</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="boxrecpageratingsrow.html" class="tsd-signature-type">BoxrecPageRatingsRow</a><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="numberofpages" class="tsd-anchor"></a>
 					<h3>number<wbr>OfPages</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> numberOfPages<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="boxrecpagelists.html">BoxrecPageLists</a>.<a href="boxrecpagelists.html#numberofpages">numberOfPages</a></p>
 								<ul>
 									<li>Defined in boxrec-common-tables/boxrec-page-lists.ts:12</li>
 								</ul>
@@ -204,19 +181,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="boxrecpageratings.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Ratings</a>
+						<a href="boxrecpagelists.html" class="tsd-kind-icon">Boxrec<wbr>Page<wbr>Lists</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="boxrecpageratings.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="boxrecpagelists.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-								<a href="boxrecpageratings.html#_" class="tsd-kind-icon">$</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="boxrecpagelists.html#_" class="tsd-kind-icon">$</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="boxrecpageratings.html#boxers" class="tsd-kind-icon">boxers</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="boxrecpageratings.html#numberofpages" class="tsd-kind-icon">number<wbr>OfPages</a>
+								<a href="boxrecpagelists.html#numberofpages" class="tsd-kind-icon">number<wbr>OfPages</a>
 							</li>
 						</ul>
 					</li>
