@@ -1,15 +1,18 @@
 import * as cheerio from "cheerio";
+import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
+import {stripCommas} from "../../helpers";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
 /**
  * parse a BoxRec Ratings Page
  * <pre>ex. http://boxrec.com/en/ratings</pre>
  */
-export class BoxrecPageRatings {
+export class BoxrecPageRatings extends BoxrecPageLists {
 
-    private readonly $: CheerioStatic;
+    protected readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
+        super(boxrecBodyString);
         this.$ = cheerio.load(boxrecBodyString);
     }
 

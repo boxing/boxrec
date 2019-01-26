@@ -35,6 +35,14 @@ describe("class BoxrecPageTitles", () => {
         });
     };
 
+    describe("getter numberOfPages", () => {
+
+        it("should return number of pages", () => {
+            expect(scheduledTitle.numberOfPages).toBeGreaterThanOrEqual(0);
+        });
+
+    });
+
     describe("is division page", () => {
 
         describe("getter bouts", () => {

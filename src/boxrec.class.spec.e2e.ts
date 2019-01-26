@@ -15,6 +15,7 @@ import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profil
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
+import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
@@ -534,6 +535,34 @@ describe("class Boxrec (E2E)", () => {
             expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
         });
 
+        describe("getter numberOfPages", () => {
+
+            it("should return the number of pages", () => {
+                expect(results.numberOfPages).toBeGreaterThan(0);
+            });
+
+        });
+
+    });
+
+    describe("method getRatings", () => {
+
+        let ratings: BoxrecPageRatings;
+
+        beforeAll(async () => {
+            ratings = await boxrec.getRatings({
+                sex: "M",
+            });
+        });
+
+        describe("getter numberOfPages", () => {
+
+            it("should return the number of pages, which should be a positive number", () => {
+                expect(ratings.numberOfPages).toBeGreaterThan(1);
+            });
+
+        });
+
     });
 
     describe("method getSchedule", () => {
@@ -553,6 +582,14 @@ describe("class Boxrec (E2E)", () => {
 
         it("should use the `offset` to give the next results", async () => {
             expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
+        });
+
+        describe("getter numberOfPages", () => {
+
+            it("should return the number of pages, which should be a positive number", () => {
+                expect(results.numberOfPages).toBeGreaterThan(1);
+            });
+
         });
 
         // note: these events will change daily, some of these tests should either use try/catches or loop through events to satisfy the test case
@@ -751,6 +788,22 @@ describe("class Boxrec (E2E)", () => {
             }, 20);
         });
 
+        describe("getter numberOfPeople", () => {
+
+            it("should return the number of people", () => {
+                expect(results.numberOfPeople).toBeGreaterThan(10000);
+            });
+
+        });
+
+        describe("getter numberOfPages", () => {
+
+            it("should return a number", () => {
+                expect(results.numberOfPages).toBeGreaterThan(0);
+            });
+
+        });
+
         it("should list people by name", () => {
             expect(results.boxers[0].name.length).toBeGreaterThan(0);
         });
@@ -850,6 +903,10 @@ describe("class Boxrec (E2E)", () => {
             expect(events.events.length).toBeGreaterThan(0);
         });
 
+        it("should return the number of locations", () => {
+            expect(events.numberOfLocations).toBeGreaterThanOrEqual(604);
+        });
+
         it("should return the venue", () => {
             expect(events.events[0].venue).toEqual({
                 id: 34612,
@@ -876,6 +933,10 @@ describe("class Boxrec (E2E)", () => {
 
         it("should offset the results if using the `offset` param", () => {
             expect(events.events[0].id).not.toBe(nextEvents.events[0].id);
+        });
+
+        it("should return the number of pages", () => {
+            expect(events.numberOfPages).toBeGreaterThan(30);
         });
 
     });
@@ -986,6 +1047,14 @@ describe("class Boxrec (E2E)", () => {
                 bout_title: 322,
                 division: WeightDivisionCapitalized.welterweight,
             });
+        });
+
+        describe("getter numberOfBouts", () => {
+
+            it("should return the number of bouts, which should be a positive number", () => {
+                expect(titleBouts.numberOfBouts).toBeGreaterThan(12);
+            });
+
         });
 
         describe("getter bouts", () => {
