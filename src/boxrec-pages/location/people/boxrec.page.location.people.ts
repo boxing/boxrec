@@ -11,10 +11,7 @@ export class BoxrecPageLocationPeople extends BoxrecPageLists {
     protected readonly $: CheerioStatic;
 
     get boxers(): BoxrecPageLocationPeopleRow[] {
-        return this.$(".dataTable tbody tr")
-            .map((i: number, elem: CheerioElement) => this.$(elem).html())
-            .get()
-            .map(item => new BoxrecPageLocationPeopleRow(item));
+        return this.getTableData(BoxrecPageLocationPeopleRow);
     }
 
     get numberOfPeople(): number {

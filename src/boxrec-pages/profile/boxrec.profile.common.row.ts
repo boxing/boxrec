@@ -7,46 +7,18 @@ export abstract class BoxrecProfileCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    constructor(html: string) {
+    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+        const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
     get links(): BoxrecGeneralLinks {
-        const html: Cheerio = this.parseLinks();
-        const obj: BoxrecGeneralLinks = {
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecGeneralLinks>(this.parseLinks(), {
             bio: null,
             bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
-        };
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
-
-            hrefArr.forEach(cls => {
-                if (cls !== "primaryIcon" && cls !== "clickableIcon") {
-                    const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-                    if (matches && matches[1] && matches[1] !== "other") {
-
-                        let formattedCls: string = cls;
-                        // for some reason they add a `P` to the end of the class name, we will remove it
-                        if (cls.slice(-1) === "P") {
-                            formattedCls = cls.slice(0, -1);
-                        }
-
-                        // if it's one of the `bio_closed/bio_open` link, change it to just `bio`
-                        formattedCls =
-                            formattedCls === "bio_open" || formattedCls === "bio_closed" ? "bio" : formattedCls;
-
-                        (obj as any)[formattedCls] = parseInt(matches[1], 10);
-                    } else {
-                        (obj as any).other.push(href);
-                    }
-                }
-            });
-        });
-
-        return obj;
+        }, /(\d+)$/);
     }
 
     protected parseLinks(): Cheerio {

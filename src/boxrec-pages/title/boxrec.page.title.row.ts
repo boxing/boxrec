@@ -27,15 +27,12 @@ export class BoxrecPageTitleRow {
     }
 
     get links(): BoxrecGeneralLinks {
-        const html: Cheerio = this.$(getColumnData(this.$, 11));
-        const obj: BoxrecGeneralLinks = {
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecGeneralLinks>(this.$(getColumnData(this.$, 11)), {
             bio: null,
             bout: null,
             event: null,
-            other: [], // any other links we'll throw the whole href attribute in here
-        };
-
-        return BoxrecCommonLinks.parseLinkInformation<BoxrecGeneralLinks>(html, obj);
+            other: [],
+        });
     }
 
     get location(): Location {
