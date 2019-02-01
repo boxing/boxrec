@@ -10,6 +10,14 @@ describe("class BoxrecPageSchedule", () => {
         events = new BoxrecPageSchedule(mockScheduleWorldwide);
     });
 
+    describe("getter numberOfPages", () => {
+
+        it("should return the number of pages", () => {
+            expect(events.numberOfPages).toBeGreaterThanOrEqual(1);
+        });
+
+    });
+
     describe("getter events", () => {
 
         it("should return an array of search results", () => {

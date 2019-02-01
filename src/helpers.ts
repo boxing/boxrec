@@ -61,3 +61,11 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
 // in some instances the URL just contains ex. `?country=US`
 // `region` can be numeric but is often alphanumeric
 export const townRegionCountryRegex: RegExp = /\?country=([A-Za-z]+)(?:(?:&|&amp;)region=([A-Za-z0-9]*))?(?:(?:&|&amp;)town=(\d+))?/;
+
+/**
+ * Strips the commas out of a string.  Used for strings that are large numbers
+ * @param {string} str
+ * @returns {string}
+ */
+export const stripCommas: (str: string) => string
+    = (str: string): string => str.replace(/,/g, "");

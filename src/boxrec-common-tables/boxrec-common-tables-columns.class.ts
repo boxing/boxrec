@@ -1,8 +1,10 @@
 import * as cheerio from "cheerio";
+import * as querystring from "querystring";
+import {ParsedUrlQuery} from "querystring";
 import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
-import {convertFractionsToNumber, townRegionCountryRegex, trimRemoveLineBreaks} from "../helpers";
+import {convertFractionsToNumber, trimRemoveLineBreaks} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
 const $: CheerioStatic = cheerio.load("<div></div>");
@@ -138,28 +140,29 @@ export abstract class BoxrecCommonTablesColumnsClass {
         const html: Cheerio = $(`<div>${htmlString}</div>`);
         const links: Cheerio = html.find("a");
 
-        if (links.get(linkToLookAt)) {
-            const link: CheerioElement = links.get(linkToLookAt);
-            const matches: RegExpMatchArray | null = link.attribs.href.match(townRegionCountryRegex) as string[];
+        links.each((index: number, elem: CheerioElement) => {
+            // /en/locations/event?country=US&region=NY&town=20451
+            const href: string = $(elem).attr("href");
+            const matchQSKeyVals: RegExpMatchArray | null = href.match(/(\w+)\=(\w+)/g);
 
-            if (matches) {
-                const [, country, region, townId] = matches;
-
-                if (links) {
-                    const data: CheerioElement = link;
-                    if (data) {
-                        // if no `townId` exists, this innerText is not the `town` and is something else
-                        const innerText: string | undefined = data.children[0].data;
-                        if (townId && innerText) {
-                            location.town = innerText;
+            if (matchQSKeyVals) {
+                for (const match of matchQSKeyVals) {
+                    const splitQuery: ParsedUrlQuery = querystring.parse(match);
+                    const queryArr: Array<[string, string | string[]]> = Object.entries(splitQuery);
+                    queryArr.forEach(item => {
+                        // if town exists it means we can get the id
+                        if (item[0] === "town" && item[1]) {
+                            if (typeof(item[1]) === "string") {
+                                location.id = parseInt(item[1] as string, 10);
+                                location.town = $(elem).text();
+                            }
+                        } else {
+                            (location as any)[item[0]] = item[1];
                         }
-                        location.country = country || null;
-                        location.region = region || null;
-                        location.id = parseInt(townId, 10) || null;
-                    }
+                    });
                 }
             }
-        }
+        });
 
         return location;
     }

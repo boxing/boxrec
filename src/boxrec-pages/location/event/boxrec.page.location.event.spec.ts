@@ -9,6 +9,22 @@ describe("class BoxrecPageLocationEvent", () => {
         events = new BoxrecPageLocationEvent(mockEventsLondon2017);
     });
 
+    describe("getter numberOfLocations", () => {
+
+        it("should return a number", () => {
+            expect(events.numberOfLocations).toBeGreaterThanOrEqual(1);
+        });
+
+    });
+
+    describe("getter numberOfPages", () => {
+
+        it("should return a number", () => {
+            expect(events.numberOfPages).toBeGreaterThanOrEqual(1);
+        });
+
+    });
+
     describe("getter events", () => {
 
         it("should return an array of location data", () => {
