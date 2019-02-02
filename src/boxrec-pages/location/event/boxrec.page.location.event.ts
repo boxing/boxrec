@@ -1,5 +1,4 @@
 import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
-import {stripCommas} from "../../../helpers";
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
 /**
@@ -11,15 +10,11 @@ export class BoxrecPageLocationEvent extends BoxrecPageLists {
     protected readonly $: CheerioStatic;
 
     get events(): BoxrecPageLocationEventRow[] {
-        return this.$(".dataTable tbody tr")
-            .map((i: number, elem: CheerioElement) => this.$(elem).html())
-            .get()
-            .map(item => new BoxrecPageLocationEventRow(item));
+        return this.getTableData(BoxrecPageLocationEventRow);
     }
 
     get numberOfLocations(): number {
-        const text: string = this.$(".pagerResults").text() || "0";
-        return parseInt(stripCommas(text), 10);
+        return this.getNumberOfPages();
     }
 
 }

@@ -15,12 +15,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return this.$(getColumnData(this.$, 16, true));
     }
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
-        super(html);
-        this.$ = cheerio.load(html);
-    }
-
     get date(): string {
         return trimRemoveLineBreaks(getColumnData(this.$, 2, false));
     }

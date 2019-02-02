@@ -27,12 +27,10 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
 
     get links(): BoxrecProfileEventLinks {
         const linksStr: string = `<div>${this.getColumnData(4)}</div>`;
-        const html: Cheerio = this.$(linksStr);
-        const obj: BoxrecProfileEventLinks = {
-            event: null,
-        };
 
-        return BoxrecCommonLinks.parseLinkInformation<BoxrecProfileEventLinks>(html, obj);
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecProfileEventLinks>(this.$(linksStr), {
+            event: null,
+        });
     }
 
     get location(): Location {

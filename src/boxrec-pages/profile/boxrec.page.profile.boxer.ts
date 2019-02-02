@@ -210,7 +210,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         const rating: string | void = this.parseProfileTableData(BoxrecProfileTable.rating);
         const html: Cheerio = this.$(rating);
 
-        // todo can this be better?
         if (html.get(0)) {
             const widthString: string = html.get(0).attribs.style;
             // this uses pixels, where the others use percentage

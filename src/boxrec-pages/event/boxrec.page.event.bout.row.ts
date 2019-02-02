@@ -49,14 +49,11 @@ export class BoxrecPageEventBoutRow {
         const column: number = this.isEventPage ? 15 : 12;
         const linksStr: string = this.getColumnData(column, 0, true);
 
-        const html: Cheerio = this.$(linksStr);
-        const obj: BoxrecEventLinks = {
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecEventLinks>(this.$(linksStr), {
             bio: null,
             bout: null,
             other: [], // any other links we'll throw the whole href attribute in here
-        };
-
-        return BoxrecCommonLinks.parseLinkInformation<BoxrecEventLinks>(html, obj);
+        });
     }
 
     get metadata(): string | null {

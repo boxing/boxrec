@@ -12,7 +12,7 @@ interface LinksObj {
 export class BoxrecCommonLinks {
 
     /**
-     * Loops through Cheerio object and gets link information
+     * Loops through Cheerio object and gets link information.  Returns empty object if no links exist
      * @param {Cheerio} html
      * @param {T} obj
      * @returns {T}
@@ -20,14 +20,20 @@ export class BoxrecCommonLinks {
     static parseLinkInformation<T>(html: Cheerio, obj: T): T {
         html.find("a").each((i: number, elem: CheerioElement) => {
             const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
-
             return BoxrecCommonLinks.parseLinks<T>(hrefArr, href, obj);
         });
 
         return obj;
     }
 
-    static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
+    // todo the `bout` uses the regex, do we have inconsistencies between links?
+    /**
+     * Takes a link, parses the information and returns the object
+     * @param hrefArr
+     * @param href
+     * @param obj
+     */
+    private static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
         hrefArr.forEach((cls: string) => {
             if (cls !== "primaryIcon" && cls !== "clickableIcon") {
                 const matches: RegExpMatchArray | null = href.match(/([\d\/]+)$/);
@@ -39,6 +45,7 @@ export class BoxrecCommonLinks {
                         formattedCls = cls.slice(0, -1);
                     }
 
+                    // `bio_open` for events that haven't concluded.  `bio_closed` for belt/division selected
                     // if it's one of the `bio_closed/bio_open` link, change it to just `bio`
                     formattedCls = formattedCls === "bio_open" || formattedCls === "bio_closed" ? "bio" : formattedCls;
 
@@ -52,7 +59,6 @@ export class BoxrecCommonLinks {
                     } else {
                         (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     }
-
                 } else {
                     (obj as any).other.push(href);
                 }

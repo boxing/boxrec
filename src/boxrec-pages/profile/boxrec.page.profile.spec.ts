@@ -415,7 +415,7 @@ describe("class BoxrecPageProfile", () => {
             it("should return an object of links", () => {
                 expect(supervisorSammyMaciasLatestBout.links).toEqual({
                     bio: 2056855,
-                    bout: 2056855,
+                    bout: "726555/2056855",
                     event: 726555,
                     other: [],
                 });
@@ -502,10 +502,10 @@ describe("class BoxrecPageProfile", () => {
 
         describe("getter links", () => {
 
-            it("should return links in an array", () => {
+            it("should return links in an object", () => {
                 expect(gggCanelo.links).toEqual({
                     bio: 2160855,
-                    bout: 2160855,
+                    bout: "751017/2160855",
                     event: 751017,
                     other: [],
                 });
