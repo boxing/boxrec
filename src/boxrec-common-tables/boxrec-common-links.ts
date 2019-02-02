@@ -15,13 +15,12 @@ export class BoxrecCommonLinks {
      * Loops through Cheerio object and gets link information.  Returns empty object if no links exist
      * @param {Cheerio} html
      * @param {T} obj
-     * @param {RegExp} regex
      * @returns {T}
      */
-    static parseLinkInformation<T>(html: Cheerio, obj: T, regex: RegExp = /([\d\/]+)$/): T {
+    static parseLinkInformation<T>(html: Cheerio, obj: T): T {
         html.find("a").each((i: number, elem: CheerioElement) => {
             const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
-            return BoxrecCommonLinks.parseLinks<T>(hrefArr, href, obj, regex);
+            return BoxrecCommonLinks.parseLinks<T>(hrefArr, href, obj);
         });
 
         return obj;
@@ -33,12 +32,11 @@ export class BoxrecCommonLinks {
      * @param hrefArr
      * @param href
      * @param obj
-     * @param regex
      */
-    static parseLinks<T>(hrefArr: string[], href: string, obj: T, regex: RegExp = /([\d\/]+)$/): T {
+    private static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
         hrefArr.forEach((cls: string) => {
             if (cls !== "primaryIcon" && cls !== "clickableIcon") {
-                const matches: RegExpMatchArray | null = href.match(regex);
+                const matches: RegExpMatchArray | null = href.match(/([\d\/]+)$/);
                 if (matches && matches[1] && matches[1] !== "other") {
 
                     let formattedCls: string = cls;
@@ -61,7 +59,6 @@ export class BoxrecCommonLinks {
                     } else {
                         (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     }
-
                 } else {
                     (obj as any).other.push(href);
                 }

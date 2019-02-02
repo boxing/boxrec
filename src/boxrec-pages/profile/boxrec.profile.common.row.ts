@@ -18,7 +18,7 @@ export abstract class BoxrecProfileCommonRow {
             bout: null,
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
-        }, /(\d+)$/);
+        });
     }
 
     protected parseLinks(): Cheerio {

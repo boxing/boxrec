@@ -80,7 +80,6 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="boxreccommonlinks.html#parselinkinformation" class="tsd-kind-icon">parse<wbr>Link<wbr>Information</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="boxreccommonlinks.html#parselinks" class="tsd-kind-icon">parse<wbr>Links</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="boxreccommonlinks.html#parselinkscolumn" class="tsd-kind-icon">parse<wbr>Links<wbr>Column</a></li>
 							</ul>
 						</section>
@@ -93,13 +92,13 @@
 					<a name="parselinkinformation" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> parse<wbr>Link<wbr>Information</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Link<wbr>Information&lt;T&gt;<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cheerio</span>, obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, regex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Link<wbr>Information&lt;T&gt;<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cheerio</span>, obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec-common-tables/boxrec-common-links.ts:21</li>
+									<li>Defined in boxrec-common-tables/boxrec-common-links.ts:20</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -121,54 +120,6 @@
 								<li>
 									<h5>obj: <span class="tsd-signature-type">T</span></h5>
 								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> regex: <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/([\d\/]+)$/</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="parselinks" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> parse<wbr>Links</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Links&lt;T&gt;<span class="tsd-signature-symbol">(</span>hrefArr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, href<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, regex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in boxrec-common-tables/boxrec-common-links.ts:38</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes a link, parses the information and returns the object</p>
-								</div>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>hrefArr: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li>
-									<h5>href: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>obj: <span class="tsd-signature-type">T</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> regex: <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/([\d\/]+)$/</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
 						</li>
@@ -184,7 +135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in boxrec-common-tables/boxrec-common-links.ts:79</li>
+									<li>Defined in boxrec-common-tables/boxrec-common-links.ts:76</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,9 +172,6 @@
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 								<a href="boxreccommonlinks.html#parselinkinformation" class="tsd-kind-icon">parse<wbr>Link<wbr>Information</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-								<a href="boxreccommonlinks.html#parselinks" class="tsd-kind-icon">parse<wbr>Links</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="boxreccommonlinks.html#parselinkscolumn" class="tsd-kind-icon">parse<wbr>Links<wbr>Column</a>

@@ -357,7 +357,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
                 // todo this regex is very close to `boxrec.page.profile` but there were some differences
                 // this regex was built off GGG Canelo 1 Bout // 5′ 10½″   /   179cm
                 // todo then trimmed up above, also it came back as the actual symbols instead of unicode codes?
-                // todo the regexp are different and this code should still be merged together
+                // the regexp are different and this code should still be merged together
                 const regex: RegExp = /^(\d)(?:′|\&\#x2032\;)\s(\d{1,2})(½|\&\#xB[CDE]\;)?(?:″|\&\#x2033\;)\s+(?:\/|\&\#xA0\;)\s+(\d{3})cm$/;
                 const heightMatch: RegExpMatchArray | null = text.match(regex);
 
