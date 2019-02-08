@@ -1,41 +1,36 @@
+import {BoxrecPageChampions} from "@boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageDate} from "@boxrec-pages/date/boxrec.page.date";
+import {BoxrecPageEventBout} from "@boxrec-pages/event/bout/boxrec.page.event.bout";
+import {BoxrecPageEvent} from "@boxrec-pages/event/boxrec.page.event";
+import {BoxrecLocationEventParams} from "@boxrec-pages/location/event/boxrec.location.event.constants";
+import {BoxrecPageLocationEvent} from "@boxrec-pages/location/event/boxrec.page.location.event";
+import {BoxrecLocationsPeopleParams,} from "@boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationPeople} from "@boxrec-pages/location/people/boxrec.page.location.people";
+import {BoxrecPageProfileBoxer} from "@boxrec-pages/profile/boxrec.page.profile.boxer";
+import {BoxrecPageProfileEvents} from "@boxrec-pages/profile/boxrec.page.profile.events";
+import {BoxrecPageProfileManager} from "@boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfileOtherCommon} from "@boxrec-pages/profile/boxrec.page.profile.other.common";
+import {BoxrecPageProfilePromoter} from "@boxrec-pages/profile/boxrec.page.profile.promoter";
+import {PersonRequestParams} from "@boxrec-pages/profile/boxrec.profile.constants";
+import {BoxrecPageRatings} from "@boxrec-pages/ratings/boxrec.page.ratings";
+import {BoxrecRatingsParams} from "@boxrec-pages/ratings/boxrec.ratings.constants";
+import {BoxrecResultsParams} from "@boxrec-pages/results/boxrec.results.constants";
+import {BoxrecPageSchedule} from "@boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecScheduleParams} from "@boxrec-pages/schedule/boxrec.schedule.constants";
+import {BoxrecPageSearch} from "@boxrec-pages/search/boxrec.page.search";
+import {BoxrecRole, BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from "@boxrec-pages/search/boxrec.search.constants";
+import {BoxrecPageTitle} from "@boxrec-pages/title/boxrec.page.title";
+import {BoxrecTitlesParams,} from "@boxrec-pages/titles/boxrec.page.title.constants";
+import {BoxrecPageTitles} from "@boxrec-pages/titles/boxrec.page.titles";
+import {BoxrecPageVenue} from "@boxrec-pages/venue/boxrec.page.venue";
+import {BoxrecPageWatch} from "@boxrec-pages/watch/boxrec.page.watch";
+import {BoxrecPageWatchRow} from "@boxrec-pages/watch/boxrec.page.watch.row";
 import {BoxrecRequests} from "boxrec-requests";
 import * as fs from "fs";
 import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";
 import * as rp from "request-promise";
 import {Cookie} from "tough-cookie";
-import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
-import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
-import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
-import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
-import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {BoxrecLocationsPeopleParams,} from "./boxrec-pages/location/people/boxrec.location.people.constants";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
-import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
-import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
-import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
-import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
-import {PersonRequestParams} from "./boxrec-pages/profile/boxrec.profile.constants";
-import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
-import {BoxrecRatingsParams} from "./boxrec-pages/ratings/boxrec.ratings.constants";
-import {BoxrecResultsParams} from "./boxrec-pages/results/boxrec.results.constants";
-import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
-import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
-import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
-import {
-    BoxrecRole,
-    BoxrecSearch,
-    BoxrecSearchParams,
-    BoxrecStatus
-} from "./boxrec-pages/search/boxrec.search.constants";
-import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
-import {BoxrecTitlesParams,} from "./boxrec-pages/titles/boxrec.page.title.constants";
-import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
-import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
-import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
-import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {

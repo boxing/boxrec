@@ -1,4 +1,4 @@
-import {BoxrecBasic, Location, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {BoxrecBasic, Location, Record, Stance, WinLossDraw} from "@boxrec-constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
 

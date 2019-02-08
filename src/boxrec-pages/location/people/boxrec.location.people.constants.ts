@@ -1,4 +1,3 @@
-import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
 import {WeightDivisionCapitalized} from "../../titles/boxrec.page.title.constants";
 

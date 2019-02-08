@@ -1,7 +1,7 @@
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {Location, Record, WinLossDraw} from "@boxrec-constants";
+import {getColumnData} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData} from "../../helpers";
-import {Location, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 export class BoxrecPageSearchRow {

@@ -1,4 +1,4 @@
-import {WinLossDraw} from "../boxrec.constants";
+import {WinLossDraw} from "@boxrec-constants";
 
 export interface BoxrecBoxerWatch {
     alias: string;

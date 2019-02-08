@@ -1,6 +1,6 @@
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {convertFractionsToNumber} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {convertFractionsToNumber} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -298,7 +298,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
             const html: Cheerio = this.$(titlesHeld);
             const tmpThis: CheerioStatic = this.$;
 
-            return html.find("a").map(function(this: Cheerio): string {
+            return html.find("a").map(function (this: Cheerio): string {
                 let text: string = tmpThis(this).text();
                 // on the Gennady Golovkin profile I found one belt had two spaces in the middle of it
                 text = text.replace(/\s{2,}/g, " ");

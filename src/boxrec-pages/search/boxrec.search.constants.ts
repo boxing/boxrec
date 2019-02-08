@@ -1,4 +1,4 @@
-import {BoxrecBasic, Location, Record, WinLossDraw} from "../boxrec.constants";
+import {BoxrecBasic, Location, Record, WinLossDraw} from "@boxrec-constants";
 
 export enum BoxrecStatus {
     active = "a",

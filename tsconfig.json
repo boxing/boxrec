@@ -17,6 +17,21 @@
       "es2017"
     ],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "baseUrl": "src",
+    "paths": {
+      "@helpers": [
+        "helpers.ts"
+      ],
+      "@boxrec-pages/*": [
+        "boxrec-pages/*"
+      ],
+      "@boxrec-common-tables/*": [
+        "boxrec-common-tables/*"
+      ],
+      "@boxrec-constants": [
+        "boxrec-pages/boxrec.constants.ts"
+      ]
+    }
   }
 }

@@ -1,8 +1,8 @@
+import {changeToCamelCase, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
-import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic} from "../boxrec.constants";
 import {
-    BoxrecBelts, BoxrecChampion,
+    BoxrecBelts,
+    BoxrecChampion,
     BoxrecChampionsByWeightDivision,
     BoxrecUnformattedChampions,
     WeightDivision

@@ -1,4 +1,4 @@
-import {BoxrecBasic} from "../boxrec.constants";
+import {BoxrecBasic} from "@boxrec-constants";
 
 export interface BoxrecPromoter extends BoxrecBasic {
     company: string | null;

@@ -26,6 +26,25 @@ export class BoxrecCommonLinks {
         return obj;
     }
 
+    /**
+     * Takes a link column and returns the needed data to parse it
+     * @param {CheerioElement} elem
+     * @returns {LinksObj}
+     */
+    static parseLinksColumn(elem: CheerioElement): LinksObj {
+        const div: Cheerio = $(elem).find("div");
+        const href: string = $(elem).attr("href");
+        const classAttr: string = div.attr("class");
+        const hrefArr: string[] = classAttr.split(" ");
+
+        return {
+            classAttr,
+            div,
+            href,
+            hrefArr,
+        };
+    }
+
     // todo the `bout` uses the regex, do we have inconsistencies between links?
     /**
      * Takes a link, parses the information and returns the object
@@ -66,25 +85,6 @@ export class BoxrecCommonLinks {
         });
 
         return obj;
-    }
-
-    /**
-     * Takes a link column and returns the needed data to parse it
-     * @param {CheerioElement} elem
-     * @returns {LinksObj}
-     */
-    static parseLinksColumn(elem: CheerioElement): LinksObj {
-        const div: Cheerio = $(elem).find("div");
-        const href: string = $(elem).attr("href");
-        const classAttr: string = div.attr("class");
-        const hrefArr: string[] = classAttr.split(" ");
-
-        return {
-            classAttr,
-            div,
-            href,
-            hrefArr,
-        };
     }
 
 }

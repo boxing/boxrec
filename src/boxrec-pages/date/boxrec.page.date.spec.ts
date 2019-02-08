@@ -1,5 +1,5 @@
+import {WinLossDraw} from "@boxrec-constants";
 import {mockDate20100520, mockDate20181201} from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecDateEvent} from "./boxrec.date.event";
 import {BoxrecPageDate} from "./boxrec.page.date";

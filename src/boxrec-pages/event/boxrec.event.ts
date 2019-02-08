@@ -1,6 +1,6 @@
+import {BoxrecBasic, BoxrecBoutLocation, Location} from "@boxrec-constants";
+import {townRegionCountryRegex} from "@helpers";
 import * as cheerio from "cheerio";
-import {townRegionCountryRegex} from "../../helpers";
-import {BoxrecBasic, BoxrecBoutLocation, Location} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";

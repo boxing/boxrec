@@ -1,5 +1,5 @@
+import {WinLossDraw} from "@boxrec-constants";
 import {mockRatings} from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageRatings} from "./boxrec.page.ratings";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 

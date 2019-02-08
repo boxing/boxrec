@@ -1,30 +1,30 @@
+import {WinLossDraw} from "@boxrec-pages/boxrec.constants";
+import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
+import {BoxrecPageChampions} from "@boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageEventBout} from "@boxrec-pages/event/bout/boxrec.page.event.bout";
+import {BoxingBoutOutcome} from "@boxrec-pages/event/boxrec.event.constants";
+import {BoxrecPageEvent} from "@boxrec-pages/event/boxrec.page.event";
+import {BoxrecPageEventBoutRow} from "@boxrec-pages/event/boxrec.page.event.bout.row";
+import {BoxrecPageLocationEvent} from "@boxrec-pages/location/event/boxrec.page.location.event";
+import {Country} from "@boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationPeople} from "@boxrec-pages/location/people/boxrec.page.location.people";
+import {BoxrecPageProfile} from "@boxrec-pages/profile/boxrec.page.profile";
+import {BoxrecPageProfileBoxer} from "@boxrec-pages/profile/boxrec.page.profile.boxer";
+import {BoxrecPageProfileEvents} from "@boxrec-pages/profile/boxrec.page.profile.events";
+import {BoxrecPageProfileManager} from "@boxrec-pages/profile/boxrec.page.profile.manager";
+import {BoxrecPageProfileOtherCommon} from "@boxrec-pages/profile/boxrec.page.profile.other.common";
+import {BoxrecPageProfilePromoter} from "@boxrec-pages/profile/boxrec.page.profile.promoter";
+import {BoxrecPageRatings} from "@boxrec-pages/ratings/boxrec.page.ratings";
+import {BoxrecPageSchedule} from "@boxrec-pages/schedule/boxrec.page.schedule";
+import {BoxrecRole, BoxrecStatus} from "@boxrec-pages/search/boxrec.search.constants";
+import {BoxrecPageTitle} from "@boxrec-pages/title/boxrec.page.title";
+import {BoxrecPageTitleRow} from "@boxrec-pages/title/boxrec.page.title.row";
+import {WeightDivisionCapitalized} from "@boxrec-pages/titles/boxrec.page.title.constants";
+import {BoxrecPageTitles} from "@boxrec-pages/titles/boxrec.page.titles";
+import {BoxrecPageTitlesRow} from "@boxrec-pages/titles/boxrec.page.titles.row";
+import {BoxrecPageVenue} from "@boxrec-pages/venue/boxrec.page.venue";
+import {BoxrecPageWatchRow} from "@boxrec-pages/watch/boxrec.page.watch.row";
 import {Cookie} from "tough-cookie";
-import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
-import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
-import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
-import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
-import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
-import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {BoxrecPageEventBoutRow} from "./boxrec-pages/event/boxrec.page.event.bout.row";
-import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
-import {BoxrecPageProfile} from "./boxrec-pages/profile/boxrec.page.profile";
-import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
-import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
-import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
-import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
-import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
-import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
-import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
-import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
-import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
-import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title.constants";
-import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
-import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
-import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
-import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 import boxrec from "./boxrec.class";
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -557,8 +557,8 @@ describe("class Boxrec (E2E)", () => {
 
         describe("getter numberOfPages", () => {
 
-            it("should return the number of pages, which should be a positive number", () => {
-                expect(ratings.numberOfPages).toBeGreaterThan(1);
+            it("should return the number of pages", () => {
+                expect(ratings.numberOfPages).toBeGreaterThanOrEqual(0);
             });
 
         });
@@ -586,8 +586,8 @@ describe("class Boxrec (E2E)", () => {
 
         describe("getter numberOfPages", () => {
 
-            it("should return the number of pages, which should be a positive number", () => {
-                expect(results.numberOfPages).toBeGreaterThan(1);
+            it("should return the number of pages", () => {
+                expect(results.numberOfPages).toBeGreaterThanOrEqual(0);
             });
 
         });

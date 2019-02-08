@@ -1,4 +1,4 @@
-import {BoxrecBasic, WinLossDraw} from "../../boxrec.constants";
+import {BoxrecBasic, WinLossDraw} from "@boxrec-constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
 
 export interface BoutPageLast6 extends BoutPageOutcome {

@@ -1,5 +1,9 @@
 const path = require('path');
 
+function srcPath(subdir) {
+    return path.join(__dirname, "src", subdir);
+}
+
 module.exports = {
     entry: './src/index.ts',
     devtool: 'inline-source-map',
@@ -20,7 +24,13 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            "@helpers": srcPath("helpers.ts"),
+            "@boxrec-pages": srcPath("boxrec-pages"),
+            "@boxrec-common-tables": srcPath("boxrec-common-tables"),
+            "@boxrec-constants": srcPath("boxrec.constants")
+        }
     },
     output: {
         filename: 'index.js',

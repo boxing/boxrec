@@ -1,3 +1,4 @@
+import {WinLossDraw} from "@boxrec-constants";
 import {
     mockProfileBoxerGGG,
     mockProfileBoxerRJJ,
@@ -10,7 +11,6 @@ import {
     mockProfileRefereeRobertByrd,
     mockProfileSupervisorSammyMacias
 } from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";

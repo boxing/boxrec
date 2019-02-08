@@ -5,10 +5,13 @@
   "testRegex": "spec\\.ts",
   "moduleFileExtensions": [
     "ts",
-    "tsx",
     "js",
-    "jsx",
-    "json",
-    "node"
-  ]
+    "json"
+  ],
+  "moduleNameMapper":{
+    "^@helpers$": "<rootDir>/src/helpers.ts",
+    "^@boxrec-pages/(.*)": "<rootDir>/src/boxrec-pages/$1",
+    "^@boxrec-common-tables/(.*)": "<rootDir>/src/boxrec-common-tables/$1",
+    "^@boxrec-constants$": "<rootDir>/src/boxrec-pages/boxrec.constants.ts"
+  }
 }

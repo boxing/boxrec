@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-import {BoxrecPageLocationPeopleRow} from "../boxrec-pages/location/people/boxrec.page.location.people.row";
 import {stripCommas} from "../helpers";
 
 export abstract class BoxrecPageLists {

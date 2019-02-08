@@ -1,7 +1,7 @@
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecBasic, BoxrecBoutLocation} from "@boxrec-constants";
+import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecEvent} from "./boxrec.event";
 

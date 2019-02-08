@@ -1,6 +1,5 @@
+import {BoxrecPageLists} from "@boxrec-common-tables/boxrec-page-lists";
 import * as cheerio from "cheerio";
-import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
-import {stripCommas} from "../../helpers";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
 /**

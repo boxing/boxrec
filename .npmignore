@@ -1,5 +1,20 @@
+# Careful with NPM ignore
+# https://medium.com/@jdxcode/for-the-love-of-god-dont-use-npmignore-f93c08909d8d
 .idea
 src/
 coverage/
 yarn-error.log
 docs/
+
+# ignore webpack
+webpack*.js
+# ignore yml files
+\.*.yml
+# ignore the ts files
+ts*.json
+jest.*.json
+yarn.lock
+.babelrc
+
+# todo does this break typings?  A new release will quickly figure that one out
+typings/

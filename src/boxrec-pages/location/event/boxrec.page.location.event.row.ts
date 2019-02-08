@@ -1,7 +1,7 @@
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {Location} from "@boxrec-constants";
+import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {trimRemoveLineBreaks} from "../../../helpers";
-import {Location} from "../../boxrec.constants";
 import {BoxrecPageEventCommonRow} from "./boxrec.page.event.common.row";
 
 export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
