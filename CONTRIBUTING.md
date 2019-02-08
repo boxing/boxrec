@@ -1,16 +1,13 @@
 # Contributing
 
 ## Welcome
-
 If there is an [open issue](https://github.com/boxing/boxrec/issues) feel free to comment that you'll work on it.  This prevents multiple people from working on the same issue.
 
 ## Documentation
-
 [Can be found here](./docs/)
 
-## Requirements
+## Development Setup
 - Requires Node 7.6+
-- Is written in Typescript and uses ES6/ES7
 - `git clone` this project
 - Run `yarn install` or `npm install` within the parent directory
 - Run `yarn start` to compile
@@ -30,8 +27,16 @@ If you have found a problem, follow these steps:
 - Label it accordingly: "bug" if it's an issue with this code.  
 - [Sometimes the UI for BoxRec changes and breaks the code as well, there is a specific label for that](https://github.com/boxing/boxrec/issues?q=is%3Aissue+is%3Aclosed+label%3A%22BoxRec+UI+changed%22).  This allows tracking of changes to the BoxRec UI.
 
+## Security Vulnerabilities
+If you have a found a security vulnerability with this package or a security vulnerability please create an [issue](https://github.com/boxing/boxrec/issues).  Emails will be sent out notifying [people in this org](https://github.com/orgs/boxing/people) 
+
 ## Suggestions
 If you have a suggestion, feel free to create an issue with the label "suggestion".  Please note that this project is more of a BoxRec API and nothing more.
 
 ## Pull Requests
 Create a pull request.  Assign one of the following people from [here](https://github.com/orgs/boxing/people).  Pull Requests are required to successfully build before they can be merged in.
+
+## Requirement to have pull requests accepted
+- Must include unit tests for the new functionality/fix.  Write tests that prove the functionality works, not to merely pass code coverage
+- Must pass code review
+- Must follow the same coding style
