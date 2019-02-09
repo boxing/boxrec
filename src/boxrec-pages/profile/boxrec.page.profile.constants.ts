@@ -1,7 +1,9 @@
 import {Location} from "@boxrec-constants";
 import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "@boxrec-pages/profile/boxrec.page.profile.boxer.bout.row";
+import {BoxrecPageProfileEventRow} from "@boxrec-pages/profile/boxrec.page.profile.event.row";
 import {BoxrecPageProfileManagerBoxerRow} from "@boxrec-pages/profile/boxrec.page.profile.manager.boxer.row";
+import {BoxrecPageProfileOtherCommonBoutRow} from "@boxrec-pages/profile/boxrec.page.profile.other.common.bout.row";
 import {BoxrecProfileRole} from "@boxrec-pages/profile/boxrec.profile.constants";
 
 interface BoxrecProfileOutput {
@@ -39,4 +41,16 @@ export interface BoxrecProfileBoxerOutput extends BoxrecProfileOutput {
 
 export interface BoxrecProfileManagerOutput extends BoxrecProfileOutput {
     boxers: BoxrecPageProfileManagerBoxerRow[];
+}
+
+export interface BoxrecProfileOtherOutput extends BoxrecProfileOutput {
+    bouts: BoxrecPageProfileOtherCommonBoutRow[];
+}
+
+export interface BoxrecProfilePromoterOutput extends BoxrecProfileEventsOutput {
+    company: string | null;
+}
+
+export interface BoxrecProfileEventsOutput extends BoxrecProfileOutput {
+    events: BoxrecPageProfileEventRow[];
 }

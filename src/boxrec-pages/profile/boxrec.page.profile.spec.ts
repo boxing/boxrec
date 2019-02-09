@@ -1,5 +1,10 @@
 import {WinLossDraw} from "@boxrec-constants";
-import {BoxrecProfileBoxerOutput} from "@boxrec-pages/profile/boxrec.page.profile.constants";
+import {
+    BoxrecProfileBoxerOutput,
+    BoxrecProfileManagerOutput,
+    BoxrecProfileOtherOutput,
+    BoxrecProfilePromoterOutput
+} from "@boxrec-pages/profile/boxrec.page.profile.constants";
 import {
     mockProfileBoxerGGG,
     mockProfileBoxerRJJ,
@@ -47,7 +52,7 @@ describe("class BoxrecPageProfile", () => {
         supervisorSammyMacias = new BoxrecPageProfileOtherCommon(mockProfileSupervisorSammyMacias);
     });
 
-    describe("boxer", () => {
+    describe("role boxer", () => {
 
         describe("getter output", () => {
 
@@ -434,135 +439,167 @@ describe("class BoxrecPageProfile", () => {
         });
     });
 
-    describe("getter company", () => {
+    describe("role promoter", () => {
 
-        it("should return the company name as a string", () => {
-            expect(promoterLeonardEllerbe.company).toBe("Mayweather Promotions");
-        });
-
-    });
-
-    describe("getter globalId", () => {
-
-        it("should return the judge globalId", () => {
-            expect(judgeDaveMoretti.globalId).toBe(401002);
-        });
-
-    });
-
-    describe("getter residence", () => {
-
-        it("should return the residence for other roles", () => {
-            expect(judgeDaveMoretti.residence).toEqual({
-                country: Country.USA,
-                id: 20388,
-                region: "NV",
-                town: "Las Vegas",
-            });
-        });
-
-    });
-
-    describe("getter birthPlace", () => {
-
-        it("should return the birth place of other roles", () => {
-            expect(judgeDaveMoretti.birthPlace).toEqual({
-                country: null,
-                id: null,
-                region: null,
-                town: null,
-            });
-        });
-
-    });
-
-    describe("getter boxers", () => {
-
-        let boxer: BoxrecPageProfileManagerBoxerRow;
+        let output: BoxrecProfilePromoterOutput;
 
         beforeAll(() => {
-            boxer = managerMichaelMcSorleyJr.boxers[0];
+            output = promoterLeonardEllerbe.output;
         });
 
-        describe("getter name", () => {
+        describe("getter company", () => {
 
-            it("should return the name", () => {
-                expect(boxer.name).toBeDefined();
-            });
-
-        });
-
-        describe("getter division", () => {
-
-            it("should return the division as a string", () => {
-                expect(boxer.division).toContain(boxer.division);
-            });
-
-        });
-
-        describe("getter record", () => {
-
-            it("should return the person's record", () => {
-                const keys: string[] = Object.keys(boxer.record);
-                expect(keys).toContain(WinLossDraw.win);
-                expect(keys).toContain(WinLossDraw.draw);
-                expect(keys).toContain(WinLossDraw.loss);
+            it("should return the company name as a string", () => {
+                expect(output.company).toBe("Mayweather Promotions");
             });
 
         });
 
     });
 
-    // these tests are to see if the columns still match up between different `roles`
-    describe("getter events", () => {
+    describe("role judge", () => {
 
+        describe("getter globalId", () => {
+
+            it("should return the judge globalId", () => {
+                expect(judgeDaveMoretti.globalId).toBe(401002);
+            });
+
+        });
+
+        describe("getter residence", () => {
+
+            it("should return the residence for other roles", () => {
+                expect(judgeDaveMoretti.residence).toEqual({
+                    country: Country.USA,
+                    id: 20388,
+                    region: "NV",
+                    town: "Las Vegas",
+                });
+            });
+
+        });
+
+        describe("getter birthPlace", () => {
+
+            let output: BoxrecProfileOtherOutput;
+
+            beforeAll(() => {
+                output = judgeDaveMoretti.output;
+            });
+
+            it("should return the birth place of other roles", () => {
+                expect(judgeDaveMoretti.birthPlace).toEqual({
+                    country: null,
+                    id: null,
+                    region: null,
+                    town: null,
+                });
+            });
+        });
+    });
+
+    describe("role manager", () => {
+
+        let output: BoxrecProfileManagerOutput;
+
+        beforeAll(() => {
+            output = managerMichaelMcSorleyJr.output;
+        });
+
+        describe("getter boxers", () => {
+
+            let boxer: BoxrecPageProfileManagerBoxerRow;
+
+            beforeAll(() => {
+                boxer = output.boxers[0];
+            });
+
+            describe("getter name", () => {
+
+                it("should return the name", () => {
+                    expect(boxer.name).toBeDefined();
+                });
+
+            });
+
+            describe("getter division", () => {
+
+                it("should return the division as a string", () => {
+                    expect(boxer.division).toContain(boxer.division);
+                });
+
+            });
+
+            describe("getter record", () => {
+
+                it("should return the person's record", () => {
+                    const keys: string[] = Object.keys(boxer.record);
+                    expect(keys).toContain(WinLossDraw.win);
+                    expect(keys).toContain(WinLossDraw.draw);
+                    expect(keys).toContain(WinLossDraw.loss);
+                });
+
+            });
+
+        });
+
+    });
+
+    describe("roles with events", () => {
+
+        let matchmakerVeliPekkaMaekiEvent: BoxrecPageProfileEventRow;
         let doctorAnthonyRuggeroliEvent: BoxrecPageProfileEventRow;
         let leonardEllerbeEvent: BoxrecPageProfileEventRow;
         let inspectorMichaelBuchatoEvent: BoxrecPageProfileEventRow;
-        let matchmakerVeliPekkaMaekiEvent: BoxrecPageProfileEventRow;
 
         beforeAll(() => {
-            doctorAnthonyRuggeroliEvent = doctorAnthonyRuggeroli.events[0];
-            leonardEllerbeEvent = promoterLeonardEllerbe.events[0];
-            inspectorMichaelBuchatoEvent = inspectorMichaelBuchato.events[0];
-            matchmakerVeliPekkaMaekiEvent = matchmakerVeliPekkaMaeki.events[0];
+            matchmakerVeliPekkaMaekiEvent = matchmakerVeliPekkaMaeki.output.events[0];
+            doctorAnthonyRuggeroliEvent = doctorAnthonyRuggeroli.output.events[0];
+            leonardEllerbeEvent = promoterLeonardEllerbe.output.events[0];
+            inspectorMichaelBuchatoEvent = inspectorMichaelBuchato.output.events[0];
         });
 
-        it("should have the date", () => {
-            const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
-            expect(doctorAnthonyRuggeroliEvent.date).toMatch(dateRegex);
-            expect(leonardEllerbeEvent.date).toMatch(dateRegex);
-            expect(inspectorMichaelBuchatoEvent.date).toMatch(dateRegex);
-            expect(matchmakerVeliPekkaMaekiEvent.date).toMatch(dateRegex);
-        });
+        // these tests are to see if the columns still match up between different `roles`
+        describe("getter events", () => {
 
-        describe("getter venue", () => {
-
-            it("should have the id of the venue", () => {
-                expect(doctorAnthonyRuggeroliEvent.venue.id).toBeGreaterThanOrEqual(0);
-                expect(leonardEllerbeEvent.venue.id).toBeGreaterThanOrEqual(0);
-                expect(inspectorMichaelBuchatoEvent.venue.id).toBeGreaterThanOrEqual(0);
-                expect(matchmakerVeliPekkaMaekiEvent.venue.id).toBeGreaterThanOrEqual(0);
+            it("should have the date", () => {
+                const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
+                expect(doctorAnthonyRuggeroliEvent.date).toMatch(dateRegex);
+                expect(leonardEllerbeEvent.date).toMatch(dateRegex);
+                expect(inspectorMichaelBuchatoEvent.date).toMatch(dateRegex);
+                expect(matchmakerVeliPekkaMaekiEvent.date).toMatch(dateRegex);
             });
 
-            it("should have the name of the venue", () => {
-                expect(doctorAnthonyRuggeroliEvent.venue.name).toEqual(jasmine.any(String));
-                expect(leonardEllerbeEvent.venue.name).toEqual(jasmine.any(String));
-                expect(inspectorMichaelBuchatoEvent.venue.name).toEqual(jasmine.any(String));
-                expect(matchmakerVeliPekkaMaekiEvent.venue.name).toEqual(jasmine.any(String));
+            describe("getter venue", () => {
+
+                it("should have the id of the venue", () => {
+                    expect(doctorAnthonyRuggeroliEvent.venue.id).toBeGreaterThanOrEqual(0);
+                    expect(leonardEllerbeEvent.venue.id).toBeGreaterThanOrEqual(0);
+                    expect(inspectorMichaelBuchatoEvent.venue.id).toBeGreaterThanOrEqual(0);
+                    expect(matchmakerVeliPekkaMaekiEvent.venue.id).toBeGreaterThanOrEqual(0);
+                });
+
+                it("should have the name of the venue", () => {
+                    expect(doctorAnthonyRuggeroliEvent.venue.name).toEqual(jasmine.any(String));
+                    expect(leonardEllerbeEvent.venue.name).toEqual(jasmine.any(String));
+                    expect(inspectorMichaelBuchatoEvent.venue.name).toEqual(jasmine.any(String));
+                    expect(matchmakerVeliPekkaMaekiEvent.venue.name).toEqual(jasmine.any(String));
+                });
+
             });
 
-        });
+            describe("getter links", () => {
 
-        describe("getter links", () => {
-
-            it("should return an object with `event` in it", () => {
-                expect(leonardEllerbeEvent.links).toEqual(
-                    {
-                        event: 778241,
-                    }
-                );
+                it("should return an object with `event` in it", () => {
+                    expect(leonardEllerbeEvent.links).toEqual(
+                        {
+                            event: 778241,
+                        }
+                    );
+                });
             });
         });
+
     });
 });
