@@ -50,18 +50,6 @@ export class BoxrecPageChampions {
         return this.parseBoxingOrganizations();
     }
 
-    get champions(): BoxrecUnformattedChampions[] {
-        return this.parseChampions();
-    }
-
-    get output(): BoxrecChampionsOutput {
-        return {
-            boxingOrganizations: this.boxingOrganizations,
-            champions: this.champions,
-            byWeightDivision: this.byWeightDivision,
-        };
-    }
-
     get byWeightDivision(): BoxrecChampionsByWeightDivision {
         const championsFormatted: BoxrecChampionsByWeightDivision = weightDivisions;
         const champions: BoxrecUnformattedChampions[] = this.parseChampions();
@@ -72,6 +60,18 @@ export class BoxrecPageChampions {
         }
 
         return championsFormatted;
+    }
+
+    get champions(): BoxrecUnformattedChampions[] {
+        return this.parseChampions();
+    }
+
+    get output(): BoxrecChampionsOutput {
+        return {
+            boxingOrganizations: this.boxingOrganizations,
+            champions: this.champions,
+            byWeightDivision: this.byWeightDivision,
+        };
     }
 
     private parseBoxingOrganizations(): string[] {

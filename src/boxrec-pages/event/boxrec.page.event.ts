@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecBasic, BoxrecBoutLocation} from "@boxrec-constants";
+import {BoxrecEventOutput} from "@boxrec-pages/event/boxrec.event.constants";
 import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
 import {BoxrecRole} from "../search/boxrec.search.constants";
@@ -138,6 +139,22 @@ export class BoxrecPageEvent extends BoxrecEvent {
 
     protected parsePromoters(): string {
         return this.parseEventData(BoxrecRole.promoter);
+    }
+
+    get output(): BoxrecEventOutput {
+        return {
+            bouts: this.bouts,
+            commission: this.commission,
+            date: this.date,
+            doctors: this.doctors,
+            id: this.id,
+            inspector: this.inspector,
+            location: this.location,
+            matchmakers: this.matchmakers,
+            numberOfBouts: this.numberOfBouts,
+            promoters: this.promoters,
+            television: this.television,
+        };
     }
 
     get television(): string[] {

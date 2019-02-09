@@ -22,8 +22,8 @@ export interface BoxrecChampionsByWeightDivision {
 
 export interface BoxrecChampionsOutput {
     boxingOrganizations: string[];
-    champions: BoxrecUnformattedChampions[];
     byWeightDivision: BoxrecChampionsByWeightDivision;
+    champions: BoxrecUnformattedChampions[];
 }
 
 export interface BoxrecChampion extends BoxrecBasic {

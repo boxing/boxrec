@@ -57,6 +57,7 @@ describe("class BoxrecPageDate", () => {
 
             describe("getter matchmakers", () => {
 
+                // todo shouldn't exist
                 it("should be defined but does not exist on page, should be empty array", () => {
                     expect(firstEvent.matchmakers.length).toBe(0);
                 });

@@ -44,7 +44,6 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return locationObject;
     }
 
-    // todo does the following need fixing?
     // does not exist on dates page
     get matchmakers(): BoxrecBasic[] {
         const html: Cheerio = this.$(`<div>${this.parseMatchmakers()}</div>`);
@@ -65,7 +64,6 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return matchmaker;
     }
 
-    // todo does the following need fixing?
     // does not exist on dates page
     get promoters(): BoxrecPromoter[] {
         const html: Cheerio = this.$(`<div>${this.parsePromoters()}</div>`);
