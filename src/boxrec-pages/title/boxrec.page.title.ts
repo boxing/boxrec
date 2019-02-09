@@ -1,4 +1,5 @@
 import {BoxrecBasic} from "@boxrec-constants";
+import {BoxrecTitleOutput} from "@boxrec-pages/title/boxrec.page.title.constants";
 import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
@@ -11,14 +12,6 @@ import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 export class BoxrecPageTitle extends BoxrecParseBouts {
 
     protected readonly $: CheerioStatic;
-
-    /**
-     * The number of bouts that have occurred for this title
-     * @returns {number}
-     */
-    get numberOfBouts(): number {
-        return parseInt(this.$(".pagerResults").text(), 10);
-    }
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
@@ -62,6 +55,15 @@ export class BoxrecPageTitle extends BoxrecParseBouts {
 
     get name(): string {
         return trimRemoveLineBreaks(this.$("h1").text());
+    }
+
+    get output(): BoxrecTitleOutput {
+        return {
+            bouts: this.bouts,
+            champion: this.champion,
+            name: this.name,
+            numberOfBouts: this.numberOfBouts,
+        };
     }
 
 }
