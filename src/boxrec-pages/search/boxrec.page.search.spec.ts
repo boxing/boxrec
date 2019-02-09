@@ -1,5 +1,5 @@
+import {WinLossDraw} from "@boxrec-constants";
 import {mockSearchMayweather} from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageSearch} from "./boxrec.page.search";
 import {BoxrecSearch} from "./boxrec.search.constants";
 

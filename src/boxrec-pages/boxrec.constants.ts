@@ -1,4 +1,4 @@
-import {BoxrecGeneralLinks} from "../boxrec-common-tables/boxrec-common.constants";
+import {BoxrecGeneralLinks} from "@boxrec-common-tables/boxrec-common.constants";
 import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
 import {BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
 

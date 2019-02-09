@@ -1,6 +1,6 @@
+import {BoxrecBasic} from "@boxrec-constants";
+import {getColumnData} from "@helpers";
 import * as cheerio from "cheerio";
-import {getColumnData} from "../../../helpers";
-import {BoxrecBasic} from "../../boxrec.constants";
 
 export abstract class BoxrecPageEventCommonRow {
 

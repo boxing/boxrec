@@ -1,9 +1,9 @@
+import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "@boxrec-pages/boxrec.constants";
+import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
+import {BoxingBoutOutcome} from "@boxrec-pages/event/boxrec.event.constants";
 import * as cheerio from "cheerio";
 import * as querystring from "querystring";
 import {ParsedUrlQuery} from "querystring";
-import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
-import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
-import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
@@ -152,7 +152,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
                     queryArr.forEach(item => {
                         // if town exists it means we can get the id
                         if (item[0] === "town" && item[1]) {
-                            if (typeof(item[1]) === "string") {
+                            if (typeof (item[1]) === "string") {
                                 location.id = parseInt(item[1] as string, 10);
                                 location.town = $(elem).text();
                             }

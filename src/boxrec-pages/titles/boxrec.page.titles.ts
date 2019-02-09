@@ -1,5 +1,5 @@
+import {stripCommas} from "@helpers";
 import * as cheerio from "cheerio";
-import {stripCommas} from "../../helpers";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 

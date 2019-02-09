@@ -1,7 +1,7 @@
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecTitles} from "@boxrec-common-tables/boxrec-common.constants";
+import {convertFractionsToNumber, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";

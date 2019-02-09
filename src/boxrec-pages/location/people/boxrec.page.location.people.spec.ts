@@ -1,5 +1,5 @@
+import {WinLossDraw} from "@boxrec-constants";
 import {mockUSALocation} from "boxrec-mocks";
-import {WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {Country} from "./boxrec.location.people.constants";
 import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";

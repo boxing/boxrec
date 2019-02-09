@@ -1,8 +1,8 @@
+import {BoxrecCommonLinks} from "@boxrec-common-tables/boxrec-common-links";
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {Location} from "@boxrec-constants";
+import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {trimRemoveLineBreaks} from "../../helpers";
-import {Location} from "../boxrec.constants";
 import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
 import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
 

@@ -1,8 +1,7 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecTitles} from "@boxrec-common-tables/boxrec-common.constants";
+import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "@boxrec-constants";
+import {getColumnData, trimRemoveLineBreaks} from "@helpers";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 import {BoxrecProfileBoutLocation} from "./boxrec.profile.constants";

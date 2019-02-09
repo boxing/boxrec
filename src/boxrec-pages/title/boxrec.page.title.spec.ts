@@ -102,7 +102,7 @@ describe("class BoxrecPageTitle", () => {
                 });
 
             });
-            
+
         });
 
     });

@@ -1,6 +1,6 @@
+import {BoxrecCommonLinks} from "@boxrec-common-tables/boxrec-common-links";
+import {BoxrecGeneralLinks} from "@boxrec-common-tables/boxrec-common.constants";
 import * as cheerio from "cheerio";
-import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
 
 // contains common functionality of profiles rows
 export abstract class BoxrecProfileCommonRow {

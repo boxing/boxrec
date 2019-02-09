@@ -1,9 +1,9 @@
+import {BoxrecCommonLinks} from "@boxrec-common-tables/boxrec-common-links";
+import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecGeneralLinks} from "@boxrec-common-tables/boxrec-common.constants";
+import {BoxrecBasic, Location, WinLossDraw} from "@boxrec-constants";
+import {getColumnData, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
-import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, Location, WinLossDraw} from "../boxrec.constants";
 
 export class BoxrecPageTitleRow {
 
