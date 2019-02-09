@@ -21,3 +21,7 @@ export interface BoxrecEventLinks {
     bout: number | null;
     other: string[];
 }
+
+export interface BoxrecEventOutput {
+
+}
