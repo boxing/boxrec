@@ -1,4 +1,5 @@
 import {BoxrecPageLists} from "@boxrec-common-tables/boxrec-page-lists";
+import {BoxrecRatingsOutput} from "@boxrec-pages/ratings/boxrec.ratings.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
@@ -17,6 +18,13 @@ export class BoxrecPageRatings extends BoxrecPageLists {
 
     get boxers(): BoxrecPageRatingsRow[] {
         return this.parseRatings().map(item => new BoxrecPageRatingsRow(item));
+    }
+
+    get output(): BoxrecRatingsOutput {
+        return {
+            boxers: this.boxers,
+            numberOfPages: this.numberOfPages,
+        };
     }
 
     private parseRatings(): string[] {
