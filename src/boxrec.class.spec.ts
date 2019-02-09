@@ -416,10 +416,8 @@ describe("class Boxrec", () => {
 
         it("should return a list of watched boxers", async () => {
             const spy: SpyInstance = jest.spyOn(BoxrecRequests, "getWatched");
-            const spyList: SpyInstance = jest.spyOn(BoxrecPageWatch.prototype, "list");
             await boxrec.getWatched();
             expect(spy).toHaveBeenCalled();
-            expect(spyList).toHaveBeenCalled();
         });
 
     });

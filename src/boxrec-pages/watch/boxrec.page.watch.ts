@@ -1,3 +1,4 @@
+import {BoxrecWatchOutput} from "@boxrec-pages/watch/boxrec.watch.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
 
@@ -9,16 +10,7 @@ export class BoxrecPageWatch {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
-    /**
-     * Returns true if the boxer exists in the list
-     * @param {number} boxerGlobalId
-     * @returns {boolean}
-     */
-    checkForBoxerInList(boxerGlobalId: number): boolean {
-        return !!this.list().find((item: BoxrecPageWatchRow) => item.globalId === boxerGlobalId);
-    }
-
-    list(): BoxrecPageWatchRow[] {
+    get list(): BoxrecPageWatchRow[] {
         const listOfWatchedBoxers: BoxrecPageWatchRow[] = [];
 
         this.$("table tr").each((i: number, elem: CheerioElement) => {
@@ -35,6 +27,21 @@ export class BoxrecPageWatch {
         });
 
         return listOfWatchedBoxers;
+    }
+
+    get output(): BoxrecWatchOutput {
+        return {
+            list: this.list,
+        };
+    }
+
+    /**
+     * Returns true if the boxer exists in the list
+     * @param {number} boxerGlobalId
+     * @returns {boolean}
+     */
+    checkForBoxerInList(boxerGlobalId: number): boolean {
+        return !!this.list.find((item: BoxrecPageWatchRow) => item.globalId === boxerGlobalId);
     }
 
 }
