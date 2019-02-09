@@ -1,3 +1,4 @@
+import {BoxrecChampionsOutput} from "@boxrec-pages/champions/boxrec.champions.constants";
 import {changeToCamelCase, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
 import {
@@ -53,7 +54,15 @@ export class BoxrecPageChampions {
         return this.parseChampions();
     }
 
-    getByWeightDivision(): BoxrecChampionsByWeightDivision {
+    get output(): BoxrecChampionsOutput {
+        return {
+            boxingOrganizations: this.boxingOrganizations,
+            champions: this.champions,
+            byWeightDivision: this.byWeightDivision,
+        };
+    }
+
+    get byWeightDivision(): BoxrecChampionsByWeightDivision {
         const championsFormatted: BoxrecChampionsByWeightDivision = weightDivisions;
         const champions: BoxrecUnformattedChampions[] = this.parseChampions();
 

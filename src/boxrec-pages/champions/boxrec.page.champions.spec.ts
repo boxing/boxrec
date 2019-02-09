@@ -1,13 +1,17 @@
 import {mockChampions} from "boxrec-mocks";
-import {BoxrecChampionsByWeightDivision, BoxrecUnformattedChampions} from "./boxrec.champions.constants";
+import {
+    BoxrecChampionsByWeightDivision,
+    BoxrecChampionsOutput,
+    BoxrecUnformattedChampions
+} from "./boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec.page.champions";
 
 describe("class BoxrecPageChampions", () => {
 
-    let champions: BoxrecPageChampions;
+    let champions: BoxrecChampionsOutput;
 
     beforeAll(() => {
-        champions = new BoxrecPageChampions(mockChampions);
+        champions = new BoxrecPageChampions(mockChampions).output;
     });
 
     describe("getter champions", () => {
@@ -45,7 +49,7 @@ describe("class BoxrecPageChampions", () => {
         let list: BoxrecChampionsByWeightDivision;
 
         beforeAll(() => {
-            list = champions.getByWeightDivision();
+            list = champions.byWeightDivision;
         });
 
         it("should return as object with weight classes", () => {
