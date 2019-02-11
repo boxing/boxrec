@@ -69,8 +69,8 @@ export class BoxrecPageChampions {
     get output(): BoxrecChampionsOutput {
         return {
             boxingOrganizations: this.boxingOrganizations,
-            champions: this.champions,
             byWeightDivision: this.byWeightDivision,
+            champions: this.champions,
         };
     }
 
