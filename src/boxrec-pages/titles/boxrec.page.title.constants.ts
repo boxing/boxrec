@@ -1,3 +1,5 @@
+import {BoxrecPageTitlesRow} from "@boxrec-pages/titles/boxrec.page.titles.row";
+
 // the params for searching titles are capitalized divisions
 export enum WeightDivisionCapitalized {
     heavyweight = "Heavyweight",
@@ -28,4 +30,10 @@ export interface BoxrecTitlesParamsTransformed {
     "WcX[bout_title]"?: number;
     "WcX[division]"?: WeightDivisionCapitalized;
     offset?: number;
+}
+
+export interface BoxrecTitlesOutput {
+    bouts: BoxrecPageTitlesRow[];
+    numberOfBouts: number;
+    numberOfPages: number;
 }

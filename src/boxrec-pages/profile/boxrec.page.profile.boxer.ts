@@ -1,4 +1,5 @@
 import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecProfileBoxerOutput} from "@boxrec-pages/profile/boxrec.page.profile.constants";
 import {convertFractionsToNumber} from "@helpers";
 import * as cheerio from "cheerio";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
@@ -177,6 +178,38 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         return 0;
     }
 
+    get output(): BoxrecProfileBoxerOutput {
+        return {
+            KOs: this.KOs,
+            alias: this.alias,
+            birthName: this.birthName,
+            birthPlace: this.birthPlace,
+            born: this.born,
+            bouts: this.bouts,
+            debut: this.debut,
+            division: this.division,
+            globalId: this.globalId,
+            hasBoutScheduled: this.hasBoutScheduled,
+            height: this.height,
+            name: this.name,
+            nationality: this.nationality,
+            numberOfBouts: this.numberOfBouts,
+            otherInfo: this.otherInfo,
+            picture: this.picture,
+            ranking: this.ranking,
+            rating: this.rating,
+            reach: this.reach,
+            residence: this.residence,
+            role: this.role,
+            rounds: this.rounds,
+            stance: this.stance,
+            status: this.status,
+            suspended: this.suspended,
+            titlesHeld: this.titlesHeld,
+            vadacbp: this.vadacbp,
+        };
+    }
+
     /**
      * Returns an array of where they stand in their division and in their country (by class)
      * @returns {number[][] | null}
@@ -265,6 +298,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * Returns the stance of the boxer, either orthodox or southpaw
      * @returns {string | null}
      */
+    // todo can be converted to `Stance` possibly
     get stance(): string | null {
         const stance: string | void = this.parseProfileTableData(BoxrecProfileTable.stance);
         if (stance) {

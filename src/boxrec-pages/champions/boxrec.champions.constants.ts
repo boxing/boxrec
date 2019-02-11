@@ -20,6 +20,12 @@ export interface BoxrecChampionsByWeightDivision {
     welterweight: BoxrecBelts;
 }
 
+export interface BoxrecChampionsOutput {
+    boxingOrganizations: string[];
+    byWeightDivision: BoxrecChampionsByWeightDivision;
+    champions: BoxrecUnformattedChampions[];
+}
+
 export interface BoxrecChampion extends BoxrecBasic {
     picture: string | null;
 }

@@ -2,7 +2,7 @@ import {WinLossDraw} from "@boxrec-constants";
 import {mockBoutCaneloGGG1} from "boxrec-mocks";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
-import {BoutPageLast6} from "./boxrec.event.bout.constants";
+import {BoutPageLast6, BoxrecEventBoutOutput} from "./boxrec.event.bout.constants";
 import {BoxrecPageEventBout} from "./boxrec.page.event.bout";
 
 const testLast6: (last6Obj: BoutPageLast6, expectations: BoutPageLast6) => void =
@@ -17,11 +17,11 @@ const testLast6: (last6Obj: BoutPageLast6, expectations: BoutPageLast6) => void 
 
 describe("class BoxrecPageEventBout", () => {
 
-    let caneloGGG1: BoxrecPageEventBout;
+    let caneloGGG1: BoxrecEventBoutOutput;
     let caneloGGG1Fake: BoxrecPageEventBout;
 
     beforeAll(() => {
-        caneloGGG1 = new BoxrecPageEventBout(mockBoutCaneloGGG1);
+        caneloGGG1 = new BoxrecPageEventBout(mockBoutCaneloGGG1).output;
 
         // create additional HTML mock so we can modify it for testing
         let modifiedCaneloGGG1: string = mockBoutCaneloGGG1;

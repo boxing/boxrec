@@ -1,3 +1,4 @@
+import {BoxrecTitlesOutput} from "@boxrec-pages/titles/boxrec.page.title.constants";
 import {stripCommas} from "@helpers";
 import * as cheerio from "cheerio";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
@@ -23,6 +24,14 @@ export class BoxrecPageTitles extends BoxrecParseBouts {
     get numberOfPages(): number {
         const text: string = this.$(".filterBarFloat .pagerElement:nth-last-child(3)").text() || "0";
         return parseInt(stripCommas(text), 10);
+    }
+
+    get output(): BoxrecTitlesOutput {
+        return {
+            bouts: this.bouts,
+            numberOfBouts: this.numberOfBouts,
+            numberOfPages: this.numberOfPages,
+        };
     }
 
 }

@@ -1,10 +1,10 @@
 import {BoxrecCommonLinks} from "@boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecBasic, Record, WinLossDraw} from "@boxrec-constants";
+import {BoxrecEventLinks} from "@boxrec-pages/event/boxrec.event.constants";
 import {getColumnData} from "@helpers";
 import * as cheerio from "cheerio";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecEventLinks} from "./boxrec.event.constants";
 
 export class BoxrecPageEventBoutRow {
 

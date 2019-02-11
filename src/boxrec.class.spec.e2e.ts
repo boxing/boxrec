@@ -1,4 +1,4 @@
-import {WinLossDraw} from "@boxrec-pages/boxrec.constants";
+import {WinLossDraw} from "@boxrec-constants";
 import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "@boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageEventBout} from "@boxrec-pages/event/bout/boxrec.page.event.bout";

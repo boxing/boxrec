@@ -1,4 +1,5 @@
-import {BoxrecBasic, Location, Record, Stance, WinLossDraw} from "@boxrec-constants";
+import {BoxrecBasic, Record, Stance, WinLossDraw} from "@boxrec-constants";
+import {BoxrecPageRatingsRow} from "@boxrec-pages/ratings/boxrec.page.ratings.row";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
 
@@ -19,4 +20,9 @@ export interface BoxrecRating extends BoxrecBasic {
     record: Record;
     residence: Location;
     stance: Stance | null;
+}
+
+export interface BoxrecRatingsOutput {
+    boxers: BoxrecPageRatingsRow[];
+    numberOfPages: number;
 }

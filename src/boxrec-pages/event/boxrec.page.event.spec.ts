@@ -1,21 +1,21 @@
 import {WinLossDraw} from "@boxrec-constants";
 import {mockEventPageBellewHaye2, mockEventPageMayweatherMcGregor} from "boxrec-mocks";
-import {BoxrecPromoter} from "./boxrec.event.constants";
+import {BoxrecEventOutput, BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
 describe("class BoxrecPageEvent", () => {
 
-    let eventBellewHaye2: BoxrecPageEvent;
-    let eventMayweatherMcGregor: BoxrecPageEvent;
+    let eventBellewHaye2: BoxrecEventOutput;
+    let eventMayweatherMcGregor: BoxrecEventOutput;
 
     // the BoxRec events page keeps changing where it positions Haye/Bellew fight
     // get the index to prevent the tests from failing
     let bellewHayeIndex: number = 0;
 
     beforeAll(() => {
-        eventBellewHaye2 = new BoxrecPageEvent(mockEventPageBellewHaye2);
-        eventMayweatherMcGregor = new BoxrecPageEvent(mockEventPageMayweatherMcGregor);
+        eventBellewHaye2 = new BoxrecPageEvent(mockEventPageBellewHaye2).output;
+        eventMayweatherMcGregor = new BoxrecPageEvent(mockEventPageMayweatherMcGregor).output;
 
         bellewHayeIndex = eventBellewHaye2.bouts.findIndex(item => item.firstBoxer.id === 425328);
     });

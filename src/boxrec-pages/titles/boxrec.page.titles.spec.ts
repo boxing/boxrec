@@ -1,10 +1,10 @@
+import {BoxrecPageTitlesRow} from "@boxrec-pages/titles/boxrec.page.titles.row";
 import {
     mockTitlesAllTitleAllScheduled,
     mockTitlesTitleSelectedAllScheduled,
     mockTitlesTitleSelectedSuperMiddleweight
 } from "boxrec-mocks";
 import {BoxrecPageTitles} from "./boxrec.page.titles";
-import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 
 describe("class BoxrecPageTitles", () => {
 
@@ -35,61 +35,20 @@ describe("class BoxrecPageTitles", () => {
         });
     };
 
-    describe("getter numberOfPages", () => {
+    describe("getter output", () => {
 
         it("should return number of pages", () => {
-            expect(scheduledTitle.numberOfPages).toBeGreaterThanOrEqual(0);
+            expect(scheduledTitle.output.numberOfPages).toBeGreaterThanOrEqual(0);
         });
 
-    });
-
-    describe("is division page", () => {
-
-        describe("getter bouts", () => {
-
-            let firstBout: BoxrecPageTitlesRow;
-
-            beforeAll(() => {
-                firstBout = superMiddleweightTitle.bouts[0];
-            });
-
-            it("should have the date", () => {
-                expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
-            });
-
-            it("should have the location", () => {
-                expect(firstBout.location).toEqual(locationObj);
-            });
-
-            it("should have the rating", () => {
-                expect(firstBout.rating).toEqual(jasmine.any(Number));
-            });
-
-            it("should include the number of rounds", () => {
-                expect(firstBout.numberOfRounds).toEqual([
-                    jasmine.any(Number),
-                    jasmine.any(Number),
-                ]);
-            });
-
-            it("should include an object of links", () => {
-                bioClosedTestObject(firstBout);
-            });
-
-        });
-
-    });
-
-    describe("is scheduled titles page", () => {
-
-        describe("is selected title", () => {
+        describe("is division page", () => {
 
             describe("getter bouts", () => {
 
                 let firstBout: BoxrecPageTitlesRow;
 
                 beforeAll(() => {
-                    firstBout = scheduledTitle.bouts[0];
+                    firstBout = superMiddleweightTitle.output.bouts[0];
                 });
 
                 it("should have the date", () => {
@@ -112,60 +71,92 @@ describe("class BoxrecPageTitles", () => {
                 });
 
                 it("should include an object of links", () => {
-                    expect(firstBout.links).toEqual({
-                        bio: jasmine.any(Number),
-                        bout: jasmine.any(String),
-                        event: jasmine.any(Number),
-                        other: [],
-                    });
+                    bioClosedTestObject(firstBout);
                 });
-
             });
-
         });
 
-        describe("all titles", () => {
+        describe("is scheduled titles page", () => {
 
-            describe("getter bouts", () => {
+            describe("is selected title", () => {
 
-                let firstBout: BoxrecPageTitlesRow;
+                describe("getter bouts", () => {
 
-                beforeAll(() => {
-                    firstBout = allTitleAllSchedule.bouts[0];
-                });
+                    let firstBout: BoxrecPageTitlesRow;
 
-                it("should have the date", () => {
-                    expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
-                });
+                    beforeAll(() => {
+                        firstBout = scheduledTitle.output.bouts[0];
+                    });
 
-                it("should have the location", () => {
-                    expect(firstBout.location).toBeDefined();
-                });
+                    it("should have the date", () => {
+                        expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                    });
 
-                it("should have the rating", () => {
-                    expect(firstBout.rating).toEqual(jasmine.any(Number));
-                });
+                    it("should have the location", () => {
+                        expect(firstBout.location).toEqual(locationObj);
+                    });
 
-                it("should include the number of rounds", () => {
-                    expect(firstBout.numberOfRounds).toEqual([
-                        jasmine.any(Number),
-                        jasmine.any(Number),
-                    ]);
-                });
+                    it("should have the rating", () => {
+                        expect(firstBout.rating).toEqual(jasmine.any(Number));
+                    });
 
-                it("should include an object of links", () => {
-                    expect(firstBout.links).toEqual({
-                        bio: jasmine.any(Number),
-                        bout: jasmine.any(String),
-                        event: jasmine.any(Number),
-                        other: [],
+                    it("should include the number of rounds", () => {
+                        expect(firstBout.numberOfRounds).toEqual([
+                            jasmine.any(Number),
+                            jasmine.any(Number),
+                        ]);
+                    });
+
+                    it("should include an object of links", () => {
+                        expect(firstBout.links).toEqual({
+                            bio: jasmine.any(Number),
+                            bout: jasmine.any(String),
+                            event: jasmine.any(Number),
+                            other: [],
+                        });
                     });
                 });
-
             });
 
-        });
+            describe("all titles", () => {
 
+                describe("getter bouts", () => {
+
+                    let firstBout: BoxrecPageTitlesRow;
+
+                    beforeAll(() => {
+                        firstBout = allTitleAllSchedule.output.bouts[0];
+                    });
+
+                    it("should have the date", () => {
+                        expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
+                    });
+
+                    it("should have the location", () => {
+                        expect(firstBout.location).toBeDefined();
+                    });
+
+                    it("should have the rating", () => {
+                        expect(firstBout.rating).toEqual(jasmine.any(Number));
+                    });
+
+                    it("should include the number of rounds", () => {
+                        expect(firstBout.numberOfRounds).toEqual([
+                            jasmine.any(Number),
+                            jasmine.any(Number),
+                        ]);
+                    });
+
+                    it("should include an object of links", () => {
+                        expect(firstBout.links).toEqual({
+                            bio: jasmine.any(Number),
+                            bout: jasmine.any(String),
+                            event: jasmine.any(Number),
+                            other: [],
+                        });
+                    });
+                });
+            });
+        });
     });
-
 });

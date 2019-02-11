@@ -1,4 +1,5 @@
 import {WinLossDraw} from "@boxrec-constants";
+import {BoxrecDateOutput} from "@boxrec-pages/date/boxrec.page.date.constants";
 import {mockDate20100520, mockDate20181201} from "boxrec-mocks";
 import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecDateEvent} from "./boxrec.date.event";
@@ -6,12 +7,12 @@ import {BoxrecPageDate} from "./boxrec.page.date";
 
 describe("class BoxrecPageDate", () => {
 
-    let date20100520: BoxrecPageDate;
-    let date20181201: BoxrecPageDate;
+    let date20100520: BoxrecDateOutput;
+    let date20181201: BoxrecDateOutput;
 
     beforeAll(() => {
-        date20100520 = new BoxrecPageDate(mockDate20100520);
-        date20181201 = new BoxrecPageDate(mockDate20181201);
+        date20100520 = new BoxrecPageDate(mockDate20100520).output;
+        date20181201 = new BoxrecPageDate(mockDate20181201).output;
     });
 
     describe("getter events", () => {
@@ -56,6 +57,7 @@ describe("class BoxrecPageDate", () => {
 
             describe("getter matchmakers", () => {
 
+                // todo shouldn't exist
                 it("should be defined but does not exist on page, should be empty array", () => {
                     expect(firstEvent.matchmakers.length).toBe(0);
                 });
