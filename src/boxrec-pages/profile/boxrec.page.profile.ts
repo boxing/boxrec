@@ -1,7 +1,7 @@
-import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
-import {Location} from "@boxrec-constants";
-import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
@@ -31,9 +31,9 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
     /**
      * Returns the country of which the person was born
-     * @returns {Location}
+     * @returns {BoxrecLocation}
      */
-    get birthPlace(): Location {
+    get birthPlace(): BoxrecLocation {
         let birthPlace: string = this.parseProfileTableData(BoxrecProfileTable.birthPlace) || "";
         birthPlace = `<div>${birthPlace}</div>`;
         return BoxrecCommonTablesColumnsClass.parseLocationLink(birthPlace);
@@ -92,9 +92,9 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
     /**
      * Returns the current residency of the person
-     * @returns {Location}
+     * @returns {BoxrecLocation}
      */
-    get residence(): Location {
+    get residence(): BoxrecLocation {
         let residence: string = this.parseProfileTableData(BoxrecProfileTable.residence) || "";
         residence = `<div>${residence}</div>`;
         return BoxrecCommonTablesColumnsClass.parseLocationLink(residence);

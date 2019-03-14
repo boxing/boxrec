@@ -1,4 +1,4 @@
-import {BoxrecProfilePromoterOutput} from "@boxrec-pages/profile/boxrec.page.profile.constants";
+import {BoxrecProfilePromoterOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 

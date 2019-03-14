@@ -1,4 +1,4 @@
-import {BoxrecBasic, Location, Record, WinLossDraw} from "@boxrec-constants";
+import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 
 export enum BoxrecStatus {
     active = "a",
@@ -43,7 +43,7 @@ export interface BoxrecSearch extends BoxrecBasic {
     id: number;
     last6: WinLossDraw[];
     record: Record;
-    residence: Location;
+    residence: BoxrecLocation;
 }
 
 export interface BoxrecSearchMetadata {

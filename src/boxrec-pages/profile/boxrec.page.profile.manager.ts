@@ -1,6 +1,6 @@
-import {BoxrecProfileManagerOutput} from "@boxrec-pages/profile/boxrec.page.profile.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
+import {BoxrecProfileManagerOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 
 export class BoxrecPageProfileManager extends BoxrecPageProfile {

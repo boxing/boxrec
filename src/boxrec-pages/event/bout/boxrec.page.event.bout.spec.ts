@@ -1,5 +1,5 @@
-import {WinLossDraw} from "@boxrec-constants";
 import {mockBoutCaneloGGG1} from "boxrec-mocks";
+import {WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoutPageLast6, BoxrecEventBoutOutput} from "./boxrec.event.bout.constants";

@@ -1,5 +1,5 @@
-import {BoxrecPageEvent} from "@boxrec-pages/event/boxrec.page.event";
 import {mockScheduleWorldwide} from "boxrec-mocks";
+import {BoxrecPageEvent} from "../event/boxrec.page.event";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 
 describe("class BoxrecPageSchedule", () => {

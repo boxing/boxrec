@@ -1,4 +1,4 @@
-import {BoxrecPageEvent} from "@boxrec-pages/event/boxrec.page.event";
+import {BoxrecPageEvent} from "../event/boxrec.page.event";
 
 export interface BoxrecScheduleOutput {
     events: BoxrecPageEvent[];

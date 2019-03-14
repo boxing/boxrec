@@ -18,20 +18,6 @@
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": "src",
-    "paths": {
-      "@helpers": [
-        "helpers.ts"
-      ],
-      "@boxrec-pages/*": [
-        "boxrec-pages/*"
-      ],
-      "@boxrec-common-tables/*": [
-        "boxrec-common-tables/*"
-      ],
-      "@boxrec-constants": [
-        "boxrec-pages/boxrec.constants.ts"
-      ]
-    }
+    "baseUrl": "src"
   }
 }

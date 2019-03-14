@@ -1,6 +1,6 @@
-import {BoxrecPageTitleRow} from "@boxrec-pages/title/boxrec.page.title.row";
 import {mockMiddleweightWBCBelt} from "boxrec-mocks";
 import {BoxrecPageTitle} from "./boxrec.page.title";
+import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
 describe("class BoxrecPageTitle", () => {
 

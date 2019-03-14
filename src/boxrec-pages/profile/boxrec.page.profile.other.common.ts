@@ -1,6 +1,6 @@
-import {BoxrecProfileOtherOutput} from "@boxrec-pages/profile/boxrec.page.profile.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
+import {BoxrecProfileOtherOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
 
 /**

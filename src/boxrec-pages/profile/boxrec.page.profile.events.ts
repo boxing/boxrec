@@ -1,6 +1,6 @@
-import {BoxrecProfileEventsOutput} from "@boxrec-pages/profile/boxrec.page.profile.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
+import {BoxrecProfileEventsOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 
 /**

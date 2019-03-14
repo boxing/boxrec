@@ -1,4 +1,4 @@
-import {BoxrecPageLists} from "@boxrec-common-tables/boxrec-page-lists";
+import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
 /**

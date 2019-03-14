@@ -1,5 +1,5 @@
-import {BoxrecBasic, BoxrecBoutLocation} from "@boxrec-constants";
-import {BoxrecPageEventBoutRow} from "@boxrec-pages/event/boxrec.page.event.bout.row";
+import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
+import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
 export interface BoxrecPromoter extends BoxrecBasic {
     company: string | null;

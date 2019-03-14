@@ -1,5 +1,5 @@
-import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {trimRemoveLineBreaks} from "../../helpers";
 
 export abstract class BoxrecPageScheduleCommon {
 

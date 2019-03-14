@@ -1,8 +1,8 @@
-import {BoxrecGeneralLinks} from "@boxrec-common-tables/boxrec-common.constants";
+import {BoxrecGeneralLinks} from "../boxrec-common-tables/boxrec-common.constants";
 import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
 import {BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
 
-export interface Location {
+export interface BoxrecLocation {
     country: string | null;
     id: number | null;
     region: string | null;
@@ -10,7 +10,7 @@ export interface Location {
 }
 
 export interface BoxrecBoutLocation {
-    location: Location;
+    location: BoxrecLocation;
     venue: BoxrecBasic;
 }
 

@@ -1,7 +1,7 @@
-import {BoxrecDateOutput} from "@boxrec-pages/date/boxrec.page.date.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageScheduleCommon} from "../schedule/boxrec.page.schedule.common";
 import {BoxrecDateEvent} from "./boxrec.date.event";
+import {BoxrecDateOutput} from "./boxrec.page.date.constants";
 
 /**
  * Parse a BoxRec date page

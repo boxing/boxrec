@@ -1,5 +1,5 @@
-import {Location} from "@boxrec-pages/boxrec.constants";
-import {Country} from "@boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecLocation} from "../boxrec-pages/boxrec.constants";
+import {Country} from "../boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecCommonTablesColumnsClass} from "./boxrec-common-tables-columns.class";
 
 describe("class BoxrecCommonTablesColumnsClass", () => {
@@ -8,7 +8,7 @@ describe("class BoxrecCommonTablesColumnsClass", () => {
 
         it("parsing a link with one link that is a country should return the country", () => {
             const html: string = `<a href="/en/locations/event?country=US">USA</a>`;
-            const location: Location = BoxrecCommonTablesColumnsClass.parseLocationLink(html);
+            const location: BoxrecLocation = BoxrecCommonTablesColumnsClass.parseLocationLink(html);
             expect(location.country).toBe(Country.USA);
             expect(location.region).toBeNull();
             expect(location.id).toBeNull(); // id can be null
@@ -22,7 +22,7 @@ describe("class BoxrecCommonTablesColumnsClass", () => {
                 <a href="/en/locations/event?country=US&amp;region=NV">Nevada</a>,
                 <a href="/en/locations/event?country=US">USA</a>
                 </div>`;
-            const location: Location = BoxrecCommonTablesColumnsClass.parseLocationLink(html);
+            const location: BoxrecLocation = BoxrecCommonTablesColumnsClass.parseLocationLink(html);
             expect(location.country).toBe(Country.USA);
             expect(location.region).toBe("NV");
             expect(location.town).toBe("Las Vegas");

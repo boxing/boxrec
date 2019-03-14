@@ -1,19 +1,19 @@
-import {Location} from "@boxrec-constants";
-import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
-import {BoxrecPageProfileBoxerBoutRow} from "@boxrec-pages/profile/boxrec.page.profile.boxer.bout.row";
-import {BoxrecPageProfileEventRow} from "@boxrec-pages/profile/boxrec.page.profile.event.row";
-import {BoxrecPageProfileManagerBoxerRow} from "@boxrec-pages/profile/boxrec.page.profile.manager.boxer.row";
-import {BoxrecPageProfileOtherCommonBoutRow} from "@boxrec-pages/profile/boxrec.page.profile.other.common.bout.row";
-import {BoxrecProfileRole} from "@boxrec-pages/profile/boxrec.profile.constants";
+import {BoxrecLocation} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
+import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
+import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
+import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
+import {BoxrecProfileRole} from "./boxrec.profile.constants";
 
 interface BoxrecProfileOutput {
     birthName: string | null;
-    birthPlace: Location | null;
+    birthPlace: BoxrecLocation | null;
     globalId: number | null;
     name: string;
     otherInfo: string[][];
     picture: string;
-    residence: Location | null;
+    residence: BoxrecLocation | null;
     role: BoxrecProfileRole[];
     status: string | null;
 }

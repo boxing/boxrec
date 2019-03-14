@@ -1,10 +1,10 @@
-import {BoxrecChampionsOutput} from "@boxrec-pages/champions/boxrec.champions.constants";
-import {changeToCamelCase, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {
     BoxrecBelts,
     BoxrecChampion,
     BoxrecChampionsByWeightDivision,
+    BoxrecChampionsOutput,
     BoxrecUnformattedChampions,
     WeightDivision
 } from "./boxrec.champions.constants";

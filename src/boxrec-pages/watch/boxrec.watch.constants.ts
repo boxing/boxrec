@@ -1,5 +1,5 @@
-import {WinLossDraw} from "@boxrec-constants";
-import {BoxrecPageWatchRow} from "@boxrec-pages/watch/boxrec.page.watch.row";
+import {WinLossDraw} from "../boxrec.constants";
+import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
 
 export interface BoxrecBoxerWatch {
     alias: string;

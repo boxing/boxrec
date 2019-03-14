@@ -1,6 +1,6 @@
-import {BoxrecPageVenueEventsRow} from "@boxrec-pages/venue/boxrec.page.venue.events.row";
 import {mockVenueMGMGrand} from "boxrec-mocks";
 import {BoxrecPageVenue} from "./boxrec.page.venue";
+import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
 describe("class BoxrecPageVenue", () => {
 

@@ -1,7 +1,7 @@
-import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecBasic, Location, WinLossDraw} from "@boxrec-constants";
-import {getColumnData, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecTitlesCommon} from "./boxrec.titles.common";
 
@@ -36,7 +36,7 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 4, false));
     }
 
-    get location(): Location {
+    get location(): BoxrecLocation {
         const column: number = this.isDivisionPage ? 8 : 5;
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, column), 1);
     }

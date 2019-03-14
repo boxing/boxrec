@@ -1,7 +1,7 @@
-import {BoxrecTitlesOutput} from "@boxrec-pages/titles/boxrec.page.title.constants";
-import {stripCommas} from "@helpers";
 import * as cheerio from "cheerio";
+import {stripCommas} from "../../helpers";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
+import {BoxrecTitlesOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 
 /**

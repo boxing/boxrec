@@ -1,5 +1,5 @@
-import {BoxrecPageLists} from "@boxrec-common-tables/boxrec-page-lists";
-import {stripCommas} from "@helpers";
+import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
+import {stripCommas} from "../../../helpers";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 /**
