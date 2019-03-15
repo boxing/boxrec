@@ -1,4 +1,4 @@
-import {BoxrecPageTitlesRow} from "@boxrec-pages/titles/boxrec.page.titles.row";
+import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 
 // the params for searching titles are capitalized divisions
 export enum WeightDivisionCapitalized {

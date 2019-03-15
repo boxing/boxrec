@@ -1,7 +1,7 @@
-import {Location} from "@boxrec-constants";
-import {BoxrecVenueOutput} from "@boxrec-pages/venue/boxrec.page.venue.constants";
-import {trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecLocation} from "../boxrec.constants";
+import {BoxrecVenueOutput} from "./boxrec.page.venue.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
 /**
@@ -35,7 +35,7 @@ export class BoxrecPageVenue {
         return this.parseBasicInfo("boxer");
     }
 
-    // we're going to return the first event that has the Location object
+    // we're going to return the first event that has the BoxrecLocation object
     // that's assuming that there's no venues on BoxRec with no event associated with it
 
     /**
@@ -47,7 +47,7 @@ export class BoxrecPageVenue {
     }
 
     // worst case scenario we could just return the string of the location
-    get location(): Location {
+    get location(): BoxrecLocation {
         return this.events[0].location;
     }
 

@@ -1,5 +1,5 @@
-import {BoxrecBasic} from "@boxrec-constants";
-import {BoxrecPageTitleRow} from "@boxrec-pages/title/boxrec.page.title.row";
+import {BoxrecBasic} from "../boxrec.constants";
+import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
 
 export interface BoxrecTitleOutput {
     bouts: BoxrecPageTitleRow[];

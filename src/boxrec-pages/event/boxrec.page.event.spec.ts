@@ -1,5 +1,5 @@
-import {WinLossDraw} from "@boxrec-constants";
 import {mockEventPageBellewHaye2, mockEventPageMayweatherMcGregor} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecEventOutput, BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";

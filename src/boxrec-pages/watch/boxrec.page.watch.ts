@@ -1,6 +1,6 @@
-import {BoxrecWatchOutput} from "@boxrec-pages/watch/boxrec.watch.constants";
 import * as cheerio from "cheerio";
 import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
+import {BoxrecWatchOutput} from "./boxrec.watch.constants";
 
 export class BoxrecPageWatch {
 

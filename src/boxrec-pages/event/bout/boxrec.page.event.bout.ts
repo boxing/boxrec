@@ -1,13 +1,17 @@
-import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecTitles} from "@boxrec-common-tables/boxrec-common.constants";
-import {BoxrecEventBoutOutput} from "@boxrec-pages/event/bout/boxrec.event.bout.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
+import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoxrecPageEvent} from "../boxrec.page.event";
-import {BoutPageBoutOutcome, BoutPageLast6, BoutPageOutcome} from "./boxrec.event.bout.constants";
+import {
+    BoutPageBoutOutcome,
+    BoutPageLast6,
+    BoutPageOutcome,
+    BoxrecEventBoutOutput
+} from "./boxrec.event.bout.constants";
 
 /**
  * Parse a BoxRec bout page
@@ -244,35 +248,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     get titles(): BoxrecTitles[] {
         const titles: string | null = this.parseTitles();
         return BoxrecCommonTablesColumnsClass.parseTitles(titles || "");
-    }
-
-    private static parseOutcome(outcomeStr: string): BoutPageOutcome {
-        const trimmedOutcomeStr: string = trimRemoveLineBreaks(outcomeStr);
-        const matches: RegExpMatchArray | null = trimmedOutcomeStr.match(/^(\w+)\s(\w+)$/);
-
-        const outcomeObj: BoutPageOutcome = {
-            outcome: null,
-            outcomeByWayOf: null,
-        };
-
-        if (matches) {
-            const firstMatch: string = matches[1];
-            const secondMatch: string = matches[2];
-            const values: any = BoxingBoutOutcome;
-
-            // the outcome table column is flipped depending if they are the first or second boxer
-            if (firstMatch.length > 1) {
-                // is the first boxer
-                outcomeObj.outcomeByWayOf = values[firstMatch] as BoxingBoutOutcome;
-                outcomeObj.outcome = BoxrecCommonTablesColumnsClass.parseOutcome(secondMatch);
-            } else {
-                // is the second boxer
-                outcomeObj.outcomeByWayOf = values[secondMatch] as BoxingBoutOutcome;
-                outcomeObj.outcome = BoxrecCommonTablesColumnsClass.parseOutcome(firstMatch);
-            }
-        }
-
-        return outcomeObj;
     }
 
     // this is different than the others found on date/event page
@@ -685,6 +660,35 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
 
     private parseTitles(): string | null {
         return this.$(".titleColor").html();
+    }
+
+    private static parseOutcome(outcomeStr: string): BoutPageOutcome {
+        const trimmedOutcomeStr: string = trimRemoveLineBreaks(outcomeStr);
+        const matches: RegExpMatchArray | null = trimmedOutcomeStr.match(/^(\w+)\s(\w+)$/);
+
+        const outcomeObj: BoutPageOutcome = {
+            outcome: null,
+            outcomeByWayOf: null,
+        };
+
+        if (matches) {
+            const firstMatch: string = matches[1];
+            const secondMatch: string = matches[2];
+            const values: any = BoxingBoutOutcome;
+
+            // the outcome table column is flipped depending if they are the first or second boxer
+            if (firstMatch.length > 1) {
+                // is the first boxer
+                outcomeObj.outcomeByWayOf = values[firstMatch] as BoxingBoutOutcome;
+                outcomeObj.outcome = BoxrecCommonTablesColumnsClass.parseOutcome(secondMatch);
+            } else {
+                // is the second boxer
+                outcomeObj.outcomeByWayOf = values[secondMatch] as BoxingBoutOutcome;
+                outcomeObj.outcome = BoxrecCommonTablesColumnsClass.parseOutcome(firstMatch);
+            }
+        }
+
+        return outcomeObj;
     }
 
 }

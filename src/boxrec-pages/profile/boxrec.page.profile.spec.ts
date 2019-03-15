@@ -1,10 +1,3 @@
-import {WinLossDraw} from "@boxrec-constants";
-import {
-    BoxrecProfileBoxerOutput,
-    BoxrecProfileManagerOutput,
-    BoxrecProfileOtherOutput,
-    BoxrecProfilePromoterOutput
-} from "@boxrec-pages/profile/boxrec.page.profile.constants";
 import {
     mockProfileBoxerGGG,
     mockProfileBoxerRJJ,
@@ -17,10 +10,17 @@ import {
     mockProfileRefereeRobertByrd,
     mockProfileSupervisorSammyMacias
 } from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
+import {
+    BoxrecProfileBoxerOutput,
+    BoxrecProfileManagerOutput,
+    BoxrecProfileOtherOutput,
+    BoxrecProfilePromoterOutput
+} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
@@ -413,7 +413,7 @@ describe("class BoxrecPageProfile", () => {
                     });
 
                     it("should not contain known profile values like global id", () => {
-                        const globalId: string[] | undefined = outputGGG.otherInfo.find(key => key[0] === BoxrecProfileTable.globalId);
+                        const globalId: string[] | undefined = outputGGG.otherInfo.find((key: any) => key[0] === BoxrecProfileTable.globalId);
                         expect(globalId).toBeUndefined();
                     });
 

@@ -1,7 +1,7 @@
-import {BoxrecCommonTablesColumnsClass} from "@boxrec-common-tables/boxrec-common-tables-columns.class";
-import {Location, Record} from "@boxrec-constants";
-import {getColumnData, trimRemoveLineBreaks} from "@helpers";
 import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
+import {BoxrecLocation, Record} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 
 export class BoxrecPageLocationPeopleRow {
@@ -30,9 +30,9 @@ export class BoxrecPageLocationPeopleRow {
     /**
      * Some of the results may come back with just the `country`
      * ex. if you search USA, you'll get people "0 miles" from USA, and the region/town is excluded
-     * @returns {Location}
+     * @returns {BoxrecLocation}
      */
-    get location(): Location {
+    get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 2));
     }
 

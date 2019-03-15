@@ -1,9 +1,9 @@
-import {BoxrecBasic, BoxrecJudge, Location, Record, WinLossDraw} from "@boxrec-pages/boxrec.constants";
-import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
-import {BoxingBoutOutcome} from "@boxrec-pages/event/boxrec.event.constants";
 import * as cheerio from "cheerio";
 import * as querystring from "querystring";
 import {ParsedUrlQuery} from "querystring";
+import {BoxrecBasic, BoxrecJudge, BoxrecLocation, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
+import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
+import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
 import {convertFractionsToNumber, trimRemoveLineBreaks} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
@@ -128,10 +128,10 @@ export abstract class BoxrecCommonTablesColumnsClass {
      * @param {string} htmlString       passed in HTML string, more than likely the contents of an HTML table column
      * @param {number} linkToLookAt     Sometimes the format is `town, region, country`.  Other times it is `country, region, town`
      * @hidden
-     * @returns {Location}
+     * @returns {BoxrecLocation}
      */
-    static parseLocationLink(htmlString: string, linkToLookAt: number = 0): Location {
-        const location: Location = {
+    static parseLocationLink(htmlString: string, linkToLookAt: number = 0): BoxrecLocation {
+        const location: BoxrecLocation = {
             country: null,
             id: null,
             region: null,

@@ -1,7 +1,7 @@
-import {WinLossDraw} from "@boxrec-constants";
-import {BoxrecSearch} from "@boxrec-pages/search/boxrec.search.constants";
 import {mockSearchMayweather} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageSearch} from "./boxrec.page.search";
+import {BoxrecSearch} from "./boxrec.search.constants";
 
 describe("class BoxrecPageSearch", () => {
 

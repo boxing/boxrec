@@ -1,9 +1,8 @@
-import {BoxrecTitles} from "@boxrec-common-tables/boxrec-common.constants";
-import {BoxrecBasic, BoxrecBoutLocation, BoxrecJudge, Record, Stance, WinLossDraw} from "@boxrec-constants";
-import {WeightDivision} from "@boxrec-pages/champions/boxrec.champions.constants";
-import {BoxrecPromoter} from "@boxrec-pages/event/boxrec.event.constants";
-import {BoxrecPageEventBoutRow} from "@boxrec-pages/event/boxrec.page.event.bout.row";
-import {BoxingBoutOutcome} from "../boxrec.event.constants";
+import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
+import {BoxrecBasic, BoxrecBoutLocation, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
+import {WeightDivision} from "../../champions/boxrec.champions.constants";
+import {BoxingBoutOutcome, BoxrecPromoter} from "../boxrec.event.constants";
+import {BoxrecPageEventBoutRow} from "../boxrec.page.event.bout.row";
 
 export interface BoutPageLast6 extends BoutPageOutcome {
     date: string | null;

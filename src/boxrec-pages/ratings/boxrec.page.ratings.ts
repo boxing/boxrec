@@ -1,7 +1,7 @@
-import {BoxrecPageLists} from "@boxrec-common-tables/boxrec-page-lists";
-import {BoxrecRatingsOutput} from "@boxrec-pages/ratings/boxrec.ratings.constants";
 import * as cheerio from "cheerio";
+import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
+import {BoxrecRatingsOutput} from "./boxrec.ratings.constants";
 
 /**
  * parse a BoxRec Ratings Page

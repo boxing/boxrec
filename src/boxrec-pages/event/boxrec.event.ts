@@ -1,6 +1,6 @@
-import {BoxrecBasic, BoxrecBoutLocation, Location} from "@boxrec-constants";
-import {townRegionCountryRegex} from "@helpers";
 import * as cheerio from "cheerio";
+import {townRegionCountryRegex} from "../../helpers";
+import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
@@ -144,11 +144,46 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return promoter;
     }
 
-    protected static getLocationInformation(links: Cheerio): Location {
+    protected getPeopleTable(): Cheerio {
+        return this.$("table thead table tbody tr");
+    }
+
+    protected parseEventData(role: BoxrecRole | "television" | "commission"): string {
+        let results: string | null = "";
+
+        this.getPeopleTable().each((i: number, elem: CheerioElement) => {
+            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
+            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
+
+            if (tag === role) {
+                // tested if `television` might actually be a BoxRec role but it isn't
+                results = val.html();
+            }
+        });
+
+        return results;
+    }
+
+    // to be overridden by child class
+    protected parseLocation(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    // to be overridden by child class
+    protected parseMatchmakers(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    // to be overridden by child class
+    protected parsePromoters(): string {
+        throw new Error("Needs to be overridden by child class");
+    }
+
+    protected static getLocationInformation(links: Cheerio): BoxrecLocation {
         // if the number of links is 2, the link with all the information changes position // 2 is 0, 3/4 is 1
         const hrefPosition: number = +(links.length === 3 || links.length === 4);
 
-        const locationObject: Location = {
+        const locationObject: BoxrecLocation = {
             country: null,
             id: null,
             region: null,
@@ -203,41 +238,6 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         }
 
         return obj;
-    }
-
-    protected getPeopleTable(): Cheerio {
-        return this.$("table thead table tbody tr");
-    }
-
-    protected parseEventData(role: BoxrecRole | "television" | "commission"): string {
-        let results: string | null = "";
-
-        this.getPeopleTable().each((i: number, elem: CheerioElement) => {
-            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
-            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
-
-            if (tag === role) {
-                // tested if `television` might actually be a BoxRec role but it isn't
-                results = val.html();
-            }
-        });
-
-        return results;
-    }
-
-    // to be overridden by child class
-    protected parseLocation(): string {
-        throw new Error("Needs to be overridden by child class");
-    }
-
-    // to be overridden by child class
-    protected parseMatchmakers(): string {
-        throw new Error("Needs to be overridden by child class");
-    }
-
-    // to be overridden by child class
-    protected parsePromoters(): string {
-        throw new Error("Needs to be overridden by child class");
     }
 
 }
