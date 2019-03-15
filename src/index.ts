@@ -1,3 +1,5 @@
-import boxrec from "./boxrec.class";
+import {Boxrec} from "./boxrec.class";
 
-export default boxrec;
+export {
+    Boxrec
+};
