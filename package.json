@@ -34,7 +34,7 @@
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "boxrec-mocks": "^2.0.0",
-    "boxrec-requests": "4.2.0",
+    "boxrec-requests": "^4.2.0",
     "coveralls": "^3.0.0",
     "husky": "1.0.0-rc.13",
     "jest": "23.0.1",
