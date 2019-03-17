@@ -339,6 +339,13 @@ describe("class Boxrec (E2E)", () => {
                 expect(getBoxer(352).suspended).toBe(null);
             });
 
+            it("should include their role as a boxer", () => {
+                expect(getBoxer(352).role).toEqual([{
+                    id: 352,
+                    name: "boxer",
+                }]);
+            });
+
             describe("bouts", () => {
 
                 it("should return an array of bouts", () => {

@@ -106,8 +106,8 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @returns {BoxrecProfileRole[]}
      */
     get role(): BoxrecProfileRole[] {
-        const role: string | null = `<div>${this.$(this.parseProfileTableData(BoxrecProfileTable.role))}</div>`;
-        const rolesStr: string = this.$(this.parseProfileTableData(BoxrecProfileTable.role)).text();
+        const role: Cheerio = this.$(`<div>${this.parseProfileTableData(BoxrecProfileTable.role)}</div>`);
+        const rolesStr: string = this.$(`<div>${this.parseProfileTableData(BoxrecProfileTable.role)}</div>`).text();
         const rolesWithLinks: BoxrecProfileRole[] = [];
 
         if (role) {

@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {convertFractionsToNumber} from "../../helpers";
+import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -313,9 +313,9 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get suspended(): string | null {
-        const el: Cheerio = this.$("body").find("div:contains('suspended')");
+        const el: Cheerio = this.$("body").find(".profileTable div.hideMob:contains('suspended')");
         if (el.length) {
-            return el.text();
+            return trimRemoveLineBreaks(el.text());
         }
 
         return null;
