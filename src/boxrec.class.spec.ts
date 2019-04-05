@@ -2,14 +2,14 @@ import {mockProfileBoxerRJJ, mockProfileJudgeDaveMoretti} from "boxrec-mocks";
 import {BoxrecRequests} from "boxrec-requests";
 import * as fs from "fs";
 import * as rp from "request-promise";
-import {Cookie} from "tough-cookie";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
-import boxrec from "./boxrec.class";
+import {CookieJar} from "request";
+import {Boxrec} from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
 
@@ -20,13 +20,15 @@ export const getLastCall: (spy: SpyInstance, type?: any) => any =
 const compareObjects: any = (obj: any, objToCompareTo: any) => expect(obj).toEqual(objToCompareTo);
 // for testing the file writing of `getBoxerPDF` and `getBoxerPrint`
 const testFileWrite: any =
-    async (method: "getBoxerPDF" | "getBoxerPrint", pathToSaveTo: string, fileName: string, pathFileName: string) => {
+    async (loggedInCookie: CookieJar, method: "getBoxerPDF" | "getBoxerPrint", pathToSaveTo: string, fileName: string, pathFileName: string) => {
         const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test");
-        await boxrec[method](555, pathToSaveTo, fileName);
+        await Boxrec[method](loggedInCookie, 555, pathToSaveTo, fileName);
         return expect(spyStream).toHaveBeenCalledWith(pathFileName);
     };
 
 describe("class Boxrec", () => {
+
+    let loggedInCookie: CookieJar;
 
     afterAll(async () => {
         const spy: SpyInstance = jest.spyOn(rp, "jar");
@@ -43,38 +45,38 @@ describe("class Boxrec", () => {
                 //
             }
         });
-        await boxrec.login("", "");
+        await Boxrec.login("", "");
     });
 
     describe("getting PHPSESSID", () => {
 
         it("should make a GET request to http://boxrec.com to get the PHPSESSID", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.login("", "");
+            loggedInCookie = await Boxrec.login("", "");
             expect(spy.mock.calls[0][0].uri).toBe("http://boxrec.com");
         });
 
         it("should throw if it could not get the initial PHPSESSID", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             spy.mockReturnValueOnce(Promise.resolve({headers: {"set-cookie": []}}));
-            await expect(boxrec.login("", "")).rejects.toThrowError("Could not get cookie from initial request to boxrec");
+            await expect(Boxrec.login("", "")).rejects.toThrowError("Could not get cookie from initial request to boxrec");
         });
 
         it("should throw if the HTTP status code is an error code", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             spy.mockReturnValueOnce(Promise.reject({headers: {"set-cookie": "works"}}));
-            await expect(boxrec.login("", "")).rejects.toThrowError("Could not get response from boxrec");
+            await expect(Boxrec.login("", "")).rejects.toThrowError("Could not get response from boxrec");
         });
 
     });
 
     describe("logging in", () => {
 
-        interface MiniReponse {
+        interface MiniResponse {
             request: any;
         }
 
-        const emptyUriPathName: MiniReponse | Partial<Response> = {
+        const emptyUriPathName: MiniResponse | Partial<Response> = {
             request: {
                 uri: {
                     pathname: "",
@@ -96,36 +98,36 @@ describe("class Boxrec", () => {
                 }
             });
 
-            await expect(boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
+            await expect(Boxrec.login("", "")).rejects.toThrowError("Cookie did not have PHPSESSID and REMEMBERME");
         };
 
         it("should make a POST request to http://boxrec.com/en/login", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "post");
-            await boxrec.login("", "");
+            await Boxrec.login("", "");
             expect(spy.mock.calls[0][0].url).toBe("http://boxrec.com/en/login");
         });
 
         it("should throw if boxrec returns that the username does not exist", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "post");
             spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>username does not exist</div>"}, emptyUriPathName))); // resolve because 200 response
-            await expect(boxrec.login("", "")).rejects.toThrowError("Username does not exist");
+            await expect(Boxrec.login("", "")).rejects.toThrowError("Username does not exist");
         });
 
         it("should throw an error if GDPR consent has not been given to BoxRec", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "post");
             spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>GDPR</div>"}, emptyUriPathName)));
-            await expect(boxrec.login("", "")).rejects.toThrowError("GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account");
+            await expect(Boxrec.login("", "")).rejects.toThrowError("GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account");
         });
 
         it("should throw if boxrec returns that the password is not correct", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "post");
             spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>your password is incorrect</div>"}, emptyUriPathName))); // resolve because 200 response
-            await expect(boxrec.login("", "")).rejects.toThrowError("Your password is incorrect");
+            await expect(Boxrec.login("", "")).rejects.toThrowError("Your password is incorrect");
         });
 
-        it("should return undefined if it was a success", async () => {
-            const response: Error | void = await boxrec.login("", "");
-            expect(response).toBeUndefined();
+        it("should return cookieJar if it was a success", async () => {
+            const response: CookieJar = await Boxrec.login("", "");
+            expect(response.getCookies).toBeDefined();
         });
 
         it("should throw if after successfully logging in the cookie does not include PHPSESSID", async () => {
@@ -137,21 +139,11 @@ describe("class Boxrec", () => {
         });
     });
 
-    describe("getter cookie", () => {
-
-        it("should return a string with PHPSESSID and REMEMBERME if logged in", () => {
-            const cookie: Cookie[] = boxrec.cookies;
-            expect(cookie[0].key === "PHPSESSID");
-            expect(cookie[1].key === "REMEMBERME");
-        });
-
-    });
-
     describe("method getRatings", () => {
 
         it("should make a GET request to http://boxrec.com/en/ratings", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getRatings({
+            await Boxrec.getRatings(loggedInCookie, {
                 sex: "M",
             });
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/ratings");
@@ -164,21 +156,21 @@ describe("class Boxrec", () => {
         it("should make a GET request to http://boxrec.com/en/boxer/{globalId}", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             spy.mockReturnValueOnce(Promise.resolve(mockProfileBoxerRJJ));
-            await boxrec.getPersonById(555);
+            await Boxrec.getPersonById(loggedInCookie, 555);
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/boxer/555");
         });
 
         it("should make a GET request to a `judge` endpoint if the role is provided", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             spy.mockReturnValueOnce(Promise.resolve(mockProfileJudgeDaveMoretti));
-            await boxrec.getPersonById(1, BoxrecRole.judge);
+            await Boxrec.getPersonById(loggedInCookie, 1, BoxrecRole.judge);
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/judge/1");
         });
 
         it("supplying an `offset` value will append this to the URL", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             spy.mockReturnValueOnce(Promise.resolve(mockProfileJudgeDaveMoretti));
-            await boxrec.getPersonById(1, BoxrecRole.judge, 20);
+            await Boxrec.getPersonById(loggedInCookie, 1, BoxrecRole.judge, 20);
             expect(getLastCall(spy, "qs")).toEqual({
                 offset: 20,
             });
@@ -190,7 +182,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/event/${eventId}", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getEventById(555);
+            await Boxrec.getEventById(loggedInCookie, 555);
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/event/555");
         });
 
@@ -200,7 +192,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/event (with bout)", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getBoutById("771321/2257534");
+            await Boxrec.getBoutById(loggedInCookie, "771321/2257534");
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/event/771321/2257534");
         });
 
@@ -209,16 +201,16 @@ describe("class Boxrec", () => {
     describe("method getPeopleByName", () => {
 
         it("should return a generator of boxers it found", async () => {
-            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await boxrec.getPeopleByName("test", "test");
+            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await Boxrec.getPeopleByName(loggedInCookie, "test", "test");
             expect(searchResults.next()).toBeDefined();
         });
 
         it("should make a call to boxrec every time the generator next method is called", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
             spy.mockReturnValue(Promise.resolve(mockProfileBoxerRJJ));
-            const getSpy: SpyInstance = jest.spyOn(boxrec, "getPersonById");
-            jest.spyOn(boxrec, "search").mockReturnValueOnce([{id: 999}, {id: 888}]);
-            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await boxrec.getPeopleByName("test", "test");
+            const getSpy: SpyInstance = jest.spyOn(Boxrec, "getPersonById");
+            jest.spyOn(Boxrec, "search").mockReturnValueOnce([{id: 999}, {id: 888}]);
+            const searchResults: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = await Boxrec.getPeopleByName(loggedInCookie, "test", "test");
             expect(getSpy).toHaveBeenCalledTimes(0);
             await searchResults.next(); // makes an API call
             expect(getSpy).toHaveBeenCalledTimes(1);
@@ -232,7 +224,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/results", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getResults({});
+            await Boxrec.getResults(loggedInCookie, {});
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/results");
         });
 
@@ -242,7 +234,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/schedule", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getSchedule({});
+            await Boxrec.getSchedule(loggedInCookie, {});
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/schedule");
         });
 
@@ -252,7 +244,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/locations/people", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getPeopleByLocation({
+            await Boxrec.getPeopleByLocation(loggedInCookie, {
                 role: BoxrecRole.boxer,
             });
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/locations/people");
@@ -264,7 +256,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/locations/event", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getEventsByLocation({});
+            await Boxrec.getEventsByLocation(loggedInCookie, {});
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/locations/event");
         });
 
@@ -272,9 +264,9 @@ describe("class Boxrec", () => {
 
     describe("method getTitleById", () => {
 
-        it("should make a GET request to http://boxrec.cox/en/title/${title}", async () => {
+        it("should make a GET request to http://Boxrec.cox/en/title/${title}", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getTitleById("6/Middleweight");
+            await Boxrec.getTitleById(loggedInCookie, "6/Middleweight");
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/title/6/Middleweight");
         });
 
@@ -284,7 +276,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/venue/555", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getVenueById(555);
+            await Boxrec.getVenueById(loggedInCookie, 555);
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/venue/555");
         });
 
@@ -293,7 +285,7 @@ describe("class Boxrec", () => {
     describe("method search", () => {
 
         beforeAll(() => {
-            Object.defineProperty(boxrec, "searchParamWrap", {
+            Object.defineProperty(Boxrec, "searchParamWrap", {
                 configurable: true,
                 get: jest.fn(() => "abc"),
             });
@@ -301,7 +293,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/search", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.search({
+            await Boxrec.search(loggedInCookie, {
                 first_name: "bla",
                 last_name: "",
                 role: BoxrecRole.judge,
@@ -313,7 +305,7 @@ describe("class Boxrec", () => {
 
         it("should not send any keys that aren't wrapped in []", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.search({
+            await Boxrec.search(loggedInCookie, {
                 first_name: "bla",
                 last_name: "",
                 role: BoxrecRole.boxer,
@@ -328,7 +320,7 @@ describe("class Boxrec", () => {
 
         it("should make a GET request to http://boxrec.com/en/champions", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "get");
-            await boxrec.getChampions();
+            await Boxrec.getChampions(loggedInCookie);
             expect(getLastCall(spy)).toBe("http://boxrec.com/en/champions");
         });
 
@@ -347,7 +339,7 @@ describe("class Boxrec", () => {
         });
 
         it("should make a GET request with query string that contains `pdf`", async () => {
-            await boxrec.getBoxerPDF(555);
+            await Boxrec.getBoxerPDF(loggedInCookie, 555);
             compareObjects(spy.mock.calls[spy.mock.calls.length - 1][0].qs, {
                 pdf: "y",
             });
@@ -355,16 +347,16 @@ describe("class Boxrec", () => {
 
         it("should not save to the directory it is called from if no path supplied", async () => {
             const spyStream: Mock<any> = jest.spyOn(fs, "createWriteStream").mockReturnValueOnce("test2");
-            await boxrec.getBoxerPDF(555);
+            await Boxrec.getBoxerPDF(loggedInCookie, 555);
             return expect(spyStream).not.toHaveBeenCalled();
         });
 
         it("should append a `/` to the path if one was not supplied", async () => {
-            testFileWrite("getBoxerPDF", "./foo", "bar.pdf", "./foo/bar.pdf");
+            testFileWrite(loggedInCookie, "getBoxerPDF", "./foo", "bar.pdf", "./foo/bar.pdf");
         });
 
         it("should use the globalId of the boxer if no file name is supplied", async () => {
-            testFileWrite("getBoxerPDF", "./foo", null, "./foo/555.pdf");
+            testFileWrite(loggedInCookie, "getBoxerPDF", "./foo", null, "./foo/555.pdf");
         });
 
     });
@@ -382,14 +374,14 @@ describe("class Boxrec", () => {
         });
 
         it("should make a GET request with query string that contains `print`", async () => {
-            await boxrec.getBoxerPrint(555);
+            await Boxrec.getBoxerPrint(loggedInCookie, 555);
             compareObjects(spy.mock.calls[spy.mock.calls.length - 1][0].qs, {
                 print: "y",
             });
         });
 
         it("should save the file with `.html` file type", async () => {
-            testFileWrite("getBoxerPrint", "./foo", null, "./foo/555.html");
+            testFileWrite(loggedInCookie, "getBoxerPrint", "./foo", null, "./foo/555.html");
         });
 
     });
@@ -398,7 +390,11 @@ describe("class Boxrec", () => {
 
         it("should throw an error if the boxer doesn't appear in the list", async () => {
             jest.spyOn(BoxrecPageWatch.prototype, "checkForBoxerInList").mockReturnValueOnce(false);
-            await expect(boxrec.watch(352)).rejects.toThrowError("Boxer did not appear in list after being added");
+            try {
+                await Boxrec.watch(loggedInCookie, 352);
+            } catch (e) {
+                expect(e.message).toBe("Boxer did not appear in list after being added");
+            }
         });
 
     });
@@ -407,7 +403,11 @@ describe("class Boxrec", () => {
 
         it("should throw an error if the boxer does appear in the list", async () => {
             jest.spyOn(BoxrecPageWatch.prototype, "checkForBoxerInList").mockReturnValueOnce(true);
-            await expect(boxrec.unwatch(352)).rejects.toThrowError("Boxer appears in list after being removed");
+            try {
+                await Boxrec.unwatch(loggedInCookie, 352);
+            } catch (e) {
+                expect(e.message).toBe("Boxer appears in list after being removed");
+            }
         });
 
     });
@@ -416,7 +416,7 @@ describe("class Boxrec", () => {
 
         it("should return a list of watched boxers", async () => {
             const spy: SpyInstance = jest.spyOn(BoxrecRequests, "getWatched");
-            await boxrec.getWatched();
+            await Boxrec.getWatched(loggedInCookie);
             expect(spy).toHaveBeenCalled();
         });
 
