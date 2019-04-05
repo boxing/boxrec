@@ -25,7 +25,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {number | null}
      */
     get KOs(): number | null {
-        const ko: string | void = this.parseProfileTableData(BoxrecProfileTable.KOs);
+        const ko: string | void = this.$(".profileWLD tr:nth-child(2) .textWon").text();
 
         if (ko) {
             const kos: number = parseInt(ko, 10);
