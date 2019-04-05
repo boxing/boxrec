@@ -100,7 +100,7 @@ describe("class BoxrecPageProfile", () => {
             });
 
             it("should return the number of KOs/TKOs this boxer has dealt out", () => {
-                expect(outputRJJ.KOs).toBeGreaterThanOrEqual(63);
+                expect(outputRJJ.KOs).toBeGreaterThanOrEqual(47);
             });
 
             it("should return the status of the person", () => {
