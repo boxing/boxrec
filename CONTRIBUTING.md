@@ -7,7 +7,7 @@ If there is an [open issue](https://github.com/boxing/boxrec/issues) feel free t
 [Can be found here](./docs/)
 
 ## Development Setup
-- Requires Node 7.6+
+- Requires Node 7.6 - 9
 - `git clone` this project
 - Run `yarn install` or `npm install` within the parent directory
 - Run `yarn start` to compile

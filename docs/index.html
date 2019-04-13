@@ -69,40 +69,55 @@
 				<p>This project allows you to query information from <a href="http://boxrec.com">BoxRec</a> and return it in JSON format.
 				The purpose of this project is to act as an API for BoxRec.</p>
 				<h2 id="installation">Installation</h2>
-				<p>This project is written in <a href="http://nodejs.org">Node</a>.</p>
-				<p><code>yarn add boxrec -D</code></p>
-				<p>or</p>
-				<p><code>npm install boxrec --save-dev</code></p>
-				<h2 id="usage">Usage</h2>
-				<p><code>const boxrec = require(&quot;boxrec&quot;);</code></p>
+				<p>This project is written in <a href="http://nodejs.org">Node</a>.  Currently this project supports Node 8-10.</p>
+				<pre><code class="lang-javascript">npm install boxrec --save
+</code></pre>
+				<p>or </p>
+				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> boxrec</span>
+</code></pre><h2 id="quick-start">Quick Start</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> boxrec = <span class="hljs-built_in">require</span>(<span class="hljs-string">"boxrec"</span>).default;
+</code></pre>
+				<p>or </p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> boxrec <span class="hljs-keyword">from</span> <span class="hljs-string">"boxrec"</span>;
+</code></pre>
+				<p>use credentials to log into BoxRec and then use any of the <a href="https://github.com/boxing/boxrec#methods-how-to-use">methods</a> below</p>
+				<p>example:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+<span class="hljs-keyword">await</span> boxrec.getPersonById(<span class="hljs-number">352</span>);
+</code></pre>
 				<h2 id="how-to-contribute">How to contribute</h2>
 				<p><a href="https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md">Details on how to help can be found here</a></p>
+				<h2 id="documentation">Documentation</h2>
+				<p><a href="https://boxing.github.io/boxrec">Additional documentation</a></p>
+				<p>Note: At this time there may be some minor inconsistencies in the documentation compared to what&#39;s published to NPM.<br>This is planned on being resolved.</p>
 				<h2 id="methods-how-to-use-">Methods (How to use)</h2>
 				<h3 id="login"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#login">login</a></h3>
 				<h5 id="logs-the-user-into-boxrec">logs the user into BoxRec</h5>
-				<p>To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
-				Note: BoxRec does not support HTTPS</p>
-				<pre><code class="lang-javascript">boxrec.login(username, password)
-.then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+				<p>To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in</p>
+				<p>⚠ BoxRec does not support HTTPS.  More can be read below in the <a href="https://github.com/boxing/boxrec/tree/README-updates#security-requirements">Security Requirements</a> section</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// at this point in the project release the boxrec object only supports the one log in </span>
+    <span class="hljs-keyword">await</span> boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
     <span class="hljs-comment">// successfully logged in</span>
-})
-.catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {});
+} <span class="hljs-keyword">catch</span> (e) {
+    <span class="hljs-comment">// error occurred logging in</span>
+}
 </code></pre>
 				<h3 id="getpersonbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyid">getPersonById</a></h3>
 				<h5 id="get-profile-by-boxrec-id">Get profile by BoxRec ID</h5>
-				<p>Using the BoxRec Global ID, retrieve all information about a person.</p>
+				<p>Using the <a href="#globalId">BoxRec global ID</a>, retrieve all information about a person.</p>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
-				<pre><code class="lang-javascript">boxrec.getPersonById(<span class="hljs-number">356831</span>)
-.then(<span class="hljs-function"><span class="hljs-params">boxer</span> =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(boxer.name); <span class="hljs-comment">// Gennady Golovkin</span>
-    <span class="hljs-built_in">console</span>.log(boxer.division); <span class="hljs-comment">// middleweight</span>
-    <span class="hljs-built_in">console</span>.log(boxer.titlesHeld); <span class="hljs-comment">// currently held titles</span>
-    <span class="hljs-built_in">console</span>.log(boxer.otherInfo); <span class="hljs-comment">// other info that couldn't be categorized</span>
-    <span class="hljs-built_in">console</span>.log(boxer.suspended); <span class="hljs-comment">// will tell if boxer is currently suspended</span>
-    <span class="hljs-built_in">console</span>.log(boxer.bouts); <span class="hljs-comment">// list of bouts</span>
-    <span class="hljs-built_in">console</span>.log(boxer.bouts[<span class="hljs-number">37</span>].opponent.name); <span class="hljs-comment">// Saul Alvarez</span>
-});
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> gennadyGolovkin = <span class="hljs-keyword">await</span> boxrec.getPersonById(<span class="hljs-number">356831</span>);
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.name); <span class="hljs-comment">// Gennady Golovkin</span>
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.division); <span class="hljs-comment">// middleweight</span>
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.titlesHeld); <span class="hljs-comment">// currently held titles</span>
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.otherInfo); <span class="hljs-comment">// other info that couldn't be categorized</span>
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.suspended); <span class="hljs-comment">// will tell if boxer is currently suspended</span>
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.bouts); <span class="hljs-comment">// list of bouts</span>
+<span class="hljs-built_in">console</span>.log(gennadyGolovkin.bouts[<span class="hljs-number">37</span>].opponent.name); <span class="hljs-comment">// Saul Alvarez</span>
 
+<span class="hljs-comment">// other profiles</span>
+<span class="hljs-comment">// we optionally specify the `role` as some people have multiple roles</span>
 boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge); <span class="hljs-comment">// judge CJ Ross</span>
 </code></pre>
 				<h3 id="getpeoplebyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname">getPeopleByName</a></h3>
@@ -144,29 +159,30 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 				<h3 id="search"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#search">search</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>
 				<p>Following BoxRec&#39;s form format</p>
-				<pre><code class="lang-javascript">boxrec.search({
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> boxrec.search({
     <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Floyd"</span>,
     <span class="hljs-attr">last_name</span>: <span class="hljs-string">"Mayweather"</span>,
-}).then(<span class="hljs-function"><span class="hljs-params">searchResults</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(searchResults[<span class="hljs-number">1</span>]));
+});
+<span class="hljs-built_in">console</span>.log(searchResults[<span class="hljs-number">1</span>]);
 </code></pre>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecsearch.html">Output:</a></p>
-				<pre><code class="lang-javascript">    {
-        <span class="hljs-attr">id</span>: <span class="hljs-number">352</span>,
-        <span class="hljs-attr">name</span>: <span class="hljs-string">'Floyd Mayweather Jr'</span>,
-        <span class="hljs-attr">alias</span>: <span class="hljs-string">'Money / Pretty Boy'</span>,
-        <span class="hljs-attr">record</span>: {
-            <span class="hljs-attr">draw</span>: <span class="hljs-number">0</span>,
-            <span class="hljs-attr">loss</span>: <span class="hljs-number">0</span>,
-            <span class="hljs-attr">win</span>: <span class="hljs-number">50</span>
+				<pre><code class="lang-json">    {
+        &quot;id&quot;: 352,
+        &quot;name&quot;: &quot;Floyd Mayweather Jr&quot;,
+        &quot;alias&quot;: &quot;Money / Pretty Boy&quot;,
+        &quot;record&quot;: {
+            &quot;draw&quot;: 0,
+            &quot;loss&quot;: 0,
+            &quot;win&quot;: 50
         },
-        <span class="hljs-attr">last6</span>: [<span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>],
-        <span class="hljs-attr">division</span>: <span class="hljs-string">'welterweight'</span>,
-        <span class="hljs-attr">career</span>: [<span class="hljs-number">1996</span>, <span class="hljs-number">2017</span>],
-        <span class="hljs-attr">residence</span>: {
-            <span class="hljs-attr">id</span>: <span class="hljs-number">20388</span>,
-            <span class="hljs-attr">town</span>: <span class="hljs-string">'Las Vegas'</span>,
-            <span class="hljs-attr">region</span>: <span class="hljs-string">'NV'</span>,
-            <span class="hljs-attr">country</span>: <span class="hljs-string">'US'</span>
+        &quot;last6&quot;: [&quot;win&quot;, &quot;win&quot;, &quot;win&quot;, &quot;win&quot;, &quot;win&quot;, &quot;win&quot;],
+        &quot;division&quot;: &quot;welterweight&quot;,
+        &quot;career&quot;: [1996, 2017],
+        &quot;residence&quot;: {
+            &quot;id&quot;: 20388,
+            &quot;town&quot;: &quot;Las Vegas&quot;,
+            &quot;region&quot;: &quot;NV&quot;,
+            &quot;country&quot;: &quot;US&quot;
         }
     }
 });
@@ -174,99 +190,97 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 				<h3 id="getchampions"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getchampions">getChampions</a></h3>
 				<h5 id="returns-a-list-of-champions">Returns a list of champions</h5>
 				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpagechampions.html">Output:</a></p>
-				<pre><code class="lang-javascript">boxrec.getChampions()
-.then(<span class="hljs-function"><span class="hljs-params">champions</span> =&gt;</span> {
-    champions.getByWeightClass().heavyweight.IBF; <span class="hljs-comment">// Anthony Joshua</span>
-});
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> champions = <span class="hljs-keyword">await</span> boxrec.getChampions();
+champions.getByWeightClass().heavyweight.IBF;
 </code></pre>
 				<h3 id="geteventbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#geteventbyid">getEventById</a></h3>
 				<h5 id="returns-event-information">Returns event information</h5>
-				<pre><code class="lang-javascript">boxrec.getEventById(<span class="hljs-number">751017</span>)
-.then(<span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(event));
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> event = <span class="hljs-keyword">await</span> boxrec.getEventById(<span class="hljs-number">751017</span>);
 </code></pre>
 				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpageevent.html">Output:</a></p>
-				<pre><code class="lang-javascript">{ <span class="hljs-attr">date</span>: <span class="hljs-string">'2017-09-16'</span>,
-  <span class="hljs-attr">commission</span>: <span class="hljs-string">'Nevada Athletic Commission'</span>,
-  <span class="hljs-attr">matchmaker</span>:
-   [ { <span class="hljs-attr">id</span>: <span class="hljs-number">422440</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Alex Camponovo'</span> },
-     { <span class="hljs-attr">id</span>: <span class="hljs-number">500179</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Roberto Diaz'</span> },
-     { <span class="hljs-attr">id</span>: <span class="hljs-number">495527</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Tom Loeffler'</span> } ],
-  <span class="hljs-attr">location</span>:
-   { <span class="hljs-attr">location</span>: { <span class="hljs-attr">town</span>: <span class="hljs-string">'Las Vegas'</span>, <span class="hljs-attr">id</span>: <span class="hljs-number">20388</span>, <span class="hljs-attr">region</span>: <span class="hljs-string">'Nevada'</span>, <span class="hljs-attr">country</span>: <span class="hljs-string">'USA'</span> },
-     <span class="hljs-attr">venue</span>: { <span class="hljs-attr">id</span>: <span class="hljs-number">246559</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'T-Mobile Arena'</span> } },
-  <span class="hljs-attr">promoter</span>:
-   [ { <span class="hljs-attr">id</span>: <span class="hljs-number">8253</span>,
-       <span class="hljs-attr">company</span>: <span class="hljs-string">'Golden Boy Promotions'</span>,
-       <span class="hljs-attr">name</span>: <span class="hljs-string">'Oscar De La Hoya'</span> },
-     { <span class="hljs-attr">id</span>: <span class="hljs-number">495527</span>, <span class="hljs-attr">company</span>: <span class="hljs-string">'K2 Promotions'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Tom Loeffler'</span> },
-     { <span class="hljs-attr">id</span>: <span class="hljs-number">413083</span>, <span class="hljs-attr">company</span>: <span class="hljs-string">'Banner Promotions'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Art Pelullo'</span> } ],
-  <span class="hljs-attr">television</span>:
-   [ <span class="hljs-string">'USA HBO PPV'</span>,
-     <span class="hljs-string">'Latin America: Canal Space'</span>,
-     <span class="hljs-string">'Panama RPC Channel 4'</span>,
-     <span class="hljs-string">'Australia Main Event'</span>,
-     <span class="hljs-string">'Mexico Televisa'</span> ],
-  <span class="hljs-attr">bouts</span>:
-   [ { <span class="hljs-attr">firstBoxer</span>: [<span class="hljs-built_in">Object</span>],
-       <span class="hljs-attr">firstBoxerLast6</span>: [<span class="hljs-built_in">Array</span>],
-       <span class="hljs-attr">firstBoxerRecord</span>: [<span class="hljs-built_in">Object</span>],
-       <span class="hljs-attr">firstBoxerWeight</span>: <span class="hljs-number">160</span>,
-       <span class="hljs-attr">secondBoxer</span>: [<span class="hljs-built_in">Object</span>],
-       <span class="hljs-attr">secondBoxerLast6</span>: [<span class="hljs-built_in">Array</span>],
-       <span class="hljs-attr">secondBoxerRecord</span>: [<span class="hljs-built_in">Object</span>],
-       <span class="hljs-attr">secondBoxerWeight</span>: <span class="hljs-number">160</span>,
-       <span class="hljs-attr">titles</span>: [<span class="hljs-built_in">Array</span>],
-       <span class="hljs-attr">referee</span>: [<span class="hljs-built_in">Object</span>],
-       <span class="hljs-attr">judges</span>: [<span class="hljs-built_in">Array</span>],
-       <span class="hljs-attr">rating</span>: <span class="hljs-number">100</span>,
-       <span class="hljs-attr">result</span>: [<span class="hljs-built_in">Array</span>],
-       <span class="hljs-attr">links</span>: [<span class="hljs-built_in">Object</span>],
+				<pre><code class="lang-json">{&quot;date&quot;: &quot;2017-09-16&quot;,
+ &quot;commission&quot;: &quot;Nevada Athletic Commission&quot;,
+ &quot;matchmaker&quot;:
+   [ {&quot;id&quot;: 422440,&quot;name&quot;: &quot;Alex Camponovo&quot; },
+     {&quot;id&quot;: 500179,&quot;name&quot;: &quot;Roberto Diaz&quot; },
+     {&quot;id&quot;: 495527,&quot;name&quot;: &quot;Tom Loeffler&quot; } ],
+ &quot;location&quot;:
+   {&quot;location&quot;: {&quot;town&quot;: &quot;Las Vegas&quot;,&quot;id&quot;: 20388,&quot;region&quot;: &quot;Nevada&quot;,&quot;country&quot;: &quot;USA&quot; },
+    &quot;venue&quot;: {&quot;id&quot;: 246559,&quot;name&quot;: &quot;T-Mobile Arena&quot; } },
+ &quot;promoter&quot;:
+   [ {&quot;id&quot;: 8253,
+      &quot;company&quot;: &quot;Golden Boy Promotions&quot;,
+      &quot;name&quot;: &quot;Oscar De La Hoya&quot; },
+     {&quot;id&quot;: 495527,&quot;company&quot;: &quot;K2 Promotions&quot;,&quot;name&quot;: &quot;Tom Loeffler&quot; },
+     {&quot;id&quot;: 413083,&quot;company&quot;: &quot;Banner Promotions&quot;,&quot;name&quot;: &quot;Art Pelullo&quot; } ],
+ &quot;television&quot;:
+   [ &quot;USA HBO PPV&quot;,
+     &quot;Latin America&quot;, 
+     &quot;Canal Space&quot;,
+     &quot;Panama RPC Channel 4&quot;,
+     &quot;Australia Main Event&quot;,
+     &quot;Mexico Televisa&quot; ],
+ &quot;bouts&quot;:
+   [ {&quot;firstBoxer&quot;: [Object],
+      &quot;firstBoxerLast6&quot;: [Array],
+      &quot;firstBoxerRecord&quot;: [Object],
+      &quot;firstBoxerWeight&quot;: 160,
+      &quot;secondBoxer&quot;: [Object],
+      &quot;secondBoxerLast6&quot;: [Array],
+      &quot;secondBoxerRecord&quot;: [Object],
+      &quot;secondBoxerWeight&quot;: 160,
+      &quot;titles&quot;: [Array],
+      &quot;referee&quot;: [Object],
+      &quot;judges&quot;: [Array],
+      &quot;rating&quot;: 100,
+      &quot;result&quot;: [Array],
+      &quot;links&quot;: [Object],
 ...
 </code></pre>
 				<h3 id="getdate"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getdate">getDate</a></h3>
 				<h5 id="returns-events-listed-for-that-date">Returns events listed for that date</h5>
-				<pre><code class="lang-javascript">boxrec.getDate(<span class="hljs-string">"2018-08-21"</span>);
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getDate(<span class="hljs-string">"2018-08-21"</span>);
 </code></pre>
 				<h3 id="getboutbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboutbyid">getBoutById</a></h3>
 				<h5 id="returns-detailed-information-on-a-single-bout">Returns detailed information on a single bout</h5>
-				<pre><code class="lang-javascript">boxrec.getBoutById(<span class="hljs-string">"726555/2037455"</span>);
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getBoutById(<span class="hljs-string">"726555/2037455"</span>);
 </code></pre>
 				<h3 id="getratings"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getratings">getRatings</a></h3>
 				<h5 id="get-ratings">Get ratings</h5>
 				<p>Following BoxRec&#39;s form format</p>
-				<pre><code class="lang-javascript">boxrec.getRatings({
-    <span class="hljs-attr">division</span>: <span class="hljs-string">"Welterweight"</span>,
-    <span class="hljs-attr">sex</span>: <span class="hljs-string">"M"</span>,
-    <span class="hljs-attr">status</span>: <span class="hljs-string">"a"</span>
-}).then(<span class="hljs-function"><span class="hljs-params">ratings</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(ratings[<span class="hljs-number">1</span>]));
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> ratings = <span class="hljs-keyword">await</span> boxrec.getRatings({
+   <span class="hljs-string">"division"</span>: <span class="hljs-string">"Welterweight"</span>,
+   <span class="hljs-string">"sex"</span>: <span class="hljs-string">"M"</span>,
+   <span class="hljs-string">"status"</span>: <span class="hljs-string">"a"</span>
+});
+<span class="hljs-built_in">console</span>.log(ratings);
 </code></pre>
 				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpageratings.html">Output:</a></p>
 				<pre><code class="lang-javascript">    {
-        <span class="hljs-attr">id</span>: <span class="hljs-number">629465</span>,
-        <span class="hljs-attr">name</span>: <span class="hljs-string">'Errol Spence Jr'</span>,
-        <span class="hljs-attr">points</span>: <span class="hljs-number">555</span>,
-        <span class="hljs-attr">rating</span>: <span class="hljs-number">100</span>,
-        <span class="hljs-attr">age</span>: <span class="hljs-number">28</span>,
-        <span class="hljs-attr">record</span>: {
-            <span class="hljs-attr">draw</span>: <span class="hljs-number">0</span>,
-            <span class="hljs-attr">loss</span>: <span class="hljs-number">0</span>,
-            <span class="hljs-attr">win</span>: <span class="hljs-number">23</span>
+       <span class="hljs-string">"id"</span>: <span class="hljs-number">629465</span>,
+       <span class="hljs-string">"name"</span>: <span class="hljs-string">'Errol Spence Jr'</span>,
+       <span class="hljs-string">"points"</span>: <span class="hljs-number">555</span>,
+       <span class="hljs-string">"rating"</span>: <span class="hljs-number">100</span>,
+       <span class="hljs-string">"age"</span>: <span class="hljs-number">28</span>,
+       <span class="hljs-string">"record"</span>: {
+           <span class="hljs-string">"draw"</span>: <span class="hljs-number">0</span>,
+           <span class="hljs-string">"loss"</span>: <span class="hljs-number">0</span>,
+           <span class="hljs-string">"win"</span>: <span class="hljs-number">23</span>
         },
-        <span class="hljs-attr">last6</span>: [<span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>],
-        <span class="hljs-attr">stance</span>: <span class="hljs-string">'southpaw'</span>,
-        <span class="hljs-attr">residence</span>: {
-            <span class="hljs-attr">id</span>: <span class="hljs-number">43387</span>,
-            <span class="hljs-attr">town</span>: <span class="hljs-string">'Desoto'</span>,
-            <span class="hljs-attr">region</span>: <span class="hljs-string">'TX'</span>,
-            <span class="hljs-attr">country</span>: <span class="hljs-string">'US'</span>
+       <span class="hljs-string">"last6"</span>: [<span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>, <span class="hljs-string">'win'</span>],
+       <span class="hljs-string">"stance"</span>: <span class="hljs-string">'southpaw'</span>,
+       <span class="hljs-string">"residence"</span>: {
+           <span class="hljs-string">"id"</span>: <span class="hljs-number">43387</span>,
+           <span class="hljs-string">"town"</span>: <span class="hljs-string">'Desoto'</span>,
+           <span class="hljs-string">"region"</span>: <span class="hljs-string">'TX'</span>,
+           <span class="hljs-string">"country"</span>: <span class="hljs-string">'US'</span>
         },
-        <span class="hljs-attr">division</span>: <span class="hljs-literal">null</span>
+       <span class="hljs-string">"division"</span>: <span class="hljs-literal">null</span>
     };
 </code></pre>
 				<h3 id="gettitlebyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#gettitlebyid">getTitleById</a></h3>
 				<h5 id="get-title-information-including-all-bouts-that-occurred-for-this-title">Get title information including all bouts that occurred for this title</h5>
-				<pre><code class="lang-javascript">
-<span class="hljs-comment">// WBC Middleweight information</span>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// WBC Middleweight information</span>
 <span class="hljs-comment">// to get this parameter, the link is on a boxer's profile</span>
 <span class="hljs-keyword">await</span> boxrec.getTitleById(<span class="hljs-string">"6/Middleweight"</span>);
 <span class="hljs-string">`</span>
@@ -279,24 +293,71 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
 </code></pre>
 				<h3 id="getboxerpdf"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf">getBoxerPDF</a></h3>
 				<h5 id="return-save-the-pdf-version-of-a-boxrec-boxer-profile">Return/save the PDF version of a BoxRec boxer profile</h5>
-				<pre><code><span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>); <span class="hljs-comment">// returns the PDF information</span>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>); <span class="hljs-comment">// returns the PDF information</span>
 <span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>); <span class="hljs-comment">// saves the PDF to "./profile/555.pdf"</span>
-<span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>, <span class="hljs-string">"foo.pdf); // saves the PDF to "</span>./profile/foo.pdf<span class="hljs-string">" </span>
-</code></pre><h3 id="getboxerprint"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerprint">getBoxerPrint</a></h3>
+<span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>, <span class="hljs-string">"foo.pdf); // saves the PDF to "</span>./profile/foo.pdf<span class="hljs-string">"</span>
+</code></pre>
+				<h3 id="getboxerprint"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerprint">getBoxerPrint</a></h3>
 				<h5 id="return-save-the-print-version-of-a-boxrec-boxer-profile">Return/save the print version of a BoxRec boxer profile</h5>
 				<p>Follows the exact same format as <a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf">getBoxerPDF</a> method</p>
-				<pre><code>await boxrec.getBoxerPrint(<span class="hljs-number">555</span>)<span class="hljs-comment">; </span>
-</code></pre><h3 id="watch"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#watch">watch</a></h3>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getBoxerPrint(<span class="hljs-number">555</span>);
+</code></pre>
+				<h3 id="watch"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#watch">watch</a></h3>
 				<h5 id="add-the-boxer-to-the-user-s-watch-list">Add the boxer to the user&#39;s watch list</h5>
-				<pre><code>await boxrec.watch(<span class="hljs-number">555</span>)<span class="hljs-comment">; </span>
-</code></pre><h3 id="unwatch"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#unwatch">unwatch</a></h3>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> isWatched = <span class="hljs-keyword">await</span> boxrec.watch(<span class="hljs-number">555</span>);
+</code></pre>
+				<h3 id="unwatch"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#unwatch">unwatch</a></h3>
 				<h5 id="remove-the-boxer-from-the-user-s-watch-list">Remove the boxer from the user&#39;s watch list</h5>
-				<pre><code>await boxrec.unwatch(<span class="hljs-number">555</span>)<span class="hljs-comment">; </span>
-</code></pre><h3 id="getwatched"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getwatched">getWatched</a></h3>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> isRemoved = <span class="hljs-keyword">await</span> boxrec.unwatch(<span class="hljs-number">555</span>);
+</code></pre>
+				<h3 id="getwatched"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getwatched">getWatched</a></h3>
 				<h5 id="return-an-array-of-boxers-that-the-user-is-watching">Return an array of boxers that the user is watching</h5>
-				<pre><code>await boxrec.getWatched()<span class="hljs-comment">; </span>
-</code></pre><h2 id="documentation">Documentation</h2>
-				<p><a href="https://boxing.github.io/boxrec">Additional documentation</a></p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getWatched();
+</code></pre>
+				<h2 id="roadmap">Roadmap</h2>
+				<p>Last updated 2019-04-13</p>
+				<ul>
+					<li><p>[ ] Added 2019-04-13: <a href="https://github.com/boxing/boxrec/issues/32">Get E2E testing working in CI</a></p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Documentation should not be part of commits.  Pull requests to only contain source changes</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Prepare for Dockerization</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: All data accessible by Docker package</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Changes to <a href="https://github.com/boxing/boxrec-requests">boxrec-requests</a> should trigger builds to ensure functionality does not break</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Changes to this package should trigger builds in upcoming Docker project</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Get to and keep a &quot;A&quot; maintainability in <a href="https://codeclimate.com/github/boxing/boxrec">Code Climate</a></p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Separate typings into typings registry</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Reduce package size.  Separate typings will greatly help</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Make sure all typings work with external projects that use this package</p>
+					</li>
+					<li><p>[ ] Added 2019-04-13: Master branch should be latest version in NPM</p>
+					</li>
+				</ul>
+				<h2 id="security-requirements">Security Requirements</h2>
+				<h3 id="non-https-requests">Non HTTPs requests</h3>
+				<p> BoxRec does not support HTTPS.  Communication between the Node server and BoxRec is <a href="http://www.stealmylogin.com/">insecure</a>.<br>This is not a flaw in the package design but a design flaw in BoxRec.</p>
+				<h2 id="questions">Questions</h2>
+				<p><a name="globalId"><strong>What and where is the BoxRec global ID?</strong></a></p>
+				<p>The BoxRec global ID or ID is the unique ID of the person, event, bout, etc.  It can be found in the URL bar.  For people it can also be found on their page.</p>
+				<p>examples:</p>
+				<p>(Person) Vasiliy Lomachenko - <a href="http://boxrec.com/en/boxer/659771">http://boxrec.com/en/boxer/659771</a>.  The BoxRec global ID is <code>659771</code>.</p>
+				<p>(Bout) Terence Crawford vs. Amir Khan - <a href="http://boxrec.com/en/event/778793/2299385">http://boxrec.com/en/event/778793/2299385</a>.  The BoxRec bout ID is <code>778793/2299385</code></p>
+				<p>(Event) Golden Boy May 4th 2019 Event - <a href="http://boxrec.com/en/event/781894">http://boxrec.com/en/event/781894</a>.  The BoxRec event ID is <code>781894</code></p>
+				<p><a name="globalIdInconsistencies"><strong>Why is there global ID and ID?</strong></a></p>
+				<p>I took the safe approach and assumed that there may be some difference between the two.  There doesn&#39;t seem to be but better
+				safe than sorry.</p>
+				<p><a name="isUsingThisSoftwareLegal"><strong>Is using this software legal?</strong></a></p>
+				<p>When this software was initially written, the <a href="http://boxrec.com/en/terms_conditions">Terms and Conditions</a> on BoxRec did not include anything about <a href="https://en.wikipedia.org/wiki/Web_scraping">web scraping</a>.</p>
+				<p>BoxRec had updated their <a href="http://boxrec.com/en/terms_conditions">Terms and Conditions</a> sometime in the middle of 2018 to include that you may not use software to extract data from BoxRec.</p>
+				<p><a href="https://en.wikipedia.org/wiki/Web_scraping">Web scraping</a> on wikipedia states under legal issues <em>&quot;The legality of web scraping varies across the world. In general, web scraping may be against the terms of use of some websites, but the enforceability of these terms is unclear&quot;.</em></p>
+				<p>Conclusion: It is unclear.  What you do with this package though could very well be illegal.</p>
 				<h2 id="note">Note</h2>
 				<p>Not affiliated with the website <a href="http://www.boxrec.com">BoxRec</a></p>
 			</div>

@@ -289,7 +289,7 @@ export class Boxrec {
     }
 
     /**
-     * Makes a request to BoxRec to search people by
+     * Makes a request to BoxRec to search people by name, role and if they are active
      * Note: currently only supports boxers
      * @param {jar} cookieJar
      * @param {BoxrecSearchParams} params   params included in this search
