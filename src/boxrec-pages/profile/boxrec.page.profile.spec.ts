@@ -615,7 +615,7 @@ describe("class BoxrecPageProfile", () => {
                     it("should return an object with `event` in it", () => {
                         expect(leonardEllerbeEvent.links).toEqual(
                             {
-                                event: 778241,
+                                event: jasmine.any(Number),
                             }
                         );
                     });
@@ -624,3 +624,4 @@ describe("class BoxrecPageProfile", () => {
 
         });
     });
+});
