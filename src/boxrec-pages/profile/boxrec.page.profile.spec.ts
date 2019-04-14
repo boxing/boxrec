@@ -1,4 +1,5 @@
 import {
+    mockProfileBoxerFloydMayweatherJr,
     mockProfileBoxerGGG,
     mockProfileBoxerRJJ,
     mockProfileDoctorAnthonyRuggeroli,
@@ -29,23 +30,8 @@ import {BoxrecPageProfileOtherCommon} from "./boxrec.page.profile.other.common";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
 import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
-import {boxRecMocksModulePath} from "boxrec-requests/dist/boxrec-requests.spec";
-import * as fs from "fs";
 
 describe("class BoxrecPageProfile", () => {
-
-// todo this is a mess.  This file needs to be broken up better
-    const mockProfileBoxerRJJ: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerRJJ.html`, "utf8");
-    const mockProfileBoxerGGG: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerGGG.html`, "utf8");
-    const mockProfileBoxerFloydMayweatherJr: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileBoxerFloydMayweatherJr.html`, "utf8");
-    const mockProfileJudgeDaveMoretti: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileJudgeDaveMoretti.html`, "utf8");
-    const mockProfileDoctorAnthonyRuggeroli: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileDoctorAnthonyRuggeroli.html`, "utf8");
-    const mockProfilePromoterLeonardEllerbe: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfilePromoterLeonardEllerbe.html`, "utf8");
-    const mockProfileRefereeRobertByrd: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileRefereeRobertByrd.html`, "utf8");
-    const mockProfileInspectorMichaelBuchato: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileInspectorMichaelBuchato.html`, "utf8");
-    const mockProfileManagerMichaelMcSorleyJr: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileManagerMichaelMcSorleyJr.html`, "utf8");
-    const mockProfileMatchmakerVeliPekkaMaeki: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileMatchmakerVeliPekkaMaeki.html`, "utf8");
-    const mockProfileSupervisorSammyMacias: string = fs.readFileSync(`${boxRecMocksModulePath}/profile/mockProfileSupervisorSammyMacias.html`, "utf8");
 
     describe("class BoxrecPageProfile", () => {
 
