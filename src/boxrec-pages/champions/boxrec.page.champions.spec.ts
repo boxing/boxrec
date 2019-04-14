@@ -44,7 +44,7 @@ describe("class BoxrecPageChampions", () => {
 
     });
 
-    describe("method getByWeightDivision", () => {
+    describe("method byWeightDivision", () => {
 
         let list: BoxrecChampionsByWeightDivision;
 
@@ -64,11 +64,20 @@ describe("class BoxrecPageChampions", () => {
             expect(list.heavyweight.IBF).toEqual({
                 id: 659461,
                 name: "Anthony Joshua",
-                picture: "https://static.boxrec.com/thumb/9/94/Anthony_Joshua1.jpeg/200px-Anthony_Joshua1.jpeg",
+                picture: "http://static.boxrec.com/thumb/9/94/Anthony_Joshua1.jpeg/200px-Anthony_Joshua1.jpeg",
             });
         });
 
         it("should return `null` for vacant belts", () => {
+            jest.spyOn(BoxrecPageChampions.prototype, "output", "get").mockReturnValue({
+                byWeightDivision: {
+                    superMiddleweight: {
+                        IBO: null,
+                    },
+                },
+            });
+
+            list = new BoxrecPageChampions(mockChampions).output.byWeightDivision;
             expect(list.superMiddleweight.IBO).toBeNull();
         });
 

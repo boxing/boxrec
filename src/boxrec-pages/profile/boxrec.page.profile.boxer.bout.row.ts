@@ -151,11 +151,11 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         const ratings: Array<number | null> = [null, null];
         const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
             .replace(/,/g, "")
-            .match(/^(\d{1,5})&#x279E;(\d{1,5})$/);
+            .match(/^([\d.]+)&#x279E;([\d.]+)$/);
 
         if (ratingsMatch) {
-            ratings[0] = parseInt(ratingsMatch[1], 10);
-            ratings[1] = parseInt(ratingsMatch[2], 10);
+            ratings[0] = parseFloat(ratingsMatch[1]);
+            ratings[1] = parseFloat(ratingsMatch[2]);
         }
 
         return ratings;
