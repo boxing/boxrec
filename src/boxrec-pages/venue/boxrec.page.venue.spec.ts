@@ -23,7 +23,10 @@ describe("class BoxrecPageVenue", () => {
         describe("location", () => {
 
             it("should have the town of the location", () => {
-                expect(mgmGrand.output.location.town).toBe("Las Vegas");
+                expect(mgmGrand.output.location.town).toEqual({
+                    id: 20388,
+                    name: "Las Vegas",
+                });
             });
 
         });

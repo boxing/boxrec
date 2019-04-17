@@ -83,10 +83,18 @@ export class BoxrecPageEvent extends BoxrecEvent {
     get location(): BoxrecBoutLocation {
         const locationObject: BoxrecBoutLocation = {
             location: {
-                country: null,
-                id: null,
-                region: null,
-                town: null,
+                country: {
+                    id: null,
+                    name: null,
+                },
+                region: {
+                    id: null,
+                    name: null,
+                },
+                town: {
+                    id: null,
+                    name: null,
+                },
             },
             venue: {
                 id: null,

@@ -1,3 +1,6 @@
+import * as querystring from "querystring";
+import {ParsedUrlQuery} from "querystring";
+
 /**
  * Converts fractional symbols into decimals
  * @param {string} fraction
@@ -69,3 +72,46 @@ export const townRegionCountryRegex: RegExp = /\?country=([A-Za-z]+)(?:(?:&|&amp
  */
 export const stripCommas: (str: string) => string
     = (str: string): string => str.replace(/,/g, "");
+
+export const whatTypeOfLink: (href: string) => "town" | "region" | "country"
+    = (href: string): "town" | "region" | "country" => {
+    const matches: RegExpMatchArray | null = href.match(/(\w+)\=(\w+)/g);
+    const locationObj: any = {
+        country: null,
+        region: null,
+        town: null,
+    };
+
+    if (matches) {
+        for (const match of matches) {
+            const splitQuery: ParsedUrlQuery = querystring.parse(match);
+            const arr: string[] = Object.keys(splitQuery).map(x => [x, splitQuery[x]])[0] as any;
+            locationObj[arr[0]] = arr[1];
+        }
+    }
+
+    if (locationObj.country && locationObj.region && locationObj.town) {
+        return "town";
+    } else if (locationObj.country && locationObj.region) {
+        return "region";
+    }
+
+    return "country";
+};
+
+export const getLocationValue: (href: string, type: "town" | "region" | "country") => string | number | null =
+    (href: string, type: "town" | "region" | "country"): string | number | null => {
+        const matches: RegExpMatchArray | null = href.match(/(\w+)\=(\w+)/g);
+        if (matches) {
+            for (const match of matches) {
+                const splitQuery: ParsedUrlQuery = querystring.parse(match);
+                const keys: string[] = Object.keys(splitQuery);
+
+                if (keys[0] === type) {
+                    return splitQuery[keys[0]] as any;
+                }
+            }
+        }
+
+        return null;
+    };

@@ -1,10 +1,9 @@
 import * as cheerio from "cheerio";
 import * as querystring from "querystring";
-import {ParsedUrlQuery} from "querystring";
 import {BoxrecBasic, BoxrecJudge, BoxrecLocation, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "../helpers";
+import {convertFractionsToNumber, trimRemoveLineBreaks, whatTypeOfLink} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
 const $: CheerioStatic = cheerio.load("<div></div>");
@@ -132,10 +131,18 @@ export abstract class BoxrecCommonTablesColumnsClass {
      */
     static parseLocationLink(htmlString: string, linkToLookAt: number = 0): BoxrecLocation {
         const location: BoxrecLocation = {
-            country: null,
-            id: null,
-            region: null,
-            town: null,
+            country: {
+                id: null,
+                name: null,
+            },
+            region: {
+                id: null,
+                name: null,
+            },
+            town: {
+                id: null,
+                name: null,
+            },
         };
         const html: Cheerio = $(`<div>${htmlString}</div>`);
         const links: Cheerio = html.find("a");
@@ -143,25 +150,31 @@ export abstract class BoxrecCommonTablesColumnsClass {
         links.each((index: number, elem: CheerioElement) => {
             // /en/locations/event?country=US&region=NY&town=20451
             const href: string = $(elem).attr("href");
+            const text: string = $(elem).text();
+            const whatTypeOfLinkResult: "town" | "region" | "country" = whatTypeOfLink(href);
             const matchQSKeyVals: RegExpMatchArray | null = href.match(/(\w+)\=(\w+)/g);
 
             if (matchQSKeyVals) {
-                for (const match of matchQSKeyVals) {
-                    const splitQuery: ParsedUrlQuery = querystring.parse(match);
-                    const queryArr: Array<[string, string | string[]]> = Object.entries(splitQuery);
-                    queryArr.forEach(item => {
-                        // if town exists it means we can get the id
-                        if (item[0] === "town" && item[1]) {
-                            if (typeof (item[1]) === "string") {
-                                location.id = parseInt(item[1] as string, 10);
-                                location.town = $(elem).text();
-                            }
-                        } else {
-                            (location as any)[item[0]] = item[1];
+                const idParsed: string | number = matchQSKeyVals
+                    .map(item => querystring.parse(item))
+                    .filter(item => Object.keys(item)[0] === whatTypeOfLinkResult)
+                    .map(item => {
+                        const val: string = Object.values(item)[0] as string;
+                        const testValIfNumber: number = parseInt(val, 10);
+
+                        if (isNaN(testValIfNumber)) {
+                            return val;
                         }
-                    });
-                }
+
+                        return testValIfNumber;
+                    })[0];
+                location[whatTypeOfLinkResult] = {
+                    id: idParsed,
+                    name: text,
+                };
             }
+
+
         });
 
         return location;

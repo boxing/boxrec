@@ -67,12 +67,17 @@ describe("class BoxrecPageSchedule", () => {
                 describe("getter location", () => {
 
                     it("should return the country", () => {
-                        expect(event.location.location.country).toBeDefined();
+                        expect(event.location.location.country).toEqual({
+                            id: jasmine.any(String),
+                            name: jasmine.any(String),
+                        });
                     });
 
                     it("should return the region", () => {
-                        // there's the possibility this is `null`
-                        expect(event.location.location.region).toBeDefined();
+                        expect(event.location.location.region).toEqual({
+                            id: jasmine.any(String),
+                            name: jasmine.any(String),
+                        });
                     });
 
                     it("should return the town which can be a string or null", () => {

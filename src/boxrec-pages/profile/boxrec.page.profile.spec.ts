@@ -158,10 +158,18 @@ describe("class BoxrecPageProfile", () => {
 
                 it("should return the current residence of the person", () => {
                     expect(outputRJJ.residence).toEqual({
-                        country: Country.USA,
-                        id: 18374,
-                        region: "FL",
-                        town: "Pensacola",
+                        country: {
+                            id: Country.USA,
+                            name: "USA",
+                        },
+                        region: {
+                            id: "FL",
+                            name: "Florida",
+                        },
+                        town: {
+                            id: 18374,
+                            name: "Pensacola",
+                        },
                     });
                 });
 
@@ -198,10 +206,18 @@ describe("class BoxrecPageProfile", () => {
 
                 it("should return the birth place of the person", () => {
                     expect(outputRJJ.birthPlace).toEqual({
-                        country: Country.USA,
-                        id: 18374,
-                        region: "FL",
-                        town: "Pensacola",
+                        country: {
+                            id: Country.USA,
+                            name: "USA",
+                        },
+                        region: {
+                            id: "FL",
+                            name: "Florida",
+                        },
+                        town: {
+                            id: 18374,
+                            name: "Pensacola",
+                        },
                     });
                 });
 
@@ -480,10 +496,18 @@ describe("class BoxrecPageProfile", () => {
 
                 it("should return the residence for other roles", () => {
                     expect(judgeDaveMoretti.residence).toEqual({
-                        country: Country.USA,
-                        id: 20388,
-                        region: "NV",
-                        town: "Las Vegas",
+                        country: {
+                            id: Country.USA,
+                            name: "USA",
+                        },
+                        region: {
+                            id: "NV",
+                            name: "Nevada",
+                        },
+                        town: {
+                            id: 20388,
+                            name: "Las Vegas",
+                        }
                     });
                 });
 
@@ -511,10 +535,18 @@ describe("class BoxrecPageProfile", () => {
 
                 it("should return the birth place of other roles", () => {
                     expect(judgeDaveMoretti.birthPlace).toEqual({
-                        country: null,
-                        id: null,
-                        region: null,
-                        town: null,
+                        country: {
+                            id: null,
+                            name: null,
+                        },
+                        region: {
+                            id: null,
+                            name: null,
+                        },
+                        town: {
+                            id: null,
+                            name: null,
+                        },
                     });
                 });
             });

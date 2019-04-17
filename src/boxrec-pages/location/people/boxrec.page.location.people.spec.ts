@@ -96,21 +96,24 @@ describe("class BoxrecPageLocationPeople", () => {
             });
 
             describe("getter location", () => {
+                const nullValues: { id: null, name: null } = {
+                    id: null,
+                    name: null,
+                };
 
                 it("should return the country of this person", () => {
-                    expect(locationOutput.location.country).toBe(Country.USA);
-                });
-
-                it("might not return the id", () => {
-                    expect(locationOutput.location.id).toBeNull();
+                    expect(locationOutput.location.country).toEqual({
+                        id: Country.USA,
+                        name: "USA",
+                    });
                 });
 
                 it("might not return the region", () => {
-                    expect(locationOutput.location.region).toBeNull();
+                    expect(locationOutput.location.region).toEqual(nullValues);
                 });
 
                 it("might not return the town", () => {
-                    expect(locationOutput.location.town).toBeNull();
+                    expect(locationOutput.location.town).toEqual(nullValues);
                 });
 
             });

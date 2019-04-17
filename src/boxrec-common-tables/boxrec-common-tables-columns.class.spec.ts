@@ -9,9 +9,14 @@ describe("class BoxrecCommonTablesColumnsClass", () => {
         it("parsing a link with one link that is a country should return the country", () => {
             const html: string = `<a href="/en/locations/event?country=US">USA</a>`;
             const location: BoxrecLocation = BoxrecCommonTablesColumnsClass.parseLocationLink(html);
-            expect(location.country).toBe(Country.USA);
-            expect(location.region).toBeNull();
-            expect(location.id).toBeNull(); // id can be null
+            expect(location.country).toEqual({
+                id: Country.USA,
+                name: "USA",
+            });
+            expect(location.region).toEqual({
+                id: null,
+                name: null,
+            });
         });
 
         it("should return all values if they exist", () => {
@@ -23,10 +28,9 @@ describe("class BoxrecCommonTablesColumnsClass", () => {
                 <a href="/en/locations/event?country=US">USA</a>
                 </div>`;
             const location: BoxrecLocation = BoxrecCommonTablesColumnsClass.parseLocationLink(html);
-            expect(location.country).toBe(Country.USA);
-            expect(location.region).toBe("NV");
-            expect(location.town).toBe("Las Vegas");
-            expect(location.id).toBe(20388);
+            expect(location.country.id).toBe(Country.USA);
+            expect(location.region.id).toBe("NV");
+            expect(location.town.name).toBe("Las Vegas");
         });
 
     });

@@ -2,11 +2,15 @@ import {BoxrecGeneralLinks} from "../boxrec-common-tables/boxrec-common.constant
 import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
 import {BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
 
+interface BoxrecBasicLocation {
+    id: string | number | null;
+    name: string | null;
+}
+
 export interface BoxrecLocation {
-    country: string | null;
-    id: number | null;
-    region: string | null;
-    town: string | null;
+    country: BoxrecBasicLocation;
+    region: BoxrecBasicLocation;
+    town: BoxrecBasicLocation;
 }
 
 export interface BoxrecBoutLocation {
