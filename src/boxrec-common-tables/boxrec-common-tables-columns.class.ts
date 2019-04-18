@@ -173,8 +173,6 @@ export abstract class BoxrecCommonTablesColumnsClass {
                     name: text,
                 };
             }
-
-
         });
 
         return location;
