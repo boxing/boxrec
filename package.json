@@ -25,7 +25,8 @@
     }
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageReporters": ["lcovonly"]
   },
   "license": "MIT",
   "devDependencies": {
