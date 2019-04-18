@@ -58,7 +58,8 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
             }
         };
 
-        const locationMatches: RegExpMatchArray | null = links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
+        const locationMatches: RegExpMatchArray | null =
+            links.get(hrefPosition).attribs.href.match(townRegionCountryRegex) as string[];
 
         if (locationMatches) {
             const [, , , townId] = locationMatches;
