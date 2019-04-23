@@ -1,8 +1,13 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+      - master
+      - develop
+      - /feature.*/
     docker:
-    - image: circleci/node:8.0.0
+    - image: circleci/node:9.0
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
     - run:
