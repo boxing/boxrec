@@ -7,7 +7,7 @@ jobs:
       - develop
       - /feature.*/
     docker:
-    - image: circleci/node:9.10.0-stretch
+    - image: circleci/node:8.9.4
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
     - run:
@@ -22,7 +22,7 @@ jobs:
     - run:
         # todo project should install Jest
         name: Install Jest and JUnit coverage reporter
-        command: yarn add --dev jest jest-junit
+        command: npm install jest jest-junit -D
     - save_cache: # special step to save the dependency cache
         key: dependency-cache-{{ checksum "package.json" }}
         paths:
