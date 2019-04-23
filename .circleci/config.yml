@@ -11,21 +11,26 @@ jobs:
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
     - run:
-        name: update-npm
+        name: Update NPM
         command: 'sudo npm install -g npm@latest'
     - restore_cache: # special step to restore the dependency cache
         # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
         key: dependency-cache-{{ checksum "package.json" }}
     - run:
-        name: install-npm
+        name: install NPM
         command: npm install
+    - run:
+        name: Install JUnit coverage reporter
+        command: yarn add --dev jest-junit
     - save_cache: # special step to save the dependency cache
         key: dependency-cache-{{ checksum "package.json" }}
         paths:
         - ./node_modules
-    - run: # run tests
-        name: test
-        command: npm test
+    - run:
+        name: Run tests with JUnit as reporter
+        command: npm test --ci --runInBand --reporters=default --reporters=jest-junit
+        environment:
+          JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
     - store_artifacts: # special step to save test results as as artifact
         # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
         path: test-results.xml
