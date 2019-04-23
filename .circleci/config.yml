@@ -21,8 +21,12 @@ jobs:
         command: npm install
     - run:
         # todo project should install Jest
+        name: Install Jest
+        command: npm install jest -g
+    - run:
+        # todo project should install Jest
         name: Install Jest and JUnit coverage reporter
-        command: npm install jest jest-junit -D
+        command: npm install jest-junit -D
     - save_cache: # special step to save the dependency cache
         key: dependency-cache-{{ checksum "package.json" }}
         paths:
