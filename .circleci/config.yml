@@ -28,7 +28,7 @@ jobs:
         - ./node_modules
     - run:
         name: Run tests with JUnit as reporter
-        command: npm test --config jest.config.json --ci --runInBand --reporters=default --reporters=jest-junit
+        command: jest --ci --runInBand --reporters=default --reporters=jest-junit
         environment:
           JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
     - store_artifacts: # special step to save test results as as artifact

@@ -9,7 +9,7 @@
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
     "prepublish": "npm run build",
     "start": "webpack --config webpack.dev.js",
-    "test": "jest --config jest.config.json",
+    "test": "jest",
     "test:coverage": "npm run test --coverage && cat ./coverage/lcov.info | coveralls",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
