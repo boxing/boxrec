@@ -20,8 +20,9 @@ jobs:
         name: install NPM
         command: npm install
     - run:
-        name: Install JUnit coverage reporter
-        command: yarn add --dev jest-junit
+        # todo project should install Jest
+        name: Install Jest and JUnit coverage reporter
+        command: yarn add --dev jest jest-junit
     - save_cache: # special step to save the dependency cache
         key: dependency-cache-{{ checksum "package.json" }}
         paths:
