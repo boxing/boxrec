@@ -70,21 +70,16 @@
 				The purpose of this project is to act as an API for BoxRec.</p>
 				<h2 id="installation">Installation</h2>
 				<p>This project is written in <a href="http://nodejs.org">Node</a>.  Currently this project supports Node 8-10.</p>
-				<pre><code class="lang-javascript">npm install boxrec --save
-</code></pre>
+				<pre><code class="language-javascript">npm install boxrec --save</code></pre>
 				<p>or </p>
-				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> boxrec</span>
-</code></pre><h2 id="quick-start">Quick Start</h2>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> boxrec = <span class="hljs-built_in">require</span>(<span class="hljs-string">"boxrec"</span>).default;
-</code></pre>
+				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> boxrec</span></code></pre><h2 id="quick-start">Quick Start</h2>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> boxrec = <span class="hljs-built_in">require</span>(<span class="hljs-string">"boxrec"</span>).default;</code></pre>
 				<p>or </p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> boxrec <span class="hljs-keyword">from</span> <span class="hljs-string">"boxrec"</span>;
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> boxrec <span class="hljs-keyword">from</span> <span class="hljs-string">"boxrec"</span>;</code></pre>
 				<p>use credentials to log into BoxRec and then use any of the <a href="https://github.com/boxing/boxrec#methods-how-to-use">methods</a> below</p>
 				<p>example:</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
-<span class="hljs-keyword">await</span> boxrec.getPersonById(<span class="hljs-number">352</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+<span class="hljs-keyword">await</span> boxrec.getPersonById(<span class="hljs-number">352</span>);</code></pre>
 				<h2 id="how-to-contribute">How to contribute</h2>
 				<p><a href="https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md">Details on how to help can be found here</a></p>
 				<h2 id="documentation">Documentation</h2>
@@ -95,19 +90,18 @@
 				<h5 id="logs-the-user-into-boxrec">logs the user into BoxRec</h5>
 				<p>To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in</p>
 				<p>⚠ BoxRec does not support HTTPS.  More can be read below in the <a href="https://github.com/boxing/boxrec/tree/README-updates#security-requirements">Security Requirements</a> section</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">try</span> {
+				<pre><code class="language-javascript"><span class="hljs-keyword">try</span> {
     <span class="hljs-comment">// at this point in the project release the boxrec object only supports the one log in </span>
     <span class="hljs-keyword">await</span> boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
     <span class="hljs-comment">// successfully logged in</span>
 } <span class="hljs-keyword">catch</span> (e) {
     <span class="hljs-comment">// error occurred logging in</span>
-}
-</code></pre>
+}</code></pre>
 				<h3 id="getpersonbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyid">getPersonById</a></h3>
 				<h5 id="get-profile-by-boxrec-id">Get profile by BoxRec ID</h5>
 				<p>Using the <a href="#globalId">BoxRec global ID</a>, retrieve all information about a person.</p>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> gennadyGolovkin = <span class="hljs-keyword">await</span> boxrec.getPersonById(<span class="hljs-number">356831</span>);
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> gennadyGolovkin = <span class="hljs-keyword">await</span> boxrec.getPersonById(<span class="hljs-number">356831</span>);
 <span class="hljs-built_in">console</span>.log(gennadyGolovkin.name); <span class="hljs-comment">// Gennady Golovkin</span>
 <span class="hljs-built_in">console</span>.log(gennadyGolovkin.division); <span class="hljs-comment">// middleweight</span>
 <span class="hljs-built_in">console</span>.log(gennadyGolovkin.titlesHeld); <span class="hljs-comment">// currently held titles</span>
@@ -118,55 +112,48 @@
 
 <span class="hljs-comment">// other profiles</span>
 <span class="hljs-comment">// we optionally specify the `role` as some people have multiple roles</span>
-boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge); <span class="hljs-comment">// judge CJ Ross</span>
-</code></pre>
+boxrec.getPersonById(<span class="hljs-number">401615</span>, BoxrecRole.judge); <span class="hljs-comment">// judge CJ Ross</span></code></pre>
 				<h3 id="getpeoplebyname"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname">getPeopleByName</a></h3>
 				<h5 id="search-people-on-boxrec-by-name">Search people on BoxRec by name</h5>
 				<p>Returns a generator which will makes individual calls, returns differ depending on the profile type </p>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecprofile.html">Output:</a></p>
-				<pre><code class="lang-javascript"><span class="hljs-comment">// by default it picks active/inactive boxers</span>
+				<pre><code class="language-javascript"><span class="hljs-comment">// by default it picks active/inactive boxers</span>
 <span class="hljs-keyword">const</span> floyds = <span class="hljs-keyword">await</span> boxrec.getPeopleByName(<span class="hljs-string">"Floyd"</span>, <span class="hljs-string">"Mayweather"</span>);
 <span class="hljs-keyword">let</span> boxer = <span class="hljs-keyword">await</span> floyds.next();
 <span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Sr. object</span>
 
 boxer = <span class="hljs-keyword">await</span> floyds.next();
-<span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Jr. object</span>
-</code></pre>
+<span class="hljs-built_in">console</span>.log(boxer.value); <span class="hljs-comment">// is Floyd Mayweather Jr. object</span></code></pre>
 				<h3 id="getpeoplebylocation"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebylocation">getPeopleByLocation</a></h3>
 				<h5 id="search-people-by-location">Search people by location</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getPeopleByLocation({
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getPeopleByLocation({
     <span class="hljs-attr">country</span>: Country.USA,
     <span class="hljs-attr">role</span>: BoxrecRole.boxer,
-}, <span class="hljs-number">20</span>); <span class="hljs-comment">// `20` is the search offset.  All endpoints that support `offset` on BoxRec should be supported in this package</span>
-</code></pre>
+}, <span class="hljs-number">20</span>); <span class="hljs-comment">// `20` is the search offset.  All endpoints that support `offset` on BoxRec should be supported in this package</span></code></pre>
 				<h3 id="geteventsbylocation"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#geteventsbylocation">getEventsByLocation</a></h3>
 				<h5 id="search-events-by-location">Search events by location</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getEventsByLocation({
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getEventsByLocation({
     <span class="hljs-attr">country</span>: Country.USA,
     <span class="hljs-attr">year</span>: <span class="hljs-number">2017</span>,
-});
-</code></pre>
+});</code></pre>
 				<h3 id="getschedule"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getschedule">getSchedule</a></h3>
 				<h5 id="returns-schedule-information-by-country-code-television-and-or-division">Returns schedule information by country code, television, and/or division</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getSchedule({
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getSchedule({
     <span class="hljs-attr">countryCode</span>: Country.Canada,
-});
-</code></pre>
+});</code></pre>
 				<h3 id="getvenuebyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getvenuebyid">getVenueById</a></h3>
 				<h5 id="returns-venue-information-and-events-that-occurred-there">Returns venue information and events that occurred there</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getVenueById(<span class="hljs-number">38555</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getVenueById(<span class="hljs-number">38555</span>);</code></pre>
 				<h3 id="search"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#search">search</a></h3>
 				<h5 id="search-boxers-by-name">Search boxers by name</h5>
 				<p>Following BoxRec&#39;s form format</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> boxrec.search({
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> boxrec.search({
     <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Floyd"</span>,
     <span class="hljs-attr">last_name</span>: <span class="hljs-string">"Mayweather"</span>,
 });
-<span class="hljs-built_in">console</span>.log(searchResults[<span class="hljs-number">1</span>]);
-</code></pre>
+<span class="hljs-built_in">console</span>.log(searchResults[<span class="hljs-number">1</span>]);</code></pre>
 				<p><a href="https://boxing.github.io/boxrec/interfaces/boxrecsearch.html">Output:</a></p>
-				<pre><code class="lang-json">    {
+				<pre><code class="language-json">    {
         &quot;id&quot;: 352,
         &quot;name&quot;: &quot;Floyd Mayweather Jr&quot;,
         &quot;alias&quot;: &quot;Money / Pretty Boy&quot;,
@@ -185,20 +172,17 @@ boxer = <span class="hljs-keyword">await</span> floyds.next();
             &quot;country&quot;: &quot;US&quot;
         }
     }
-});
-</code></pre>
+});</code></pre>
 				<h3 id="getchampions"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getchampions">getChampions</a></h3>
 				<h5 id="returns-a-list-of-champions">Returns a list of champions</h5>
 				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpagechampions.html">Output:</a></p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> champions = <span class="hljs-keyword">await</span> boxrec.getChampions();
-champions.getByWeightClass().heavyweight.IBF;
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> champions = <span class="hljs-keyword">await</span> boxrec.getChampions();
+champions.getByWeightClass().heavyweight.IBF;</code></pre>
 				<h3 id="geteventbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#geteventbyid">getEventById</a></h3>
 				<h5 id="returns-event-information">Returns event information</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> event = <span class="hljs-keyword">await</span> boxrec.getEventById(<span class="hljs-number">751017</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> event = <span class="hljs-keyword">await</span> boxrec.getEventById(<span class="hljs-number">751017</span>);</code></pre>
 				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpageevent.html">Output:</a></p>
-				<pre><code class="lang-json">{&quot;date&quot;: &quot;2017-09-16&quot;,
+				<pre><code class="language-json">{&quot;date&quot;: &quot;2017-09-16&quot;,
  &quot;commission&quot;: &quot;Nevada Athletic Commission&quot;,
  &quot;matchmaker&quot;:
    [ {&quot;id&quot;: 422440,&quot;name&quot;: &quot;Alex Camponovo&quot; },
@@ -235,28 +219,24 @@ champions.getByWeightClass().heavyweight.IBF;
       &quot;rating&quot;: 100,
       &quot;result&quot;: [Array],
       &quot;links&quot;: [Object],
-...
-</code></pre>
+...</code></pre>
 				<h3 id="getdate"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getdate">getDate</a></h3>
 				<h5 id="returns-events-listed-for-that-date">Returns events listed for that date</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getDate(<span class="hljs-string">"2018-08-21"</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getDate(<span class="hljs-string">"2018-08-21"</span>);</code></pre>
 				<h3 id="getboutbyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboutbyid">getBoutById</a></h3>
 				<h5 id="returns-detailed-information-on-a-single-bout">Returns detailed information on a single bout</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getBoutById(<span class="hljs-string">"726555/2037455"</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getBoutById(<span class="hljs-string">"726555/2037455"</span>);</code></pre>
 				<h3 id="getratings"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getratings">getRatings</a></h3>
 				<h5 id="get-ratings">Get ratings</h5>
 				<p>Following BoxRec&#39;s form format</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> ratings = <span class="hljs-keyword">await</span> boxrec.getRatings({
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> ratings = <span class="hljs-keyword">await</span> boxrec.getRatings({
    <span class="hljs-string">"division"</span>: <span class="hljs-string">"Welterweight"</span>,
    <span class="hljs-string">"sex"</span>: <span class="hljs-string">"M"</span>,
    <span class="hljs-string">"status"</span>: <span class="hljs-string">"a"</span>
 });
-<span class="hljs-built_in">console</span>.log(ratings);
-</code></pre>
+<span class="hljs-built_in">console</span>.log(ratings);</code></pre>
 				<p><a href="https://boxing.github.io/boxrec/classes/boxrecpageratings.html">Output:</a></p>
-				<pre><code class="lang-javascript">    {
+				<pre><code class="language-javascript">    {
        <span class="hljs-string">"id"</span>: <span class="hljs-number">629465</span>,
        <span class="hljs-string">"name"</span>: <span class="hljs-string">'Errol Spence Jr'</span>,
        <span class="hljs-string">"points"</span>: <span class="hljs-number">555</span>,
@@ -276,68 +256,60 @@ champions.getByWeightClass().heavyweight.IBF;
            <span class="hljs-string">"country"</span>: <span class="hljs-string">'US'</span>
         },
        <span class="hljs-string">"division"</span>: <span class="hljs-literal">null</span>
-    };
-</code></pre>
+    };</code></pre>
 				<h3 id="gettitlebyid"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#gettitlebyid">getTitleById</a></h3>
 				<h5 id="get-title-information-including-all-bouts-that-occurred-for-this-title">Get title information including all bouts that occurred for this title</h5>
-				<pre><code class="lang-javascript"><span class="hljs-comment">// WBC Middleweight information</span>
+				<pre><code class="language-javascript"><span class="hljs-comment">// WBC Middleweight information</span>
 <span class="hljs-comment">// to get this parameter, the link is on a boxer's profile</span>
 <span class="hljs-keyword">await</span> boxrec.getTitleById(<span class="hljs-string">"6/Middleweight"</span>);
-<span class="hljs-string">`</span>
-</code></pre>
+<span class="hljs-string">`</span></code></pre>
 				<h3 id="gettitles"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#gettitles">getTitles</a></h3>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getTitles({
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getTitles({
     <span class="hljs-attr">bout_title</span>: <span class="hljs-number">322</span>,
     <span class="hljs-attr">division</span>: WeightDivisionCapitalized.welterweight,
-})
-</code></pre>
+})</code></pre>
 				<h3 id="getboxerpdf"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf">getBoxerPDF</a></h3>
 				<h5 id="return-save-the-pdf-version-of-a-boxrec-boxer-profile">Return/save the PDF version of a BoxRec boxer profile</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>); <span class="hljs-comment">// returns the PDF information</span>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>); <span class="hljs-comment">// returns the PDF information</span>
 <span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>); <span class="hljs-comment">// saves the PDF to "./profile/555.pdf"</span>
-<span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>, <span class="hljs-string">"foo.pdf); // saves the PDF to "</span>./profile/foo.pdf<span class="hljs-string">"</span>
-</code></pre>
+<span class="hljs-keyword">await</span> boxrec.getBoxerPDF(<span class="hljs-number">555</span>, <span class="hljs-string">"./profile"</span>, <span class="hljs-string">"foo.pdf); // saves the PDF to "</span>./profile/foo.pdf<span class="hljs-string">"</span></code></pre>
 				<h3 id="getboxerprint"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerprint">getBoxerPrint</a></h3>
 				<h5 id="return-save-the-print-version-of-a-boxrec-boxer-profile">Return/save the print version of a BoxRec boxer profile</h5>
 				<p>Follows the exact same format as <a href="https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf">getBoxerPDF</a> method</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getBoxerPrint(<span class="hljs-number">555</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getBoxerPrint(<span class="hljs-number">555</span>); </code></pre>
 				<h3 id="watch"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#watch">watch</a></h3>
 				<h5 id="add-the-boxer-to-the-user-s-watch-list">Add the boxer to the user&#39;s watch list</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> isWatched = <span class="hljs-keyword">await</span> boxrec.watch(<span class="hljs-number">555</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> isWatched = <span class="hljs-keyword">await</span> boxrec.watch(<span class="hljs-number">555</span>); </code></pre>
 				<h3 id="unwatch"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#unwatch">unwatch</a></h3>
 				<h5 id="remove-the-boxer-from-the-user-s-watch-list">Remove the boxer from the user&#39;s watch list</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> isRemoved = <span class="hljs-keyword">await</span> boxrec.unwatch(<span class="hljs-number">555</span>);
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> isRemoved = <span class="hljs-keyword">await</span> boxrec.unwatch(<span class="hljs-number">555</span>);</code></pre>
 				<h3 id="getwatched"><a href="https://boxing.github.io/boxrec/classes/boxrec.html#getwatched">getWatched</a></h3>
 				<h5 id="return-an-array-of-boxers-that-the-user-is-watching">Return an array of boxers that the user is watching</h5>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">await</span> boxrec.getWatched();
-</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> boxrec.getWatched(); </code></pre>
 				<h2 id="roadmap">Roadmap</h2>
 				<p>Last updated 2019-04-13</p>
 				<ul>
-					<li><p>[ ] Added 2019-04-13: <a href="https://github.com/boxing/boxrec/issues/32">Get E2E testing working in CI</a></p>
+					<li><p>Added 2019-04-13: <a href="https://github.com/boxing/boxrec/issues/32">Get E2E testing working in CI</a></p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Documentation should not be part of commits.  Pull requests to only contain source changes</p>
+					<li><p>Added 2019-04-13: Documentation should not be part of commits.  Pull requests to only contain source changes</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Prepare for Dockerization</p>
+					<li><p>Added 2019-04-13: Prepare for Dockerization</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: All data accessible by Docker package</p>
+					<li><p>Added 2019-04-13: All data accessible by Docker package</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Changes to <a href="https://github.com/boxing/boxrec-requests">boxrec-requests</a> should trigger builds to ensure functionality does not break</p>
+					<li><p>Added 2019-04-13: Changes to <a href="https://github.com/boxing/boxrec-requests">boxrec-requests</a> should trigger builds to ensure functionality does not break</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Changes to this package should trigger builds in upcoming Docker project</p>
+					<li><p>Added 2019-04-13: Changes to this package should trigger builds in upcoming Docker project</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Get to and keep a &quot;A&quot; maintainability in <a href="https://codeclimate.com/github/boxing/boxrec">Code Climate</a></p>
+					<li><p>Added 2019-04-13: Get to and keep a &quot;A&quot; maintainability in <a href="https://codeclimate.com/github/boxing/boxrec">Code Climate</a></p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Separate typings into typings registry</p>
+					<li><p>Added 2019-04-13: Separate typings into typings registry</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Reduce package size.  Separate typings will greatly help</p>
+					<li><p>Added 2019-04-13: Reduce package size.  Separate typings will greatly help</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Make sure all typings work with external projects that use this package</p>
+					<li><p>Added 2019-04-13: Make sure all typings work with external projects that use this package</p>
 					</li>
-					<li><p>[ ] Added 2019-04-13: Master branch should be latest version in NPM</p>
+					<li><p>Added 2019-04-13: Master branch should be latest version in NPM</p>
 					</li>
 				</ul>
 				<h2 id="security-requirements">Security Requirements</h2>

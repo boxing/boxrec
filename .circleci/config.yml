@@ -28,15 +28,11 @@ jobs:
         - ./node_modules
     - run:
         name: Run tests with JUnit as reporter
-        command: yarn jest --ci --config=jest.config.json --coverage --runInBand --reporters=default --reporters=jest-junit
+        command: yarn jest --ci --config=jest.config.json --coverage --runInBand
         environment:
           JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
-    - store_artifacts: # special step to save test results as as artifact
-        # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-        path: test/reports
+    - store_artifacts:
+        path: coverage
+    - store_artifacts: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+        path: ./coverage/lcov.info
         prefix: tests
-    - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-        path: ./coverage/lcov.info
-    - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-        path: ./coverage/lcov.info
-    # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
