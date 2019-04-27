@@ -313,9 +313,15 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPersonById", () => {
 
-        const boxers: Map<number, BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = new Map();
+        type Person =
+            BoxrecPageProfileBoxer
+            | BoxrecPageProfileOtherCommon
+            | BoxrecPageProfileEvents
+            | BoxrecPageProfileManager;
+
+        const boxers: Map<number, Person> = new Map();
         const getBoxer: (id: number) => any =
-            (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
+            (id: number): Person | undefined => boxers.get(id);
 
         beforeAll(async () => {
             await boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
