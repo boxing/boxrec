@@ -17,16 +17,14 @@ jobs:
         # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
         key: dependency-cache-{{ checksum "package.json" }}
     - run:
-        name: Install NPM
-        command: npm install
+        name: Install dependencies
+        command: yarn install
     - save_cache: # special step to save the dependency cache
         key: dependency-cache-{{ checksum "package.json" }}
         paths:
         - ./node_modules
     - run:
         name: Run tests
-        command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
-        environment:
-          JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
-    - store_artifacts:
+        command: yarn jest --ci --config=jest.config.json --coverage --runInBand
+    - store_test_results:
         path: coverage
