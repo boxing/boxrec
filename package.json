@@ -9,7 +9,7 @@
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
     "prepublish": "npm run build",
     "start": "webpack --config webpack.dev.js",
-    "test": "jest --config jest.config.json --coverage && cat ./coverage/lcov.info | coveralls",
+    "test": "jest --config jest.config.json --coverage",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
     "test-watch": "jest --config jest.config.json --watchAll",
@@ -43,7 +43,7 @@
     "ts-loader": "4.3.0",
     "tslint": "^5.10.0",
     "tslint-loader": "^3.6.0",
-    "typedoc": "^0.11.1",
+    "typedoc": "^0.14.2",
     "typescript": "2.9.1",
     "uglifyjs-webpack-plugin": "^1.2.0",
     "webpack": "4.9.1",
@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "jest-junit": "^6.3.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   }

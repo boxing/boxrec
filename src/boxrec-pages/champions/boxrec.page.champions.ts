@@ -11,31 +11,31 @@ import {
 
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,
-    WBC: null,
-    IBO: null,
-    WBO: null,
     IBF: null,
+    IBO: null,
     WBA: null,
+    WBC: null,
+    WBO: null,
 };
 
 const weightDivisions: BoxrecChampionsByWeightDivision = {
-    heavyweight: beltOrganizations,
+    bantamweight: beltOrganizations,
     cruiserweight: beltOrganizations,
+    featherWeight: beltOrganizations,
+    flyweight: beltOrganizations,
+    heavyweight: beltOrganizations,
+    lightFlyweight: beltOrganizations,
     lightHeavyweight: beltOrganizations,
-    superMiddleweight: beltOrganizations,
+    lightweight: beltOrganizations,
     middleweight: beltOrganizations,
+    minimumweight: beltOrganizations,
+    superBantamweight: beltOrganizations,
+    superFeatherweight: beltOrganizations,
+    superFlyweight: beltOrganizations,
+    superLightweight: beltOrganizations,
+    superMiddleweight: beltOrganizations,
     superWelterweight: beltOrganizations,
     welterweight: beltOrganizations,
-    superLightweight: beltOrganizations,
-    lightweight: beltOrganizations,
-    superFeatherweight: beltOrganizations,
-    featherWeight: beltOrganizations,
-    superBantamweight: beltOrganizations,
-    bantamweight: beltOrganizations,
-    superFlyweight: beltOrganizations,
-    flyweight: beltOrganizations,
-    lightFlyweight: beltOrganizations,
-    minimumweight: beltOrganizations,
 };
 
 export class BoxrecPageChampions {

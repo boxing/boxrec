@@ -10,8 +10,27 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    protected parseLinks(): Cheerio {
-        return this.$(getColumnData(this.$, 16, true));
+    /**
+     * Parses Before/After ratings of a boxer
+     * @param {string} rating
+     * @returns {Array<number | null>}
+     */
+    static parseBoxerRating(rating: string): Array<number | null> {
+        const ratings: Array<number | null> = [null, null];
+        const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
+            .replace(/,/g, "")
+            .match(/^([\d.]+)&#x279E;([\d.]+)$/);
+
+        if (ratingsMatch) {
+            ratings[0] = parseFloat(ratingsMatch[1]);
+            ratings[1] = parseFloat(ratingsMatch[2]);
+        }
+
+        return ratings;
+    }
+
+    private static outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
+        return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(htmlString, parseText);
     }
 
     get date(): string {
@@ -142,27 +161,8 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return this.$(`tr:nth-child(1) td`).length === 16;
     }
 
-    /**
-     * Parses Before/After ratings of a boxer
-     * @param {string} rating
-     * @returns {Array<number | null>}
-     */
-    static parseBoxerRating(rating: string): Array<number | null> {
-        const ratings: Array<number | null> = [null, null];
-        const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
-            .replace(/,/g, "")
-            .match(/^([\d.]+)&#x279E;([\d.]+)$/);
-
-        if (ratingsMatch) {
-            ratings[0] = parseFloat(ratingsMatch[1]);
-            ratings[1] = parseFloat(ratingsMatch[2]);
-        }
-
-        return ratings;
-    }
-
-    private static outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
-        return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(htmlString, parseText);
+    protected parseLinks(): Cheerio {
+        return this.$(getColumnData(this.$, 16, true));
     }
 
 }

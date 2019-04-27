@@ -137,10 +137,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return matchmakers;
     }
 
-    protected parsePromoters(): string {
-        return this.parseEventData(BoxrecRole.promoter);
-    }
-
     get output(): BoxrecEventOutput {
         return {
             bouts: this.bouts,
@@ -168,6 +164,10 @@ export class BoxrecPageEvent extends BoxrecEvent {
         }
 
         return [];
+    }
+
+    protected parsePromoters(): string {
+        return this.parseEventData(BoxrecRole.promoter);
     }
 
     private parseDate(): string | null {
