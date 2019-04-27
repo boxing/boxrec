@@ -22,12 +22,7 @@ import {BoxrecResultsParams} from "./boxrec-pages/results/boxrec.results.constan
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
-import {
-    BoxrecRole,
-    BoxrecSearch,
-    BoxrecSearchParams,
-    BoxrecStatus
-} from "./boxrec-pages/search/boxrec.search.constants";
+import {BoxrecRole, BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecTitlesParams} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
@@ -284,7 +279,7 @@ export class Boxrec {
      */
     static async getWatched(cookieJar: CookieJar): Promise<BoxrecPageWatchRow[]> {
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getWatched(cookieJar);
-        
+
         return new BoxrecPageWatch(boxrecPageBody).list;
     }
 
@@ -337,6 +332,32 @@ export class Boxrec {
     }
 
     /**
+     * Makes a search request to BoxRec to get all people that match that name
+     * by using a generator, we're able to prevent making too many calls to BoxRec
+     * @param {jar} cookieJar
+     * @param {string} firstName            the person's first name
+     * @param {string} lastName             the person's last name
+     * @param {string} role                 the role of the person
+     * @param {BoxrecStatus} status         whether the person is active in Boxing or not
+     * @param {number} offset               the number of rows to offset the search
+     * @yields {BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager}         returns a generator to fetch the next person by ID
+     */
+    static async* getPeopleByName(cookieJar: CookieJar, firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all, offset: number = 0):
+        AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+        const params: BoxrecSearchParams = {
+            first_name: firstName,
+            last_name: lastName,
+            role,
+            status,
+        };
+        const searchResults: RequestResponse["body"] = await Boxrec.search(cookieJar, params, offset);
+
+        for (const result of searchResults) {
+            yield await Boxrec.getPersonById(cookieJar, result.id);
+        }
+    }
+
+    /**
      * Returns/saves a boxer's profile in print/pdf format
      * @param {jar} cookieJar
      * @param {number} globalId
@@ -377,32 +398,6 @@ export class Boxrec {
         }
 
         return boxrecPageBody;
-    }
-
-    /**
-     * Makes a search request to BoxRec to get all people that match that name
-     * by using a generator, we're able to prevent making too many calls to BoxRec
-     * @param {jar} cookieJar
-     * @param {string} firstName            the person's first name
-     * @param {string} lastName             the person's last name
-     * @param {string} role                 the role of the person
-     * @param {BoxrecStatus} status         whether the person is active in Boxing or not
-     * @param {number} offset               the number of rows to offset the search
-     * @yields {BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager}         returns a generator to fetch the next person by ID
-     */
-    static async* getPeopleByName(cookieJar: CookieJar, firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all, offset: number = 0):
-        AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
-        const params: BoxrecSearchParams = {
-            first_name: firstName,
-            last_name: lastName,
-            role,
-            status,
-        };
-        const searchResults: RequestResponse["body"] = await Boxrec.search(cookieJar, params, offset);
-
-        for (const result of searchResults) {
-            yield await Boxrec.getPersonById(cookieJar, result.id);
-        }
     }
 
 }

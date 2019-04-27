@@ -24,6 +24,9 @@ jobs:
         paths:
         - ./node_modules
     - run:
+        name: Run TSLint
+        command: yarn tslint
+    - run:
         name: Run tests
         command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
     - store_artifacts: # upload test coverage as artifact

@@ -9,11 +9,6 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
 
     protected readonly $: CheerioStatic;
 
-    protected parseLinks(): Cheerio {
-        const column: number = this.isDivisionPage ? 12 : 8;
-        return this.$(getColumnData(this.$, column));
-    }
-
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
         const html: string = `<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`;
         super(html);
@@ -92,6 +87,11 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
         }
 
         throw new Error(`Number of columns has changed, received: ${len}`);
+    }
+
+    protected parseLinks(): Cheerio {
+        const column: number = this.isDivisionPage ? 12 : 8;
+        return this.$(getColumnData(this.$, column));
     }
 
 }

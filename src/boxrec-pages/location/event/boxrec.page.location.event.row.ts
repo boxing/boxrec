@@ -8,15 +8,6 @@ export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    protected getVenueColumnData(): Cheerio {
-        return this.$(`<div>${this.getColumnData(4)}</div>`);
-    }
-
-    // unused here but used in parent class
-    protected hasMoreColumns(): boolean {
-        return this.$(`tr:nth-child(1) td`).length === 7;
-    }
-
     constructor(boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         super(html);
@@ -37,6 +28,15 @@ export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(this.getColumnData(5), 2);
+    }
+
+    protected getVenueColumnData(): Cheerio {
+        return this.$(`<div>${this.getColumnData(4)}</div>`);
+    }
+
+    // unused here but used in parent class
+    protected hasMoreColumns(): boolean {
+        return this.$(`tr:nth-child(1) td`).length === 7;
     }
 
 }

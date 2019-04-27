@@ -1,3 +1,4 @@
+import {CookieJar} from "request";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
@@ -23,7 +24,6 @@ import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
-import {CookieJar} from "request";
 import {Boxrec} from "./boxrec.class";
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -314,7 +314,8 @@ describe("class Boxrec (E2E)", () => {
     describe("method getPersonById", () => {
 
         const boxers: Map<number, BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = new Map();
-        const getBoxer: Function = (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
+        const getBoxer: (id: number) => any =
+            (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
 
         beforeAll(async () => {
             await boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
@@ -806,7 +807,7 @@ describe("class Boxrec (E2E)", () => {
     describe("method getEventById", () => {
 
         const events: Map<number, BoxrecPageEvent> = new Map();
-        const getEvent: Function = (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
+        const getEvent: (id: number) => BoxrecPageEvent = (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
             await events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko

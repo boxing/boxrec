@@ -1,6 +1,7 @@
 import {mockProfileBoxerRJJ, mockProfileJudgeDaveMoretti} from "boxrec-mocks";
 import {BoxrecRequests} from "boxrec-requests";
 import * as fs from "fs";
+import {CookieJar} from "request";
 import * as rp from "request-promise";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
@@ -8,7 +9,6 @@ import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profi
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecRole, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
-import {CookieJar} from "request";
 import {Boxrec} from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;

@@ -16,12 +16,7 @@ import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
-import {
-    BoxrecProfileBoxerOutput,
-    BoxrecProfileManagerOutput,
-    BoxrecProfileOtherOutput,
-    BoxrecProfilePromoterOutput
-} from "./boxrec.page.profile.constants";
+import {BoxrecProfileBoxerOutput, BoxrecProfileManagerOutput, BoxrecProfileOtherOutput, BoxrecProfilePromoterOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
