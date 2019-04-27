@@ -6,7 +6,12 @@ import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxre
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoxrecPageEvent} from "../boxrec.page.event";
-import {BoutPageBoutOutcome, BoutPageLast6, BoutPageOutcome, BoxrecEventBoutOutput} from "./boxrec.event.bout.constants";
+import {
+    BoutPageBoutOutcome,
+    BoutPageLast6,
+    BoutPageOutcome,
+    BoxrecEventBoutOutput
+} from "./boxrec.event.bout.constants";
 
 /**
  * Parse a BoxRec bout page

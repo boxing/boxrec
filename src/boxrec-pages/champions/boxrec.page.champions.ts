@@ -1,6 +1,13 @@
 import * as cheerio from "cheerio";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBelts, BoxrecChampion, BoxrecChampionsByWeightDivision, BoxrecChampionsOutput, BoxrecUnformattedChampions, WeightDivision} from "./boxrec.champions.constants";
+import {
+    BoxrecBelts,
+    BoxrecChampion,
+    BoxrecChampionsByWeightDivision,
+    BoxrecChampionsOutput,
+    BoxrecUnformattedChampions,
+    WeightDivision
+} from "./boxrec.champions.constants";
 
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,

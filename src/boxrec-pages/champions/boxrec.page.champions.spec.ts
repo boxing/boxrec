@@ -1,5 +1,9 @@
 import {mockChampions} from "boxrec-mocks";
-import {BoxrecChampionsByWeightDivision, BoxrecChampionsOutput, BoxrecUnformattedChampions} from "./boxrec.champions.constants";
+import {
+    BoxrecChampionsByWeightDivision,
+    BoxrecChampionsOutput,
+    BoxrecUnformattedChampions
+} from "./boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec.page.champions";
 
 describe("class BoxrecPageChampions", () => {

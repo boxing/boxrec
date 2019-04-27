@@ -1,4 +1,8 @@
-import {mockTitlesAllTitleAllScheduled, mockTitlesTitleSelectedAllScheduled, mockTitlesTitleSelectedSuperMiddleweight} from "boxrec-mocks";
+import {
+    mockTitlesAllTitleAllScheduled,
+    mockTitlesTitleSelectedAllScheduled,
+    mockTitlesTitleSelectedSuperMiddleweight
+} from "boxrec-mocks";
 import {BoxrecPageTitles} from "./boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 

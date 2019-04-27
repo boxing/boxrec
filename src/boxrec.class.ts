@@ -22,7 +22,12 @@ import {BoxrecResultsParams} from "./boxrec-pages/results/boxrec.results.constan
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
-import {BoxrecRole, BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
+import {
+    BoxrecRole,
+    BoxrecSearch,
+    BoxrecSearchParams,
+    BoxrecStatus
+} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecTitlesParams} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
