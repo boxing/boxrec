@@ -1,5 +1,7 @@
 # BoxRec
 [![CircleCI](https://circleci.com/gh/boxing/boxrec.svg?style=svg)](https://circleci.com/gh/boxing/boxrec) [![Coverage Status](https://coveralls.io/repos/github/boxing/boxrec/badge.svg?branch=master)](https://coveralls.io/github/boxing/boxrec?branch=master) [![dependencies Status](https://david-dm.org/boxing/boxrec/status.svg)](https://david-dm.org/boxing/boxrec) [![devDependencies Status](https://david-dm.org/boxing/boxrec/dev-status.svg)](https://david-dm.org/boxing/boxrec?type=dev) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1643/badge)](https://bestpractices.coreinfrastructure.org/projects/1643) [![npm version](https://badge.fury.io/js/boxrec.svg)](https://badge.fury.io/js/boxrec)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9618d7ebf6454a638f0357406d1e7649)](https://www.codacy.com/app/mikedidomizio/boxrec?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=boxing/boxrec&amp;utm_campaign=Badge_Grade)
+[![DeepScan grade](https://deepscan.io/api/teams/3514/projects/5187/branches/40336/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3514&pid=5187&bid=40336)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a3581bdc38162e00c797/maintainability)](https://codeclimate.com/github/boxing/boxrec/maintainability)
 [![Known Vulnerabilities](https://snyk.io/test/github/boxing/boxrec/badge.svg?targetFile=package.json)](https://snyk.io/test/github/boxing/boxrec?targetFile=package.json)
 

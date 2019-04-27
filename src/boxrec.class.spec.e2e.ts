@@ -807,7 +807,8 @@ describe("class Boxrec (E2E)", () => {
     describe("method getEventById", () => {
 
         const events: Map<number, BoxrecPageEvent> = new Map();
-        const getEvent: (id: number) => BoxrecPageEvent = (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
+        const getEvent: (id: number) => BoxrecPageEvent =
+            (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
             await events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
@@ -1040,7 +1041,7 @@ describe("class Boxrec (E2E)", () => {
             });
 
             it("should include the date", () => {
-                expect(firstBout.date).toMatch(/\d{4}\-\d{2}\-\d{2}/);
+                expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
             });
 
             it("should include the rounds", () => {
