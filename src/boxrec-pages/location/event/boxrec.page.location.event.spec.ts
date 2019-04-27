@@ -47,15 +47,24 @@ describe("class BoxrecPageLocationEvent", () => {
         describe("getter location", () => {
 
             it("should include the country", () => {
-                expect(events.events[0].location.country).toBe("UK");
+                expect(events.events[0].location.country).toEqual({
+                    id: "UK",
+                    name: "United Kingdom",
+                });
             });
 
             it("should include the region", () => {
-                expect(events.events[0].location.region).toBe("LON");
+                expect(events.events[0].location.region).toEqual({
+                    id: "LON",
+                    name: "London",
+                });
             });
 
             it("should include the town", () => {
-                expect(events.events[0].location.town).toBe("Bethnal Green");
+                expect(events.events[0].location.town).toEqual({
+                    id: 15689,
+                    name: "Bethnal Green",
+                });
             });
 
         });

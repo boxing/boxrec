@@ -134,6 +134,7 @@
 								<li class="tsd-kind-interface"><a href="interfaces/boutpagelast6.html" class="tsd-kind-icon">Bout<wbr>Page<wbr>Last6</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/boutpageoutcome.html" class="tsd-kind-icon">Bout<wbr>Page<wbr>Outcome</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/boxrecbasic.html" class="tsd-kind-icon">Boxrec<wbr>Basic</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/boxrecbasiclocation.html" class="tsd-kind-icon">Boxrec<wbr>Basic<wbr>Location</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/boxrecbelts.html" class="tsd-kind-icon">Boxrec<wbr>Belts</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/boxrecbout.html" class="tsd-kind-icon">Boxrec<wbr>Bout</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/boxrecboutbasic.html" class="tsd-kind-icon">Boxrec<wbr>Bout<wbr>Basic</a></li>
@@ -209,14 +210,18 @@
 								<li class="tsd-kind-function"><a href="globals.html#changetocamelcase" class="tsd-kind-icon">change<wbr>ToCamel<wbr>Case</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#convertfractionstonumber" class="tsd-kind-icon">convert<wbr>Fractions<wbr>ToNumber</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#getcolumndata" class="tsd-kind-icon">get<wbr>Column<wbr>Data</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#getlocationvalue" class="tsd-kind-icon">get<wbr>Location<wbr>Value</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#setvalueinlocationobject" class="tsd-kind-icon">set<wbr>Value<wbr>InLocation<wbr>Object</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#stripcommas" class="tsd-kind-icon">strip<wbr>Commas</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#trimremovelinebreaks" class="tsd-kind-icon">trim<wbr>Remove<wbr>Line<wbr>Breaks</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#whattypeoflink" class="tsd-kind-icon">what<wbr>Type<wbr>OfLink</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section ">
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-object-literal tsd-is-not-exported"><a href="globals.html#beltorganizations" class="tsd-kind-icon">belt<wbr>Organizations</a></li>
+								<li class="tsd-kind-object-literal"><a href="globals.html#emptylocationobject" class="tsd-kind-icon">empty<wbr>Location<wbr>Object</a></li>
 								<li class="tsd-kind-object-literal tsd-is-not-exported"><a href="globals.html#weightdivisions" class="tsd-kind-icon">weight<wbr>Divisions</a></li>
 							</ul>
 						</section>
@@ -231,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">Stance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"orthodox"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"southpaw"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/boxrec.constants.ts#L62">boxrec-pages/boxrec.constants.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/boxrec.constants.ts#L66">boxrec-pages/boxrec.constants.ts:66</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -244,8 +249,8 @@
 					<div class="tsd-signature tsd-kind-icon">$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CheerioStatic</span><span class="tsd-signature-symbol"> =&nbsp;cheerio.load(&quot;&lt;div&gt;&lt;/div&gt;&quot;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-common-tables/boxrec-common-links.ts#L3">boxrec-common-tables/boxrec-common-links.ts:3</a></li>
-							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-common-tables/boxrec-common-tables-columns.class.ts#L10">boxrec-common-tables/boxrec-common-tables-columns.class.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-common-tables/boxrec-common-links.ts#L3">boxrec-common-tables/boxrec-common-links.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-common-tables/boxrec-common-tables-columns.class.ts#L9">boxrec-common-tables/boxrec-common-tables-columns.class.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -255,7 +260,7 @@
 					<div class="tsd-signature tsd-kind-icon">town<wbr>Region<wbr>Country<wbr>Regex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/\?country&#x3D;([A-Za-z]+)(?:(?:&amp;|&amp;amp;)region&#x3D;([A-Za-z0-9]*))?(?:(?:&amp;|&amp;amp;)town&#x3D;(\d+))?/</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/helpers.ts#L63">helpers.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L66">helpers.ts:66</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -272,7 +277,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/helpers.ts#L37">helpers.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L40">helpers.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -305,7 +310,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/helpers.ts#L6">helpers.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L9">helpers.ts:9</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -333,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/helpers.ts#L49">helpers.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L52">helpers.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -367,6 +372,117 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="getlocationvalue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Location<wbr>Value</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Location<wbr>Value<span class="tsd-signature-symbol">(</span>href<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Location<wbr>Value<span class="tsd-signature-symbol">(</span>href<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L103">helpers.ts:103</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>href: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>type: <span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L26">boxrec-pages/event/boxrec.event.helpers.ts:26</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>href: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>type: <span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="setvalueinlocationobject" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> set<wbr>Value<wbr>InLocation<wbr>Object</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Value<wbr>InLocation<wbr>Object<span class="tsd-signature-symbol">(</span>links<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cheerio</span>, locationObj<span class="tsd-signature-symbol">: </span><a href="interfaces/boxreclocation.html" class="tsd-signature-type">BoxrecLocation</a>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span>, linkNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/boxreclocation.html" class="tsd-signature-type">BoxrecLocation</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L53">boxrec-pages/event/boxrec.event.helpers.ts:53</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>By passing in links and a location object, it will parse it and find the correct values and return the object</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>links: <span class="tsd-signature-type">Cheerio</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>is the Cheerio object of the DOM</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>locationObj: <a href="interfaces/boxreclocation.html" class="tsd-signature-type">BoxrecLocation</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>is an object that will be returned with the updated values</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>type: <span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>whether we want set the town, region, or country</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>linkNumber: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>if there are multiple links, we need to specify which number the data is in</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="interfaces/boxreclocation.html" class="tsd-signature-type">BoxrecLocation</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="stripcommas" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> strip<wbr>Commas</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -376,7 +492,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/helpers.ts#L71">helpers.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L75">helpers.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -404,7 +520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/helpers.ts#L27">helpers.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L30">helpers.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,8 +538,36 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="whattypeoflink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> what<wbr>Type<wbr>OfLink</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">what<wbr>Type<wbr>OfLink<span class="tsd-signature-symbol">(</span>href<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"town"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"region"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"country"</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/helpers.ts#L78">helpers.ts:78</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>href: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">"town"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"region"</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">"country"</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Object literals</h2>
 				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-is-not-exported">
 					<a name="beltorganizations" class="tsd-anchor"></a>
@@ -431,7 +575,7 @@
 					<div class="tsd-signature tsd-kind-icon">belt<wbr>Organizations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L12">boxrec-pages/champions/boxrec.page.champions.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L12">boxrec-pages/champions/boxrec.page.champions.ts:12</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -440,7 +584,7 @@
 						<div class="tsd-signature tsd-kind-icon">Box<wbr>Rec<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L13">boxrec-pages/champions/boxrec.page.champions.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L13">boxrec-pages/champions/boxrec.page.champions.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -450,7 +594,7 @@
 						<div class="tsd-signature tsd-kind-icon">IBF<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L14">boxrec-pages/champions/boxrec.page.champions.ts:14</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L14">boxrec-pages/champions/boxrec.page.champions.ts:14</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -460,7 +604,7 @@
 						<div class="tsd-signature tsd-kind-icon">IBO<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L15">boxrec-pages/champions/boxrec.page.champions.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L15">boxrec-pages/champions/boxrec.page.champions.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -470,7 +614,7 @@
 						<div class="tsd-signature tsd-kind-icon">WBA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L16">boxrec-pages/champions/boxrec.page.champions.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L16">boxrec-pages/champions/boxrec.page.champions.ts:16</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -480,7 +624,7 @@
 						<div class="tsd-signature tsd-kind-icon">WBC<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L17">boxrec-pages/champions/boxrec.page.champions.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L17">boxrec-pages/champions/boxrec.page.champions.ts:17</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -490,9 +634,149 @@
 						<div class="tsd-signature tsd-kind-icon">WBO<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L18">boxrec-pages/champions/boxrec.page.champions.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L18">boxrec-pages/champions/boxrec.page.champions.ts:18</a></li>
 							</ul>
 						</aside>
+					</section>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal">
+					<a name="emptylocationobject" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> empty<wbr>Location<wbr>Object</h3>
+					<div class="tsd-signature tsd-kind-icon">empty<wbr>Location<wbr>Object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L5">boxrec-pages/event/boxrec.event.helpers.ts:5</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="emptylocationobject.location" class="tsd-anchor"></a>
+						<h3>location</h3>
+						<div class="tsd-signature tsd-kind-icon">location<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L6">boxrec-pages/event/boxrec.event.helpers.ts:6</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+							<a name="emptylocationobject.location.country" class="tsd-anchor"></a>
+							<h3>country</h3>
+							<div class="tsd-signature tsd-kind-icon">country<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L7">boxrec-pages/event/boxrec.event.helpers.ts:7</a></li>
+								</ul>
+							</aside>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="emptylocationobject.location.country.id" class="tsd-anchor"></a>
+								<h3>id</h3>
+								<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L8">boxrec-pages/event/boxrec.event.helpers.ts:8</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="emptylocationobject.location.country.name" class="tsd-anchor"></a>
+								<h3>name</h3>
+								<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L9">boxrec-pages/event/boxrec.event.helpers.ts:9</a></li>
+									</ul>
+								</aside>
+							</section>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+							<a name="emptylocationobject.location.region" class="tsd-anchor"></a>
+							<h3>region</h3>
+							<div class="tsd-signature tsd-kind-icon">region<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L11">boxrec-pages/event/boxrec.event.helpers.ts:11</a></li>
+								</ul>
+							</aside>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="emptylocationobject.location.region.id-1" class="tsd-anchor"></a>
+								<h3>id</h3>
+								<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L12">boxrec-pages/event/boxrec.event.helpers.ts:12</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="emptylocationobject.location.region.name-1" class="tsd-anchor"></a>
+								<h3>name</h3>
+								<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L13">boxrec-pages/event/boxrec.event.helpers.ts:13</a></li>
+									</ul>
+								</aside>
+							</section>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+							<a name="emptylocationobject.location.town" class="tsd-anchor"></a>
+							<h3>town</h3>
+							<div class="tsd-signature tsd-kind-icon">town<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L15">boxrec-pages/event/boxrec.event.helpers.ts:15</a></li>
+								</ul>
+							</aside>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="emptylocationobject.location.town.id-2" class="tsd-anchor"></a>
+								<h3>id</h3>
+								<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L16">boxrec-pages/event/boxrec.event.helpers.ts:16</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="emptylocationobject.location.town.name-2" class="tsd-anchor"></a>
+								<h3>name</h3>
+								<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L17">boxrec-pages/event/boxrec.event.helpers.ts:17</a></li>
+									</ul>
+								</aside>
+							</section>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="emptylocationobject.venue" class="tsd-anchor"></a>
+						<h3>venue</h3>
+						<div class="tsd-signature tsd-kind-icon">venue<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L20">boxrec-pages/event/boxrec.event.helpers.ts:20</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="emptylocationobject.venue.id-3" class="tsd-anchor"></a>
+							<h3>id</h3>
+							<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L21">boxrec-pages/event/boxrec.event.helpers.ts:21</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="emptylocationobject.venue.name-3" class="tsd-anchor"></a>
+							<h3>name</h3>
+							<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/event/boxrec.event.helpers.ts#L22">boxrec-pages/event/boxrec.event.helpers.ts:22</a></li>
+								</ul>
+							</aside>
+						</section>
 					</section>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-is-not-exported">
@@ -501,7 +785,7 @@
 					<div class="tsd-signature tsd-kind-icon">weight<wbr>Divisions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L21">boxrec-pages/champions/boxrec.page.champions.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L21">boxrec-pages/champions/boxrec.page.champions.ts:21</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -510,7 +794,7 @@
 						<div class="tsd-signature tsd-kind-icon">bantamweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L22">boxrec-pages/champions/boxrec.page.champions.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L22">boxrec-pages/champions/boxrec.page.champions.ts:22</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -520,7 +804,7 @@
 						<div class="tsd-signature tsd-kind-icon">cruiserweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L23">boxrec-pages/champions/boxrec.page.champions.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L23">boxrec-pages/champions/boxrec.page.champions.ts:23</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -530,7 +814,7 @@
 						<div class="tsd-signature tsd-kind-icon">feather<wbr>Weight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L24">boxrec-pages/champions/boxrec.page.champions.ts:24</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L24">boxrec-pages/champions/boxrec.page.champions.ts:24</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -540,7 +824,7 @@
 						<div class="tsd-signature tsd-kind-icon">flyweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L25">boxrec-pages/champions/boxrec.page.champions.ts:25</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L25">boxrec-pages/champions/boxrec.page.champions.ts:25</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -550,7 +834,7 @@
 						<div class="tsd-signature tsd-kind-icon">heavyweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L26">boxrec-pages/champions/boxrec.page.champions.ts:26</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L26">boxrec-pages/champions/boxrec.page.champions.ts:26</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -560,7 +844,7 @@
 						<div class="tsd-signature tsd-kind-icon">light<wbr>Flyweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L27">boxrec-pages/champions/boxrec.page.champions.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L27">boxrec-pages/champions/boxrec.page.champions.ts:27</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -570,7 +854,7 @@
 						<div class="tsd-signature tsd-kind-icon">light<wbr>Heavyweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L28">boxrec-pages/champions/boxrec.page.champions.ts:28</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L28">boxrec-pages/champions/boxrec.page.champions.ts:28</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -580,7 +864,7 @@
 						<div class="tsd-signature tsd-kind-icon">lightweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L29">boxrec-pages/champions/boxrec.page.champions.ts:29</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L29">boxrec-pages/champions/boxrec.page.champions.ts:29</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -590,7 +874,7 @@
 						<div class="tsd-signature tsd-kind-icon">middleweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L30">boxrec-pages/champions/boxrec.page.champions.ts:30</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L30">boxrec-pages/champions/boxrec.page.champions.ts:30</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -600,7 +884,7 @@
 						<div class="tsd-signature tsd-kind-icon">minimumweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L31">boxrec-pages/champions/boxrec.page.champions.ts:31</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L31">boxrec-pages/champions/boxrec.page.champions.ts:31</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -610,7 +894,7 @@
 						<div class="tsd-signature tsd-kind-icon">super<wbr>Bantamweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L32">boxrec-pages/champions/boxrec.page.champions.ts:32</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L32">boxrec-pages/champions/boxrec.page.champions.ts:32</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -620,7 +904,7 @@
 						<div class="tsd-signature tsd-kind-icon">super<wbr>Featherweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L33">boxrec-pages/champions/boxrec.page.champions.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L33">boxrec-pages/champions/boxrec.page.champions.ts:33</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -630,7 +914,7 @@
 						<div class="tsd-signature tsd-kind-icon">super<wbr>Flyweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L34">boxrec-pages/champions/boxrec.page.champions.ts:34</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L34">boxrec-pages/champions/boxrec.page.champions.ts:34</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -640,7 +924,7 @@
 						<div class="tsd-signature tsd-kind-icon">super<wbr>Lightweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L35">boxrec-pages/champions/boxrec.page.champions.ts:35</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L35">boxrec-pages/champions/boxrec.page.champions.ts:35</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -650,7 +934,7 @@
 						<div class="tsd-signature tsd-kind-icon">super<wbr>Middleweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L36">boxrec-pages/champions/boxrec.page.champions.ts:36</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L36">boxrec-pages/champions/boxrec.page.champions.ts:36</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -660,7 +944,7 @@
 						<div class="tsd-signature tsd-kind-icon">super<wbr>Welterweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L37">boxrec-pages/champions/boxrec.page.champions.ts:37</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L37">boxrec-pages/champions/boxrec.page.champions.ts:37</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -670,7 +954,7 @@
 						<div class="tsd-signature tsd-kind-icon">welterweight<span class="tsd-signature-symbol">:</span> <a href="interfaces/boxrecbelts.html" class="tsd-signature-type">BoxrecBelts</a><span class="tsd-signature-symbol"> =&nbsp;beltOrganizations</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/1be0332/src/boxrec-pages/champions/boxrec.page.champions.ts#L38">boxrec-pages/champions/boxrec.page.champions.ts:38</a></li>
+								<li>Defined in <a href="https://github.com/boxing/boxrec/blob/ba22d40/src/boxrec-pages/champions/boxrec.page.champions.ts#L38">boxrec-pages/champions/boxrec.page.champions.ts:38</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -855,6 +1139,9 @@
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecbasic.html" class="tsd-kind-icon">Boxrec<wbr>Basic</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/boxrecbasiclocation.html" class="tsd-kind-icon">Boxrec<wbr>Basic<wbr>Location</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/boxrecbelts.html" class="tsd-kind-icon">Boxrec<wbr>Belts</a>
 					</li>
@@ -1036,13 +1323,25 @@
 						<a href="globals.html#getcolumndata" class="tsd-kind-icon">get<wbr>Column<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getlocationvalue" class="tsd-kind-icon">get<wbr>Location<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setvalueinlocationobject" class="tsd-kind-icon">set<wbr>Value<wbr>InLocation<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#stripcommas" class="tsd-kind-icon">strip<wbr>Commas</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#trimremovelinebreaks" class="tsd-kind-icon">trim<wbr>Remove<wbr>Line<wbr>Breaks</a>
 					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#whattypeoflink" class="tsd-kind-icon">what<wbr>Type<wbr>OfLink</a>
+					</li>
 					<li class=" tsd-kind-object-literal tsd-is-not-exported">
 						<a href="globals.html#beltorganizations" class="tsd-kind-icon">belt<wbr>Organizations</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#emptylocationobject" class="tsd-kind-icon">empty<wbr>Location<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-not-exported">
 						<a href="globals.html#weightdivisions" class="tsd-kind-icon">weight<wbr>Divisions</a>

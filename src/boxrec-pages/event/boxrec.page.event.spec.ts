@@ -33,19 +33,15 @@ describe("class BoxrecPageEvent", () => {
         describe("location", () => {
 
             it("should return the town", () => {
-                expect(eventBellewHaye2.location.location.town).toBe("Greenwich");
+                expect(eventBellewHaye2.location.location.town.name).toBe("Greenwich");
             });
 
             it("should return the region", () => {
-                expect(eventBellewHaye2.location.location.region).toBe("London");
+                expect(eventBellewHaye2.location.location.region.name).toBe("London");
             });
 
             it("should return the country", () => {
-                expect(eventBellewHaye2.location.location.country).toBe("United Kingdom");
-            });
-
-            it("should return the id", () => {
-                expect(eventBellewHaye2.location.location.id).toBe(15965);
+                expect(eventBellewHaye2.location.location.country.name).toBe("United Kingdom");
             });
 
         });
