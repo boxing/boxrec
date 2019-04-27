@@ -44,7 +44,7 @@
     "ts-loader": "4.3.0",
     "tslint": "^5.10.0",
     "tslint-loader": "^3.6.0",
-    "typedoc": "^0.11.1",
+    "typedoc": "^0.14.2",
     "typescript": "2.9.1",
     "uglifyjs-webpack-plugin": "^1.2.0",
     "webpack": "4.9.1",
