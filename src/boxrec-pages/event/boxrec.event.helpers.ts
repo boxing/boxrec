@@ -47,8 +47,11 @@ export const getLocationValue: (href: string, type: "town" | "region" | "country
  * @param type          whether we want set the town, region, or country
  * @param linkNumber    if there are multiple links, we need to specify which number the data is in
  */
-export const setValueInLocationObject: (links: Cheerio, locationObj: BoxrecLocation, type: "town" | "region" | "country", linkNumber: number) => BoxrecLocation
-    = (links: Cheerio, locationObj: BoxrecLocation, type: "town" | "region" | "country", linkNumber: number): BoxrecLocation => {
+export const setValueInLocationObject:
+    (links: Cheerio, locationObj: BoxrecLocation, type: "town" | "region" | "country", linkNumber: number)
+        => BoxrecLocation
+    = (links: Cheerio, locationObj: BoxrecLocation, type: "town" | "region" | "country", linkNumber: number):
+    BoxrecLocation => {
     locationObj[type] = {
         id: getLocationValue(links.get(linkNumber).attribs.href, type),
         name: links.get(linkNumber).children[0].data as string,
