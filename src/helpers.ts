@@ -102,7 +102,7 @@ export const whatTypeOfLink: (href: string) => "town" | "region" | "country"
 
 export const getLocationValue: (href: string, type: "town" | "region" | "country") => string | number | null =
     (href: string, type: "town" | "region" | "country"): string | number | null => {
-        const matches: RegExpMatchArray | null = href.match(/(\w+)\=(\w+)/g);
+        const matches: RegExpMatchArray | null = href.match(/(\w+)=(\w+)/g);
         if (matches) {
             for (const match of matches) {
                 const splitQuery: ParsedUrlQuery = querystring.parse(match);

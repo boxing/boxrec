@@ -1,6 +1,6 @@
-import {BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
-import {ParsedUrlQuery} from "querystring";
 import * as querystring from "querystring";
+import {ParsedUrlQuery} from "querystring";
+import {BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 
 export const emptyLocationObject: BoxrecBoutLocation = {
     location: {
