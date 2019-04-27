@@ -25,6 +25,7 @@ jobs:
         - ./node_modules
     - run:
         name: Run tests
-        command: yarn jest --ci --config=jest.config.json --coverage --runInBand
-    - store_test_results:
-        path: coverage
+        command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls,
+    - store_artifacts: # upload test coverage as artifact
+        path: ./coverage/lcov.info
+        prefix: tests
