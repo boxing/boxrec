@@ -42,3 +42,8 @@ jobs:
         from: ./docs
         to: 's3://boxrec-npm-docs'
         arguments: '--dryrun'
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build
