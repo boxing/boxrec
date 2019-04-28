@@ -35,7 +35,7 @@ jobs:
         name: Generate docs
         command: npm run generate-docs
     - persist_to_workspace:
-        root: /docs
+        root: docs
         paths:
         - .
   # Pushes the docs directory to s3 under a subfolder by branch name
@@ -44,9 +44,9 @@ jobs:
     - image: 'circleci/python:2.7'
     steps: # a collection of executable commands
     - attach_workspace:
-        at: /tmp/docs
+        at: tmp/docs
     - aws-s3/copy:
-        from: /tmp/docs
+        from: tmp/docs
         to: 's3://boxrec-npm-docs/$CIRCLE_BRANCH'
         arguments: '--acl public-read'
 workflows:
