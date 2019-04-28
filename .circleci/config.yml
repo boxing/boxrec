@@ -38,15 +38,13 @@ jobs:
       - image: 'circleci/python:2.7'
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
-    - run:
-        command: mkdir bucket && echo "lorum ipsum" > bucket/build_asset.txt
     - aws-s3/copy:
         from: docs
         to: 's3://boxrec-npm-docs/$CIRCLE_BRANCH'
         arguments: '--acl public-read'
 workflows:
   version: 2
-  build:
+  build_and_push_to_s3:
     jobs:
       - build:
           filters:  # using regex filters requires the entire branch to match
@@ -58,9 +56,3 @@ workflows:
       - push_to_s3:
           requires:
             - build
-          filters:  # using regex filters requires the entire branch to match
-            branches:
-              only:  # only branches matching the below regex filters will run
-              - master
-              - develop
-              - /feature.*/
