@@ -54,12 +54,13 @@ workflows:
               only:  # only branches matching the below regex filters will run
               - master
               - develop
-              - /feature.*/ # todo uncomment
+              - /feature.*/
       - push_to_s3:
-          requires: build # todo uncomment
+          requires:
+            - build
           filters:  # using regex filters requires the entire branch to match
             branches:
               only:  # only branches matching the below regex filters will run
               - master
               - develop
-              - /feature.*/ # todo shouldn't push to s3 when feature branch
+              - /feature.*/
