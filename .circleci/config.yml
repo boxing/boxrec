@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.8
 jobs:
-  build_and_push_to_s3:
+  build:
     docker:
     - image: circleci/node:8.9.4
     steps: # a collection of executable commands
@@ -33,15 +33,38 @@ jobs:
     - run:
         name: Generate docs
         command: npm run generate-docs
-    - aws-s3/copy:
-        from: ./docs
+  push_to_s3:
+    docker:
+    - image: 'circleci/python:2.7'
+    steps:
+      - checkout # special step to check out source code to working directory
+      - run:
+        command: mkdir bucket && echo "lorum ipsum" > bucket/build_asset.txt
+      - aws-s3/sync:
+          from: bucket
+          to: 's3://boxrec-npm-docs/prefix'
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          overwrite: true
+      - aws-s3/copy:
+        from: bucket/build_asset.txt
         to: 's3://boxrec-npm-docs'
         arguments: '--dryrun'
+
 workflows:
   version: 2
   build:
     jobs:
-      - build_and_push_to_s3:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+              - master
+              - develop
+              #- /feature.*/ # todo uncomment
+      - push_to_s3:
+          # requires: build # todo uncomment
           filters:  # using regex filters requires the entire branch to match
             branches:
               only:  # only branches matching the below regex filters will run
