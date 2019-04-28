@@ -34,6 +34,9 @@ jobs:
         path: ./coverage/lcov-report
         prefix: tests
     - run:
-        name: Deploy branch to Heroku
-        command: |
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git $CIRCLE_BRANCH
+        name: Generate docs
+        command: npm run generate-docs
+    - aws-s3/copy:
+        from: ./docs
+        to: 's3://boxrec-npm-docs'
+        arguments: '--dryrun'
