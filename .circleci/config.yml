@@ -41,10 +41,9 @@ jobs:
     - run:
         command: mkdir bucket && echo "lorum ipsum" > bucket/build_asset.txt
     - aws-s3/copy:
-        from: bucket/build_asset.txt
-        to: 's3://boxrec-npm-docs'
-        arguments: '--dryrun'
-
+        from: docs
+        to: 's3://boxrec-npm-docs/$CIRCLE_BRANCH'
+        arguments: '--acl public-read'
 workflows:
   version: 2
   build:
@@ -55,9 +54,9 @@ workflows:
               only:  # only branches matching the below regex filters will run
               - master
               - develop
-              #- /feature.*/ # todo uncomment
+              - /feature.*/ # todo uncomment
       - push_to_s3:
-          # requires: build # todo uncomment
+          requires: build # todo uncomment
           filters:  # using regex filters requires the entire branch to match
             branches:
               only:  # only branches matching the below regex filters will run
