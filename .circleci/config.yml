@@ -47,11 +47,10 @@ jobs:
         at: tmp/docs
     - aws-s3/sync:
         from: tmp/docs
-        to: 's3://boxrec-npm-docs/prefix'
+        to: 's3://boxrec-npm-docs/$CIRCLE_BRANCH'
         arguments: |
           --acl public-read \
-          --cache-control "max-age=86400"
-        overwrite: true
+          --cache-control "max-age=86400 --delete"
 workflows:
   version: 2
   build_and_push_to_s3:
