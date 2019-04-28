@@ -35,19 +35,19 @@ jobs:
         command: npm run generate-docs
   push_to_s3:
     docker:
-    - image: 'circleci/python:2.7'
-    steps:
-      - checkout # special step to check out source code to working directory
-      - run:
+      - image: 'circleci/python:2.7'
+    steps: # a collection of executable commands
+    - checkout # special step to check out source code to working directory
+    - run:
         command: mkdir bucket && echo "lorum ipsum" > bucket/build_asset.txt
-      - aws-s3/sync:
-          from: bucket
-          to: 's3://boxrec-npm-docs/prefix'
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
-          overwrite: true
-      - aws-s3/copy:
+    - aws-s3/sync:
+        from: bucket
+        to: 's3://boxrec-npm-docs/prefix'
+        arguments: |
+          --acl public-read \
+          --cache-control "max-age=86400"
+        overwrite: true
+    - aws-s3/copy:
         from: bucket/build_asset.txt
         to: 's3://boxrec-npm-docs'
         arguments: '--dryrun'
