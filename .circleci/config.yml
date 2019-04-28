@@ -42,7 +42,7 @@ jobs:
         command: mkdir bucket && echo "lorum ipsum" > bucket/build_asset.txt
     - aws-s3/sync:
         from: bucket
-        to: 's3://boxrec-npm-docs/prefix'
+        to: 's3://boxrec-npm-docs'
         arguments: |
           --acl public-read \
           --cache-control "max-age=86400"
