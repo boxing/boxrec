@@ -8,12 +8,12 @@
     "build": "webpack --config webpack.prod.js",
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
     "prepublish": "npm run build",
-    "start": "yarn webpack --config webpack.dev.js",
-    "test": "yarn jest --config jest.config.json --coverage",
-    "test-e2e": "yarn jest --config jest.config.e2e.json --runInBand",
-    "test-coverage-watch": "yarn jest --config jest.config.json --coverage --watchAll",
-    "test-watch": "yarn jest --config jest.config.json --watchAll",
-    "tslint": "yarn tslint -c tslint.json src/**/*.ts"
+    "start": "webpack --config webpack.dev.js",
+    "test": "jest --config jest.config.json --coverage",
+    "test-e2e": "jest --config jest.config.e2e.json --runInBand",
+    "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
+    "test-watch": "jest --config jest.config.json --watchAll",
+    "tslint": "tslint -c tslint.json src/**/*.ts"
   },
   "keywords": [
     "boxrec",
