@@ -19,11 +19,6 @@
     "boxrec",
     "boxing"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run generate-docs && git add ./docs"
-    }
-  },
   "jest": {
     "testEnvironment": "node"
   },

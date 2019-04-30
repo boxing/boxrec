@@ -1,11 +1,9 @@
-version: 2
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.8
 jobs:
+  # Build job that creates test artifact and persists generated docs
   build:
-    branches:
-      only:
-      - master
-      - develop
-      - /feature.*/
     docker:
     - image: circleci/node:8.9.4
     steps: # a collection of executable commands
@@ -18,17 +16,69 @@ jobs:
         key: dependency-cache-{{ checksum "yarn.lock" }}
     - run:
         name: Install dependencies
+        # use yarn install to ensure proper dependency caching
         command: yarn install
     - save_cache: # special step to save the dependency cache
         key: dependency-cache-{{ checksum "yarn.lock" }}
         paths:
         - ./node_modules
+  # Checks out code and runs
+  lint_and_test:
+    docker:
+    - image: circleci/node:8.9.4
+    steps: # a collection of executable commands
+    - checkout
+    - restore_cache: # special step to restore the dependency cache
+        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: dependency-cache-{{ checksum "yarn.lock" }}
     - run:
         name: Run TSLint
-        command: yarn tslint
+        command: npm run tslint
     - run:
         name: Run tests
         command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
-    - store_artifacts: # upload test coverage as artifact
-        path: ./coverage/lcov-report
-        prefix: tests
+    - run:
+        name: Generate docs
+        command: npm run generate-docs
+    - persist_to_workspace:
+        root: docs
+        paths:
+        - .
+  # Pushes the docs directory to s3 under a subfolder by branch name
+  push_docs_to_s3:
+    docker:
+    - image: circleci/python:2.7
+    steps: # a collection of executable commands
+    - attach_workspace:
+        at: tmp/docs
+    - aws-s3/sync:
+        from: tmp/docs
+        to: 's3://boxrec-npm-docs/$CIRCLE_BRANCH'
+        arguments: |
+          --acl public-read \
+          --cache-control "max-age=86400 --delete"
+workflows:
+  version: 2
+  build_and_push_to_s3:
+    jobs:
+    - build:
+        filters:  # using regex filters requires the entire branch to match
+          branches:
+            only:  # only branches matching the below regex filters will run
+            - master
+            - develop
+            - /feature.*/
+            - /support.*/
+            - /hotfix.*/
+    - lint_and_test:
+        requires:
+        - build
+    - push_docs_to_s3:
+        requires:
+        - build
+        filters:  # using regex filters requires the entire branch to match
+          branches:
+            only:  # only branches matching the below regex filters will run
+            - master
+            - develop
+            - /support.*/
