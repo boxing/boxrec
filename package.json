@@ -3,12 +3,13 @@
   "version": "1.2.0",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
-  "types": "./dist/dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "tsc && npm run minify",
+    "minify": "uglifyjs-folder ./dist -eo ./dist -x .js --config './uglify.json'",
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
     "prepublish": "npm run build",
-    "start": "webpack --config webpack.dev.js",
+    "start": "tsc -w",
     "test": "jest --config jest.config.json --coverage",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
@@ -31,19 +32,12 @@
     "boxrec-mocks": "^2.1.0",
     "boxrec-requests": "^4.2.0",
     "coveralls": "^3.0.0",
-    "husky": "1.0.0-rc.13",
-    "jest": "23.0.1",
-    "json-loader": "^0.5.7",
-    "ts-jest": "^22.0.3",
-    "ts-loader": "4.3.0",
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.10.0",
-    "tslint-loader": "^3.6.0",
     "typedoc": "^0.14.2",
-    "typescript": "2.9.1",
-    "uglifyjs-webpack-plugin": "^1.2.0",
-    "webpack": "4.9.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-merge": "^4.1.1"
+    "typescript": "^3.4.5",
+    "uglifyjs-folder": "^1.5.1"
   },
   "bugs": {
     "url": "https://github.com/boxing/boxrec/labels/bug"
@@ -54,7 +48,6 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "jest-junit": "^6.3.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   }
