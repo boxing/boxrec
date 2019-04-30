@@ -95,20 +95,16 @@ describe("class BoxrecPageSearch", () => {
 
                 describe("getter residence", () => {
 
-                    it("should have the id", () => {
-                        expect(output[1].residence.id).toEqual(jasmine.any(Number));
-                    });
-
                     it("should return the town", () => {
-                        expect(output[1].residence.town).toBe("Las Vegas");
+                        expect(output[1].residence.town.name).toBe("Las Vegas");
                     });
 
                     it("should return the region", () => {
-                        expect(output[1].residence.region).toBe("NV");
+                        expect(output[1].residence.region.id).toBe("NV");
                     });
 
                     it("should return the country", () => {
-                        expect(output[1].residence.country).toBe("US");
+                        expect(output[1].residence.country.id).toBe("US");
                     });
 
                 });

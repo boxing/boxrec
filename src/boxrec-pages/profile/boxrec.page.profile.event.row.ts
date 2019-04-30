@@ -11,10 +11,6 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    protected getVenueColumnData(): Cheerio {
-        return this.$(`<div>${this.getColumnData(2)}</div>`);
-    }
-
     constructor(boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         super(html);
@@ -39,6 +35,10 @@ export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
 
     get metadata(): string | null {
         return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
+    }
+
+    protected getVenueColumnData(): Cheerio {
+        return this.$(`<div>${this.getColumnData(2)}</div>`);
     }
 
 }

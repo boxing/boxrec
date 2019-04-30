@@ -5,6 +5,7 @@ import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecEvent} from "./boxrec.event";
 import {BoxrecEventOutput} from "./boxrec.event.constants";
+import {emptyLocationObject} from "./boxrec.event.helpers";
 
 /**
  * Parse an Event page
@@ -81,19 +82,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
     }
 
     get location(): BoxrecBoutLocation {
-        const locationObject: BoxrecBoutLocation = {
-            location: {
-                country: null,
-                id: null,
-                region: null,
-                town: null,
-            },
-            venue: {
-                id: null,
-                name: null,
-            },
-        };
-
+        const locationObject: BoxrecBoutLocation = Object.assign({}, emptyLocationObject);
         let location: string | null = this.$(this.parseEventResults()).find("thead table > tbody tr:nth-child(2) b").html();
 
         if (location === null) {
@@ -137,10 +126,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return matchmakers;
     }
 
-    protected parsePromoters(): string {
-        return this.parseEventData(BoxrecRole.promoter);
-    }
-
     get output(): BoxrecEventOutput {
         return {
             bouts: this.bouts,
@@ -168,6 +153,10 @@ export class BoxrecPageEvent extends BoxrecEvent {
         }
 
         return [];
+    }
+
+    protected parsePromoters(): string {
+        return this.parseEventData(BoxrecRole.promoter);
     }
 
     private parseDate(): string | null {

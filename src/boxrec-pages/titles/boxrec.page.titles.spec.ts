@@ -19,10 +19,18 @@ describe("class BoxrecPageTitles", () => {
     });
 
     const locationObj: any = {
-        country: jasmine.any(String),
-        id: jasmine.any(Number),
-        region: jasmine.anything(),
-        town: jasmine.any(String),
+        country: {
+            id: jasmine.any(String),
+            name: jasmine.any(String),
+        },
+        region: {
+            id: jasmine.anything(),
+            name: jasmine.any(String),
+        },
+        town: {
+            id: jasmine.any(Number),
+            name: jasmine.any(String),
+        }
     };
 
     // tests for bio_closed links

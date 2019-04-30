@@ -44,11 +44,10 @@ describe("class BoxrecPageDate", () => {
                 describe("location", () => {
 
                     it("should return the location", () => {
-                        const {town, region, country, id} = firstEvent.location.location;
-                        expect(country).toBe("Australia");
-                        expect(town).toBe("Parramatta");
-                        expect(region).toBe("New South Wales");
-                        expect(id).toBe(2067);
+                        const {town, region, country} = firstEvent.location.location;
+                        expect(country.name).toBe("Australia");
+                        expect(town.name).toBe("Parramatta");
+                        expect(region.name).toBe("New South Wales");
                     });
 
                 });

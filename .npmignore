@@ -3,7 +3,7 @@
 .idea
 src/
 coverage/
-yarn-error.log
+*.log
 docs/
 
 # ignore webpack
@@ -16,5 +16,9 @@ jest.*.json
 yarn.lock
 .babelrc
 
-# todo does this break typings?  A new release will quickly figure that one out
-typings/
+
+uglify.json
+package.json
+CONTRIBUTING.md
+.npmignore
+.circleci

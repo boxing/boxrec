@@ -107,20 +107,21 @@ describe("class BoxrecPageRatings", () => {
 
             describe("getter residence", () => {
 
-                it("should have the id", () => {
-                    expect(ratingsOutput.residence.id).toEqual(jasmine.any(Number));
-                });
+                const obj: { id: any, name: any } = {
+                    id: jasmine.anything(),
+                    name: jasmine.any(String),
+                };
 
                 it("should return the country", () => {
-                    expect(ratingsOutput.residence.country).toEqual(jasmine.any(String));
+                    expect(ratingsOutput.residence.country).toEqual(obj);
                 });
 
                 it("should return the region", () => {
-                    expect(ratingsOutput.residence.region).toEqual(jasmine.any(String));
+                    expect(ratingsOutput.residence.region).toEqual(obj);
                 });
 
                 it("should return the town", () => {
-                    expect(ratingsOutput.residence.town).toEqual(jasmine.any(String));
+                    expect(ratingsOutput.residence.town).toEqual(obj);
                 });
 
             });

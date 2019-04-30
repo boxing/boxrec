@@ -1,3 +1,4 @@
+import {CookieJar} from "request";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
@@ -23,7 +24,6 @@ import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
-import {CookieJar} from "request";
 import {Boxrec} from "./boxrec.class";
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
@@ -88,11 +88,11 @@ describe("class Boxrec (E2E)", () => {
             });
 
             it("should return the location", () => {
-                const {town, id, region, country} = caneloKhanBout.location.location;
-                expect(town).toBe("Las Vegas");
-                expect(region).toBe("Nevada");
-                expect(country).toBe("USA");
-                expect(id).toBe(20388);
+                const {town, region, country} = caneloKhanBout.location.location;
+                expect(town.name).toBe("Las Vegas");
+                expect(region.name).toBe("Nevada");
+                expect(country.id).toBe("US");
+
             });
 
         });
@@ -313,8 +313,15 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getPersonById", () => {
 
-        const boxers: Map<number, BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> = new Map();
-        const getBoxer: Function = (id: number): BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | undefined => boxers.get(id);
+        type Person =
+            BoxrecPageProfileBoxer
+            | BoxrecPageProfileOtherCommon
+            | BoxrecPageProfileEvents
+            | BoxrecPageProfileManager;
+
+        const boxers: Map<number, Person> = new Map();
+        const getBoxer: (id: number) => any =
+            (id: number): Person | undefined => boxers.get(id);
 
         beforeAll(async () => {
             await boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
@@ -394,7 +401,7 @@ describe("class Boxrec (E2E)", () => {
                 describe("secondBoxerRating", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].secondBoxerRating).toEqual([0, 0]);
+                        expect(getBoxer(352).bouts[49].secondBoxerRating).toEqual([0.05, 0.049]);
                     });
 
                     it("should strip all commas from the rating", () => {
@@ -620,12 +627,14 @@ describe("class Boxrec (E2E)", () => {
                 describe("location", () => {
 
                     it("should include the town", () => {
-                        // can be `null` ex. http://Boxrec.com/en/event/776660
                         expect(event.location.location.town).toBeDefined();
                     });
 
                     it("should include the country", () => {
-                        expect(event.location.location.country).toEqual(jasmine.any(String));
+                        expect(event.location.location.country).toEqual({
+                            id: jasmine.any(String),
+                            name: jasmine.any(String),
+                        });
                     });
 
                     it("should include the region", () => {
@@ -718,7 +727,10 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should return the location of the venue as an object", () => {
-            expect(venue.location.region).toBe("NJ");
+            expect(venue.location.region).toEqual({
+                id: "NJ",
+                name: "New Jersey",
+            });
         });
 
         it("should include local boxers in an array", () => {
@@ -788,13 +800,22 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should include the person's location", () => {
-            expect(results.boxers[0].location.country).toBe(Country.USA);
+            expect(results.boxers[0].location.country).toEqual({
+                id: Country.USA,
+                name: "USA",
+            });
         });
 
         it("might omit the person's region/town if the person is '0 miles' from this location", () => {
             expect(results.boxers[0].miles).toBe(0);
-            expect(results.boxers[0].location.region).toBeNull();
-            expect(results.boxers[0].location.town).toBeNull();
+            expect(results.boxers[0].location.region).toEqual({
+                id: null,
+                name: null,
+            });
+            expect(results.boxers[0].location.town).toEqual({
+                id: null,
+                name: null,
+            });
         });
 
         it("should offset the results if using `offset` param", () => {
@@ -806,7 +827,8 @@ describe("class Boxrec (E2E)", () => {
     describe("method getEventById", () => {
 
         const events: Map<number, BoxrecPageEvent> = new Map();
-        const getEvent: Function = (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
+        const getEvent: (id: number) => BoxrecPageEvent =
+            (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
             await events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
@@ -889,10 +911,18 @@ describe("class Boxrec (E2E)", () => {
 
         it("should return the location", () => {
             expect(events.events[0].location).toEqual({
-                country: Country.USA,
-                id: 19077,
-                region: "LA",
-                town: "Alexandria",
+                country: {
+                    id: Country.USA,
+                    name: "USA",
+                },
+                region: {
+                    id: "LA",
+                    name: "Louisiana",
+                },
+                town: {
+                    id: 19077,
+                    name: "Alexandria",
+                }
             });
         });
 
@@ -1039,7 +1069,7 @@ describe("class Boxrec (E2E)", () => {
             });
 
             it("should include the date", () => {
-                expect(firstBout.date).toMatch(/\d{4}\-\d{2}\-\d{2}/);
+                expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
             });
 
             it("should include the rounds", () => {

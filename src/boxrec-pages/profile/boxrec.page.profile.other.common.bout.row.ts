@@ -8,10 +8,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow 
 
     protected readonly $: CheerioStatic;
 
-    protected parseLinks(): Cheerio {
-        return this.$(getColumnData(this.$, 14));
-    }
-
     get date(): string {
         return trimRemoveLineBreaks(getColumnData(this.$, 2, false));
     }
@@ -80,6 +76,10 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow 
     private get hasMoreColumns(): boolean {
         // if the boxer ratings is showing, the number of columns changes from 14 to 16
         return this.$(`tr:nth-child(1) td`).length === 16;
+    }
+
+    protected parseLinks(): Cheerio {
+        return this.$(getColumnData(this.$, 14));
     }
 
 }

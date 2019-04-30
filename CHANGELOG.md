@@ -1,3 +1,23 @@
+## 2.0.0 (2019-04-30)
+
+### Added
+
+- Added "total number" for certain pages ex. `numberOfBouts`, `numberOfPages`, `numberOfLocations`, `numberOfPeople`
+
+### Changed
+
+- Make stateless.  Cookie is returned and is now required to pass in when making requests
+- Updated all location objects to include both `id` and `name` of town/region/country
+- Docs are now pushed to S3.  This allows maintaining multiple versions of the docs and reducing git history clutter
+- `bio_open/bio_closed` to just be `bio` to keep consistency
+- `KOs` are now the number of KOs and not the percentage
+
+### Fixed
+
+- Package size is now reduced from 1.30 MB to 48 KB.  Better package build and removed dependencies
+- `bout` links are more consistent
+- Ratings are now updated to allow decimal places as BoxRec has changed their algorithm
+
 ## 1.2.0 (2019-01-16)
 
 ### Added

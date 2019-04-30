@@ -13,17 +13,17 @@ export class BoxrecPageTitle extends BoxrecParseBouts {
 
     protected readonly $: CheerioStatic;
 
+    constructor(boxrecBodyString: string) {
+        super(boxrecBodyString);
+        this.$ = cheerio.load(boxrecBodyString);
+    }
+
     /**
      * The number of bouts that have occurred for this title
      * @returns {number}
      */
     get numberOfBouts(): number {
         return parseInt(this.$(".pagerResults").text(), 10);
-    }
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
     }
 
     /**
