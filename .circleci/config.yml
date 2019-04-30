@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.8
 jobs:
-  # Build job that creates test artifact and persists generated docs
+  # Build job that installs and saves cache
   build:
     docker:
     - image: circleci/node:8.9.4
@@ -22,7 +22,8 @@ jobs:
         key: dependency-cache-{{ checksum "yarn.lock" }}
         paths:
         - ./node_modules
-  # Checks out code and runs
+  # Checks out code and runs lint/tests
+  # Does not require dependencies installed
   lint_and_test:
     docker:
     - image: circleci/node:8.9.4
@@ -45,6 +46,7 @@ jobs:
         paths:
         - .
   # Pushes the docs directory to s3 under a subfolder by branch name
+  # Requires docs directory to be persisted beforehand
   push_docs_to_s3:
     docker:
     - image: circleci/python:2.7
@@ -62,23 +64,26 @@ workflows:
   build_and_push_to_s3:
     jobs:
     - build:
-        filters:  # using regex filters requires the entire branch to match
+        filters:
           branches:
-            only:  # only branches matching the below regex filters will run
+            only:
             - master
             - develop
             - /feature.*/
             - /support.*/
             - /hotfix.*/
+            - /release.*/
     - lint_and_test:
         requires:
         - build
+    # Only push master/develop/support branches and nothing else because no docs are needed for other branches
     - push_docs_to_s3:
         requires:
         - build
-        filters:  # using regex filters requires the entire branch to match
+        - lint_and_test
+        filters:
           branches:
-            only:  # only branches matching the below regex filters will run
+            only:
             - master
             - develop
             - /support.*/

@@ -42,16 +42,22 @@ await boxrec.getPersonById(352);
 
 [Details on how to help can be found here](https://github.com/boxing/boxrec/blob/master/CONTRIBUTING.md)
 
-## Documentation
+## Additional Documentation
 
-[Additional documentation](https://boxing.github.io/boxrec)
+### Recent versions
 
-Note: At this time there may be some minor inconsistencies in the documentation compared to what's published to NPM.  
-This is planned on being resolved.
+[Latest published on NPM (master)](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/master/index.html)
+
+[Upcoming but not published (develop)](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/develop/index.html)
+
+### Support/Legacy Versions
+If you are using a major version other than the latest, check [Github branches](https://github.com/boxing/boxrec/branches) for the existing `support/*` branches 
+
+ex .https://<span></span>s3.us-east-2.amazonaws.com/boxrec-npm-docs/support/{VERSION}/index.html
 
 ## Methods (How to use)
 
-### [login](https://boxing.github.io/boxrec/classes/boxrec.html#login)
+### login
 ##### logs the user into BoxRec
 To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 
@@ -67,11 +73,11 @@ try {
 }
 ```
 
-### [getPersonById](https://boxing.github.io/boxrec/classes/boxrec.html#getpersonbyid)
+### getPersonById
 ##### Get profile by BoxRec ID
 Using the [BoxRec global ID](#globalId), retrieve all information about a person.
 
-[Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
+Output:
 ```javascript
 const gennadyGolovkin = await boxrec.getPersonById(356831);
 console.log(gennadyGolovkin.name); // Gennady Golovkin
@@ -87,11 +93,11 @@ console.log(gennadyGolovkin.bouts[37].opponent.name); // Saul Alvarez
 boxrec.getPersonById(401615, BoxrecRole.judge); // judge CJ Ross
 ```
 
-### [getPeopleByName](https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebyname)
+### getPeopleByName
 ##### Search people on BoxRec by name
 Returns a generator which will makes individual calls, returns differ depending on the profile type 
 
-[Output:](https://boxing.github.io/boxrec/interfaces/boxrecprofile.html)
+Output:
 ```javascript
 // by default it picks active/inactive boxers
 const floyds = await boxrec.getPeopleByName("Floyd", "Mayweather");
@@ -102,7 +108,7 @@ boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Jr. object
 ```
 
-### [getPeopleByLocation](https://boxing.github.io/boxrec/classes/boxrec.html#getpeoplebylocation)
+### getPeopleByLocation
 ##### Search people by location
 
 ```javascript
@@ -112,7 +118,7 @@ await boxrec.getPeopleByLocation({
 }, 20); // `20` is the search offset.  All endpoints that support `offset` on BoxRec should be supported in this package
 ```
 
-### [getEventsByLocation](https://boxing.github.io/boxrec/classes/boxrec.html#geteventsbylocation)
+### getEventsByLocation
 ##### Search events by location
 
 ```javascript
@@ -122,7 +128,7 @@ await boxrec.getEventsByLocation({
 });
 ```
 
-### [getSchedule](https://boxing.github.io/boxrec/classes/boxrec.html#getschedule)
+### getSchedule
 ##### Returns schedule information by country code, television, and/or division
 
 ```javascript
@@ -131,14 +137,14 @@ await boxrec.getSchedule({
 });
 ```
 
-### [getVenueById](https://boxing.github.io/boxrec/classes/boxrec.html#getvenuebyid)
+### getVenueById
 ##### Returns venue information and events that occurred there
 
 ```javascript
 await boxrec.getVenueById(38555);
 ```
 
-### [search](https://boxing.github.io/boxrec/classes/boxrec.html#search)
+### search
 ##### Search boxers by name
 Following BoxRec's form format
 
@@ -150,7 +156,7 @@ const searchResults = await boxrec.search({
 console.log(searchResults[1]);
 ```
 
-[Output:](https://boxing.github.io/boxrec/interfaces/boxrecsearch.html)
+Output:
 ```json
     {
         "id": 352,
@@ -174,23 +180,23 @@ console.log(searchResults[1]);
 });
 ```
 
-### [getChampions](https://boxing.github.io/boxrec/classes/boxrec.html#getchampions)
+### getChampions
 ##### Returns a list of champions
 
-[Output:](https://boxing.github.io/boxrec/classes/boxrecpagechampions.html)
+Output:
 ```javascript
 const champions = await boxrec.getChampions();
 champions.getByWeightClass().heavyweight.IBF;
 ```
 
-### [getEventById](https://boxing.github.io/boxrec/classes/boxrec.html#geteventbyid)
+### getEventById
 ##### Returns event information
 
 ```javascript
 const event = await boxrec.getEventById(751017);
 ```
 
-[Output:](https://boxing.github.io/boxrec/classes/boxrecpageevent.html)
+Output:
 ```json
 {"date": "2017-09-16",
  "commission": "Nevada Athletic Commission",
@@ -232,22 +238,21 @@ const event = await boxrec.getEventById(751017);
 ...
 ```
 
-### [getDate](https://boxing.github.io/boxrec/classes/boxrec.html#getdate)
+### getDate
 ##### Returns events listed for that date
 
 ```javascript
 await boxrec.getDate("2018-08-21");
 ```
 
-
-### [getBoutById](https://boxing.github.io/boxrec/classes/boxrec.html#getboutbyid)
+### getBoutById
 ##### Returns detailed information on a single bout
 
 ```javascript
 await boxrec.getBoutById("726555/2037455");
 ```
 
-### [getRatings](https://boxing.github.io/boxrec/classes/boxrec.html#getratings)
+### getRatings
 ##### Get ratings
 Following BoxRec's form format
 
@@ -260,7 +265,7 @@ const ratings = await boxrec.getRatings({
 console.log(ratings);
 ```
 
-[Output:](https://boxing.github.io/boxrec/classes/boxrecpageratings.html)
+Output:
 ```javascript
     {
        "id": 629465,
@@ -285,7 +290,7 @@ console.log(ratings);
     };
 ```
 
-### [getTitleById](https://boxing.github.io/boxrec/classes/boxrec.html#gettitlebyid)
+### getTitleById
 ##### Get title information including all bouts that occurred for this title
 ```javascript
 // WBC Middleweight information
@@ -293,7 +298,7 @@ console.log(ratings);
 await boxrec.getTitleById("6/Middleweight");
 ````
 
-### [getTitles](https://boxing.github.io/boxrec/classes/boxrec.html#gettitles)
+### getTitles
 ```javascript
 await boxrec.getTitles({
     bout_title: 322,
@@ -301,7 +306,7 @@ await boxrec.getTitles({
 })
 ```
 
-### [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf)
+### getBoxerPDF
 ##### Return/save the PDF version of a BoxRec boxer profile
 ```javascript
 await boxrec.getBoxerPDF(555); // returns the PDF information
@@ -309,26 +314,26 @@ await boxrec.getBoxerPDF(555, "./profile"); // saves the PDF to "./profile/555.p
 await boxrec.getBoxerPDF(555, "./profile", "foo.pdf); // saves the PDF to "./profile/foo.pdf"
 ```
 
-### [getBoxerPrint](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerprint)
+### getBoxerPrint
 ##### Return/save the print version of a BoxRec boxer profile
-Follows the exact same format as [getBoxerPDF](https://boxing.github.io/boxrec/classes/boxrec.html#getboxerpdf) method
+Follows the exact same format as getBoxerPDF method
 ```javascript
 await boxrec.getBoxerPrint(555); 
 ```
 
-### [watch](https://boxing.github.io/boxrec/classes/boxrec.html#watch)
+### watch
 ##### Add the boxer to the user's watch list
 ```javascript
 const isWatched = await boxrec.watch(555); 
 ```
 
-### [unwatch](https://boxing.github.io/boxrec/classes/boxrec.html#unwatch)
+### unwatch
 ##### Remove the boxer from the user's watch list
 ```javascript
 const isRemoved = await boxrec.unwatch(555);
 ```
 
-### [getWatched](https://boxing.github.io/boxrec/classes/boxrec.html#getwatched)
+### getWatched
 ##### Return an array of boxers that the user is watching
 ```javascript
 await boxrec.getWatched(); 
