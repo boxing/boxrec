@@ -22,15 +22,21 @@ jobs:
         key: dependency-cache-{{ checksum "yarn.lock" }}
         paths:
         - ./node_modules
+  # Checks out code and runs
+  lint_and_test:
+    docker:
+    - image: circleci/node:8.9.4
+    steps: # a collection of executable commands
+    - checkout
+    - restore_cache: # special step to restore the dependency cache
+        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: dependency-cache-{{ checksum "yarn.lock" }}
     - run:
         name: Run TSLint
         command: npm run tslint
     - run:
         name: Run tests
         command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
-    - store_artifacts: # upload test coverage as artifact
-        path: ./coverage/lcov-report
-        prefix: tests
     - run:
         name: Generate docs
         command: npm run generate-docs
@@ -39,9 +45,9 @@ jobs:
         paths:
         - .
   # Pushes the docs directory to s3 under a subfolder by branch name
-  push_to_s3:
+  push_docs_to_s3:
     docker:
-    - image: 'circleci/python:2.7'
+    - image: circleci/python:2.7
     steps: # a collection of executable commands
     - attach_workspace:
         at: tmp/docs
@@ -64,7 +70,10 @@ workflows:
             - /feature.*/
             - /support.*/
             - /hotfix.*/
-    - push_to_s3:
+    - lint_and_test:
+        requires:
+        - build
+    - push_docs_to_s3:
         requires:
         - build
         filters:  # using regex filters requires the entire branch to match
