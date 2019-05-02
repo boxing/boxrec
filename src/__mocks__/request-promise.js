@@ -18,7 +18,7 @@ rp.jar = () => {
                 key: "REMEMBERME",
             }];
         }
-    }
+    };
 };
 
 rp.cookie = () => {
