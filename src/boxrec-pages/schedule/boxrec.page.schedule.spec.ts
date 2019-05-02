@@ -75,8 +75,8 @@ describe("class BoxrecPageSchedule", () => {
 
                     it("should return the region", () => {
                         expect(event.location.location.region).toEqual({
-                            id: jasmine.any(String),
-                            name: jasmine.any(String),
+                            id: jasmine.anything(),
+                            name: jasmine.anything(),
                         });
                     });
 

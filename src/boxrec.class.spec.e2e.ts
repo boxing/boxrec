@@ -324,8 +324,8 @@ describe("class Boxrec (E2E)", () => {
             (id: number): Person | undefined => boxers.get(id);
 
         beforeAll(async () => {
-            await boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
-            await boxers.set(9625, await Boxrec.getPersonById(loggedInCookie, 9625)); // Sugar Ray Robinson
+            boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
+            boxers.set(9625, await Boxrec.getPersonById(loggedInCookie, 9625)); // Sugar Ray Robinson
         });
 
         describe("where role is boxer", () => {
@@ -831,8 +831,8 @@ describe("class Boxrec (E2E)", () => {
             (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
-            await events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
-            await events.set(752960, await Boxrec.getEventById(loggedInCookie, 752960)); // Mayweather McGregor
+            events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
+            events.set(752960, await Boxrec.getEventById(loggedInCookie, 752960)); // Mayweather McGregor
         });
 
         it("should return the venue name", () => {

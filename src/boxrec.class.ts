@@ -37,7 +37,7 @@ import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
-    (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol("asyncIterator");
+    (Symbol as any).asyncIterator = Symbol("asyncIterator");
 }
 
 export class Boxrec {
