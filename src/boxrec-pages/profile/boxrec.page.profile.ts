@@ -203,7 +203,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
         const tableRow: Cheerio = this.profileTableBody.find(`tr:contains("${keyToRetrieve}")`);
         const val: string | null = tableRow.find("td:nth-child(2)").html();
 
-        if (keyToRetrieve && tableRow && val) {
+        if (keyToRetrieve && val) {
             return val.trim();
         }
     }

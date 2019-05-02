@@ -35,7 +35,6 @@ describe("class BoxrecPageProfile", () => {
 
     describe("class BoxrecPageProfile", () => {
 
-        let boxerRJJ: BoxrecPageProfileBoxer;
         let boxerGGG: BoxrecPageProfileBoxer;
         let boxerFloydMayweatherJr: BoxrecPageProfileBoxer;
         let judgeDaveMoretti: BoxrecPageProfileOtherCommon;
@@ -48,7 +47,6 @@ describe("class BoxrecPageProfile", () => {
         let supervisorSammyMacias: BoxrecPageProfileOtherCommon;
 
         beforeAll(() => {
-            boxerRJJ = new BoxrecPageProfileBoxer(mockProfileBoxerRJJ);
             boxerGGG = new BoxrecPageProfileBoxer(mockProfileBoxerGGG);
             boxerFloydMayweatherJr = new BoxrecPageProfileBoxer(mockProfileBoxerFloydMayweatherJr);
             judgeDaveMoretti = new BoxrecPageProfileOtherCommon(mockProfileJudgeDaveMoretti);
@@ -534,7 +532,7 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should return the birth place of other roles", () => {
-                    expect(judgeDaveMoretti.birthPlace).toEqual({
+                    expect(output.birthPlace).toEqual({
                         country: {
                             id: null,
                             name: null,
