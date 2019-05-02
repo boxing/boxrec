@@ -94,8 +94,10 @@ describe("class BoxrecPageSchedule", () => {
                     });
 
                     it("should return the region", () => {
-                        (expect(event.location.location.region.id) as ExtendedMatchers).toBeStringOrNull();
-                        (expect(event.location.location.region.name) as ExtendedMatchers).toBeStringOrNull();
+                        expect(event.location.location.region).toEqual({
+                            id: jasmine.anything(),
+                            name: jasmine.anything(),
+                        });
                     });
 
                     it("should return the town which can be a string or null", () => {

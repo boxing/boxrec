@@ -1,4 +1,4 @@
-import {mockDate20100520, mockDate20191116} from "boxrec-mocks";
+import {mockDate20100520} from "boxrec-mocks";
 import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecDateEvent} from "./boxrec.date.event";
@@ -8,11 +8,9 @@ import {BoxrecDateOutput} from "./boxrec.page.date.constants";
 describe("class BoxrecPageDate", () => {
 
     let date20100520: BoxrecDateOutput;
-    let date20191116: BoxrecDateOutput;
 
     beforeAll(() => {
         date20100520 = new BoxrecPageDate(mockDate20100520).output;
-        date20191116 = new BoxrecPageDate(mockDate20191116).output;
     });
 
     describe("getter events", () => {
