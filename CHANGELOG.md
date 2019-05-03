@@ -1,3 +1,9 @@
+## 2.0.1 (2019-05-03)
+
+### Fixed
+
+-   `boxrec-requests` was a dev dependency but it is a normal dependency
+
 ## 2.0.0 (2019-04-30)
 
 ### Added

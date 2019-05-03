@@ -948,12 +948,13 @@ boxrec-mocks@^2.1.0:
     html-loader "^0.5.5"
     webpack "^4.28.0"
 
-boxrec-requests@^4.2.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-4.2.1.tgz#d12b8b52908049328511efcd280942892d92126d"
-  integrity sha512-CmCaJJKXyTT00vWYqDcXuf0UlvhfhdoD9bqfM6in5eOjoz1awpBG/IqYsw67Ve49GRlnJwTMF7ivSSP58/rFCA==
+boxrec-requests@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-4.2.2.tgz#9be17e5e5add7d520c1de73ddfe8fbd3c383d872"
+  integrity sha512-K8j3pM6LI00YlwTW7C9tBszD+ndtnwBjVqj0xQTxBbMQ1+brWqbvj1FDmO83i8RnOlWEPu6OkeTDMND02S94xQ==
   dependencies:
     cheerio "^1.0.0-rc.2"
+    request "^2.88.0"
     request-promise "^4.2.2"
 
 brace-expansion@^1.1.7:
@@ -4458,16 +4459,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request-promise@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.2.2.tgz#d1ea46d654a6ee4f8ee6a4fea1018c22911904b4"
-  dependencies:
-    bluebird "^3.5.0"
-    request-promise-core "1.1.1"
-    stealthy-require "^1.1.0"
-    tough-cookie ">=2.3.3"
-
-request-promise@^4.2.4:
+request-promise@^4.2.2, request-promise@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.2.4.tgz#1c5ed0d71441e38ad58c7ce4ea4ea5b06d54b310"
   integrity sha512-8wgMrvE546PzbR5WbYxUQogUnUDfM0S7QIFZMID+J73vdFARkFy+HElj4T+MWYhpXwlLp0EQ8Zoj8xUA0he4Vg==
