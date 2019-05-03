@@ -70,9 +70,10 @@ workflows:
             - master
             - develop
             - /feature.*/
-            - /support.*/
-            - /hotfix.*/
+            - /bugfix.*/
             - /release.*/
+            - /hotfix.*/
+            - /support.*/
     - lint_and_test:
         requires:
         - build
