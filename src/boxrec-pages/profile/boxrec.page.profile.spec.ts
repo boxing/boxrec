@@ -15,8 +15,8 @@ import {WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
-import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {
+    BoxrecProfileBoxerBoutOutput,
     BoxrecProfileBoxerOutput,
     BoxrecProfileManagerOutput,
     BoxrecProfileOtherOutput,
@@ -221,7 +221,7 @@ describe("class BoxrecPageProfile", () => {
 
                 describe("getter bouts", () => {
 
-                    let gggCanelo: BoxrecPageProfileBoxerBoutRow;
+                    let gggCanelo: BoxrecProfileBoxerBoutOutput;
                     let judgeDaveMorettiLatestBout: BoxrecPageProfileOtherCommonBoutRow;
                     let refereeRobertByrdLatestBout: BoxrecPageProfileOtherCommonBoutRow;
                     let supervisorSammyMaciasLatestBout: BoxrecPageProfileOtherCommonBoutRow;

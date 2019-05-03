@@ -39,7 +39,12 @@ describe("class BoxrecCommonTablesColumnsClass", () => {
     describe("method parseTitles", () => {
 
         it("should be able to parse titles with spaces (ex. Light%20Middleweight)", () => {
-            const htmlString: string = `<div class="titleColor"><a href="/en/title/43/Welterweight" class="titleLink">World Boxing Association Super World Welterweight Title</a> (supervisor: <a href="/en/supervisor/538042">Gilberto Jesus Mendoza</a>)<br><a href="/en/title/6/Light%20Middleweight" class="titleLink">World Boxing Council World Super Welterweight Title</a><br><a href="/en/title/6/Welterweight" class="titleLink">World Boxing Council World Welterweight Title</a></div>`;
+            const htmlString: string =
+                `<div class="titleColor"><a href="/en/title/43/Welterweight" class="titleLink">
+World Boxing Association Super World Welterweight Title</a> (supervisor:
+ <a href="/en/supervisor/538042">Gilberto Jesus Mendoza</a>)<br>
+<a href="/en/title/6/Light%20Middleweight" class="titleLink">World Boxing Council World Super Welterweight Title</a><br>
+<a href="/en/title/6/Welterweight" class="titleLink">World Boxing Council World Welterweight Title</a></div>`;
             const titles: BoxrecTitles[] = BoxrecCommonTablesColumnsClass.parseTitles(htmlString);
             expect(titles.find(item => item.name === "World Boxing Council World Super Welterweight Title"))
                 .toBeDefined();
