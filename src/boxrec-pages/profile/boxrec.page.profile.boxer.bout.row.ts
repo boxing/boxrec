@@ -97,6 +97,29 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 12, false));
     }
 
+    get output(): any {
+        return {
+            date: this.date,
+            firstBoxerRating: this.firstBoxerRating,
+            firstBoxerWeight: this.firstBoxerWeight,
+            judges: this.judges,
+            links: this.links,
+            location: this.location,
+            metadata: this.metadata,
+            numberOfRounds: this.numberOfRounds,
+            outcome: this.outcome,
+            rating: this.rating,
+            referee: this.referee,
+            result: this.result,
+            secondBoxer: this.secondBoxer,
+            secondBoxerLast6: this.secondBoxerLast6,
+            secondBoxerRating: this.secondBoxerRating,
+            secondBoxerRecord: this.secondBoxerRecord,
+            secondBoxerWeight: this.secondBoxerWeight,
+            titles: this.titles,
+        };
+    }
+
     get rating(): number | null {
         return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 15));
     }
