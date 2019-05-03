@@ -1,6 +1,6 @@
 {
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.ts?$": "ts-jest"
   },
   "testRegex": "spec\\.e2e\\.ts$",
   "restoreMocks": true,
