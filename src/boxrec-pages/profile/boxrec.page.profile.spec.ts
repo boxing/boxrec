@@ -15,8 +15,8 @@ import {WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
-import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {
+    BoxrecProfileBoxerBoutOutput,
     BoxrecProfileBoxerOutput,
     BoxrecProfileManagerOutput,
     BoxrecProfileOtherOutput,
@@ -221,13 +221,15 @@ describe("class BoxrecPageProfile", () => {
 
                 describe("getter bouts", () => {
 
-                    let gggCanelo: BoxrecPageProfileBoxerBoutRow;
+                    let gggCanelo: BoxrecProfileBoxerBoutOutput;
+                    let rjjLacy: BoxrecProfileBoxerBoutOutput;
                     let judgeDaveMorettiLatestBout: BoxrecPageProfileOtherCommonBoutRow;
                     let refereeRobertByrdLatestBout: BoxrecPageProfileOtherCommonBoutRow;
                     let supervisorSammyMaciasLatestBout: BoxrecPageProfileOtherCommonBoutRow;
 
                     beforeAll(() => {
                         gggCanelo = outputGGG.bouts[37];
+                        rjjLacy = outputRJJ.bouts[58];
                         judgeDaveMorettiLatestBout = judgeDaveMoretti.bouts[0];
                         refereeRobertByrdLatestBout = refereeRobertByrd.bouts[0];
                         supervisorSammyMaciasLatestBout = supervisorSammyMacias.bouts[0];
@@ -409,6 +411,13 @@ describe("class BoxrecPageProfile", () => {
                                 name: "World Boxing Council World Middleweight Title"
                             }
                             ]);
+                        });
+
+                        it("should be able to parse weight divisions with spaces (ex. Light%20Heavyweight)", () => {
+                            expect(rjjLacy.titles).toEqual([{
+                                id: "96/Light%20Heavyweight",
+                                name: "World Boxing Organisation NABO Light Heavyweight Title",
+                            }]);
                         });
 
                     });

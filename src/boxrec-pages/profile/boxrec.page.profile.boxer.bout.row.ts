@@ -3,6 +3,7 @@ import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
+import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 import {BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
@@ -95,6 +96,29 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
     get outcome(): WinLossDraw {
         return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 12, false));
+    }
+
+    get output(): BoxrecProfileBoxerBoutOutput {
+        return {
+            date: this.date,
+            firstBoxerRating: this.firstBoxerRating,
+            firstBoxerWeight: this.firstBoxerWeight,
+            judges: this.judges,
+            links: this.links,
+            location: this.location,
+            metadata: this.metadata,
+            numberOfRounds: this.numberOfRounds,
+            outcome: this.outcome,
+            rating: this.rating,
+            referee: this.referee,
+            result: this.result,
+            secondBoxer: this.secondBoxer,
+            secondBoxerLast6: this.secondBoxerLast6,
+            secondBoxerRating: this.secondBoxerRating,
+            secondBoxerRecord: this.secondBoxerRecord,
+            secondBoxerWeight: this.secondBoxerWeight,
+            titles: this.titles,
+        };
     }
 
     get rating(): number | null {

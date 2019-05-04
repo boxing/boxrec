@@ -185,7 +185,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
             birthName: this.birthName,
             birthPlace: this.birthPlace,
             born: this.born,
-            bouts: this.bouts,
+            bouts: this.bouts.map(bout => bout.output),
             debut: this.debut,
             division: this.division,
             globalId: this.globalId,
