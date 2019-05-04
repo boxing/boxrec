@@ -2,8 +2,12 @@ import {mockScheduleWorldwide} from "boxrec-mocks";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 
-interface ExtendedMatchers extends jest.Matchers<void> {
-    toBeStringOrNull: () => () => boolean;
+declare global {
+    namespace jest {
+        interface Matchers<R> {
+            toBeStringOrNull(): R;
+        }
+    }
 }
 
 expect.extend({
@@ -94,10 +98,8 @@ describe("class BoxrecPageSchedule", () => {
                     });
 
                     it("should return the region", () => {
-                        expect(event.location.location.region).toEqual({
-                            id: jasmine.anything(),
-                            name: jasmine.anything(),
-                        });
+                        expect(event.location.location.region.id).toBeStringOrNull();
+                        expect(event.location.location.region.name).toBeStringOrNull();
                     });
 
                     it("should return the town which can be a string or null", () => {

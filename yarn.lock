@@ -1275,7 +1275,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-coveralls@^3.0.0:
+coveralls@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-3.0.3.tgz#83b1c64aea1c6afa69beaf50b55ac1bc4d13e2b8"
   integrity sha512-viNfeGlda2zJr8Gj1zqXpDMRjw9uM54p7wzZdvLRyOgnAfCe974Dq4veZkjJdxQXbmdppu6flEajFYseHYaUhg==
@@ -3057,7 +3057,15 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.6.1, js-yaml@^3.7.0:
+js-yaml@^3.11.0:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
+  integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
+
+js-yaml@^3.7.0:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.11.0.tgz#597c1a8bd57152f26d622ce4117851a51f5ebaef"
   dependencies:
