@@ -5,7 +5,7 @@ import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
-import {BoxrecProfileBoutLocation, BoxrecProfileRole} from "./boxrec.profile.constants";
+import {BoxrecProfileRole} from "./boxrec.profile.constants";
 
 interface BoxrecProfileOutput {
     birthName: string | null;
@@ -48,7 +48,7 @@ export interface BoxrecProfileBoxerBoutOutput {
     firstBoxerWeight: number | null;
     judges: BoxrecJudge[];
     links: BoxrecGeneralLinks;
-    location: BoxrecProfileBoutLocation;
+    location: string;
     metadata: string | null;
     numberOfRounds: Array<number | null>;
     outcome: WinLossDraw;

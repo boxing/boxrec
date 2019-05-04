@@ -5,7 +5,6 @@ import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
-import {BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
@@ -72,18 +71,12 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return [];
     }
 
-    get location(): BoxrecProfileBoutLocation {
-        // instead of returning undefined, I'm sure there will be records where pieces of this information are missing or different
-        const location: BoxrecProfileBoutLocation = {
-            town: null,
-            venue: null,
-        };
-        const locationStr: string = getColumnData(this.$, 11, false);
-        const [venue, town] = locationStr.split(",").map(item => item.trim());
-        location.town = town;
-        location.venue = venue;
-
-        return location;
+    /**
+     * Returns string for location because BoxRec doesn't have links in the location and this is safer than trying
+     * to guess if the location object is correct
+     */
+    get location(): string {
+        return trimRemoveLineBreaks(getColumnData(this.$, 11, false));
     }
 
     get metadata(): string | null {
