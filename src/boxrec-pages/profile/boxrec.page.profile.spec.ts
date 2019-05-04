@@ -328,7 +328,11 @@ describe("class BoxrecPageProfile", () => {
                     describe("getter location", () => {
 
                         it("should give the venue information", () => {
-                            expect(gggCanelo.location.venue).toBe("T-Mobile Arena");
+                            expect(gggCanelo.location).toBe("T-Mobile Arena, Las Vegas");
+                        });
+
+                        it("should be a string since there are no links in the locations", () => {
+                            expect(rjjLacy.location).toBe("Coast Coliseum, Biloxi");
                         });
 
                     });
