@@ -356,7 +356,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
             const {class: className, href} = $(elem).get(0).attribs;
 
             if (className && className.includes("titleLink")) {
-                const matches: RegExpMatchArray | null = href.match(/(\d+\/\w+)$/);
+                const matches: RegExpMatchArray | null = href.match(/(\d+\/[\w%]+)$/);
 
                 if (matches && matches[1]) {
                     const id: string = matches[1];
