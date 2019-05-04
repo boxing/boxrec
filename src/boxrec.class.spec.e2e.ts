@@ -363,14 +363,10 @@ describe("class Boxrec (E2E)", () => {
                     expect(getBoxer(352).bouts[49].secondBoxer.name).toBe("Conor McGregor");
                 });
 
-                describe("venue", () => {
+                describe("location", () => {
 
                     it("should return the venue name", () => {
-                        expect(getBoxer(352).bouts[49].location.venue).toBe("T-Mobile Arena");
-                    });
-
-                    it("should return the venue location", () => {
-                        expect(getBoxer(352).bouts[49].location.town).toBe("Las Vegas");
+                        expect(getBoxer(352).bouts[49].location).toBe("T-Mobile Arena, Las Vegas");
                     });
 
                 });
