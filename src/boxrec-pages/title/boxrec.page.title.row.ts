@@ -4,6 +4,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
+import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 
 export class BoxrecPageTitleRow {
 
@@ -57,6 +58,22 @@ export class BoxrecPageTitleRow {
 
     get outcome(): WinLossDraw {
         return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 4, false));
+    }
+
+    get output(): BoxrecPageTitleRowOutput {
+        return {
+            date: this.date,
+            firstBoxer: this.firstBoxer,
+            firstBoxerWeight: this.firstBoxerWeight,
+            links: this.links,
+            location: this.location,
+            metadata: this.metadata,
+            numberOfRounds: this.numberOfRounds,
+            outcome: this.outcome,
+            rating: this.rating,
+            secondBoxer: this.secondBoxer,
+            secondBoxerWeight: this.secondBoxerWeight,
+        };
     }
 
     get rating(): number | null {

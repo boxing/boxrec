@@ -1,5 +1,8 @@
+import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecLocation, Record} from "../../boxrec.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
 import {WeightDivisionCapitalized} from "../../titles/boxrec.page.title.constants";
+import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 export interface BoxrecLocationsPeopleParams {
     country?: Country;
@@ -10,14 +13,21 @@ export interface BoxrecLocationsPeopleParams {
     town?: string;
 }
 
-export interface BoxrecLocationsPeopleParamsTransformed {
-    "l[country]"?: Country;
-    "l[division]"?: WeightDivisionCapitalized;
-    "l[region]"?: string;
-    "l[role]"?: BoxrecRole;
-    "l[town]"?: string;
-    l_go?: any; // BoxRec param that doesn't do anything
-    offset?: number;
+export interface BoxrecPageLocationPeopleOutput {
+    boxers: BoxrecPageLocationPeopleRow[];
+    numberOfPages: number;
+    numberOfPeople: number;
+}
+
+export interface BoxrecPageLocationPeopleRowOutput {
+    career: Array<number | null>;
+    division: WeightDivision | null;
+    id: number;
+    location: BoxrecLocation;
+    miles: number;
+    name: string;
+    record: Record;
+    sex: "male" | "female";
 }
 
 // if needed to rebuild
