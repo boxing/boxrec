@@ -371,6 +371,15 @@ describe("class Boxrec (E2E)", () => {
 
                 });
 
+                describe("hasBoxerRatings", () => {
+
+                    it("should always return true because it'll make another call if all the columns aren't there",
+                        () => {
+                            expect(getBoxer(352).bouts[49].hasBoxerRatings).toBe(true);
+                        });
+
+                });
+
                 describe("firstBoxerRating", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
