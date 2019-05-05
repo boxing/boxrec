@@ -3,6 +3,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {getColumnData} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
 
 export class BoxrecPageSearchRow {
 
@@ -35,6 +36,19 @@ export class BoxrecPageSearchRow {
 
     get name(): string | null {
         return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 1));
+    }
+
+    get output(): BoxrecPageSearchRowOutput {
+        return {
+            alias: this.alias,
+            career: this.career,
+            division: this.division,
+            id: this.id,
+            last6: this.last6,
+            name: this.name,
+            record: this.record,
+            residence: this.residence,
+        };
     }
 
     get record(): Record {

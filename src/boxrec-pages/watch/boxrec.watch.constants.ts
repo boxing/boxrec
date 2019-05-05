@@ -1,14 +1,16 @@
-import {WinLossDraw} from "../boxrec.constants";
-import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
-
-export interface BoxrecBoxerWatch {
-    alias: string;
-    division: string;
-    last6: WinLossDraw[];
-    name: string;
-    schedule: string; // date of their next bout
-}
+import {Record, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 export interface BoxrecWatchOutput {
-    list: BoxrecPageWatchRow[];
+    list: BoxrecPageWatchRowOutput[];
+}
+
+export interface BoxrecPageWatchRowOutput {
+    alias: string | null;
+    division: WeightDivision | null;
+    globalId: number;
+    last6: WinLossDraw[];
+    name: string;
+    record: Record;
+    schedule: string | null; // date of their next bout
 }

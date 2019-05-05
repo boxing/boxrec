@@ -3,6 +3,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxr
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecLocation, Record} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
+import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
 
 export class BoxrecPageLocationPeopleRow {
 
@@ -42,6 +43,19 @@ export class BoxrecPageLocationPeopleRow {
 
     get name(): string {
         return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 3)) as string;
+    }
+
+    get output(): BoxrecPageLocationPeopleRowOutput {
+        return {
+            career: this.career,
+            division: this.division,
+            id: this.id,
+            location: this.location,
+            miles: this.miles,
+            name: this.name,
+            record: this.record,
+            sex: this.sex,
+        };
     }
 
     // todo should only be for boxers

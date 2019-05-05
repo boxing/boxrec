@@ -29,7 +29,7 @@ export class BoxrecPageSchedule extends BoxrecPageScheduleCommon {
 
     get output(): BoxrecScheduleOutput {
         return {
-            events: this.events,
+            events: this.events.map(eventRow => eventRow.output),
             numberOfPages: this.numberOfPages,
         };
     }

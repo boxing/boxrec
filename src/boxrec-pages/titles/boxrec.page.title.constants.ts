@@ -1,4 +1,6 @@
-import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
+import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
+import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 // the params for searching titles are capitalized divisions
 export enum WeightDivisionCapitalized {
@@ -26,14 +28,23 @@ export interface BoxrecTitlesParams {
     division: WeightDivisionCapitalized;
 }
 
-export interface BoxrecTitlesParamsTransformed {
-    "WcX[bout_title]"?: number;
-    "WcX[division]"?: WeightDivisionCapitalized;
-    offset?: number;
-}
-
 export interface BoxrecTitlesOutput {
-    bouts: BoxrecPageTitlesRow[];
+    bouts: BoxrecPageTitlesRowOutput[];
     numberOfBouts: number;
     numberOfPages: number;
+}
+
+export interface BoxrecPageTitlesRowOutput {
+    date: string;
+    division: WeightDivision | null;
+    firstBoxer: BoxrecBasic;
+    firstBoxerWeight: number | null;
+    links: BoxrecGeneralLinks;
+    location: BoxrecLocation;
+    metadata: string | null;
+    numberOfRounds: number[];
+    outcome: WinLossDraw;
+    rating: number | null;
+    secondBoxer: BoxrecBasic;
+    secondBoxerWeight: number | null;
 }

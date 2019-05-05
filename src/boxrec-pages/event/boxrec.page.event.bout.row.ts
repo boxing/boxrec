@@ -4,7 +4,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {getColumnData} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecEventLinks} from "./boxrec.event.constants";
+import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
 
 export class BoxrecPageEventBoutRow {
 
@@ -78,6 +78,26 @@ export class BoxrecPageEventBoutRow {
         }
 
         return null;
+    }
+
+    get output(): BoxrecEventBoutRowOutput {
+        return {
+            division: this.division,
+            firstBoxer: this.firstBoxer,
+            firstBoxerLast6: this.firstBoxerLast6,
+            firstBoxerRecord: this.firstBoxerRecord,
+            firstBoxerWeight: this.firstBoxerWeight,
+            links: this.links,
+            metadata: this.metadata,
+            numberOfRounds: this.numberOfRounds,
+            outcome: this.outcome,
+            outcomeByWayOf: this.outcomeByWayOf,
+            rating: this.rating,
+            secondBoxer: this.secondBoxer,
+            secondBoxerLast6: this.secondBoxerLast6,
+            secondBoxerRecord: this.secondBoxerRecord,
+            secondBoxerWeight: this.secondBoxerWeight,
+        };
     }
 
     get rating(): number | null {

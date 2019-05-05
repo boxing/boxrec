@@ -2,6 +2,7 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
+import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
 
 export class BoxrecPageVenueEventsRow {
 
@@ -26,6 +27,15 @@ export class BoxrecPageVenueEventsRow {
 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 4), 2);
+    }
+
+    get output(): BoxrecPageVenueEventsRowOutput {
+        return {
+            date: this.date,
+            day: this.day,
+            id: this.id,
+            location: this.location,
+        };
     }
 
 }

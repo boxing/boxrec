@@ -128,7 +128,7 @@ export class BoxrecPageEvent extends BoxrecEvent {
 
     get output(): BoxrecEventOutput {
         return {
-            bouts: this.bouts,
+            bouts: this.bouts.map(bout => bout.output),
             commission: this.commission,
             date: this.date,
             doctors: this.doctors,
