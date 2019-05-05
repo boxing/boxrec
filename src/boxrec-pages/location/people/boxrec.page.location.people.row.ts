@@ -1,7 +1,8 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
-import {BoxrecLocation} from "../../boxrec.constants";
+import {BoxrecLocation, Record} from "../../boxrec.constants";
+import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
 
 export class BoxrecPageLocationPeopleRow {
@@ -36,12 +37,20 @@ export class BoxrecPageLocationPeopleRow {
 
     get output(): BoxrecPageLocationPeopleRowOutput {
         return {
+            career: this.career,
+            division: this.division,
             id: this.id,
             location: this.location,
             miles: this.miles,
             name: this.name,
+            record: this.record,
             sex: this.sex,
         };
+    }
+
+    // todo should only be for boxers
+    get record(): Record {
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 5));
     }
 
     get sex(): "male" | "female" {

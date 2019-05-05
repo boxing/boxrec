@@ -14,12 +14,12 @@ export interface BoxrecLocationsPeopleParams {
 }
 
 export interface BoxrecPageLocationPeopleOutput {
+    boxers: BoxrecPageLocationPeopleRow[];
     numberOfPages: number;
     numberOfPeople: number;
-    people: BoxrecPageLocationPeopleRow[];
 }
 
-export interface BoxrecPageLocationBoxerRowOutput {
+export interface BoxrecPageLocationPeopleRowOutput {
     career: Array<number | null>;
     division: WeightDivision | null;
     id: number;
@@ -27,14 +27,6 @@ export interface BoxrecPageLocationBoxerRowOutput {
     miles: number;
     name: string;
     record: Record;
-    sex: "male" | "female";
-}
-
-export interface BoxrecPageLocationPeopleRowOutput {
-    id: number;
-    location: BoxrecLocation;
-    miles: number;
-    name: string;
     sex: "male" | "female";
 }
 
