@@ -1,7 +1,6 @@
-import {BoxrecBasic, BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
-import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 
 export interface BoxrecRatingsParams {
     country?: Country | "";
@@ -11,11 +10,15 @@ export interface BoxrecRatingsParams {
     status?: "a" | ""; // defaults to active/inactive
 }
 
-export interface BoxrecRating extends BoxrecBasic {
+export interface BoxrecPageRatingsRowOutput {
     age: number | null;
     division: string | null;
+    hasBoutScheduled: boolean | null;
+    id: number | null;
     last6: WinLossDraw[];
+    name: string | null;
     points: number | null;
+    ranking: number | null;
     rating: number | null;
     record: Record;
     residence: BoxrecLocation;
@@ -23,6 +26,6 @@ export interface BoxrecRating extends BoxrecBasic {
 }
 
 export interface BoxrecRatingsOutput {
-    boxers: BoxrecPageRatingsRow[];
+    boxers: BoxrecPageRatingsRowOutput[];
     numberOfPages: number;
 }

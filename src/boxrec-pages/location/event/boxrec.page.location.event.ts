@@ -1,4 +1,5 @@
 import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
+import {BoxrecPageLocationEventOutput} from "./boxrec.location.event.constants";
 import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
 
 /**
@@ -11,6 +12,13 @@ export class BoxrecPageLocationEvent extends BoxrecPageLists {
 
     get events(): BoxrecPageLocationEventRow[] {
         return this.getTableData(BoxrecPageLocationEventRow);
+    }
+
+    get output(): BoxrecPageLocationEventOutput {
+        return {
+            events: this.events.map(event => event.output),
+            numberOfLocations: this.numberOfLocations,
+        };
     }
 
     get numberOfLocations(): number {

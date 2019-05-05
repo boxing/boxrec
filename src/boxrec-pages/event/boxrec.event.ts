@@ -107,7 +107,8 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
     }
 
     get bouts(): BoxrecPageEventBoutRow[] {
-        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageEventBoutRow(val[0], val[1], true));
+        return this.parseBouts().map((val: [string, string | null]) =>
+            new BoxrecPageEventBoutRow(val[0], val[1], true));
     }
 
     get location(): BoxrecBoutLocation {

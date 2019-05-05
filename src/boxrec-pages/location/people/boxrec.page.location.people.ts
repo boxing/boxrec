@@ -1,5 +1,6 @@
 import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
 import {stripCommas} from "../../../helpers";
+import {BoxrecPageLocationPeopleOutput} from "./boxrec.location.people.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 /**
@@ -17,6 +18,14 @@ export class BoxrecPageLocationPeople extends BoxrecPageLists {
     get numberOfPeople(): number {
         const text: string = this.$(".pagerResults").text() || "0";
         return parseInt(stripCommas(text), 10);
+    }
+
+    get output(): BoxrecPageLocationPeopleOutput {
+        return {
+            boxers: this.boxers,
+            numberOfPages: this.numberOfPages,
+            numberOfPeople: this.numberOfPeople,
+        };
     }
 
 }

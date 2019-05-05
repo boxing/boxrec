@@ -1,10 +1,16 @@
 import {BoxrecLocation} from "../boxrec.constants";
-import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
 export interface BoxrecVenueOutput {
-    events: BoxrecPageVenueEventsRow[];
+    events: BoxrecPageVenueEventsRowOutput[];
     localBoxers: Array<{ id: number, name: string }>;
     localManagers: Array<{ id: number, name: string }>;
     location: BoxrecLocation;
     name: string;
+}
+
+export interface BoxrecPageVenueEventsRowOutput {
+    date: string;
+    day: string;
+    id: number | null;
+    location: BoxrecLocation;
 }

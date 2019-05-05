@@ -31,7 +31,7 @@ export class BoxrecPageWatch {
 
     get output(): BoxrecWatchOutput {
         return {
-            list: this.list,
+            list: this.list.map(item => item.output),
         };
     }
 
