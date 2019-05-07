@@ -141,7 +141,6 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return locationObject;
     }
 
-    // does not exist on dates page
     get matchmakers(): BoxrecBasic[] {
         const html: Cheerio = this.$(`<div>${this.parseMatchmakers()}</div>`);
         const matchmaker: BoxrecBasic[] = [];

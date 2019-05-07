@@ -116,3 +116,33 @@ export const getLocationValue: (href: string, type: "town" | "region" | "country
 
         return null;
     };
+
+export const parseHeight: (height: string | void) => number[] | null =
+    (height: string | void): number[] | null => {
+        if (height) {
+            // helps simplify the regex
+            // remove `&nbsp;`
+            // height = height.replace(/&#xA0;/g, "");
+            let regex: RegExp = /^(\d)\′\s(\d+)(½)?\″\s+\/\s+(\d{3})cm$/;
+
+            if (height.includes("#x2032")) {
+                regex = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
+            }
+
+            const heightMatch: RegExpMatchArray | null = height.match(regex);
+
+            if (heightMatch) {
+                const [, imperialFeet, imperialInches, fractionInches, metric] = heightMatch;
+                let formattedImperialInches: number = parseInt(imperialInches, 10);
+                formattedImperialInches += convertFractionsToNumber(fractionInches);
+
+                return [
+                    parseInt(imperialFeet, 10),
+                    formattedImperialInches,
+                    parseInt(metric, 10),
+                ];
+            }
+        }
+
+        return null;
+    };
