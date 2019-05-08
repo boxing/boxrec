@@ -6,6 +6,26 @@ import {
 } from "./boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec.page.champions";
 
+interface ExtendedMatchers extends jest.Matchers<void> {
+    toBeCDNLinkOrNull: () => () => boolean;
+}
+
+expect.extend({
+    toBeCDNLinkOrNull(received: string | null): { message: () => string, pass: boolean } {
+        if ((received && received.includes("http://static.boxrec.com/thumb")) || received === null) {
+            return {
+                message: () => "is valid",
+                pass: true,
+            };
+        }
+
+        return {
+            message: () => "is not valid",
+            pass: false,
+        };
+    }
+});
+
 describe("class BoxrecPageChampions", () => {
 
     let champions: BoxrecChampionsOutput;
@@ -60,12 +80,12 @@ describe("class BoxrecPageChampions", () => {
             expect(list.superBantamweight).toBeDefined();
         });
 
-        it("should list the belt holders", () => {
-            expect(list.heavyweight.IBF).toEqual({
-                id: 659461,
-                name: "Anthony Joshua",
-                picture: "http://static.boxrec.com/thumb/9/94/Anthony_Joshua1.jpeg/200px-Anthony_Joshua1.jpeg",
-            });
+        it("should have a picture of the belt holder", () => {
+            for (const heavyweightKey in list.heavyweight) {
+                if ((list.heavyweight as any)[heavyweightKey]) {
+                    (expect((list.heavyweight as any)[heavyweightKey].picture) as ExtendedMatchers).toBeCDNLinkOrNull();
+                }
+            }
         });
 
         it("should return `null` for vacant belts", () => {

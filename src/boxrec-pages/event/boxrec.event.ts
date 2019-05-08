@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import {getLocationValue, townRegionCountryRegex} from "../../helpers";
+import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
@@ -241,11 +241,22 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return promoter;
     }
 
+    /**
+     * Returns contact information on how to buy tickets for this event
+     * example: boxrec.com/en/date?ByV%5Bdate%5D%5Byear%5D=2019&ByV%5Bdate%5D%5Bmonth%5D=11&ByV%5Bdate%5D%5Bday%5D=16
+     */
+    get tickets(): string | null {
+        const tickets: string = this.parseEventData("tickets", false);
+
+        return tickets ? trimRemoveLineBreaks(tickets) : null;
+    }
+
     protected getPeopleTable(): Cheerio {
         return this.$("table thead table tbody tr");
     }
 
-    protected parseEventData(role: BoxrecRole | "television" | "commission"): string {
+    protected parseEventData(role: BoxrecRole | "television" | "commission" | "tickets", parseHTML: boolean = true)
+        : string {
         let results: string | null = "";
 
         this.getPeopleTable().each((i: number, elem: CheerioElement) => {
@@ -254,7 +265,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
 
             if (tag === role) {
                 // tested if `television` might actually be a BoxRec role but it isn't
-                results = val.html();
+                results = parseHTML ? val.html() : val.text();
             }
         });
 

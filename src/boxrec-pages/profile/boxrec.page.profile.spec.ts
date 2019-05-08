@@ -119,7 +119,7 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should give the nickname or alias of the boxer", () => {
-                    expect(outputRJJ.alias).toBe("Junior");
+                    expect(outputRJJ.alias).toBe(null);
                 });
 
                 it("should return the date this person was born", () => {
