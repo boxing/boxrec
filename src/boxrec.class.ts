@@ -9,6 +9,7 @@ import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {BoxrecLocationsPeopleParams} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationBoxer} from "./boxrec-pages/location/people/boxrec.page.location.boxer";
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
@@ -34,7 +35,6 @@ import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
-import {BoxrecPageLocationBoxer} from "./boxrec-pages/location/people/boxrec.page.location.boxer";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {

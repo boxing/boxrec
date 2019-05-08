@@ -78,9 +78,10 @@
     ],
     "max-line-length": {
       "severity": "warning",
-      "options": [
-        120
-      ]
+      "options": {
+        "limit": 120,
+        "ignore-pattern": "^import |^export {(.*?)} |\\*\\s\\<pre\\>ex\\."
+      }
     },
     "member-access": [
       true,
