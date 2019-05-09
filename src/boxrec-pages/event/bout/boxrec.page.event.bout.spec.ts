@@ -266,6 +266,34 @@ describe("class BoxrecPageEventBout", () => {
 
     });
 
+    describe("getter location", () => {
+
+        it("should return the location", () => {
+            expect(caneloGGG1.location).toEqual({
+                location: {
+                    country: {
+                        id: "US",
+                        name: "USA",
+                    },
+                    region: {
+                        id: "NV",
+                        name: "Nevada",
+                    },
+                    town: {
+                        id: 20388,
+                        name: "Las Vegas",
+                    }
+                },
+                venue: {
+                    id: 246559,
+                    name: "T-Mobile Arena",
+                }
+            });
+
+        });
+
+    });
+
     describe("getter firstBoxerLast6", () => {
 
         describe("array of last 6 boxers", () => {

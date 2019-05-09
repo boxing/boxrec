@@ -46,13 +46,13 @@ await boxrec.getPersonById(cookieJar, 352);
 
 ### Recent versions
 
-[Latest published on NPM (master)](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/master/index.html)
+[Latest published on NPM (master)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/master/index.html)
 
-[Upcoming but not published (develop)](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/develop/index.html)
+[Upcoming but not published (develop)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/develop/index.html)
 
 ### Support/Legacy versions
 
-[Version 1.2.X](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/1.2.0/index.html)
+[Version 1.2.X](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/1.2.0/index.html)
 
 ## Methods (How to use)
 

@@ -56,7 +56,20 @@ describe("class BoxrecPageDate", () => {
 
             describe("getter matchmakers", () => {
 
-                // todo shouldn't exist
+                it("should return matchmaker array", () => {
+                    const event: BoxrecDateEvent | undefined =
+                        date20191116.events.find(item => item.matchmakers[0].name === "Paul Nasari");
+
+                    if (event) {
+                        expect(event.matchmakers).toEqual([{
+                            id: 84671,
+                            name: "Paul Nasari",
+                        }]);
+                    } else {
+                        throw new Error("Did not find matchmaker event");
+                    }
+                });
+
                 it("should be defined but does not exist on page, should be empty array", () => {
                     expect(firstEvent.matchmakers.length).toBe(0);
                 });

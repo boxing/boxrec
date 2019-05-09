@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../../helpers";
+import {convertFractionsToNumber, parseHeight, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec.event.constants";
@@ -397,37 +397,9 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
 
     private parseBoxerHeight(tableColumn: number): number[] | null {
         let text: string = this.parseMiddleRowByText("height", tableColumn) as string;
+        text = trimRemoveLineBreaks(text); // found there was a line break at the end of this text and double spaces
 
-        // todo this whole thing is taken from `boxrec.page.profile` the regex is the only thing different
-        if (text) {
-            text = trimRemoveLineBreaks(text); // found there was a line break at the end of this text and double spaces
-            let height: number[] | null = null;
-
-            if (text) {
-                // todo this regex is very close to `boxrec.page.profile` but there were some differences
-                // this regex was built off GGG Canelo 1 Bout // 5′ 10½″   /   179cm
-                // todo then trimmed up above, also it came back as the actual symbols instead of unicode codes?
-                // the regexp are different and this code should still be merged together
-                const regex: RegExp = /^(\d)(?:′|\&\#x2032\;)\s(\d{1,2})(½|\&\#xB[CDE]\;)?(?:″|\&\#x2033\;)\s+(?:\/|\&\#xA0\;)\s+(\d{3})cm$/;
-                const heightMatch: RegExpMatchArray | null = text.match(regex);
-
-                if (heightMatch) {
-                    const [, imperialFeet, imperialInches, fractionInches, metric] = heightMatch;
-                    let formattedImperialInches: number = parseInt(imperialInches, 10);
-                    formattedImperialInches += convertFractionsToNumber(fractionInches);
-
-                    height = [
-                        parseInt(imperialFeet, 10),
-                        formattedImperialInches,
-                        parseInt(metric, 10),
-                    ];
-                }
-            }
-
-            return height;
-        }
-
-        return null;
+        return parseHeight(text);
     }
 
     private parseBoxerReach(tableColumn: number): number[] | null {

@@ -56,11 +56,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 3, false));
     }
 
-    // todo this is similar to other code
-    get hasBoxerRatings(): boolean {
-        return this.hasMoreColumns;
-    }
-
     get judges(): BoxrecJudge[] {
         const metadata: string | null = this.metadata;
 
