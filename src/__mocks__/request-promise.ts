@@ -1,5 +1,4 @@
-// tslint:disable-next-line
-const rp: any = (jest as any).fn((/*uri*/) => {
+const rp: any = jest.fn((/*uri*/) => {
     //
 });
 
@@ -14,7 +13,7 @@ rp.jar = () => {
         setCookie(/*cookieName, callback*/): void {
             //
         },
-        getCookies(): Array<{ key: string }> {
+        getCookies(): any[] {
             return [{
                 key: "PHPSESSID",
             }, {
