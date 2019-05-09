@@ -45,7 +45,6 @@ export class BoxrecCommonLinks {
         };
     }
 
-    // todo the `bout` uses the regex, do we have inconsistencies between links?
     /**
      * Takes a link, parses the information and returns the object
      * @param hrefArr
@@ -74,7 +73,8 @@ export class BoxrecCommonLinks {
                         const numberOfSlashes: RegExpMatchArray | null = matches[1].match(/(\/)/g);
 
                         // if there are more than 1 slash, it's a string otherwise we've stripped it off and can make it a number
-                        (obj as any)[formattedCls] = numberOfSlashes && numberOfSlashes.length > 1 ? formattedMatch : parseInt(formattedMatch, 10);
+                        (obj as any)[formattedCls] = numberOfSlashes && numberOfSlashes.length > 1 ?
+                            formattedMatch : parseInt(formattedMatch, 10);
                     } else {
                         (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     }
