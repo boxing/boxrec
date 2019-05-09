@@ -13,7 +13,7 @@ rp.jar = () => {
         setCookie(/*cookieName, callback*/): void {
             //
         },
-        getCookies(): any[] {
+        getCookies(): Array<{ key: string }> {
             return [{
                 key: "PHPSESSID",
             }, {
