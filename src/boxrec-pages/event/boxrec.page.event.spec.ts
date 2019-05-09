@@ -32,32 +32,30 @@ describe("class BoxrecPageEvent", () => {
 
         describe("location", () => {
 
-            it("should return the town", () => {
-                expect(eventBellewHaye2.location.location.town.name).toBe("Greenwich");
-            });
-
-            it("should return the region", () => {
-                expect(eventBellewHaye2.location.location.region.name).toBe("London");
-            });
-
-            it("should return the country", () => {
-                expect(eventBellewHaye2.location.location.country.name).toBe("United Kingdom");
+            it("should return the location object", () => {
+                expect(eventBellewHaye2.location).toEqual({
+                    location: {
+                        country: {
+                            id: "UK",
+                            name: "United Kingdom"
+                        },
+                        region: {
+                            id: "LON",
+                            name: "London"
+                        },
+                        town: {
+                            id: 15965,
+                            name: "Greenwich"
+                        }
+                    },
+                    venue: {
+                        id: 258072,
+                        name: "O2 Arena"
+                    }
+                });
             });
 
         });
-
-        describe("venue", () => {
-
-            it("should return the venue id", () => {
-                expect(eventBellewHaye2.location.venue.id).toBe(258072);
-            });
-
-            it("should return the venue name", () => {
-                expect(eventBellewHaye2.location.venue.name).toBe("O2 Arena");
-            });
-
-        });
-
     });
 
     describe("getter commission", () => {

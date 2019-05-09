@@ -9,17 +9,17 @@ export interface BoxrecLocationsPeopleParams {
     division?: WeightDivisionCapitalized;
     l_go?: any; // BoxRec param that doesn't do anything
     region?: string;
-    role?: BoxrecRole;
+    role: BoxrecRole;
     town?: string;
 }
 
 export interface BoxrecPageLocationPeopleOutput {
-    boxers: BoxrecPageLocationPeopleRow[];
     numberOfPages: number;
     numberOfPeople: number;
+    people: BoxrecPageLocationPeopleRow[];
 }
 
-export interface BoxrecPageLocationPeopleRowOutput {
+export interface BoxrecPageLocationBoxerRowOutput {
     career: Array<number | null>;
     division: WeightDivision | null;
     id: number;
@@ -30,9 +30,18 @@ export interface BoxrecPageLocationPeopleRowOutput {
     sex: "male" | "female";
 }
 
+export interface BoxrecPageLocationPeopleRowOutput {
+    id: number;
+    location: BoxrecLocation;
+    miles: number;
+    name: string;
+    sex: "male" | "female";
+}
+
 // if needed to rebuild
 // grab the dropdown HTML from the locations page
-// run it through regexr with this regex `value\s?\=\s?\"(\w{1,2})\"\s?(?:selected\=\"selected\")?\>\s?([A-zÀ-ÿ\s’\-\(\)\.]+)`
+// run it through regexr with the following regex
+// `value\s?\=\s?\"(\w{1,2})\"\s?(?:selected\=\"selected\")?\>\s?([A-zÀ-ÿ\s’\-\(\)\.]+)`
 // go to `list` and use this `"$2" = "$1",\n`
 export enum Country {
     "Afghanistan" = "AF",
