@@ -52,7 +52,7 @@ await boxrec.getPersonById(cookieJar, 352);
 
 ### Support/Legacy versions
 
-[Version 1.2.X](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/1.2.0/index.html)
+[Version 1.2.X](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/1.2.0/index.html)
 
 ## Methods (How to use)
 

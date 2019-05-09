@@ -22,9 +22,9 @@ export class BoxrecPageLocationPeople extends BoxrecPageLists {
 
     get output(): BoxrecPageLocationPeopleOutput {
         return {
-            boxers: this.boxers,
             numberOfPages: this.numberOfPages,
             numberOfPeople: this.numberOfPeople,
+            people: this.people,
         };
     }
 
