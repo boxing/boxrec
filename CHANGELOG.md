@@ -1,8 +1,22 @@
+## 3.0.0 (2019-05-09)
+
+### Added
+
+-   Some events actually have `tickets` with contact information on how to buy.  It's rare but it exists
+
+### Changed
+
+-   Getting people by location now returns a `people` object by default and not `boxers`
+
+### Fixed
+
+-   Issue where titles with spaces like `Light Heavyweight` wouldn't be caught properly by the regex 
+
 ## 2.0.1 (2019-05-03)
 
 ### Fixed
 
-- `boxrec-requests` was a dev dependency but it is a normal dependency
+-   `boxrec-requests` was a dev dependency but it is a normal dependency
 
 ## 2.0.0 (2019-04-30)
 
