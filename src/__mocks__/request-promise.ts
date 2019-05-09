@@ -1,4 +1,5 @@
-const rp: any = jest.fn((/*uri*/) => {
+// tslint:disable-next-line
+const rp: any = (jest as any).fn((/*uri*/) => {
     //
 });
 
