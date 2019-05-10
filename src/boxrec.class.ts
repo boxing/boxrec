@@ -9,6 +9,7 @@ import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {BoxrecLocationsPeopleParams} from "./boxrec-pages/location/people/boxrec.location.people.constants";
+import {BoxrecPageLocationBoxer} from "./boxrec-pages/location/people/boxrec.page.location.boxer";
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
@@ -37,7 +38,7 @@ import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 
 // https://github.com/Microsoft/TypeScript/issues/14151
 if (typeof (Symbol as any).asyncIterator === "undefined") {
-    (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol("asyncIterator");
+    (Symbol as any).asyncIterator = Symbol("asyncIterator");
 }
 
 export class Boxrec {
@@ -148,9 +149,13 @@ export class Boxrec {
      * @returns {Promise<BoxrecPageLocationPeople>}
      */
     static async getPeopleByLocation(cookieJar: CookieJar, params: BoxrecLocationsPeopleParams, offset: number = 0):
-        Promise<BoxrecPageLocationPeople> {
+        Promise<BoxrecPageLocationPeople | BoxrecPageLocationBoxer> {
         const boxrecPageBody: RequestResponse["body"] =
             await BoxrecRequests.getPeopleByLocation(cookieJar, params, offset);
+
+        if (params.role === BoxrecRole.boxer) {
+            return new BoxrecPageLocationBoxer(boxrecPageBody);
+        }
 
         return new BoxrecPageLocationPeople(boxrecPageBody);
     }

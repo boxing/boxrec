@@ -1,7 +1,8 @@
 {
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.ts?$": "ts-jest"
   },
+  "testURL": "http://localhost",
   "testRegex": "spec\\.e2e\\.ts$",
   "restoreMocks": true,
   "moduleFileExtensions": [

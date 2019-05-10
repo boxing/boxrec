@@ -67,7 +67,7 @@ export class BoxrecPageTitle extends BoxrecParseBouts {
 
     get output(): BoxrecTitleOutput {
         return {
-            bouts: this.bouts,
+            bouts: this.bouts.map(bout => bout.output),
             champion: this.champion,
             name: this.name,
             numberOfBouts: this.numberOfBouts,

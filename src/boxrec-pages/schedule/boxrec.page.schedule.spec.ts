@@ -2,6 +2,26 @@ import {mockScheduleWorldwide} from "boxrec-mocks";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 
+interface ExtendedMatchers extends jest.Matchers<void> {
+    toBeStringOrNull: () => () => boolean;
+}
+
+expect.extend({
+    toBeStringOrNull(received): { message: () => string, pass: boolean } {
+        if (received === null || typeof received === "string") {
+            return {
+                message: () => "is valid",
+                pass: true,
+            };
+        }
+
+        return {
+            message: () => "is not valid",
+            pass: false,
+        };
+    }
+});
+
 describe("class BoxrecPageSchedule", () => {
 
     let events: BoxrecPageSchedule;
@@ -74,10 +94,8 @@ describe("class BoxrecPageSchedule", () => {
                     });
 
                     it("should return the region", () => {
-                        expect(event.location.location.region).toEqual({
-                            id: jasmine.any(String),
-                            name: jasmine.any(String),
-                        });
+                        (expect(event.location.location.region.id) as ExtendedMatchers).toBeStringOrNull();
+                        (expect(event.location.location.region.name) as ExtendedMatchers).toBeStringOrNull();
                     });
 
                     it("should return the town which can be a string or null", () => {

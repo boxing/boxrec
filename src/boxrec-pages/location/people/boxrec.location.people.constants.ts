@@ -1,28 +1,47 @@
+import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecLocation, Record} from "../../boxrec.constants";
 import {BoxrecRole} from "../../search/boxrec.search.constants";
 import {WeightDivisionCapitalized} from "../../titles/boxrec.page.title.constants";
+import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 export interface BoxrecLocationsPeopleParams {
     country?: Country;
     division?: WeightDivisionCapitalized;
     l_go?: any; // BoxRec param that doesn't do anything
     region?: string;
-    role?: BoxrecRole;
+    role: BoxrecRole;
     town?: string;
 }
 
-export interface BoxrecLocationsPeopleParamsTransformed {
-    "l[country]"?: Country;
-    "l[division]"?: WeightDivisionCapitalized;
-    "l[region]"?: string;
-    "l[role]"?: BoxrecRole;
-    "l[town]"?: string;
-    l_go?: any; // BoxRec param that doesn't do anything
-    offset?: number;
+export interface BoxrecPageLocationPeopleOutput {
+    numberOfPages: number;
+    numberOfPeople: number;
+    people: BoxrecPageLocationPeopleRow[];
+}
+
+export interface BoxrecPageLocationBoxerRowOutput {
+    career: Array<number | null>;
+    division: WeightDivision | null;
+    id: number;
+    location: BoxrecLocation;
+    miles: number;
+    name: string;
+    record: Record;
+    sex: "male" | "female";
+}
+
+export interface BoxrecPageLocationPeopleRowOutput {
+    id: number;
+    location: BoxrecLocation;
+    miles: number;
+    name: string;
+    sex: "male" | "female";
 }
 
 // if needed to rebuild
 // grab the dropdown HTML from the locations page
-// run it through regexr with this regex `value\s?\=\s?\"(\w{1,2})\"\s?(?:selected\=\"selected\")?\>\s?([A-zÀ-ÿ\s’\-\(\)\.]+)`
+// run it through regexr with the following regex
+// `value\s?\=\s?\"(\w{1,2})\"\s?(?:selected\=\"selected\")?\>\s?([A-zÀ-ÿ\s’\-\(\)\.]+)`
 // go to `list` and use this `"$2" = "$1",\n`
 export enum Country {
     "Afghanistan" = "AF",

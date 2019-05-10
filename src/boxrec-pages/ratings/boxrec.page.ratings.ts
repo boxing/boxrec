@@ -22,7 +22,7 @@ export class BoxrecPageRatings extends BoxrecPageLists {
 
     get output(): BoxrecRatingsOutput {
         return {
-            boxers: this.boxers,
+            boxers: this.boxers.map(boxerRow => boxerRow.output),
             numberOfPages: this.numberOfPages,
         };
     }

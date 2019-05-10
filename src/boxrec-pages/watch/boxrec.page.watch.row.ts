@@ -3,6 +3,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {trimRemoveLineBreaks} from "../../helpers";
 import {Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecPageWatchRowOutput} from "./boxrec.watch.constants";
 
 export class BoxrecPageWatchRow {
 
@@ -30,6 +31,18 @@ export class BoxrecPageWatchRow {
 
     get name(): string {
         return BoxrecCommonTablesColumnsClass.parseName(this.$("td:nth-child(1)").text());
+    }
+
+    get output(): BoxrecPageWatchRowOutput {
+        return {
+            alias: this.alias,
+            division: this.division,
+            globalId: this.globalId,
+            last6: this.last6,
+            name: this.name,
+            record: this.record,
+            schedule: this.schedule,
+        };
     }
 
     // for some reason the record column appears in the UI but is not populated

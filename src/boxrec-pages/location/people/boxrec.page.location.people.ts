@@ -1,5 +1,6 @@
 import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
 import {stripCommas} from "../../../helpers";
+import {BoxrecPageLocationPeopleOutput} from "./boxrec.location.people.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 
 /**
@@ -10,13 +11,21 @@ export class BoxrecPageLocationPeople extends BoxrecPageLists {
 
     protected readonly $: CheerioStatic;
 
-    get boxers(): BoxrecPageLocationPeopleRow[] {
+    get people(): BoxrecPageLocationPeopleRow[] {
         return this.getTableData(BoxrecPageLocationPeopleRow);
     }
 
     get numberOfPeople(): number {
         const text: string = this.$(".pagerResults").text() || "0";
         return parseInt(stripCommas(text), 10);
+    }
+
+    get output(): BoxrecPageLocationPeopleOutput {
+        return {
+            numberOfPages: this.numberOfPages,
+            numberOfPeople: this.numberOfPeople,
+            people: this.people,
+        };
     }
 
 }

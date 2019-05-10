@@ -1,6 +1,6 @@
-import {BoxrecPageEvent} from "../event/boxrec.page.event";
+import {BoxrecEventOutput} from "../event/boxrec.event.constants";
 
 export interface BoxrecScheduleOutput {
-    events: BoxrecPageEvent[];
+    events: BoxrecEventOutput[];
     numberOfPages: number;
 }

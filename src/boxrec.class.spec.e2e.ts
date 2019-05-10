@@ -324,8 +324,8 @@ describe("class Boxrec (E2E)", () => {
             (id: number): Person | undefined => boxers.get(id);
 
         beforeAll(async () => {
-            await boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
-            await boxers.set(9625, await Boxrec.getPersonById(loggedInCookie, 9625)); // Sugar Ray Robinson
+            boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352)); // Floyd Mayweather Jr.
+            boxers.set(9625, await Boxrec.getPersonById(loggedInCookie, 9625)); // Sugar Ray Robinson
         });
 
         describe("where role is boxer", () => {
@@ -363,24 +363,11 @@ describe("class Boxrec (E2E)", () => {
                     expect(getBoxer(352).bouts[49].secondBoxer.name).toBe("Conor McGregor");
                 });
 
-                describe("venue", () => {
+                describe("location", () => {
 
                     it("should return the venue name", () => {
-                        expect(getBoxer(352).bouts[49].location.venue).toBe("T-Mobile Arena");
+                        expect(getBoxer(352).bouts[49].location).toBe("T-Mobile Arena, Las Vegas");
                     });
-
-                    it("should return the venue location", () => {
-                        expect(getBoxer(352).bouts[49].location.town).toBe("Las Vegas");
-                    });
-
-                });
-
-                describe("hasBoxerRatings", () => {
-
-                    it("should always return true because it'll make another call if all the columns aren't there",
-                        () => {
-                            expect(getBoxer(352).bouts[49].hasBoxerRatings).toBe(true);
-                        });
 
                 });
 
@@ -388,12 +375,12 @@ describe("class Boxrec (E2E)", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
                         expect(getBoxer(352).bouts[49].firstBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                            .toEqual([1092, 1092]);
                     });
 
                     it("should strip all commas from the rating", () => {
                         expect(getBoxer(352).bouts[47].firstBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                            .toEqual([2543, 2924]);
                     });
 
                 });
@@ -401,12 +388,12 @@ describe("class Boxrec (E2E)", () => {
                 describe("secondBoxerRating", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].secondBoxerRating).toEqual([0.05, 0.049]);
+                        expect(getBoxer(352).bouts[49].secondBoxerRating).toEqual([.0, .0]);
                     });
 
                     it("should strip all commas from the rating", () => {
                         expect(getBoxer(352).bouts[47].secondBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                            .toEqual([1561, 1216]);
                     });
 
                 });
@@ -790,36 +777,36 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should list people by name", () => {
-            expect(results.boxers[0].name.length).toBeGreaterThan(0);
+            expect(results.people[0].name.length).toBeGreaterThan(0);
         });
 
         it("should be in order from closest to farthest", () => {
-            const firstPersonMiles: number = results.boxers[0].miles;
-            const lastPersonMiles: number = results.boxers[results.boxers.length - 1].miles;
+            const firstPersonMiles: number = results.people[0].miles;
+            const lastPersonMiles: number = results.people[results.people.length - 1].miles;
             expect(lastPersonMiles).toBeGreaterThanOrEqual(firstPersonMiles);
         });
 
         it("should include the person's location", () => {
-            expect(results.boxers[0].location.country).toEqual({
+            expect(results.people[0].location.country).toEqual({
                 id: Country.USA,
                 name: "USA",
             });
         });
 
         it("might omit the person's region/town if the person is '0 miles' from this location", () => {
-            expect(results.boxers[0].miles).toBe(0);
-            expect(results.boxers[0].location.region).toEqual({
+            expect(results.people[0].miles).toBe(0);
+            expect(results.people[0].location.region).toEqual({
                 id: null,
                 name: null,
             });
-            expect(results.boxers[0].location.town).toEqual({
+            expect(results.people[0].location.town).toEqual({
                 id: null,
                 name: null,
             });
         });
 
         it("should offset the results if using `offset` param", () => {
-            expect(results.boxers[0].id).not.toBe(nextResults.boxers[0].id);
+            expect(results.people[0].id).not.toBe(nextResults.people[0].id);
         });
 
     });
@@ -831,8 +818,8 @@ describe("class Boxrec (E2E)", () => {
             (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
-            await events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
-            await events.set(752960, await Boxrec.getEventById(loggedInCookie, 752960)); // Mayweather McGregor
+            events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
+            events.set(752960, await Boxrec.getEventById(loggedInCookie, 752960)); // Mayweather McGregor
         });
 
         it("should return the venue name", () => {

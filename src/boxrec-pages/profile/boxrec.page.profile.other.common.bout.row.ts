@@ -24,11 +24,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow 
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 2, false));
     }
 
-    // todo this seems backwards but the previous code had it the same way.  Need to investigate
-    get hasBoxerRatings(): boolean {
-        return !this.hasMoreColumns;
-    }
-
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 11));
     }

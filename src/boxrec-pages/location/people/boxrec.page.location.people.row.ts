@@ -1,26 +1,16 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
-import {BoxrecLocation, Record} from "../../boxrec.constants";
-import {WeightDivision} from "../../champions/boxrec.champions.constants";
+import {BoxrecLocation} from "../../boxrec.constants";
+import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
 
 export class BoxrecPageLocationPeopleRow {
 
-    private readonly $: CheerioStatic;
+    protected readonly $: CheerioStatic;
 
     constructor(boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
-    }
-
-    // todo should only be for boxers
-    get career(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 7));
-    }
-
-    // todo should only be for boxers
-    get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 6, false));
     }
 
     get id(): number {
@@ -44,9 +34,14 @@ export class BoxrecPageLocationPeopleRow {
         return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 3)) as string;
     }
 
-    // todo should only be for boxers
-    get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 5));
+    get output(): BoxrecPageLocationPeopleRowOutput {
+        return {
+            id: this.id,
+            location: this.location,
+            miles: this.miles,
+            name: this.name,
+            sex: this.sex,
+        };
     }
 
     get sex(): "male" | "female" {

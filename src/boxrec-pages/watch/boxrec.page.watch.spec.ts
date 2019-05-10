@@ -3,9 +3,10 @@ import {WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageWatch} from "./boxrec.page.watch";
 import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
+import {BoxrecPageWatchRowOutput} from "./boxrec.watch.constants";
 
-const findBoxerByName: (listArr: BoxrecPageWatchRow[], globalId: number) => BoxrecPageWatchRow | undefined
-    = (listArr: BoxrecPageWatchRow[], globalId: number): BoxrecPageWatchRow | undefined => {
+const findBoxerByName: (listArr: BoxrecPageWatchRowOutput[], globalId: number) => BoxrecPageWatchRowOutput | undefined
+    = (listArr: BoxrecPageWatchRowOutput[], globalId: number): BoxrecPageWatchRowOutput | undefined => {
     return listArr.find(item => item.globalId === globalId);
 };
 

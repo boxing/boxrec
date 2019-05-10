@@ -1,4 +1,4 @@
-import {mockDate20100520, mockDate20181201} from "boxrec-mocks";
+import {mockDate20100520, mockDate20191116} from "boxrec-mocks";
 import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageEventBoutRow} from "../event/boxrec.page.event.bout.row";
 import {BoxrecDateEvent} from "./boxrec.date.event";
@@ -8,11 +8,11 @@ import {BoxrecDateOutput} from "./boxrec.page.date.constants";
 describe("class BoxrecPageDate", () => {
 
     let date20100520: BoxrecDateOutput;
-    let date20181201: BoxrecDateOutput;
+    let date20191116: BoxrecDateOutput;
 
     beforeAll(() => {
         date20100520 = new BoxrecPageDate(mockDate20100520).output;
-        date20181201 = new BoxrecPageDate(mockDate20181201).output;
+        date20191116 = new BoxrecPageDate(mockDate20191116).output;
     });
 
     describe("getter events", () => {
@@ -56,9 +56,34 @@ describe("class BoxrecPageDate", () => {
 
             describe("getter matchmakers", () => {
 
-                // todo shouldn't exist
+                it("should return matchmaker array", () => {
+                    const event: BoxrecDateEvent | undefined =
+                        date20191116.events.find(item => item.matchmakers[0].name === "Paul Nasari");
+
+                    if (event) {
+                        expect(event.matchmakers).toEqual([{
+                            id: 84671,
+                            name: "Paul Nasari",
+                        }]);
+                    } else {
+                        throw new Error("Did not find matchmaker event");
+                    }
+                });
+
                 it("should be defined but does not exist on page, should be empty array", () => {
                     expect(firstEvent.matchmakers.length).toBe(0);
+                });
+
+            });
+
+            describe("getter tickets", () => {
+
+                it("should return tickets if it exists", () => {
+                    expect(date20191116.events[0].tickets).toBe("Paul - 0413812274 - 6pm start");
+                });
+
+                it("should return null if does not exist", () => {
+                    expect(firstEvent.tickets).toBeNull();
                 });
 
             });

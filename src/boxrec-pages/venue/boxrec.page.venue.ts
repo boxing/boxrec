@@ -57,7 +57,7 @@ export class BoxrecPageVenue {
 
     get output(): BoxrecVenueOutput {
         return {
-            events: this.events,
+            events: this.events.map(event => event.output),
             localBoxers: this.localBoxers,
             localManagers: this.localManagers,
             location: this.location,

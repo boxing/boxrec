@@ -1,24 +1,27 @@
-const rp = jest.fn((/*uri*/) => {
+// tslint:disable-next-line
+const rp: any = (jest as any).fn((/*uri*/) => {
+    //
 });
 
-const PHPSESSID = "PHPSESSID=fakeaebcll1kss57th16nkg111";
-const REMEMBERME = "REMEMBERME=MMLP1";
+const PHPSESSID: string = "PHPSESSID=fakeaebcll1kss57th16nkg111";
+const REMEMBERME: string = "REMEMBERME=MMLP1";
 
 rp.jar = () => {
     return {
-        getCookieString(/*uri, callback*/) {
+        getCookieString(/*uri, callback*/): string {
             return `${PHPSESSID}; ${REMEMBERME}`;
         },
-        setCookie(/*cookieName, callback*/) {
+        setCookie(/*cookieName, callback*/): void {
+            //
         },
-        getCookies() {
+        getCookies(): Array<{ key: string }> {
             return [{
                 key: "PHPSESSID",
             }, {
                 key: "REMEMBERME",
             }];
         }
-    }
+    };
 };
 
 rp.cookie = () => {
@@ -36,12 +39,12 @@ rp.get = () => {
 rp.post = () => {
     return Promise.resolve({
         body: "", // HTML body response
-        statusCode: 200,
         request: {
             uri: {
                 pathname: "",
             },
-        }
+        },
+        statusCode: 200
     });
 };
 

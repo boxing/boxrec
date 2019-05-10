@@ -15,8 +15,8 @@ import {WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
-import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {
+    BoxrecProfileBoxerBoutOutput,
     BoxrecProfileBoxerOutput,
     BoxrecProfileManagerOutput,
     BoxrecProfileOtherOutput,
@@ -35,7 +35,6 @@ describe("class BoxrecPageProfile", () => {
 
     describe("class BoxrecPageProfile", () => {
 
-        let boxerRJJ: BoxrecPageProfileBoxer;
         let boxerGGG: BoxrecPageProfileBoxer;
         let boxerFloydMayweatherJr: BoxrecPageProfileBoxer;
         let judgeDaveMoretti: BoxrecPageProfileOtherCommon;
@@ -48,7 +47,6 @@ describe("class BoxrecPageProfile", () => {
         let supervisorSammyMacias: BoxrecPageProfileOtherCommon;
 
         beforeAll(() => {
-            boxerRJJ = new BoxrecPageProfileBoxer(mockProfileBoxerRJJ);
             boxerGGG = new BoxrecPageProfileBoxer(mockProfileBoxerGGG);
             boxerFloydMayweatherJr = new BoxrecPageProfileBoxer(mockProfileBoxerFloydMayweatherJr);
             judgeDaveMoretti = new BoxrecPageProfileOtherCommon(mockProfileJudgeDaveMoretti);
@@ -121,7 +119,7 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should give the nickname or alias of the boxer", () => {
-                    expect(outputRJJ.alias).toBe("Junior");
+                    expect(outputRJJ.alias).toBe(null);
                 });
 
                 it("should return the date this person was born", () => {
@@ -223,13 +221,15 @@ describe("class BoxrecPageProfile", () => {
 
                 describe("getter bouts", () => {
 
-                    let gggCanelo: BoxrecPageProfileBoxerBoutRow;
+                    let gggCanelo: BoxrecProfileBoxerBoutOutput;
+                    let rjjLacy: BoxrecProfileBoxerBoutOutput;
                     let judgeDaveMorettiLatestBout: BoxrecPageProfileOtherCommonBoutRow;
                     let refereeRobertByrdLatestBout: BoxrecPageProfileOtherCommonBoutRow;
                     let supervisorSammyMaciasLatestBout: BoxrecPageProfileOtherCommonBoutRow;
 
                     beforeAll(() => {
                         gggCanelo = outputGGG.bouts[37];
+                        rjjLacy = outputRJJ.bouts[58];
                         judgeDaveMorettiLatestBout = judgeDaveMoretti.bouts[0];
                         refereeRobertByrdLatestBout = refereeRobertByrd.bouts[0];
                         supervisorSammyMaciasLatestBout = supervisorSammyMacias.bouts[0];
@@ -328,7 +328,11 @@ describe("class BoxrecPageProfile", () => {
                     describe("getter location", () => {
 
                         it("should give the venue information", () => {
-                            expect(gggCanelo.location.venue).toBe("T-Mobile Arena");
+                            expect(gggCanelo.location).toBe("T-Mobile Arena, Las Vegas");
+                        });
+
+                        it("should be a string since there are no links in the locations", () => {
+                            expect(rjjLacy.location).toBe("Coast Coliseum, Biloxi");
                         });
 
                     });
@@ -411,6 +415,13 @@ describe("class BoxrecPageProfile", () => {
                                 name: "World Boxing Council World Middleweight Title"
                             }
                             ]);
+                        });
+
+                        it("should be able to parse weight divisions with spaces (ex. Light%20Heavyweight)", () => {
+                            expect(rjjLacy.titles).toEqual([{
+                                id: "96/Light%20Heavyweight",
+                                name: "World Boxing Organisation NABO Light Heavyweight Title",
+                            }]);
                         });
 
                     });
@@ -534,7 +545,7 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should return the birth place of other roles", () => {
-                    expect(judgeDaveMoretti.birthPlace).toEqual({
+                    expect(output.birthPlace).toEqual({
                         country: {
                             id: null,
                             name: null,

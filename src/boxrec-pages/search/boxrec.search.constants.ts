@@ -1,8 +1,24 @@
 import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 export enum BoxrecStatus {
     active = "a",
     all = "", // active and inactive
+}
+
+export interface BoxrecPageSearchRowOutput {
+    alias: string | null;
+    career: Array<number | null>;
+    division: WeightDivision | null;
+    id: number;
+    last6: WinLossDraw[];
+    name: string | null;
+    record: Record;
+    residence: BoxrecLocation;
+}
+
+export interface BoxrecPageSearchOutput {
+    results: BoxrecPageSearchRowOutput[];
 }
 
 export interface BoxrecSearchParams {
@@ -25,17 +41,6 @@ export enum BoxrecRole {
     supervisor = "supervisor",
 }
 
-/**
- * The search params to BoxRec are in an array
- */
-export interface BoxrecSearchParamsTransformed {
-    "offset"?: number;
-    "pf[first_name]"?: string;
-    "pf[last_name]"?: string;
-    "pf[role]"?: BoxrecRole;
-    "pf[status]"?: BoxrecStatus;
-}
-
 export interface BoxrecSearch extends BoxrecBasic {
     alias: string | null;
     career: Array<number | null>;
@@ -44,20 +49,4 @@ export interface BoxrecSearch extends BoxrecBasic {
     last6: WinLossDraw[];
     record: Record;
     residence: BoxrecLocation;
-}
-
-export interface BoxrecSearchMetadata {
-    location: {
-        address: BoxrecSearchLocation;
-    };
-    startDate: string | null;
-
-    [key: string]: any;
-}
-
-export interface BoxrecSearchLocation {
-    addressCountry: string | null;
-    addressLocality: string | null;
-    addressRegion: string | null;
-    streetAddress: string | null;
 }

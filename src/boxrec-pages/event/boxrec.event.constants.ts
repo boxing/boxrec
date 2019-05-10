@@ -1,5 +1,5 @@
-import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
-import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
+import {BoxrecBasic, BoxrecBoutLocation, Record, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 export interface BoxrecPromoter extends BoxrecBasic {
     company: string | null;
@@ -24,7 +24,7 @@ export interface BoxrecEventLinks {
 }
 
 export interface BoxrecEventOutput {
-    bouts: BoxrecPageEventBoutRow[];
+    bouts: BoxrecEventBoutRowOutput[];
     commission: string | null;
     date: string | null;
     doctors: BoxrecBasic[];
@@ -35,4 +35,22 @@ export interface BoxrecEventOutput {
     numberOfBouts: number;
     promoters: BoxrecPromoter[];
     television: string[];
+}
+
+export interface BoxrecEventBoutRowOutput {
+    division: WeightDivision | null;
+    firstBoxer: BoxrecBasic;
+    firstBoxerLast6: WinLossDraw[];
+    firstBoxerRecord: Record;
+    firstBoxerWeight: number | null;
+    links: BoxrecEventLinks;
+    metadata: string | null;
+    numberOfRounds: Array<number | null>;
+    outcome: WinLossDraw | null;
+    outcomeByWayOf: string | null;
+    rating: number | null;
+    secondBoxer: BoxrecBasic;
+    secondBoxerLast6: WinLossDraw[];
+    secondBoxerRecord: Record;
+    secondBoxerWeight: number | null;
 }

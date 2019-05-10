@@ -3,8 +3,8 @@ import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
+import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
-import {BoxrecProfileBoutLocation} from "./boxrec.profile.constants";
 
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
@@ -56,11 +56,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 3, false));
     }
 
-    // todo this is similar to other code
-    get hasBoxerRatings(): boolean {
-        return this.hasMoreColumns;
-    }
-
     get judges(): BoxrecJudge[] {
         const metadata: string | null = this.metadata;
 
@@ -71,18 +66,12 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         return [];
     }
 
-    get location(): BoxrecProfileBoutLocation {
-        // instead of returning undefined, I'm sure there will be records where pieces of this information are missing or different
-        const location: BoxrecProfileBoutLocation = {
-            town: null,
-            venue: null,
-        };
-        const locationStr: string = getColumnData(this.$, 11, false);
-        const [venue, town] = locationStr.split(",").map(item => item.trim());
-        location.town = town;
-        location.venue = venue;
-
-        return location;
+    /**
+     * Returns string for location because BoxRec doesn't have links in the location and this is safer than trying
+     * to guess if the location object is correct
+     */
+    get location(): string {
+        return trimRemoveLineBreaks(getColumnData(this.$, 11, false));
     }
 
     get metadata(): string | null {
@@ -95,6 +84,29 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
     get outcome(): WinLossDraw {
         return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 12, false));
+    }
+
+    get output(): BoxrecProfileBoxerBoutOutput {
+        return {
+            date: this.date,
+            firstBoxerRating: this.firstBoxerRating,
+            firstBoxerWeight: this.firstBoxerWeight,
+            judges: this.judges,
+            links: this.links,
+            location: this.location,
+            metadata: this.metadata,
+            numberOfRounds: this.numberOfRounds,
+            outcome: this.outcome,
+            rating: this.rating,
+            referee: this.referee,
+            result: this.result,
+            secondBoxer: this.secondBoxer,
+            secondBoxerLast6: this.secondBoxerLast6,
+            secondBoxerRating: this.secondBoxerRating,
+            secondBoxerRecord: this.secondBoxerRecord,
+            secondBoxerWeight: this.secondBoxerWeight,
+            titles: this.titles,
+        };
     }
 
     get rating(): number | null {

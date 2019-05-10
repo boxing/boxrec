@@ -2,7 +2,6 @@
 [![CircleCI](https://circleci.com/gh/boxing/boxrec.svg?style=svg)](https://circleci.com/gh/boxing/boxrec) [![Coverage Status](https://coveralls.io/repos/github/boxing/boxrec/badge.svg?branch=master)](https://coveralls.io/github/boxing/boxrec?branch=master) [![dependencies Status](https://david-dm.org/boxing/boxrec/status.svg)](https://david-dm.org/boxing/boxrec) [![devDependencies Status](https://david-dm.org/boxing/boxrec/dev-status.svg)](https://david-dm.org/boxing/boxrec?type=dev) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1643/badge)](https://bestpractices.coreinfrastructure.org/projects/1643) [![npm version](https://badge.fury.io/js/boxrec.svg)](https://badge.fury.io/js/boxrec)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9618d7ebf6454a638f0357406d1e7649)](https://www.codacy.com/app/mikedidomizio/boxrec?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=boxing/boxrec&amp;utm_campaign=Badge_Grade)
 [![DeepScan grade](https://deepscan.io/api/teams/3514/projects/5187/branches/40336/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3514&pid=5187&bid=40336)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a3581bdc38162e00c797/maintainability)](https://codeclimate.com/github/boxing/boxrec/maintainability)
 [![Known Vulnerabilities](https://snyk.io/test/github/boxing/boxrec/badge.svg?targetFile=package.json)](https://snyk.io/test/github/boxing/boxrec?targetFile=package.json)
 
 This project allows you to query information from [BoxRec](http://boxrec.com) and return it in JSON format.
@@ -16,7 +15,7 @@ This project is written in [Node](http://nodejs.org).  Currently this project su
 npm install boxrec --save
 ```
 or 
-```
+```javascript
 yarn add boxrec
 ```
 
@@ -47,19 +46,18 @@ await boxrec.getPersonById(cookieJar, 352);
 
 ### Recent versions
 
-[Latest published on NPM (master)](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/master/index.html)
+[Latest published on NPM (master)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/master/index.html)
 
-[Upcoming but not published (develop)](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/develop/index.html)
+[Upcoming but not published (develop)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/develop/index.html)
 
 ### Support/Legacy versions
 
-[Version 1.2.X](https://s3.us-east-2.amazonaws.com/boxrec-npm-docs/1.2.0/index.html)
-
+[Version 1.2.X](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/1.2.0/index.html)
 
 ## Methods (How to use)
 
 ### login
-##### logs the user into BoxRec
+#### logs the user into BoxRec
 To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 
 ⚠ BoxRec does not support HTTPS.  More can be read below in the [Security Requirements](https://github.com/boxing/boxrec/tree/README-updates#security-requirements) section
@@ -74,7 +72,7 @@ try {
 ```
 
 ### getPersonById
-##### Get profile by BoxRec ID
+#### Get profile by BoxRec ID
 Using the [BoxRec global ID](#globalId), retrieve all information about a person.
 
 Output:
@@ -94,7 +92,7 @@ boxrec.getPersonById(cookieJar, 401615, BoxrecRole.judge); // judge CJ Ross
 ```
 
 ### getPeopleByName
-##### Search people on BoxRec by name
+#### Search people on BoxRec by name
 Returns a generator which will makes individual calls, returns differ depending on the profile type 
 
 Output:
@@ -109,7 +107,7 @@ console.log(boxer.value); // is Floyd Mayweather Jr. object
 ```
 
 ### getPeopleByLocation
-##### Search people by location
+#### Search people by location
 
 ```javascript
 await boxrec.getPeopleByLocation(cookieJar, {
@@ -119,7 +117,7 @@ await boxrec.getPeopleByLocation(cookieJar, {
 ```
 
 ### getEventsByLocation
-##### Search events by location
+#### Search events by location
 
 ```javascript
 await boxrec.getEventsByLocation(cookieJar, {
@@ -129,7 +127,7 @@ await boxrec.getEventsByLocation(cookieJar, {
 ```
 
 ### getSchedule
-##### Returns schedule information by country code, television, and/or division
+#### Returns schedule information by country code, television, and/or division
 
 ```javascript
 await boxrec.getSchedule(cookieJar, {
@@ -138,14 +136,14 @@ await boxrec.getSchedule(cookieJar, {
 ```
 
 ### getVenueById
-##### Returns venue information and events that occurred there
+#### Returns venue information and events that occurred there
 
 ```javascript
 await boxrec.getVenueById(cookieJar, 38555);
 ```
 
 ### search
-##### Search boxers by name
+#### Search boxers by name
 Following BoxRec's form format
 
 ```javascript
@@ -181,7 +179,7 @@ Output:
 ```
 
 ### getChampions
-##### Returns a list of champions
+#### Returns a list of champions
 
 Output:
 ```javascript
@@ -190,7 +188,7 @@ champions.getByWeightClass().heavyweight.IBF;
 ```
 
 ### getEventById
-##### Returns event information
+#### Returns event information
 
 ```javascript
 await boxrec.getEventById(cookieJar, 751017);
@@ -239,21 +237,21 @@ Output:
 ```
 
 ### getDate
-##### Returns events listed for that date
+#### Returns events listed for that date
 
 ```javascript
 await boxrec.getDate(cookieJar, "2018-08-21");
 ```
 
 ### getBoutById
-##### Returns detailed information on a single bout
+#### Returns detailed information on a single bout
 
 ```javascript
 await boxrec.getBoutById(cookieJar, "726555/2037455");
 ```
 
 ### getRatings
-##### Get ratings
+#### Get ratings
 Following BoxRec's form format
 
 ```javascript
@@ -290,7 +288,7 @@ Output:
 ```
 
 ### getTitleById
-##### Get title information including all bouts that occurred for this title
+#### Get title information including all bouts that occurred for this title
 ```javascript
 // WBC Middleweight information
 // to get this parameter, the link is on a boxer's profile
@@ -306,7 +304,7 @@ await boxrec.getTitles(cookieJar, {
 ```
 
 ### getBoxerPDF
-##### Return/save the PDF version of a BoxRec boxer profile
+#### Return/save the PDF version of a BoxRec boxer profile
 ```javascript
 await boxrec.getBoxerPDF(cookieJar, 555); // returns the PDF information
 await boxrec.getBoxerPDF(cookieJar, 555, "./profile"); // saves the PDF to "./profile/555.pdf"
@@ -314,26 +312,26 @@ await boxrec.getBoxerPDF(cookieJar, 555, "./profile", "foo.pdf); // saves the PD
 ```
 
 ### getBoxerPrint
-##### Return/save the print version of a BoxRec boxer profile
+#### Return/save the print version of a BoxRec boxer profile
 Follows the exact same format as getBoxerPDF method
 ```javascript
 await boxrec.getBoxerPrint(cookieJar, 555); 
 ```
 
 ### watch
-##### Add the boxer to the user's watch list
+#### Add the boxer to the user's watch list
 ```javascript
 await boxrec.watch(cookieJar, 555); 
 ```
 
 ### unwatch
-##### Remove the boxer from the user's watch list
+#### Remove the boxer from the user's watch list
 ```javascript
 await boxrec.unwatch(cookieJar, 555);
 ```
 
 ### getWatched
-##### Return an array of boxers that the user is watching
+#### Return an array of boxers that the user is watching
 ```javascript
 await boxrec.getWatched(cookieJar); 
 ```
@@ -342,35 +340,33 @@ await boxrec.getWatched(cookieJar);
 
 Last updated 2019-04-30
 
-- [ ] Added 2019-04-13: [Get E2E testing working in CI](https://github.com/boxing/boxrec/issues/32)
+-   [ ] Added 2019-04-13: [Get E2E testing working in CI](https://github.com/boxing/boxrec/issues/32)
 
-- [X] Added 2019-04-13: Documentation should not be part of commits.  Pull requests to only contain source changes
+-   [X] Added 2019-04-13: Documentation should not be part of commits.  Pull requests to only contain source changes
 
-    Completed 2019-04-30
+    Completed 2019-04-30 - Documentation pushed to S3
 
-- [ ] Added 2019-04-13: Prepare for Dockerization
+-   [ ] Added 2019-04-13: Prepare for Dockerization
 
-- [ ] Added 2019-04-13: All data accessible by Docker package
+-   [ ] Added 2019-04-13: All data accessible by Docker package
 
-- [ ] Added 2019-04-13: Changes to [boxrec-requests](https://github.com/boxing/boxrec-requests) should trigger builds to ensure functionality does not break
+-   [ ] Added 2019-04-13: Changes to [boxrec-requests](https://github.com/boxing/boxrec-requests) should trigger builds to ensure functionality does not break
 
-- [ ] Added 2019-04-13: Changes to this package should trigger builds in upcoming Docker project
+-   [ ] Added 2019-04-13: Changes to this package should trigger builds in upcoming Docker project
 
-- [X] Added 2019-04-13: Get to and keep a "A" maintainability in [Code Climate](https://codeclimate.com/github/boxing/boxrec)
+-   [ ] Added 2019-04-13: Get to and keep a "A" maintainability in [Codacy](https://app.codacy.com/project/mikedidomizio/boxrec/dashboard)
 
-    Completed 2019-04-30
+-   [ ] Added 2019-04-13: Separate typings into typings registry
 
-- [ ] Added 2019-04-13: Separate typings into typings registry
+-   [X] Added 2019-04-13: Reduce package size.  Separate typings will greatly help
 
-- [X] Added 2019-04-13: Reduce package size.  Separate typings will greatly help
+    Completed 2019-04-30 - 1.30 MB to 48 KB
 
-    Completed 2019-04-30
+-   [ ] Added 2019-04-13: Make sure all typings work with external projects that use this package
 
-- [ ] Added 2019-04-13: Make sure all typings work with external projects that use this package
+-   [X] Added 2019-04-13: Master branch should be latest version in NPM
 
-- [X] Added 2019-04-13: Master branch should be latest version in NPM
-
-    Completed 2019-04-30
+    Completed 2019-04-30 - Using Git Flow
 
 ## Security Requirements
 
@@ -378,7 +374,6 @@ Last updated 2019-04-30
 
 BoxRec does not support HTTPS.  Communication between the Node server and BoxRec is [insecure](http://www.stealmylogin.com/).  
 This is not a flaw in the package design but a design flaw in BoxRec.
-
 
 ## Questions
 

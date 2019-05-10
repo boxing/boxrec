@@ -1,7 +1,6 @@
 import * as cheerio from "cheerio";
-import {BoxrecSearchOutput} from "./boxrec.page.search.constants";
 import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
-import {BoxrecSearch} from "./boxrec.search.constants";
+import {BoxrecPageSearchOutput} from "./boxrec.search.constants";
 
 /**
  * parse a BoxRec Search Results page
@@ -15,13 +14,13 @@ export class BoxrecPageSearch {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
-    get output(): BoxrecSearchOutput {
+    get output(): BoxrecPageSearchOutput {
         return {
-            results: this.results,
+            results: this.results.map(result => result.output),
         };
     }
 
-    get results(): BoxrecSearch[] {
+    get results(): BoxrecPageSearchRow[] {
         return this.parse().map(item => new BoxrecPageSearchRow(item));
     }
 

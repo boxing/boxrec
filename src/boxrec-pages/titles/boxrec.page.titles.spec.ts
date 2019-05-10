@@ -3,8 +3,19 @@ import {
     mockTitlesTitleSelectedAllScheduled,
     mockTitlesTitleSelectedSuperMiddleweight
 } from "boxrec-mocks";
+import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
+import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec.page.titles";
-import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
+
+// tests for links
+const linksTestObject: (links: BoxrecGeneralLinks) => void = (links: BoxrecGeneralLinks) => {
+    expect(links).toEqual({
+        bio: jasmine.any(Number),
+        bout: jasmine.any(String),
+        event: jasmine.any(Number),
+        other: [],
+    });
+};
 
 describe("class BoxrecPageTitles", () => {
 
@@ -33,16 +44,6 @@ describe("class BoxrecPageTitles", () => {
         }
     };
 
-    // tests for bio_closed links
-    const bioClosedTestObject: (firstBout: BoxrecPageTitlesRow) => void = (firstBout: BoxrecPageTitlesRow) => {
-        expect(firstBout.links).toEqual({
-            bio: jasmine.any(Number),
-            bout: jasmine.any(String),
-            event: jasmine.any(Number),
-            other: [],
-        });
-    };
-
     describe("getter output", () => {
 
         it("should return number of pages", () => {
@@ -53,7 +54,7 @@ describe("class BoxrecPageTitles", () => {
 
             describe("getter bouts", () => {
 
-                let firstBout: BoxrecPageTitlesRow;
+                let firstBout: BoxrecPageTitlesRowOutput;
 
                 beforeAll(() => {
                     firstBout = superMiddleweightTitle.output.bouts[0];
@@ -79,7 +80,7 @@ describe("class BoxrecPageTitles", () => {
                 });
 
                 it("should include an object of links", () => {
-                    bioClosedTestObject(firstBout);
+                    linksTestObject(firstBout.links);
                 });
             });
         });
@@ -90,7 +91,7 @@ describe("class BoxrecPageTitles", () => {
 
                 describe("getter bouts", () => {
 
-                    let firstBout: BoxrecPageTitlesRow;
+                    let firstBout: BoxrecPageTitlesRowOutput;
 
                     beforeAll(() => {
                         firstBout = scheduledTitle.output.bouts[0];
@@ -116,12 +117,7 @@ describe("class BoxrecPageTitles", () => {
                     });
 
                     it("should include an object of links", () => {
-                        expect(firstBout.links).toEqual({
-                            bio: jasmine.any(Number),
-                            bout: jasmine.any(String),
-                            event: jasmine.any(Number),
-                            other: [],
-                        });
+                        linksTestObject(firstBout.links);
                     });
                 });
             });
@@ -130,7 +126,7 @@ describe("class BoxrecPageTitles", () => {
 
                 describe("getter bouts", () => {
 
-                    let firstBout: BoxrecPageTitlesRow;
+                    let firstBout: BoxrecPageTitlesRowOutput;
 
                     beforeAll(() => {
                         firstBout = allTitleAllSchedule.output.bouts[0];
@@ -156,12 +152,7 @@ describe("class BoxrecPageTitles", () => {
                     });
 
                     it("should include an object of links", () => {
-                        expect(firstBout.links).toEqual({
-                            bio: jasmine.any(Number),
-                            bout: jasmine.any(String),
-                            event: jasmine.any(Number),
-                            other: [],
-                        });
+                        linksTestObject(firstBout.links);
                     });
                 });
             });

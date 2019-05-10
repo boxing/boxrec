@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {convertFractionsToNumber, trimRemoveLineBreaks} from "../../helpers";
+import {parseHeight, trimRemoveLineBreaks} from "../../helpers";
+import {Stance} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -130,24 +131,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     get height(): number[] | null {
         const height: string | void = this.parseProfileTableData(BoxrecProfileTable.height);
 
-        if (height) {
-            const regex: RegExp = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
-            const heightMatch: RegExpMatchArray | null = height.match(regex);
-
-            if (heightMatch) {
-                const [, imperialFeet, imperialInches, fractionInches, metric] = heightMatch;
-                let formattedImperialInches: number = parseInt(imperialInches, 10);
-                formattedImperialInches += convertFractionsToNumber(fractionInches);
-
-                return [
-                    parseInt(imperialFeet, 10),
-                    formattedImperialInches,
-                    parseInt(metric, 10),
-                ];
-            }
-        }
-
-        return null;
+        return parseHeight(height);
     }
 
     /**
@@ -185,7 +169,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
             birthName: this.birthName,
             birthPlace: this.birthPlace,
             born: this.born,
-            bouts: this.bouts,
+            bouts: this.bouts.map(bout => bout.output),
             debut: this.debut,
             division: this.division,
             globalId: this.globalId,
@@ -298,14 +282,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * Returns the stance of the boxer, either orthodox or southpaw
      * @returns {string | null}
      */
-    // todo can be converted to `Stance` possibly
-    get stance(): string | null {
+    get stance(): Stance | null {
         const stance: string | void = this.parseProfileTableData(BoxrecProfileTable.stance);
-        if (stance) {
-            return stance;
-        }
 
-        return null;
+        return stance ? stance as Stance : null;
     }
 
     /**

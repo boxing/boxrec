@@ -28,7 +28,7 @@ export class BoxrecPageTitles extends BoxrecParseBouts {
 
     get output(): BoxrecTitlesOutput {
         return {
-            bouts: this.bouts,
+            bouts: this.bouts.map(bout => bout.output),
             numberOfBouts: this.numberOfBouts,
             numberOfPages: this.numberOfPages,
         };
