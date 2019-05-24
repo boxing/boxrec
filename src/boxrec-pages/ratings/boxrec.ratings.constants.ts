@@ -1,6 +1,7 @@
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 export interface BoxrecRatingsParams {
     country?: Country | "";
@@ -10,22 +11,37 @@ export interface BoxrecRatingsParams {
     status?: "a" | ""; // defaults to active/inactive
 }
 
-export interface BoxrecPageRatingsRowOutput {
-    age: number | null;
-    division: string | null;
-    hasBoutScheduled: boolean | null;
+// abstract
+interface BoxrecRatingsBasic {
+    hasBoutScheduled: boolean;
     id: number | null;
     last6: WinLossDraw[];
     name: string | null;
     points: number | null;
-    ranking: number | null;
-    rating: number | null;
     record: Record;
     residence: BoxrecLocation;
     stance: Stance | null;
 }
 
+export interface BoxrecPageRatingsActiveDivisionRowOutput extends BoxrecRatingsBasic {
+    age: number | null;
+    rating: number | null;
+}
+
+export interface BoxrecPageRatingsActiveInactiveDivisionRowOutput extends BoxrecRatingsBasic {
+    career: number[];
+}
+
+export interface BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput
+    extends BoxrecPageRatingsActiveInactiveDivisionRowOutput {
+    division: WeightDivision | null;
+}
+
+export interface BoxrecPageRatingsActiveAllDivisionsRowOutput extends BoxrecPageRatingsActiveDivisionRowOutput {
+    division: WeightDivision | null;
+}
+
 export interface BoxrecRatingsOutput {
-    boxers: BoxrecPageRatingsRowOutput[];
+    boxers: Array<BoxrecPageRatingsActiveAllDivisionsRowOutput | BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput | BoxrecPageRatingsActiveInactiveDivisionRowOutput | BoxrecPageRatingsActiveDivisionRowOutput>;
     numberOfPages: number;
 }

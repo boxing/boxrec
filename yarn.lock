@@ -755,10 +755,10 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-boxrec-mocks@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/boxrec-mocks/-/boxrec-mocks-2.2.0.tgz#415f11fabd6bfbe1585aa37e2192129c3d999afc"
-  integrity sha512-h3LWaKbDne5fmOkeKhJUR2GlfsR1Ipq2ZmTPV+OWQwSBlH8rsB3I1dFvkCw5DVzCEyJAvXGC6SQVWr/9+45Yjg==
+boxrec-mocks@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/boxrec-mocks/-/boxrec-mocks-2.4.0.tgz#7c2a098246cfee84fb19cb371b9c1c14affe4cea"
+  integrity sha512-O4Hb55iZlRDUI9iLNOlImbzk+qKczUnjuOAsYZnkTKCP4PRSmWO2jpSgRktcfz+OkVEQO416uqOYqqtW3sh9NA==
   dependencies:
     html-loader "^0.5.5"
     webpack "^4.28.0"
