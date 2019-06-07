@@ -531,7 +531,8 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should give a boxer rating to boxers even if they lose of their first bout", () => {
-                    expect(boxerFloydMayweatherJr.bouts[49].secondBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                    expect(boxerFloydMayweatherJr.bouts[49].secondBoxerRating)
+                        .toEqual([jasmine.any(Number), jasmine.any(Number)]);
                 });
 
             });

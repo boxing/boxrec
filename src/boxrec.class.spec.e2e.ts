@@ -388,7 +388,8 @@ describe("class Boxrec (E2E)", () => {
                 describe("secondBoxerRating", () => {
 
                     it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].secondBoxerRating).toEqual([jasmine.any(Number), jasmine.any(Number)]);
+                        expect(getBoxer(352).bouts[49].secondBoxerRating)
+                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
                     });
 
                     it("should strip all commas from the rating", () => {

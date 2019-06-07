@@ -217,7 +217,8 @@ describe("class BoxrecPageRatings", () => {
                 let ratingsOutput: BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput;
 
                 beforeAll(() => {
-                    ratingsOutput = ratingsAllDivisionsActiveInactive.boxers[0].output as BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput;
+                    ratingsOutput = ratingsAllDivisionsActiveInactive.boxers[0].output as
+                        BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput;
                 });
 
                 describe("getter division", () => {
@@ -248,7 +249,8 @@ describe("class BoxrecPageRatings", () => {
                 let ratingsOutput: BoxrecPageRatingsActiveAllDivisionsRowOutput;
 
                 beforeAll(() => {
-                    ratingsOutput = ratingsAllDivisionsActive.boxers[0].output as BoxrecPageRatingsActiveAllDivisionsRowOutput;
+                    ratingsOutput = ratingsAllDivisionsActive.boxers[0].output as
+                        BoxrecPageRatingsActiveAllDivisionsRowOutput;
                 });
 
                 describe("getter division", () => {

@@ -1,9 +1,9 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 
 // ratings page where both active/inactive are selected and ALL divisions
 export class BoxrecPageRatingsActiveInactiveAllDivisionsRow extends BoxrecPageRatingsRow {

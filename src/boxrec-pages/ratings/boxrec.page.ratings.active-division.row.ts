@@ -1,6 +1,6 @@
+import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveDivisionRowOutput} from "./boxrec.ratings.constants";
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 
 // ratings page where both active boxers are selected and specific division
 export class BoxrecPageRatingsActiveDivisionRow extends BoxrecPageRatingsRow {

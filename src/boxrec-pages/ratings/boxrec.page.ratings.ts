@@ -27,7 +27,8 @@ export class BoxrecPageRatings extends BoxrecPageLists {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
-    get boxers(): Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow | BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow> {
+    get boxers(): Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
+        BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow> {
         return this.parseRatings().map(item => {
             switch (this.getRatingsType()) {
                 case BoxrecRatingsType.activeWeightDivision:
@@ -74,7 +75,8 @@ export class BoxrecPageRatings extends BoxrecPageLists {
             return BoxrecRatingsType.activeInactiveWeightDivision;
         }
 
-        throw new Error(`Unknown number of columns, has something changed on BoxRec ratings? numberOfColumns: ${numberOfColumns}`);
+        throw new Error(`Unknown number of columns,
+ has something changed on BoxRec ratings? numberOfColumns: ${numberOfColumns}`);
     }
 
 }
