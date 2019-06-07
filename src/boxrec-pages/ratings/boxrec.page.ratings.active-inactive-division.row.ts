@@ -1,7 +1,6 @@
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveInactiveDivisionRowOutput} from "./boxrec.ratings.constants";
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 
 // ratings page where both active/inactive are selected and a specific division
 export class BoxrecPageRatingsActiveInactiveDivisionRow extends BoxrecPageRatingsRow {

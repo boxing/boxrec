@@ -1,9 +1,9 @@
-import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecPageRatingsActiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
+import {getColumnData} from "../../helpers";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
+import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
+import {BoxrecPageRatingsActiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
 
 // active boxers all divisions (P4P list)
 export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsRow {
