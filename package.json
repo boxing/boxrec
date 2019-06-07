@@ -29,7 +29,7 @@
     "@types/jest": "^22.1.1",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
-    "boxrec-mocks": "^2.2.0",
+    "boxrec-mocks": "2.4.0",
     "coveralls": "^3.0.0",
     "jest": "<23",
     "ts-jest": "<23.10.0",
