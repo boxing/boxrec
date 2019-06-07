@@ -2,123 +2,71 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecPageRatingsRowOutput} from "./boxrec.ratings.constants";
 
-export class BoxrecPageRatingsRow {
+// do not include `id` or `last6` which are part of `name` and `record` columns
+type RatingsColumns =
+    "name" | "points" | "rating" | "age" | "career" |
+    "record" | "stance" | "residence" | "division" | "ranking";
 
-    private readonly $: CheerioStatic;
+export abstract class BoxrecPageRatingsRow {
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
+    protected readonly $: CheerioStatic;
+    protected abstract readonly columns: string[] = []; // abstracted
+
+    constructor(boxrecBodyBout: string) {
+        const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
-    get age(): number | null {
-        const age: string = this.getColumnData(5, false);
-        if (age) {
-            return parseInt(age, 10);
-        }
-
-        return null;
-    }
-
-    get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 5, false));
-    }
-
-    get hasBoutScheduled(): boolean | null {
-        const idName: string = getColumnData(this.$, 2);
-        if (idName) {
-            const html: Cheerio = this.$(`<div>${idName}</div>`);
-            let name: string = html.text();
-            name = name.trim();
-            return name.slice(-1) === "*";
-        }
-
-        return null;
+    get hasBoutScheduled(): boolean {
+        return getColumnData(this.$, this.getColumnByType("name"), false).slice(-1) === "*";
     }
 
     get id(): number {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnData(this.$, 2)) as number;
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnData(this.$,
+            this.getColumnByType("name"))) as number;
     }
 
     get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(6));
+        // `record` and `last6` are lumped under the same `td`
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, this.getColumnByType("record")));
     }
 
     get name(): string {
-        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 2));
-    }
-
-    get output(): BoxrecPageRatingsRowOutput {
-        return {
-            age: this.age,
-            division: this.division,
-            hasBoutScheduled: this.hasBoutScheduled,
-            id: this.id,
-            last6: this.last6,
-            name: this.name,
-            points: this.points,
-            ranking: this.ranking,
-            rating: this.rating,
-            record: this.record,
-            residence: this.residence,
-            stance: this.stance,
-        };
+        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, this.getColumnByType("name")));
     }
 
     get points(): number | null {
-        const points: number = parseInt(getColumnData(this.$, 3, false), 10);
+        const points: number = parseInt(getColumnData(this.$, 3, false),
+            this.getColumnByType("points"));
 
-        if (!isNaN(points)) {
-            return points;
-        }
-
-        return null;
-    }
-
-    get ranking(): number | null {
-        const ranking: string = getColumnData(this.$, 4);
-        if (ranking) {
-            return parseInt(ranking, 10);
-        }
-
-        return null;
-    }
-
-    get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 4));
+        return !isNaN(points) ? points : null;
     }
 
     get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(6));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, this.getColumnByType("record")));
     }
 
     get residence(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(this.getColumnData(8));
+        return BoxrecCommonTablesColumnsClass
+            .parseLocationLink(getColumnData(this.$, this.getColumnByType("residence")));
     }
 
-    get stance(): Stance | null {
-        const stance: string = this.getColumnData(7, false);
-        if (stance) {
-            return trimRemoveLineBreaks(stance) as Stance;
+    get stance(): Stance {
+        return trimRemoveLineBreaks(getColumnData(this.$, this.getColumnByType("stance"), false)) as Stance;
+    }
+
+    // classes that inherit this class require a `columns` array
+    protected getColumnByType(columnType: RatingsColumns): number {
+        let columnIdx: number = this.columns.findIndex(item => item === columnType);
+
+        if (columnIdx > -1) {
+            columnIdx++;
+        } else {
+            throw new Error("Trying to find column that isn't accounted for");
         }
 
-        return null;
-    }
-
-    private getColumnData(colNum: number, returnHTML: boolean = true): string {
-        let columnNumber: number = colNum;
-        if (this.hasMoreColumns()) {
-            columnNumber++;
-        }
-        return getColumnData(this.$, columnNumber, returnHTML);
-    }
-
-    private hasMoreColumns(): boolean {
-        // on pages where it's about a specific weight class, the division column is omitted
-        return this.$(`tr:nth-child(1) td`).length === 9;
+        return columnIdx;
     }
 
 }
