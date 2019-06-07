@@ -48,7 +48,8 @@ export abstract class BoxrecPageRatingsRow {
     }
 
     get residence(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, this.getColumnByType("residence")));
+        return BoxrecCommonTablesColumnsClass
+            .parseLocationLink(getColumnData(this.$, this.getColumnByType("residence")));
     }
 
     get stance(): Stance {

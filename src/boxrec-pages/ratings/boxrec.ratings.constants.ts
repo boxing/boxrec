@@ -1,7 +1,7 @@
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
 import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 export interface BoxrecRatingsParams {
     country?: Country | "";
@@ -42,6 +42,7 @@ export interface BoxrecPageRatingsActiveAllDivisionsRowOutput extends BoxrecPage
 }
 
 export interface BoxrecRatingsOutput {
-    boxers: Array<BoxrecPageRatingsActiveAllDivisionsRowOutput | BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput | BoxrecPageRatingsActiveInactiveDivisionRowOutput | BoxrecPageRatingsActiveDivisionRowOutput>;
+    boxers: Array<BoxrecPageRatingsActiveAllDivisionsRowOutput | BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput
+        | BoxrecPageRatingsActiveInactiveDivisionRowOutput | BoxrecPageRatingsActiveDivisionRowOutput>;
     numberOfPages: number;
 }
