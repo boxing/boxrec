@@ -1,3 +1,13 @@
+## 4.0.0 (2019-06-11)
+
+### Changed
+
+-   Better results for `ratings` requests.  There were more variations for `ratings` than expected
+
+### Fixed
+
+-   Update/remove handlebars and js-yaml dependencies
+
 ## 3.0.0 (2019-05-09)
 
 ### Added
