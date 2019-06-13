@@ -1,20 +1,19 @@
-// tslint:disable-next-line
-const rp: any = (jest as any).fn((/*uri*/) => {
+const rp = (jest).fn((/*uri*/) => {
     //
 });
 
-const PHPSESSID: string = "PHPSESSID=fakeaebcll1kss57th16nkg111";
-const REMEMBERME: string = "REMEMBERME=MMLP1";
+const PHPSESSID = "PHPSESSID=fakeaebcll1kss57th16nkg111";
+const REMEMBERME = "REMEMBERME=MMLP1";
 
 rp.jar = () => {
     return {
-        getCookieString(/*uri, callback*/): string {
+        getCookieString(/*uri, callback*/) {
             return `${PHPSESSID}; ${REMEMBERME}`;
         },
-        setCookie(/*cookieName, callback*/): void {
+        setCookie(/*cookieName, callback*/) {
             //
         },
-        getCookies(): Array<{ key: string }> {
+        getCookies() {
             return [{
                 key: "PHPSESSID",
             }, {
