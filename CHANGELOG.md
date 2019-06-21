@@ -1,3 +1,9 @@
+## 4.0.1 (2019-06-21)
+
+### Fixed
+
+-   Update dependency due to vulnerability
+
 ## 4.0.0 (2019-06-11)
 
 ### Changed
