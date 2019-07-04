@@ -8,13 +8,14 @@
     "build": "tsc && npm run minify",
     "minify": "uglifyjs-folder ./dist -eo ./dist -x .js --config './uglify.json'",
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
-    "prepublish": "npm run build",
+    "prepublish": "npm run snyk-protect; npm run build",
     "start": "tsc -w",
     "test": "jest --config jest.config.json --coverage",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
     "test-watch": "jest --config jest.config.json --watchAll",
-    "tslint": "tslint -c tslint.json src/**/*.ts"
+    "tslint": "tslint -c tslint.json src/**/*.ts",
+    "snyk-protect": "snyk protect"
   },
   "keywords": [
     "boxrec",
@@ -49,6 +50,8 @@
     "boxrec-requests": "^4.2.3",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
-  }
+    "request-promise": "^4.2.4",
+    "snyk": "^1.189.0"
+  },
+  "snyk": true
 }
