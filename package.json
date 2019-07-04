@@ -8,13 +8,16 @@
     "build": "tsc && npm run minify",
     "minify": "uglifyjs-folder ./dist -eo ./dist -x .js --config './uglify.json'",
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
-    "prepublish": "npm run build",
+    "prepublish": "npm run snyk-protect && npm run build",
     "start": "tsc -w",
+    "snyk-protect": "snyk protect",
     "test": "jest --config jest.config.json",
     "test:coverage": "yarn test --coverage",
     "test:coverage:watch": "yarn test:coverage --watchAll",
     "test:watch": "yarn test --watchAll",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand",
+    "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
+    "test-watch": "jest --config jest.config.json --watchAll",
     "tslint": "tslint -c tslint.json src/**/*.ts"
   },
   "keywords": [
@@ -50,6 +53,8 @@
     "boxrec-requests": "^5.0.2",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
-  }
+    "request-promise": "^4.2.4",
+    "snyk": "^1.226.2"
+  },
+  "snyk": true
 }
