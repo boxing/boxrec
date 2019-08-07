@@ -1,6 +1,6 @@
 import {mockVenueMGMGrand} from "boxrec-mocks";
 import {BoxrecPageVenue} from "./boxrec.page.venue";
-import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
+import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
 
 describe("class BoxrecPageVenue", () => {
 
@@ -51,7 +51,7 @@ describe("class BoxrecPageVenue", () => {
 
         describe("events", () => {
 
-            let events: BoxrecPageVenueEventsRow[] = [];
+            let events: BoxrecPageVenueEventsRowOutput[] = [];
 
             beforeAll(() => {
                 events = mgmGrand.output.events;

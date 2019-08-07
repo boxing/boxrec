@@ -1,4 +1,9 @@
 import {BoxrecRequests} from "boxrec-requests";
+import {
+    BoxrecLocationEventParams,
+    BoxrecLocationsPeopleParams,
+    BoxrecRole
+} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as fs from "fs";
 import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";
@@ -6,9 +11,7 @@ import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champion
 import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {BoxrecLocationEventParams} from "./boxrec-pages/location/event/boxrec.location.event.constants";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {BoxrecLocationsPeopleParams} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationBoxer} from "./boxrec-pages/location/people/boxrec.page.location.boxer";
 import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
@@ -16,19 +19,13 @@ import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profil
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
-import {PersonRequestParams} from "./boxrec-pages/profile/boxrec.profile.constants";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecRatingsParams} from "./boxrec-pages/ratings/boxrec.ratings.constants";
 import {BoxrecResultsParams} from "./boxrec-pages/results/boxrec.results.constants";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
 import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
-import {
-    BoxrecRole,
-    BoxrecSearch,
-    BoxrecSearchParams,
-    BoxrecStatus
-} from "./boxrec-pages/search/boxrec.search.constants";
+import {BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {BoxrecTitlesParams} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
@@ -50,7 +47,8 @@ export class Boxrec {
      * Note: credentials are sent over HTTP, BoxRec doesn't support HTTPS
      * @param {string} username     your BoxRec username
      * @param {string} password     your BoxRec password
-     * @returns {Promise<void>}     If the response is undefined, you have successfully logged in.  Otherwise an error will be thrown
+     * @returns {Promise<CookieJar>}    If the response is undefined, you have successfully logged in.
+     *                                  Otherwise an error will be thrown
      */
     static async login(username: string, password: string): Promise<CookieJar> {
         return BoxrecRequests.login(username, password);
@@ -131,6 +129,7 @@ export class Boxrec {
      * Makes a request to BoxRec to list events by location
      * @param {jar} cookieJar
      * @param {BoxrecLocationEventParams} params    params included in this search
+     * @param {BoxrecLocationEventParams.sport} params.sports   if this is not a valid option, will send strange results
      * @param {number} offset                       the number of rows to offset the search
      * @returns {Promise<BoxrecPageLocationEvent>}
      */
@@ -153,7 +152,7 @@ export class Boxrec {
         const boxrecPageBody: RequestResponse["body"] =
             await BoxrecRequests.getPeopleByLocation(cookieJar, params, offset);
 
-        if (params.role === BoxrecRole.boxer) {
+        if (params.role === BoxrecRole.proBoxer) {
             return new BoxrecPageLocationBoxer(boxrecPageBody);
         }
 
@@ -168,7 +167,8 @@ export class Boxrec {
      * @param {number} offset                   offset number of bouts/events in the profile.  Not used for boxers as boxer's profiles list all bouts they've been in
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
-    static async getPersonById(cookieJar: CookieJar, globalId: number, role: BoxrecRole = BoxrecRole.boxer, offset: number = 0):
+    static async getPersonById(cookieJar: CookieJar, globalId: number, role: BoxrecRole | null = null,
+                               offset: number = 0):
         Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
         const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getPersonById(cookieJar, globalId, role, offset);
 
@@ -178,7 +178,7 @@ export class Boxrec {
         // the doctor and others have `events`
         // manager is unique in that the table is a list of boxers that they manage
         switch (role) {
-            case BoxrecRole.boxer:
+            case BoxrecRole.proBoxer:
                 return new BoxrecPageProfileBoxer(boxrecPageBody);
             case BoxrecRole.judge:
             case BoxrecRole.supervisor:
@@ -192,6 +192,7 @@ export class Boxrec {
                 return new BoxrecPageProfileEvents(boxrecPageBody);
             case BoxrecRole.manager:
                 return new BoxrecPageProfileManager(boxrecPageBody);
+            // todo we should be able to figure out the default role if one was not specified and use the correct class
         }
 
         // by default we'll use the boxer profile so at least some of the data will be returned
@@ -352,7 +353,10 @@ export class Boxrec {
      * @param {number} offset               the number of rows to offset the search
      * @yields {BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager}         returns a generator to fetch the next person by ID
      */
-    static async* getPeopleByName(cookieJar: CookieJar, firstName: string, lastName: string, role: BoxrecRole = BoxrecRole.boxer, status: BoxrecStatus = BoxrecStatus.all, offset: number = 0):
+    // todo remove async
+    static async* getPeopleByName(cookieJar: CookieJar, firstName: string, lastName: string,
+                                  role: BoxrecRole = BoxrecRole.proBoxer, status: BoxrecStatus = BoxrecStatus.all,
+                                  offset: number = 0):
         AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
         const params: BoxrecSearchParams = {
             first_name: firstName,
@@ -377,14 +381,11 @@ export class Boxrec {
      * @returns {Promise<string>}
      */
     private static async getBoxerOther(cookieJar: CookieJar, globalId: number, type: "pdf" | "print", pathToSaveTo?: string, fileName?: string): Promise<string> {
-        const qs: PersonRequestParams = {};
         let boxrecPageBody: RequestResponse["body"];
 
         if (type === "pdf") {
-            qs.pdf = "y";
             boxrecPageBody = await BoxrecRequests.getBoxerPDF(cookieJar, globalId, pathToSaveTo, fileName);
         } else {
-            qs.print = "y";
             boxrecPageBody = await BoxrecRequests.getBoxerPrint(cookieJar, globalId, pathToSaveTo, fileName);
         }
 

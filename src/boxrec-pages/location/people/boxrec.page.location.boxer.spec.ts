@@ -134,6 +134,14 @@ describe("class BoxrecPageLocationBoxer", () => {
 
             });
 
+            describe("getter last6", () => {
+
+                it("should return the result of the last 6 bouts", () => {
+                    expect(Object.values(WinLossDraw)).toContain(locationOutput.last6[0]);
+                });
+
+            });
+
         });
 
     });

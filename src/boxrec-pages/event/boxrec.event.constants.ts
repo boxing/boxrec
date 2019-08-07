@@ -1,3 +1,4 @@
+import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecBasic, BoxrecBoutLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
@@ -32,6 +33,7 @@ export interface BoxrecEventOutput {
     inspector: BoxrecBasic;
     location: BoxrecBoutLocation;
     matchmakers: BoxrecBasic[];
+    media: string[];
     numberOfBouts: number;
     promoters: BoxrecPromoter[];
     television: string[];
@@ -53,4 +55,5 @@ export interface BoxrecEventBoutRowOutput {
     secondBoxerLast6: WinLossDraw[];
     secondBoxerRecord: Record;
     secondBoxerWeight: number | null;
+    sport: BoxrecFighterRole;
 }

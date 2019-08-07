@@ -1,6 +1,6 @@
 import {mockMiddleweightWBCBelt} from "boxrec-mocks";
 import {BoxrecPageTitle} from "./boxrec.page.title";
-import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
+import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 
 describe("class BoxrecPageTitle", () => {
 
@@ -35,7 +35,7 @@ describe("class BoxrecPageTitle", () => {
 
             describe("bout values", () => {
 
-                let mostRecentBout: BoxrecPageTitleRow;
+                let mostRecentBout: BoxrecPageTitleRowOutput;
 
                 beforeAll(() => {
                     mostRecentBout = title.output.bouts[0];

@@ -1,8 +1,8 @@
+import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecEvent} from "./boxrec.event";
 import {BoxrecEventOutput} from "./boxrec.event.constants";
 import {emptyLocationObject} from "./boxrec.event.helpers";
@@ -36,6 +36,9 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return date;
     }
 
+    /**
+     * The list is not sorted and therefore the order can change.  Up to the developer how they want to sort
+     */
     get doctors(): BoxrecBasic[] {
         return this.$(`<div>${this.parseEventData(BoxrecRole.doctor)}</div>`)
             .find("a")
@@ -83,20 +86,20 @@ export class BoxrecPageEvent extends BoxrecEvent {
 
     get location(): BoxrecBoutLocation {
         const locationObject: BoxrecBoutLocation = Object.assign({}, emptyLocationObject);
+        // events page has the `thead`
         let location: string | null = this.$(this.parseEventResults()).find("thead table > tbody tr:nth-child(2) b").html();
 
         if (location === null) {
+            // this should be for bouts page
             // todo this is because one is for events, one if for bouts.  It's not the best approach and should be refactored
-            const locationClone: Cheerio = this.$(".content h2").parent().clone();
+            const locationClone: Cheerio = this.$("h2").next(".flag").parent().clone();
             locationClone.remove("h2");
             locationClone.find("a:nth-child(1)").remove();
-            locationClone.find(".titleColor").remove();
-            locationClone.find("a:last-child").remove();
             location = locationClone.html();
         }
 
         if (location !== null) {
-            const html: Cheerio = this.$(`<div>${location}</div>`);
+            const html: Cheerio = this.$(`<div>${trimRemoveLineBreaks(location)}</div>`);
             const links: Cheerio = html.find("a");
 
             locationObject.venue = BoxrecPageEvent.getVenueInformation(links);
@@ -106,24 +109,12 @@ export class BoxrecPageEvent extends BoxrecEvent {
         return locationObject;
     }
 
-    get matchmakers(): BoxrecBasic[] {
-        const html: Cheerio = this.$(`<div>${this.parseEventData(BoxrecRole.matchmaker)}</div>`);
-        const matchmakers: BoxrecBasic[] = [];
-
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
-            if (href) {
-                const name: string = this.$(elem).text();
-                const id: number = parseInt(href[i], 10);
-                matchmakers.push({
-                    id,
-                    name,
-                });
-            }
-
-        });
-
-        return matchmakers;
+    /**
+     * Returns string format of matchmaker to be parsed by parent class
+     * @returns {string}
+     */
+    protected parseMatchmakers(): string {
+        return this.parseEventData(BoxrecRole.matchmaker);
     }
 
     get output(): BoxrecEventOutput {
@@ -136,18 +127,30 @@ export class BoxrecPageEvent extends BoxrecEvent {
             inspector: this.inspector,
             location: this.location,
             matchmakers: this.matchmakers,
+            media: this.media,
             numberOfBouts: this.numberOfBouts,
             promoters: this.promoters,
             television: this.television,
         };
     }
 
+    /**
+     * Was previously `television` but now is media
+     * returns the same content as `television`
+     */
+    get media(): string[] {
+        return this.television;
+    }
+
+    /**
+     * @deprecated  should use `media` now
+     */
     get television(): string[] {
-        const television: string = this.parseEventData("television");
+        const television: string = this.parseEventData("media");
 
         if (television) {
             return television.split(",").map(item => {
-                const text: string = this.$(item).text();
+                const text: string = this.$(`<span>${item}</span>`).text();
                 return trimRemoveLineBreaks(text);
             });
         }

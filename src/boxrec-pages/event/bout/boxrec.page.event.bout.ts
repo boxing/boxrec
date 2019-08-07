@@ -88,6 +88,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             judges: this.judges,
             location: this.location,
             matchmakers: this.matchmakers,
+            media: this.media,
             numberOfBouts: this.numberOfBouts,
             numberOfRounds: this.numberOfRounds,
             outcome: this.outcome,
@@ -224,7 +225,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get referee(): BoxrecBasic {
-        const refereeLink: string = this.$.html(this.$(".personLink").get(2));
+        const refereeLink: string = this.$.html(this.$(".responseLessDataTable a:nth-child(1)").get(0));
 
         return BoxrecCommonTablesColumnsClass.parseReferee(refereeLink);
     }
@@ -468,7 +469,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     private parseDivision(type: "division" | "numberOfRounds"): string {
-        const h2: CheerioElement = this.$("h2").get(2);
+        const h2: CheerioElement = this.$("h2").get(1);
 
         if (h2) {
             const division: string | undefined = h2.children[0].data; // ex. Middleweight Contest, 12 Rounds

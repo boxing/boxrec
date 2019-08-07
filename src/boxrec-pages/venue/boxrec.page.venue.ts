@@ -52,7 +52,7 @@ export class BoxrecPageVenue {
     }
 
     get name(): string {
-        return trimRemoveLineBreaks(this.$("h1").text());
+        return trimRemoveLineBreaks(this.$(".pageOuter h1").text());
     }
 
     get output(): BoxrecVenueOutput {

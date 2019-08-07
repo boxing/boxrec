@@ -1,3 +1,4 @@
+import {BoxrecFighterRole, BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
@@ -15,6 +16,7 @@ export interface BoxrecPageSearchRowOutput {
     name: string | null;
     record: Record;
     residence: BoxrecLocation;
+    sport: BoxrecFighterRole;
 }
 
 export interface BoxrecPageSearchOutput {
@@ -28,19 +30,6 @@ export interface BoxrecSearchParams {
     status: BoxrecStatus;
 }
 
-export enum BoxrecRole {
-    all = "all", // just used for search
-    boxer = "boxer",
-    doctor = "doctor",
-    inspector = "inspector",
-    judge = "judge",
-    manager = "manager",
-    matchmaker = "matchmaker",
-    promoter = "promoter",
-    referee = "referee",
-    supervisor = "supervisor",
-}
-
 export interface BoxrecSearch extends BoxrecBasic {
     alias: string | null;
     career: Array<number | null>;
@@ -49,4 +38,5 @@ export interface BoxrecSearch extends BoxrecBasic {
     last6: WinLossDraw[];
     record: Record;
     residence: BoxrecLocation;
+    sport: BoxrecFighterRole;
 }

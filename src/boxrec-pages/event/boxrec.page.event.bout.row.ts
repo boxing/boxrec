@@ -1,3 +1,4 @@
+import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
@@ -33,7 +34,7 @@ export class BoxrecPageEventBoutRow {
     // returns an object with keys that contain a class other than `primaryIcon`
 
     get firstBoxerRecord(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(4));
+        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(5, 0));
     }
 
     get firstBoxerWeight(): number | null {
@@ -46,7 +47,7 @@ export class BoxrecPageEventBoutRow {
 
     // not the exact same as the other page links
     get links(): BoxrecEventLinks {
-        const column: number = this.isEventPage ? 15 : 12;
+        const column: number = this.isEventPage ? 16 : 13;
         const linksStr: string = this.getColumnData(column, 0, true);
 
         return BoxrecCommonLinks.parseLinkInformation<BoxrecEventLinks>(this.$(linksStr), {
@@ -97,11 +98,12 @@ export class BoxrecPageEventBoutRow {
             secondBoxerLast6: this.secondBoxerLast6,
             secondBoxerRecord: this.secondBoxerRecord,
             secondBoxerWeight: this.secondBoxerWeight,
+            sport: this.sport,
         };
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(this.getColumnData(11, 3));
+        return BoxrecCommonTablesColumnsClass.parseRating(this.getColumnData(14, 3));
     }
 
     get secondBoxer(): BoxrecBasic {
@@ -124,9 +126,14 @@ export class BoxrecPageEventBoutRow {
         return null;
     }
 
+    get sport(): BoxrecFighterRole {
+        return this.getColumnData( 11, 4, false) as BoxrecFighterRole;
+    }
+
     private get hasMoreColumns(): boolean {
         // if event has occurred, there are number of different columns
-        return this.$(`tr:nth-child(1) td`).length === 15;
+        // todo does this work for logged out, logged in and logged out (not happened event)?
+        return this.$(`tr:nth-child(1) td`).length === 16;
     }
 
     private getColumnData(colNum: number, numberToBumpBy: number = 1, returnHTML: boolean = true): string {

@@ -52,6 +52,14 @@ describe("class BoxrecPageTitles", () => {
 
         describe("is division page", () => {
 
+            describe("getter numberOfBouts", () => {
+
+                it("should return the number of bouts, which should be a positive number", () => {
+                    expect(superMiddleweightTitle.output.numberOfBouts).toBeGreaterThan(4);
+                });
+
+            });
+
             describe("getter bouts", () => {
 
                 let firstBout: BoxrecPageTitlesRowOutput;

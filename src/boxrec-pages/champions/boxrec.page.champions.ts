@@ -1,12 +1,12 @@
 import * as cheerio from "cheerio";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {
     BoxrecBelts,
     BoxrecChampion,
     BoxrecChampionsByWeightDivision,
     BoxrecChampionsOutput,
-    BoxrecUnformattedChampions,
-    WeightDivision
+    BoxrecUnformattedChampions
 } from "./boxrec.champions.constants";
 
 const beltOrganizations: BoxrecBelts = {
@@ -55,8 +55,10 @@ export class BoxrecPageChampions {
         const champions: BoxrecUnformattedChampions[] = this.parseChampions();
 
         for (const weightDivision of champions) {
-            const weightDivisionFormatted: string = changeToCamelCase(weightDivision.weightDivision);
-            (championsFormatted as any)[weightDivisionFormatted] = weightDivision.beltHolders;
+            if (weightDivision.weightDivision) {
+                const weightDivisionFormatted: string = changeToCamelCase(weightDivision.weightDivision);
+                (championsFormatted as any)[weightDivisionFormatted] = weightDivision.beltHolders;
+            }
         }
 
         return championsFormatted;
@@ -100,7 +102,7 @@ export class BoxrecPageChampions {
 
                 champions.push({
                     beltHolders: Object.assign({}, beltOrganizations),
-                    weightDivision: weightDivision as WeightDivision,
+                    weightDivision: BoxrecCommonTablesColumnsClass.parseDivision(weightDivision),
                 });
                 const last: number = champions.length - 1;
 
@@ -129,7 +131,8 @@ export class BoxrecPageChampions {
                                         boxer.id = parseInt(href[1], 10);
                                         boxer.name = name;
                                         boxer.picture = picture;
-                                        (champions as any)[last].beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
+                                        (champions as any)[last]
+                                            .beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
                                     }
                                 }
                             }
@@ -141,4 +144,5 @@ export class BoxrecPageChampions {
 
         return champions;
     }
+
 }

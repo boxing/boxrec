@@ -1,7 +1,7 @@
+import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 import {BoxrecParseBouts} from "./boxrec.parse.bouts";
@@ -254,7 +254,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return this.$("table thead table tbody tr");
     }
 
-    protected parseEventData(role: BoxrecRole | "television" | "commission" | "tickets", parseHTML: boolean = true)
+    protected parseEventData(role: BoxrecRole | "media" | "commission" | "tickets", parseHTML: boolean = true)
         : string {
         let results: string | null = "";
 
