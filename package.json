@@ -31,7 +31,6 @@
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "boxrec-mocks": "^3.0.0",
-    "boxrec-requests": "^5.0.1",
     "coveralls": "^3.0.0",
     "jest": "<23",
     "ts-jest": "<23.10.0",
@@ -48,6 +47,7 @@
     "url": "https://github.com/boxing/boxrec"
   },
   "dependencies": {
+    "boxrec-requests": "^5.0.1",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
