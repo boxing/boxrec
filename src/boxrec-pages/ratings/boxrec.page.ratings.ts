@@ -1,5 +1,5 @@
 import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageRatingsActiveAllDivisionsRow} from "./boxrec.page.ratings.active-all-divisions.row";
 import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRow} from "./boxrec.page.ratings.active-inactive-all-divisions.row";
@@ -23,17 +23,19 @@ export class BoxrecPageRatings extends BoxrecPageLists {
 
     get boxers(): Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
         BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow> {
+        const headerColumns: string[] = getHeaderColumnText(this.$(ratingsTableEl));
+
         // todo iterates too many times through this, set variable?
-        return this.parseRatings().map(item => {
+        return this.parseRatingsTableContent().map(item => {
             switch (this.getRatingsType()) {
                 case BoxrecRatingsType.activeWeightDivision:
-                    return new BoxrecPageRatingsActiveDivisionRow(item);
+                    return new BoxrecPageRatingsActiveDivisionRow(headerColumns, item);
                 case BoxrecRatingsType.activeInactiveAllDivisions:
-                    return new BoxrecPageRatingsActiveInactiveAllDivisionsRow(item);
+                    return new BoxrecPageRatingsActiveInactiveAllDivisionsRow(headerColumns, item);
                 case BoxrecRatingsType.activeAllDivisions:
-                    return new BoxrecPageRatingsActiveAllDivisionsRow(item);
+                    return new BoxrecPageRatingsActiveAllDivisionsRow(headerColumns, item);
                 case BoxrecRatingsType.activeInactiveWeightDivision:
-                    return new BoxrecPageRatingsActiveInactiveDivisionRow(item);
+                    return new BoxrecPageRatingsActiveInactiveDivisionRow(headerColumns, item);
             }
         });
     }
@@ -45,7 +47,10 @@ export class BoxrecPageRatings extends BoxrecPageLists {
         };
     }
 
-    private parseRatings(): string[] {
+    /**
+     * Returns the HTML content of table rows
+     */
+    private parseRatingsTableContent(): string[] {
         return this.$(ratingsTableEl).find("tbody tr")
             .filter((index: number, tableRow: CheerioElement) => {
                 // being safe, we'll return true for anything greater than 6 columns

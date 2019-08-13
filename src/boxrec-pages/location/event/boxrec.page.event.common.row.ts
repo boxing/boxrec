@@ -1,17 +1,19 @@
 import * as cheerio from "cheerio";
-import {getColumnData} from "../../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {BoxrecBasic} from "../../boxrec.constants";
 
 export abstract class BoxrecPageEventCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        this.$ = cheerio.load(`<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`);
+    constructor(protected headerColumns: string[], boxrecBodyBout: string, additionalData: string | null = null) {
+        const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
+        this.$ = cheerio.load(html);
     }
 
     get venue(): BoxrecBasic {
-        const html: Cheerio = this.getVenueColumnData();
+        const html: Cheerio = this.$(`<div>${getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.venue)}</div>`);
         const venue: BoxrecBasic = {
             id: null,
             name: null,
@@ -26,23 +28,6 @@ export abstract class BoxrecPageEventCommonRow {
         });
 
         return venue;
-    }
-
-    protected getColumnData(colNum: number, returnHTML: boolean = true): string {
-        let columnNumber: number = colNum;
-        if (this.hasMoreColumns()) {
-            columnNumber++;
-        }
-        return getColumnData(this.$, columnNumber, returnHTML);
-    }
-
-    protected getVenueColumnData(): Cheerio {
-        throw new Error("Needs to be overridden by child class");
-    }
-
-    // this method if needed should be overridden in child class
-    protected hasMoreColumns(): boolean {
-        return false;
     }
 
 }

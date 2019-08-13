@@ -8,7 +8,7 @@ import {BoxrecDateOutput} from "./boxrec.page.date.constants";
 export class BoxrecPageDate extends BoxrecPageScheduleCommon {
 
     get events(): BoxrecDateEvent[] {
-        return this.parse().map((event: string) => new BoxrecDateEvent(event));
+        return this.parse(true).map((event: string) => new BoxrecDateEvent(event));
     }
 
     get output(): BoxrecDateOutput {

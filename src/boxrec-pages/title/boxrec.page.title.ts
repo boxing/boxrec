@@ -1,4 +1,4 @@
-import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecTitleOutput} from "./boxrec.page.title.constants";
@@ -23,7 +23,10 @@ export class BoxrecPageTitle extends BoxrecParseBouts {
      * @returns {BoxrecPageTitleRow[]}
      */
     get bouts(): BoxrecPageTitleRow[] {
-        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageTitleRow(val[0], val[1]));
+        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+
+        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageTitleRow(headerColumns,
+            val[0], val[1]));
     }
 
     /**

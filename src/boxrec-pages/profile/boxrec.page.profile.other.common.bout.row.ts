@@ -1,31 +1,31 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
 export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow {
 
-    protected readonly $: CheerioStatic;
-
     get date(): string {
-        return trimRemoveLineBreaks(getColumnData(this.$, 2, false));
+        return getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.date, false);
     }
 
+    // todo used on any profile?
     get firstBoxerRating(): Array<number | null> {
-        if (this.hasMoreColumns) {
-            return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnData(this.$, 4));
-        }
-
-        return [];
+        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.firstRating));
     }
 
+    // todo this seems busted, doesn't look like it exists for referee
     get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 2, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     get location(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 11));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.location));
     }
 
     get metadata(): string | null {
@@ -33,48 +33,46 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow 
     }
 
     get numberOfRounds(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnData(this.$, 13, false));
+        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.rounds, false));
     }
 
     get outcome(): WinLossDraw {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 12, false));
+        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.result, false));
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 14, false));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.rating));
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 6));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.opponent));
     }
 
+    // todo does not exist for referee
     get secondBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, 10));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.secondLast6));
     }
 
+    // todo used on any profile?
     get secondBoxerRating(): Array<number | null> {
-        if (this.hasMoreColumns) {
-            BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnData(this.$, 8));
-        }
-
-        return [];
+        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.secondRating));
     }
 
+    // todo does not exist for referee
     get secondBoxerRecord(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 9));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.secondRecord));
     }
 
     get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 7, false));
-    }
-
-    private get hasMoreColumns(): boolean {
-        // if the boxer ratings is showing, the number of columns changes from 14 to 16
-        return this.$(`tr:nth-child(1) td`).length === 16;
-    }
-
-    protected parseLinks(): Cheerio {
-        return this.$(getColumnData(this.$, 14));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
 }

@@ -1,5 +1,5 @@
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {trimRemoveLineBreaks} from "../../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationEventRowOutput} from "./boxrec.location.event.constants";
 import {BoxrecPageEventCommonRow} from "./boxrec.page.event.common.row";
@@ -7,19 +7,23 @@ import {BoxrecPageEventCommonRow} from "./boxrec.page.event.common.row";
 export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
 
     get date(): string {
-        return trimRemoveLineBreaks(this.getColumnData(2, false));
+        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.date, false));
     }
 
     get day(): string {
-        return this.getColumnData(3, false);
+        return getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.day, false);
     }
 
     get id(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseId(this.getColumnData(6));
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.links));
     }
 
     get location(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(this.getColumnData(5), 2);
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.location), 2);
     }
 
     get output(): BoxrecPageLocationEventRowOutput {
@@ -30,15 +34,6 @@ export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
             location: this.location,
             venue: this.venue,
         };
-    }
-
-    protected getVenueColumnData(): Cheerio {
-        return this.$(`<div>${this.getColumnData(4)}</div>`);
-    }
-
-    // unused here but used in parent class
-    protected hasMoreColumns(): boolean {
-        return this.$(`tr:nth-child(1) td`).length === 7;
     }
 
 }

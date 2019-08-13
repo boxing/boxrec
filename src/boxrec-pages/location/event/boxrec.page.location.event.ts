@@ -8,8 +8,6 @@ import {BoxrecPageLocationEventRow} from "./boxrec.page.location.event.row";
  */
 export class BoxrecPageLocationEvent extends BoxrecPageLists {
 
-    protected readonly $: CheerioStatic;
-
     get events(): BoxrecPageLocationEventRow[] {
         return this.getTableData(BoxrecPageLocationEventRow);
     }
@@ -22,7 +20,7 @@ export class BoxrecPageLocationEvent extends BoxrecPageLists {
     }
 
     get numberOfLocations(): number {
-        return this.getNumberOfPages();
+        return this.numberOfPages;
     }
 
 }

@@ -4,6 +4,7 @@ import {
     mockTitlesTitleSelectedSuperMiddleweight
 } from "boxrec-mocks";
 import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec.page.titles";
 
@@ -68,6 +69,10 @@ describe("class BoxrecPageTitles", () => {
                     firstBout = superMiddleweightTitle.output.bouts[0];
                 });
 
+                it("should have the outcome", () => {
+                    expect(Object.values(WinLossDraw)).toContain(firstBout.outcome);
+                });
+
                 it("should have the date", () => {
                     expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
                 });
@@ -115,6 +120,20 @@ describe("class BoxrecPageTitles", () => {
 
                     it("should have the rating", () => {
                         expect(firstBout.rating).toEqual(jasmine.any(Number));
+                    });
+
+                    it("should have the first boxer", () => {
+                        expect(firstBout.firstBoxer).toEqual({
+                            id: jasmine.any(Number),
+                            name: jasmine.any(String),
+                        });
+                    });
+
+                    it("should have the second boxer", () => {
+                        expect(firstBout.secondBoxer).toEqual({
+                            id: jasmine.any(Number),
+                            name: jasmine.any(String),
+                        });
                     });
 
                     it("should include the number of rounds", () => {

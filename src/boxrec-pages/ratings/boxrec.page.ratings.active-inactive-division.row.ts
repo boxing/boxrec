@@ -1,23 +1,15 @@
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveInactiveDivisionRowOutput} from "./boxrec.ratings.constants";
 
 // ratings page where both active/inactive are selected and a specific division
 export class BoxrecPageRatingsActiveInactiveDivisionRow extends BoxrecPageRatingsRow {
 
-    protected readonly columns: string[] = [
-        "id",
-        "name",
-        "points",
-        "record",
-        "career",
-        "last 6",
-        "stance",
-        "residence",
-    ];
-
     get career(): number[] {
-        return BoxrecPageRatingsHelpersRow.getCareer(this.$, this.getColumnByType("career"));
+        const career: string = getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.career,
+            false);
+
+        return career.split("-").map(item => parseInt(item, 10));
     }
 
     get output(): BoxrecPageRatingsActiveInactiveDivisionRowOutput {

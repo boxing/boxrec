@@ -7,8 +7,6 @@ import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";
  */
 export class BoxrecPageLocationBoxer extends BoxrecPageLocationPeople {
 
-    protected readonly $: CheerioStatic;
-
     get people(): BoxrecPageLocationBoxerRow[] {
         return this.getTableData(BoxrecPageLocationBoxerRow);
     }

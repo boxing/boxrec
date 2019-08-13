@@ -1,4 +1,5 @@
 import {mockMiddleweightWBCBelt} from "boxrec-mocks";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageTitle} from "./boxrec.page.title";
 import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 
@@ -49,6 +50,14 @@ describe("class BoxrecPageTitle", () => {
 
                 });
 
+                describe("getter outcome", () => {
+
+                    it("should have the outcome", () => {
+                        expect(Object.values(WinLossDraw)).toContain(mostRecentBout.outcome);
+                    });
+
+                });
+
                 describe("getter links", () => {
 
                     it("should return an object", () => {
@@ -80,6 +89,26 @@ describe("class BoxrecPageTitle", () => {
                     it("should include the name and id of the second boxer", () => {
                         expect(mostRecentBout.secondBoxer.id).not.toBeNull();
                         expect(mostRecentBout.secondBoxer.name).not.toBeNull();
+                    });
+
+                });
+
+                describe("getter firstBoxerWeight", () => {
+
+                    it("should be numeric", () => {
+                        // this is testing middleweight title bouts, we expect it should be at 155
+                        expect(mostRecentBout.firstBoxerWeight).toBeGreaterThan(155);
+                        expect(mostRecentBout.firstBoxerWeight).toBeLessThan(165);
+                    });
+
+                });
+
+                describe("getter secondBoxerWeight", () => {
+
+                    it("should be numeric", () => {
+                        // this is testing middleweight title bouts, we expect it should be at 155
+                        expect(mostRecentBout.secondBoxerWeight).toBeGreaterThan(155);
+                        expect(mostRecentBout.secondBoxerWeight).toBeLessThan(165);
                     });
 
                 });

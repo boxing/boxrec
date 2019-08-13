@@ -1,8 +1,10 @@
 import * as cheerio from "cheerio";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecVenueOutput} from "./boxrec.page.venue.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
+
+const tableEl: string = "#eventsTable";
 
 /**
  * parse a BoxRec Venue page
@@ -21,10 +23,12 @@ export class BoxrecPageVenue {
      * @returns {BoxrecPageVenueEventsRow[]} is in order of the page, events may have been inserted into BoxRec and the IDs will not always be in order
      */
     get events(): BoxrecPageVenueEventsRow[] {
-        return this.$("#eventsTable tbody tr")
+        const headerColumns: string[] = getHeaderColumnText(this.$(tableEl));
+
+        return this.$(tableEl).find("tbody tr")
             .map((i: number, elem: CheerioElement) => this.$(elem).html())
             .get()
-            .map(item => new BoxrecPageVenueEventsRow(item));
+            .map(item => new BoxrecPageVenueEventsRow(headerColumns, item));
     }
 
     /**
