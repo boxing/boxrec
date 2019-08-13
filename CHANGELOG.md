@@ -1,3 +1,9 @@
+## 5.0.1 (2019-08-12)
+
+### Fixed
+
+-   Move `boxrec-requests` back to being a necessary dependency
+
 ## 5.0.0 (2019-08-12)
 
 ### Fixed
