@@ -1,73 +1,58 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
-
-// do not include `id` or `last6` which are part of `name` and `record` columns
-type RatingsColumns =
-    "name" | "points" | "rating" | "age" | "career" |
-    "record" | "stance" | "residence" | "division" | "last 6" | "ranking";
 
 export abstract class BoxrecPageRatingsRow {
 
     protected readonly $: CheerioStatic;
-    protected abstract readonly columns: string[] = []; // abstracted
 
-    constructor(boxrecBodyBout: string) {
+    constructor(protected headerColumns: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
     get hasBoutScheduled(): boolean {
-        return getColumnData(this.$, this.getColumnByType("name"), false).slice(-1) === "*";
+        return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.name, false)
+            .slice(-1) === "*";
     }
 
     get id(): number {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnData(this.$,
-            this.getColumnByType("name"))) as number;
+        return BoxrecCommonTablesColumnsClass.parseId(
+            getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.name)) as number;
     }
 
     get last6(): WinLossDraw[] {
         // `record` and `last6` *were* lumped under the same `td` at one point
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, this.getColumnByType("last 6")));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(
+            getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.firstLast6));
     }
 
     get name(): string {
-        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, this.getColumnByType("name")));
+        return BoxrecCommonTablesColumnsClass.parseName(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.name, false));
     }
 
     get points(): number | null {
-        const points: number = parseInt(getColumnData(this.$, 3, false),
-            this.getColumnByType("points"));
+        const pointsData: string = getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.points, false);
+        const points: number = parseInt(pointsData, 10);
 
         return !isNaN(points) ? points : null;
     }
 
     get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, this.getColumnByType("record")));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.record));
     }
 
     get residence(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass
-            .parseLocationLink(getColumnData(this.$, this.getColumnByType("residence")));
+            .parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
+                BoxrecCommonTableHeader.residence));
     }
 
     get stance(): Stance {
-        return trimRemoveLineBreaks(getColumnData(this.$, this.getColumnByType("stance"), false)) as Stance;
+        return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.stance, false) as Stance;
     }
-
-    // classes that inherit this class require a `columns` array
-    protected getColumnByType(columnType: RatingsColumns): number {
-        // todo instead of hardcoding the columns, find the column by name
-        let columnIdx: number = this.columns.findIndex(item => item === columnType);
-
-        if (columnIdx > -1) {
-            columnIdx++;
-        } else {
-            throw new Error("Trying to find column that isn't accounted for");
-        }
-
-        return columnIdx;
-    }
-
 }

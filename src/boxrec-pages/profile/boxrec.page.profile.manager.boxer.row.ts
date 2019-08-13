@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
@@ -9,13 +9,14 @@ export class BoxrecPageProfileManagerBoxerRow {
 
     private readonly $: CheerioStatic;
 
-    constructor(boxrecBodyString: string) {
+    constructor(private headerColumns: string[], boxrecBodyString: string) {
         const html: string = `<table><tr>${boxrecBodyString}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
     get age(): number | null {
-        const age: string = getColumnData(this.$, 6, false);
+        const age: string = getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.age, false);
         if (age) {
             return parseInt(age, 10);
         }
@@ -24,7 +25,9 @@ export class BoxrecPageProfileManagerBoxerRow {
     }
 
     get debut(): string | null {
-        const debut: string = getColumnData(this.$, 7, false);
+        const debut: string = getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.debut, false);
+
         if (debut) {
             return debut;
         }
@@ -33,29 +36,36 @@ export class BoxrecPageProfileManagerBoxerRow {
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 2, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.division, false));
     }
 
     get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, 4));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.firstLast6));
     }
 
-    get name(): string | null {
-        return getColumnData(this.$, 1, false) || null;
+    get name(): string {
+        return getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.name, false);
     }
 
     get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 3));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.record));
     }
 
     get residence(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 7));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.residence));
     }
 
     get stance(): Stance | null {
-        const stance: string = getColumnData(this.$, 5, false);
+        const stance: string = getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.stance, false);
+
         if (stance) {
-            return trimRemoveLineBreaks(stance) as Stance;
+            return stance as Stance;
         }
 
         return null;

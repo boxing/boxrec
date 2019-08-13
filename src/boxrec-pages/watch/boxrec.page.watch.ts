@@ -39,6 +39,7 @@ export class BoxrecPageWatch {
      * Returns true if the boxer exists in the list
      * @param {number} boxerGlobalId
      * @returns {boolean}
+     * // todo maybe this shouldn't be part of the class as it's not related
      */
     checkForBoxerInList(boxerGlobalId: number): boolean {
         return !!this.list.find((item: BoxrecPageWatchRow) => item.globalId === boxerGlobalId);
