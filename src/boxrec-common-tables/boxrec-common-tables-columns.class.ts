@@ -289,7 +289,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
         const starRating: Cheerio = html.find(".starRating");
 
         if (starRating && starRating.get(0)) {
-            const widthString: string = html.find(".starRating").get(0).attribs.style;
+            const widthString: string = starRating.get(0).attribs.style;
 
             if (widthString) {
                 const regex: RegExp = /width:\s(\d+)%;/;

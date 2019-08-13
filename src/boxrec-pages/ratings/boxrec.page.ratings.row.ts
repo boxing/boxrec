@@ -2,18 +2,14 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
-
-// do not include `id` or `last6` which are part of `name` and `record` columns
-type RatingsColumns =
-    "name" | "points" | "rating" | "age" | "career" |
-    "record" | "stance" | "residence" | "division" | "last 6" | "ranking";
+import {RatingsColumns} from "./boxrec.ratings.constants";
 
 export abstract class BoxrecPageRatingsRow {
 
     protected readonly $: CheerioStatic;
     protected abstract readonly columns: string[] = []; // abstracted
 
-    constructor(boxrecBodyBout: string) {
+    constructor(private headerColumnText: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
     }
@@ -44,7 +40,7 @@ export abstract class BoxrecPageRatingsRow {
     }
 
     get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, this.getColumnByType("record")));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, this.getColumnByType("w-l-d")));
     }
 
     get residence(): BoxrecLocation {
@@ -59,12 +55,13 @@ export abstract class BoxrecPageRatingsRow {
     // classes that inherit this class require a `columns` array
     protected getColumnByType(columnType: RatingsColumns): number {
         // todo instead of hardcoding the columns, find the column by name
-        let columnIdx: number = this.columns.findIndex(item => item === columnType);
+        let columnIdx: number = this.headerColumnText.findIndex(item => item === columnType);
 
         if (columnIdx > -1) {
             columnIdx++;
         } else {
-            throw new Error("Trying to find column that isn't accounted for");
+            console.log(this.headerColumnText)
+            throw new Error(`Trying to find column that isn't accounted for: ${columnType}`);
         }
 
         return columnIdx;
