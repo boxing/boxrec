@@ -1,5 +1,5 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
 import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
 
@@ -249,8 +249,13 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @hidden
      * @returns {U[]}
      */
-    protected getBouts<U>(boutsListArr: Array<[string, string | null]>, type: (new (boxrecBodyBout: string, additionalData: string | null) => U)): U[] {
-        return boutsListArr.map((val: [string, string | null]) => new type(val[0], val[1]));
+    protected getBouts<U>(boutsListArr: Array<[string, string | null]>,
+                          type: (new (headerColumns: string[], boxrecBodyBout: string, additionalData: string | null)
+                              => U)): U[] {
+        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+        // todo also heads up that the opponent last6 is labelled firstLast6 because it only shows the opponents
+
+        return boutsListArr.map((val: [string, string | null]) => new type(headerColumns, val[0], val[1]));
     }
 
     /**

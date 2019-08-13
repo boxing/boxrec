@@ -1,4 +1,5 @@
 import {mockEventPageBellewHaye2, mockEventPageMayweatherMcGregor} from "boxrec-mocks";
+import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
 import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventOutput, BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
@@ -160,6 +161,47 @@ describe("class BoxrecPageEvent", () => {
 
                 it("should return last 6", () => {
                     expect(bout.firstBoxerLast6).toEqual(Array(6).fill(WinLossDraw.win));
+                });
+
+            });
+
+            describe("getter secondBoxerLast6", () => {
+
+                it("should return last 6", () => {
+                    expect(bout.secondBoxerLast6.length).toBe(6);
+                    expect(bout.secondBoxerLast6[5]).toBe(WinLossDraw.loss);
+                });
+
+            });
+
+            describe("getter divisions", () => {
+
+                it("should return the division", () => {
+                    expect(bout.division).toBe(WeightDivision.heavyweight);
+                });
+
+            });
+
+            describe("getter firstBoxerWeight", () => {
+
+                it("should return the first fighter's weight", () => {
+                    expect(bout.firstBoxerWeight).toBe(210.25);
+                });
+
+            });
+
+            describe("getter firstBoxerLast6", () => {
+
+                it("should return the first fighter's last 6", () => {
+                    expect(bout.firstBoxerLast6).toEqual(Array.from(Array(6), () => WinLossDraw.win));
+                });
+
+            });
+
+            describe("getter secondBoxerWeight", () => {
+
+                it("should return the second fighter's weight", () => {
+                    expect(bout.secondBoxerWeight).toBe(220);
                 });
 
             });

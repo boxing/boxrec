@@ -2,7 +2,7 @@ import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants"
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
@@ -10,45 +10,43 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
 export class BoxrecPageEventBoutRow {
 
     private readonly $: CheerioStatic;
-    private readonly isEventPage: boolean = false;
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null, isEventPage = false) {
+    constructor(private headerColumns: string[], boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
-        this.isEventPage = isEventPage; // should extend this class for date/event
         this.$ = cheerio.load(html);
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 2, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.division, false));
     }
 
     get firstBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 3));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.fighter));
     }
 
     get firstBoxerLast6(): WinLossDraw[] {
-        const column: number = this.isEventPage ? 6 : 5;
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(column, 0, true));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.firstLast6));
     }
 
     // returns an object with keys that contain a class other than `primaryIcon`
 
     get firstBoxerRecord(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(5, 0));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.record));
     }
 
     get firstBoxerWeight(): number | null {
-        if (this.hasMoreColumns) {
-            return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 4, false));
-        }
-
-        return null;
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     // not the exact same as the other page links
     get links(): BoxrecEventLinks {
-        const column: number = this.isEventPage ? 16 : 13;
-        const linksStr: string = this.getColumnData(column, 0, true);
+        const linksStr: string = getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.links);
 
         return BoxrecCommonLinks.parseLinkInformation<BoxrecEventLinks>(this.$(linksStr), {
             bio: null,
@@ -62,23 +60,18 @@ export class BoxrecPageEventBoutRow {
     }
 
     get numberOfRounds(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(this.getColumnData(7, 2));
+        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.rounds));
     }
 
     get outcome(): WinLossDraw | null {
-        if (this.hasMoreColumns) {
-            return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 7, false));
-        }
-
-        return null;
+        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.outcome, false));
     }
 
     get outcomeByWayOf(): string | null {
-        if (this.hasMoreColumns) {
-            return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnData(this.$, 8));
-        }
-
-        return null;
+        return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.outcomeByWayOf));
     }
 
     get output(): BoxrecEventBoutRowOutput {
@@ -103,45 +96,33 @@ export class BoxrecPageEventBoutRow {
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(this.getColumnData(14, 3));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.rating, false));
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(this.getColumnData(8, 2));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(this.getColumnData(10, 3));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.secondLast6));
     }
 
     get secondBoxerRecord(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(this.getColumnData(9, 3));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.secondRecord));
     }
 
     get secondBoxerWeight(): number | null {
-        if (this.hasMoreColumns) {
-            return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 11, false));
-        }
-
-        return null;
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
     get sport(): BoxrecFighterRole {
-        return this.getColumnData( 11, 4, false) as BoxrecFighterRole;
-    }
-
-    private get hasMoreColumns(): boolean {
-        // if event has occurred, there are number of different columns
-        // todo does this work for logged out, logged in and logged out (not happened event)?
-        return this.$(`tr:nth-child(1) td`).length === 16;
-    }
-
-    private getColumnData(colNum: number, numberToBumpBy: number = 1, returnHTML: boolean = true): string {
-        let columnNumber: number = colNum;
-        if (this.hasMoreColumns) {
-            columnNumber += numberToBumpBy;
-        }
-        return getColumnData(this.$, columnNumber, returnHTML);
+        return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.sport,
+            false) as BoxrecFighterRole;
     }
 
 }

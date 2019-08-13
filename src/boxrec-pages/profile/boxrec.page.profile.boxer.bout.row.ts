@@ -1,14 +1,12 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
-
-    protected readonly $: CheerioStatic;
 
     /**
      * Parses Before/After ratings of a boxer
@@ -34,7 +32,8 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(getColumnData(this.$, 2, false));
+        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.date, false));
     }
 
     /**
@@ -45,15 +44,13 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
      * @returns {(number | null)[]}
      */
     get firstBoxerRating(): Array<number | null> {
-        if (this.hasMoreColumns) {
-            return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnData(this.$, 4));
-        }
-
-        return [];
+        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.firstRating));
     }
 
     get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 3, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     get judges(): BoxrecJudge[] {
@@ -71,7 +68,8 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
      * to guess if the location object is correct
      */
     get location(): string {
-        return trimRemoveLineBreaks(getColumnData(this.$, 11, false));
+        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.location, false));
     }
 
     get metadata(): string | null {
@@ -79,11 +77,13 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
     }
 
     get numberOfRounds(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnData(this.$, 14));
+        return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.rounds));
     }
 
     get outcome(): WinLossDraw {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnData(this.$, 12, false));
+        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.result, false));
     }
 
     get output(): BoxrecProfileBoxerBoutOutput {
@@ -110,7 +110,8 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, 15));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.rating));
     }
 
     get referee(): BoxrecBasic {
@@ -119,7 +120,9 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
     }
 
     get result(): [WinLossDraw, BoxingBoutOutcome | string | null, BoxingBoutOutcome | string | null] {
-        const result: string = getColumnData(this.$, 13);
+        const result: any = getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.outcomeByWayOf);
+        // const result: string = getColumnData(this.$, 13);
         return [
             this.outcome,
             BoxrecPageProfileBoxerBoutRow.outcomeByWayOf(result),
@@ -128,11 +131,14 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
     }
 
     get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnData(this.$, 6));
+        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, 10));
+        // we return first fighter last 6 because the table only contains the opponents last 6
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.firstLast6));
     }
 
     /**
@@ -143,19 +149,18 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
      * @returns {(number | null)[]}
      */
     get secondBoxerRating(): Array<number | null> {
-        if (this.hasMoreColumns) {
-            return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnData(this.$, 8));
-        }
-
-        return [];
+        return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.secondRating));
     }
 
     get secondBoxerRecord(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 9));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.record));
     }
 
     get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 7, false));
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
+            this.headerColumns, BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
     get titles(): BoxrecTitles[] {
@@ -166,15 +171,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
         }
 
         return [];
-    }
-
-    private get hasMoreColumns(): boolean {
-        // if the boxer ratings is showing, the number of columns changes from 14 to 16
-        return this.$(`tr:nth-child(1) td`).length === 16;
-    }
-
-    protected parseLinks(): Cheerio {
-        return this.$(getColumnData(this.$, 16, true));
     }
 
 }

@@ -1,6 +1,9 @@
+import {getHeaderColumnText} from "../../helpers";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileEventsOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
+
+const tableEl: string = ".dataTable";
 
 /**
  * Parses profiles that have events listed
@@ -13,10 +16,12 @@ export class BoxrecPageProfileEvents extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileEventRow[]}
      */
     get events(): BoxrecPageProfileEventRow[] {
-        return this.$(".dataTable tbody tr")
+        const headerColumns: string[] = getHeaderColumnText(this.$(tableEl));
+
+        return this.$(tableEl).find("tbody tr")
             .map((index: number, elem: CheerioElement) => this.$(elem).html() || "")
             .get() // Cheerio -> string[]
-            .map(item => new BoxrecPageProfileEventRow(item));
+            .map(item => new BoxrecPageProfileEventRow(headerColumns, item));
     }
 
     get output(): BoxrecProfileEventsOutput {

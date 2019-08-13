@@ -23,6 +23,11 @@ interface BoxrecRatingsBasic {
     stance: Stance | null;
 }
 
+// used for figuring out table column order
+export type RatingsColumns =
+    "name" | "points" | "rating" | "age" | "career" |
+    "w-l-d" | "stance" | "residence" | "division" | "last 6" | "ranking";
+
 export interface BoxrecPageRatingsActiveDivisionRowOutput extends BoxrecRatingsBasic {
     age: number | null;
     rating: number | null;

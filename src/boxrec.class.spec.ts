@@ -2,7 +2,7 @@ import {mockProfileBoxerRJJ, mockProfileJudgeDaveMoretti} from "boxrec-mocks";
 import {BoxrecRequests} from "boxrec-requests";
 import {BoxrecFighterOption, BoxrecRole, Country} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as fs from "fs";
-import {CookieJar} from "request";
+import {CookieJar, Response} from "request";
 import * as rp from "request-promise";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";

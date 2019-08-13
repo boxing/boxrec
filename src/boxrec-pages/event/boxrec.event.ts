@@ -1,5 +1,5 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
@@ -83,11 +83,9 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
                     id: getLocationValue(links.get(0).attribs.href, "town"),
                     name: links.get(0).children[0].data as string,
                 };
-                locationObject.country = {
-                    id: getLocationValue(links.get(1).attribs.href, "country"),
-                    name: links.get(1).children[0].data as string,
-                };
-            } else if (links.length === 1) {
+            }
+
+            if (links.length === 2 || links.length === 1) {
                 locationObject.country = {
                     id: getLocationValue(links.get(1).attribs.href, "country"),
                     name: links.get(1).children[0].data as string,
@@ -99,8 +97,10 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
     }
 
     get bouts(): BoxrecPageEventBoutRow[] {
+        const headerColumns: string[] = getHeaderColumnText(this.$("table"), 2);
+
         return this.parseBouts().map((val: [string, string | null]) =>
-            new BoxrecPageEventBoutRow(val[0], val[1], true));
+            new BoxrecPageEventBoutRow(headerColumns, val[0], val[1]));
     }
 
     get location(): BoxrecBoutLocation {

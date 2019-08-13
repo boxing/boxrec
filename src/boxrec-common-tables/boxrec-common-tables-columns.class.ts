@@ -241,26 +241,18 @@ export abstract class BoxrecCommonTablesColumnsClass {
     static parseOutcome(htmlString: string): WinLossDraw {
         let outcome: string = htmlString;
         outcome = outcome.trim();
-        let formattedOutcome: WinLossDraw;
-
         switch (outcome) {
             case "W":
-                formattedOutcome = WinLossDraw.win;
-                break;
+                return WinLossDraw.win;
             case "D":
-                formattedOutcome = WinLossDraw.draw;
-                break;
+                return WinLossDraw.draw;
             case "L":
-                formattedOutcome = WinLossDraw.loss;
-                break;
+                return WinLossDraw.loss;
             case "S":
-                formattedOutcome = WinLossDraw.scheduled;
-                break;
+                return WinLossDraw.scheduled;
             default:
-                formattedOutcome = WinLossDraw.unknown;
+                return WinLossDraw.unknown;
         }
-
-        return formattedOutcome;
     }
 
     /**
@@ -289,7 +281,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
         const starRating: Cheerio = html.find(".starRating");
 
         if (starRating && starRating.get(0)) {
-            const widthString: string = html.find(".starRating").get(0).attribs.style;
+            const widthString: string = starRating.get(0).attribs.style;
 
             if (widthString) {
                 const regex: RegExp = /width:\s(\d+)%;/;

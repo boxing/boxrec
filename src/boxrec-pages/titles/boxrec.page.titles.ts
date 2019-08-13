@@ -1,4 +1,4 @@
-import {stripCommas} from "../../helpers";
+import {getHeaderColumnText, stripCommas} from "../../helpers";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecTitlesOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
@@ -10,7 +10,10 @@ import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
 export class BoxrecPageTitles extends BoxrecParseBouts {
 
     get bouts(): BoxrecPageTitlesRow[] {
-        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageTitlesRow(val[0], val[1]));
+        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+
+        return this.parseBouts().map((val: [string, string | null]) =>
+            new BoxrecPageTitlesRow(headerColumns, val[0], val[1]));
     }
 
     get numberOfPages(): number {

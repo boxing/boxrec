@@ -9,7 +9,11 @@ export abstract class BoxrecPageScheduleCommon {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
-    protected parse(): string[] {
+    /**
+     * Parses different table formats into a way we can parse the information out of the table further
+     * @param headerLocationFirst if true the header information we require is the first thead element
+     */
+    protected parse(headerLocationFirst: boolean = false): string[] {
         // this is set up incredibly strange on BoxRec
         // so it's just a giant slew of `thead` and `tbody`
         // loop through, if `thead`, it's the new schedule
@@ -23,7 +27,9 @@ export abstract class BoxrecPageScheduleCommon {
             const tagName: string = el.get(0).tagName; // this will either be `thead` or `tbody`
 
             if (tagName === "thead") { // is the date, location, event, wiki
-                if (i !== 1) { // `1` is the column headers `division`, `boxer`, etc. ignore it
+                if (headerLocationFirst && i === 1) {
+                    event += `<thead>${el.html()}</thead>`;
+                } else if (i !== 1) {
                     event += `<thead>${el.html()}</thead>`;
                 }
             } else { // are the bouts, or just an empty space to break up the content

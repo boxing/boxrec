@@ -343,9 +343,22 @@ describe("class Boxrec (E2E)", () => {
                 expect(getBoxer(352).alias).toBe("Money / Pretty Boy");
             });
 
-            xit("should include the number of bouts they were in", () => {
-                // todo bouts are broken into 100 per page
-                expect(getBoxer(9625).bouts.length).toBe(201);
+            describe("number of bouts", () => {
+
+                it("should include the number of bouts they were in", () => {
+                    expect(getBoxer(352).bouts.length).toBe(50);
+                });
+
+                it("should break number of boxer bouts to multiple pages", async () => {
+                    const sugarRayRobinsonPage1: BoxrecPageProfileBoxer = boxers.get(9625) as BoxrecPageProfileBoxer;
+                    const sugarRayRobinsonPage2: BoxrecPageProfileBoxer =
+                        await Boxrec.getPersonById(loggedInCookie, 9625, BoxrecRole.proBoxer,
+                            sugarRayRobinsonPage1.bouts.length) as BoxrecPageProfileBoxer;
+
+                    expect(sugarRayRobinsonPage1.bouts[0].secondBoxer.name)
+                        .not.toEqual(sugarRayRobinsonPage2.bouts[0].secondBoxer.name);
+                });
+
             });
 
             it("should return if they are suspended or not", () => {
@@ -850,6 +863,7 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should offset the results if using `offset` param", () => {
+            // todo this doesn't work properly
             expect(results.people[0].id).not.toBe(nextResults.people[0].id);
         });
 
