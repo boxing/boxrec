@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,10 +10,11 @@
     "generate-docs": "typedoc --out ./docs --includes ./src --mode file --excludeExternals --excludePrivate --exclude \"**/*+(index|.spec|.e2e).ts\"",
     "prepublish": "npm run build",
     "start": "tsc -w",
-    "test": "jest --config jest.config.json --coverage",
+    "test": "jest --config jest.config.json",
+    "test:coverage": "yarn test --coverage",
+    "test:coverage:watch": "yarn test:coverage --watchAll",
+    "test:watch": "yarn test --watchAll",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand",
-    "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
-    "test-watch": "jest --config jest.config.json --watchAll",
     "tslint": "tslint -c tslint.json src/**/*.ts"
   },
   "keywords": [
@@ -29,7 +30,8 @@
     "@types/jest": "^22.1.1",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
-    "boxrec-mocks": "2.4.0",
+    "boxrec-mocks": "^3.0.0",
+    "boxrec-requests": "^5.0.1",
     "coveralls": "^3.0.0",
     "jest": "<23",
     "ts-jest": "<23.10.0",
@@ -46,7 +48,6 @@
     "url": "https://github.com/boxing/boxrec"
   },
   "dependencies": {
-    "boxrec-requests": "^4.2.3",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"

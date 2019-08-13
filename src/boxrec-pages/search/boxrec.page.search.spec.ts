@@ -1,4 +1,5 @@
 import {mockSearchMayweather} from "boxrec-mocks";
+import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageSearch} from "./boxrec.page.search";
 import {BoxrecSearch} from "./boxrec.search.constants";
@@ -31,6 +32,15 @@ describe("class BoxrecPageSearch", () => {
 
                     it("should return the id of the boxer", () => {
                         expect(output[1].id).toBe(352);
+                    });
+
+                });
+
+                describe("getter sport", () => {
+
+                    // todo this should either be fine or return the URL role
+                    xit("should return the sport", () => {
+                        expect(output[1].sport).toBe(BoxrecFighterRole.proBoxer);
                     });
 
                 });
@@ -71,6 +81,8 @@ describe("class BoxrecPageSearch", () => {
 
                 describe("getter division", () => {
 
+                    // todo when person has multiple roles, it tells both careers/last6/divisions for that person
+                    // ex. search `Hector Madera`
                     it("should return the division of the boxer", () => {
                         expect(output[1].division).toBe("welterweight");
                     });

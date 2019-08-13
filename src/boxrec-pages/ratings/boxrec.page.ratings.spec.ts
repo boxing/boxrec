@@ -16,19 +16,13 @@ import {
 
 describe("class BoxrecPageRatings", () => {
 
-    let ratings: BoxrecPageRatings;
-    let ratingsDivisionActiveInactive: BoxrecPageRatings;
-    let ratingsAllDivisionsActiveInactive: BoxrecPageRatings;
-    let ratingsAllDivisionsActive: BoxrecPageRatings;
-
-    beforeAll(() => {
-        ratings = new BoxrecPageRatings(mockRatings);
-        ratingsDivisionActiveInactive = new BoxrecPageRatings(mockActiveAndInactiveRatings);
-        ratingsAllDivisionsActiveInactive = new BoxrecPageRatings(mockActiveAndInactiveNoDivisionRatings);
-        ratingsAllDivisionsActive = new BoxrecPageRatings(mockNoDivisionRatings);
-    });
-
     describe("active boxers with division", () => {
+
+        let ratings: BoxrecPageRatings;
+
+        beforeAll(() => {
+            ratings = new BoxrecPageRatings(mockRatings);
+        });
 
         describe("getter boxers", () => {
 
@@ -131,8 +125,12 @@ describe("class BoxrecPageRatings", () => {
                         expect(ratingsOutput.residence.country).toEqual(obj);
                     });
 
-                    it("should return the region", () => {
-                        expect(ratingsOutput.residence.region).toEqual(obj);
+                    it("should return the region (used to be populated, is now `null`)", () => {
+                        expect(ratingsOutput.residence.region).toEqual({
+                            // ratings removed `region` at some point
+                            id: null,
+                            name: null,
+                        });
                     });
 
                     it("should return the town", () => {
@@ -148,6 +146,12 @@ describe("class BoxrecPageRatings", () => {
     });
 
     describe("active/inactive boxers with division", () => {
+
+        let ratingsDivisionActiveInactive: BoxrecPageRatings;
+
+        beforeAll(() => {
+            ratingsDivisionActiveInactive = new BoxrecPageRatings(mockActiveAndInactiveRatings);
+        });
 
         describe("getter boxers", () => {
 
@@ -205,6 +209,12 @@ describe("class BoxrecPageRatings", () => {
 
     describe("active/inactive boxers ALL divisions", () => {
 
+        let ratingsAllDivisionsActiveInactive: BoxrecPageRatings;
+
+        beforeAll(() => {
+            ratingsAllDivisionsActiveInactive = new BoxrecPageRatings(mockActiveAndInactiveNoDivisionRatings);
+        });
+
         describe("getter boxers", () => {
 
             it("should return an array of ratings", () => {
@@ -236,6 +246,12 @@ describe("class BoxrecPageRatings", () => {
     });
 
     describe("active boxers ALL divisions (P4P)", () => {
+
+        let ratingsAllDivisionsActive: BoxrecPageRatings;
+
+        beforeAll(() => {
+            ratingsAllDivisionsActive = new BoxrecPageRatings(mockNoDivisionRatings);
+        });
 
         describe("getter boxers", () => {
 

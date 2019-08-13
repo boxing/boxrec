@@ -29,9 +29,7 @@ rp.cookie = () => {
 
 rp.get = () => {
     return Promise.resolve({
-        headers: {
-            "set-cookie": [PHPSESSID],
-        }
+        //
     });
 };
 

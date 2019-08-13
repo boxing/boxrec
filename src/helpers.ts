@@ -117,6 +117,11 @@ export const getLocationValue: (href: string, type: "town" | "region" | "country
         return null;
     };
 
+// replaces short division with full ex. Middle Title -> Middleweight Title
+// ex. World Boxing Council World Middle Title -> World Boxing Council World Middleweight Title
+export const replaceWithWeight: (str: string) => string =
+    (str: string) => trimRemoveLineBreaks(str).replace(/(\w+)\sTitle$/i, "$1weight Title");
+
 export const parseHeight: (height: string | void) => number[] | null =
     (height: string | void): number[] | null => {
         if (height) {

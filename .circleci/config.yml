@@ -37,7 +37,9 @@ jobs:
         command: npm run tslint
     - run:
         name: Run tests
-        command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
+        command: yarn jest --ci --config=jest.config.json --coverage --runInBand
+        # coveralls was down, therefore not pushing to coveralls at this point until resolved
+        # command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
     - run:
         name: Generate docs
         command: npm run generate-docs

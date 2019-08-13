@@ -1,5 +1,5 @@
+import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecBout} from "../boxrec.constants";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 
 export interface BoxrecProfile {
     KOs: number | null;

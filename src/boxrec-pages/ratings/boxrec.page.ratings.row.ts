@@ -6,7 +6,7 @@ import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 // do not include `id` or `last6` which are part of `name` and `record` columns
 type RatingsColumns =
     "name" | "points" | "rating" | "age" | "career" |
-    "record" | "stance" | "residence" | "division" | "ranking";
+    "record" | "stance" | "residence" | "division" | "last 6" | "ranking";
 
 export abstract class BoxrecPageRatingsRow {
 
@@ -28,8 +28,8 @@ export abstract class BoxrecPageRatingsRow {
     }
 
     get last6(): WinLossDraw[] {
-        // `record` and `last6` are lumped under the same `td`
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, this.getColumnByType("record")));
+        // `record` and `last6` *were* lumped under the same `td` at one point
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, this.getColumnByType("last 6")));
     }
 
     get name(): string {
@@ -58,6 +58,7 @@ export abstract class BoxrecPageRatingsRow {
 
     // classes that inherit this class require a `columns` array
     protected getColumnByType(columnType: RatingsColumns): number {
+        // todo instead of hardcoding the columns, find the column by name
         let columnIdx: number = this.columns.findIndex(item => item === columnType);
 
         if (columnIdx > -1) {

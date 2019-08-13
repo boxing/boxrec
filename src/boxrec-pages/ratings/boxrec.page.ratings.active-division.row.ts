@@ -12,6 +12,7 @@ export class BoxrecPageRatingsActiveDivisionRow extends BoxrecPageRatingsRow {
         "rating",
         "age",
         "record",
+        "last 6",
         "stance",
         "residence",
     ];

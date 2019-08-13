@@ -1,4 +1,5 @@
 import {mockChampions} from "boxrec-mocks";
+import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
 import {
     BoxrecChampionsByWeightDivision,
     BoxrecChampionsOutput,
@@ -12,7 +13,7 @@ interface ExtendedMatchers extends jest.Matchers<void> {
 
 expect.extend({
     toBeCDNLinkOrNull(received: string | null): { message: () => string, pass: boolean } {
-        if ((received && received.includes("http://static.boxrec.com/thumb")) || received === null) {
+        if ((received && /https:\/\/boxrec.com\/media\/images/.test(received)) || received === null) {
             return {
                 message: () => "is valid",
                 pass: true,
@@ -43,7 +44,7 @@ describe("class BoxrecPageChampions", () => {
         });
 
         it("first array should be for heavyweights", () => {
-            expect(list[0].weightDivision).toBe("heavyweight");
+            expect(list[0].weightDivision).toBe(WeightDivision.heavyweight);
         });
 
         it("beltHolders should be an object with all the belts", () => {

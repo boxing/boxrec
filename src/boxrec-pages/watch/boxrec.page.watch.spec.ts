@@ -1,6 +1,4 @@
 import {mockWatched} from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageWatch} from "./boxrec.page.watch";
 import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
 import {BoxrecPageWatchRowOutput} from "./boxrec.watch.constants";
@@ -52,22 +50,8 @@ describe("class BoxrecPageWatch", () => {
                 expect(boxer.name).toBe("Heather Hardy");
             });
 
-            it("should return the division", () => {
-                expect(boxer.division).toBe(WeightDivision.featherweight);
-            });
-
             it("should return the alias", () => {
                 expect(boxer.alias).toBe("The Heat");
-            });
-
-            it("should return the last 6", () => {
-                expect(boxer.last6).toContain(WinLossDraw.win);
-            });
-
-            it("should return the record but the values should be `null` because nothing appears on the page", () => {
-                expect(boxer.record.win).toBeNull();
-                expect(boxer.record.draw).toBeNull();
-                expect(boxer.record.loss).toBeNull();
             });
 
             describe("getter schedule", () => {

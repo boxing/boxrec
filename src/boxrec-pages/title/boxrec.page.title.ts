@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecTitleOutput} from "./boxrec.page.title.constants";
@@ -62,7 +62,7 @@ export class BoxrecPageTitle extends BoxrecParseBouts {
     }
 
     get name(): string {
-        return trimRemoveLineBreaks(this.$("h1").text());
+        return replaceWithWeight(this.$("#pageOuter h1").text());
     }
 
     get output(): BoxrecTitleOutput {
