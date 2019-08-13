@@ -135,7 +135,7 @@ export class Boxrec {
      */
     static async getEventsByLocation(cookieJar: CookieJar, params: BoxrecLocationEventParams, offset: number = 0): Promise<BoxrecPageLocationEvent> {
         const boxrecPageBody: RequestResponse["body"] =
-            await BoxrecRequests.getEventsByLocation(cookieJar, params, offset);
+            await BoxrecRequests.getEvents(cookieJar, params, offset);
 
         return new BoxrecPageLocationEvent(boxrecPageBody);
     }
@@ -150,7 +150,7 @@ export class Boxrec {
     static async getPeopleByLocation(cookieJar: CookieJar, params: BoxrecLocationsPeopleParams, offset: number = 0):
         Promise<BoxrecPageLocationPeople | BoxrecPageLocationBoxer> {
         const boxrecPageBody: RequestResponse["body"] =
-            await BoxrecRequests.getPeopleByLocation(cookieJar, params, offset);
+            await BoxrecRequests.getPeople(cookieJar, params, offset);
 
         if (params.role === BoxrecRole.proBoxer) {
             return new BoxrecPageLocationBoxer(boxrecPageBody);
@@ -162,9 +162,10 @@ export class Boxrec {
     /**
      * Make a request to BoxRec to get a person by their BoxRec Global ID
      * @param {jar} cookieJar
-     * @param {number} globalId                 the BoxRec profile id
-     * @param {BoxrecRole} role                 the role of the person in boxing (there seems to be multiple profiles for people if they fall under different roles)
-     * @param {number} offset                   offset number of bouts/events in the profile.  Not used for boxers as boxer's profiles list all bouts they've been in
+     * @param {number} globalId     the BoxRec profile id
+     * @param {BoxrecRole} role     the role of the person in boxing (there seems to be multiple profiles for people if they fall under different roles)
+     * @param {number} offset       offset number of bouts/events in the profile
+     *                              We offset by number and not pages because the number of bouts per page may change
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
     static async getPersonById(cookieJar: CookieJar, globalId: number, role: BoxrecRole | null = null,
