@@ -1,10 +1,12 @@
+import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
+
+const profileTableEl: string = ".profileTable";
 
 export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
@@ -44,8 +46,8 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @returns {number | null}
      */
     get globalId(): number | null {
-        const tr: Cheerio = this.$(".profileTable table.rowTable tbody tr");
-        const id: RegExpMatchArray | null = tr.find("h2").text().match(/\d+/);
+        const tr: Cheerio = this.$(profileTableEl).find("h2");
+        const id: RegExpMatchArray | null = tr.text().match(/\d+/);
 
         if (id) {
             const globalId: number = parseInt(id[0] as string, 10);
@@ -75,7 +77,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @returns {string}
      */
     get name(): string {
-        return this.$("h1").text();
+        return this.$(profileTableEl).find("h1").text();
     }
 
     /**
@@ -101,56 +103,58 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
-     * Returns an array of BoxRec roles in order by the role name
-     * Contains all ids as there may be a possibility of different ids
-     * @returns {BoxrecProfileRole[]}
+     * Returns the Boxrec Role value because the values in the HTML might change and not the text
+     * ex. proboxer -> Pro Boxing.  therefore to keep tests passing, return the `proboxer` role
      */
     get role(): BoxrecProfileRole[] {
-        const role: Cheerio = this.$(`<div>${this.parseProfileTableData(BoxrecProfileTable.role)}</div>`);
-        const rolesStr: string = this.$(`<div>${this.parseProfileTableData(BoxrecProfileTable.role)}</div>`).text();
         const rolesWithLinks: BoxrecProfileRole[] = [];
+        const parentEl: Cheerio = this.$(profileTableEl).find("h2").parent();
 
-        if (role) {
-            const rolesStrSplit: string[] = rolesStr.split(" ");
+        // if they have one role they have this element, other they don't
+        const profileOneRole: Cheerio = parentEl.find(".profileP");
 
-            this.$(role).find("a").each((index: number, elem: CheerioElement) => {
-                const hrefMatches: RegExpMatchArray | null = elem.attribs.href.match(/(\d+)$/);
-                const type: string = this.$(elem).text();
+        // current role (might not exist if they have one role
+        const currentRole: Cheerio = parentEl.find(".profileIcon");
 
-                if (hrefMatches && type) {
-                    rolesWithLinks.push({
-                        id: parseInt(hrefMatches[1], 10),
-                        name: type as BoxrecRole,
-                    });
-                }
-            }).get();
+        if (currentRole.length || profileOneRole.length) {
+            const canonicalLinkMatches: RegExpMatchArray | null = this.$("link[rel='canonical']").attr("href")
+                .match(/\/en\/(\w+)\/\d+/);
 
-            // if a boxer is a boxer and promoter, and it's the boxer's profile page.  The `boxer` text will just be text and not a link
-            // loop through and convert any to links as well.  There should only be one that is text
-            for (const roleName of rolesStrSplit) {
-                const found: boolean = !!rolesWithLinks.find(item => item.name === roleName);
+            if (canonicalLinkMatches && canonicalLinkMatches.length) {
+                rolesWithLinks.push({
+                    id: this.globalId,
+                    name: canonicalLinkMatches[1] as BoxrecRole,
+                });
+            } else {
+                throw new Error(`Could not get BoxRec role?: ${this.globalId}`);
+            }
+        }
 
-                if (!found) {
-                    rolesWithLinks.push({
-                        id: this.globalId,
-                        name: roleName as BoxrecRole,
-                    });
-                }
+        // other roles
+        parentEl.find("a").each((index: number, elem: CheerioElement) => {
+            const hrefMatches: RegExpMatchArray | null = elem.attribs.href.match(/(\d+)$/);
+            const type: string = trimRemoveLineBreaks(this.$(elem).text());
+
+            if (hrefMatches && type) {
+                rolesWithLinks.push({
+                    id: parseInt(hrefMatches[1], 10),
+                    name: type as BoxrecRole,
+                });
+            }
+        }).get();
+
+        // sort so `name` is in order
+        rolesWithLinks.sort((a: BoxrecProfileRole, b: BoxrecProfileRole) => {
+            if (a.name > b.name) {
+                return 1;
             }
 
-            // sort so `name` is in order
-            rolesWithLinks.sort((a: BoxrecProfileRole, b: BoxrecProfileRole) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
+            if (a.name < b.name) {
+                return -1;
+            }
 
-                if (a.name < b.name) {
-                    return -1;
-                }
-
-                return 0;
-            });
-        }
+            return 0;
+        });
 
         return rolesWithLinks;
     }
@@ -171,7 +175,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     private get profileTableBody(): Cheerio {
-        return this.$(`.profileTable table.rowTable tbody`);
+        return this.$(profileTableEl).find(`table.rowTable tbody`);
     }
 
     /**

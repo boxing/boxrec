@@ -15,6 +15,7 @@ export class BoxrecPageRatingsActiveInactiveAllDivisionsRow extends BoxrecPageRa
         "record",
         "division",
         "career",
+        "last 6",
         "stance",
         "residence",
     ];

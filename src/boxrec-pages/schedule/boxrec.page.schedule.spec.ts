@@ -1,5 +1,5 @@
 import {mockScheduleWorldwide} from "boxrec-mocks";
-import {BoxrecPageEvent} from "../event/boxrec.page.event";
+import {BoxrecEventOutput} from "../event/boxrec.event.constants";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 
 interface ExtendedMatchers extends jest.Matchers<void> {
@@ -48,10 +48,10 @@ describe("class BoxrecPageSchedule", () => {
 
             describe("event values", () => {
 
-                let event: BoxrecPageEvent;
+                let event: BoxrecEventOutput;
 
                 beforeAll(() => {
-                    const eventsArr: BoxrecPageEvent[] = events.output.events;
+                    const eventsArr: BoxrecEventOutput[] = events.output.events;
                     event = eventsArr[Math.floor(Math.random() * eventsArr.length)];
                 });
 

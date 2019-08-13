@@ -1,17 +1,6 @@
-import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
+import {WeightDivision, WinLossDraw} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecLocation, Record} from "../../boxrec.constants";
-import {BoxrecRole} from "../../search/boxrec.search.constants";
-import {WeightDivisionCapitalized} from "../../titles/boxrec.page.title.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
-
-export interface BoxrecLocationsPeopleParams {
-    country?: Country;
-    division?: WeightDivisionCapitalized;
-    l_go?: any; // BoxRec param that doesn't do anything
-    region?: string;
-    role: BoxrecRole;
-    town?: string;
-}
 
 export interface BoxrecPageLocationPeopleOutput {
     numberOfPages: number;
@@ -23,6 +12,7 @@ export interface BoxrecPageLocationBoxerRowOutput {
     career: Array<number | null>;
     division: WeightDivision | null;
     id: number;
+    last6: WinLossDraw[];
     location: BoxrecLocation;
     miles: number;
     name: string;

@@ -52,6 +52,8 @@ export class BoxrecCommonLinks {
      * @param obj
      */
     private static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
+        // todo reduce complexity
+        // tslint:disable-next-line
         hrefArr.forEach((cls: string) => {
             if (cls !== "primaryIcon" && cls !== "clickableIcon") {
                 const matches: RegExpMatchArray | null = href.match(/([\d\/]+)$/);
@@ -78,7 +80,7 @@ export class BoxrecCommonLinks {
                     } else {
                         (obj as any)[formattedCls] = parseInt(matches[1], 10);
                     }
-                } else {
+                } else if (!href.includes("javascript")) { // any other links other than the dropdown link
                     (obj as any).other.push(href);
                 }
             }

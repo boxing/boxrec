@@ -1,6 +1,6 @@
+import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecEvent} from "../event/boxrec.event";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 
 /**
  * Used by the BoxRec Date page for event information
@@ -17,7 +17,7 @@ export class BoxrecDateEvent extends BoxrecEvent {
     }
 
     protected parseLocation(): string {
-        return this.$("h2").html() as string;
+        return this.$(".flag").parent().html() as string;
     }
 
     /**

@@ -41,7 +41,7 @@ export interface BoxrecBelts {
 
 export interface BoxrecUnformattedChampions {
     beltHolders: BoxrecBelts;
-    weightDivision: WeightDivision;
+    weightDivision: WeightDivision | null;
 }
 
 export enum WeightDivision {

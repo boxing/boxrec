@@ -41,6 +41,7 @@ export interface BoxrecEventBoutOutput {
     judges: BoxrecJudge[];
     location: BoxrecBoutLocation;
     matchmakers: BoxrecBasic[];
+    media: string[];
     numberOfBouts: number;
     numberOfRounds: number | null;
     outcome: BoutPageBoutOutcome;

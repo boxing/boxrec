@@ -3,7 +3,7 @@ import * as querystring from "querystring";
 import {BoxrecBasic, BoxrecJudge, BoxrecLocation, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
-import {convertFractionsToNumber, trimRemoveLineBreaks, whatTypeOfLink} from "../helpers";
+import {convertFractionsToNumber, replaceWithWeight, trimRemoveLineBreaks, whatTypeOfLink} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
 const $: CheerioStatic = cheerio.load("<div></div>");
@@ -36,17 +36,20 @@ export abstract class BoxrecCommonTablesColumnsClass {
     }
 
     /**
-     * Returns the boxer's division
-     * This value can be missing
-     * @hidden
-     * @returns {WeightDivision | null}
+     * Current and hopefully future proofing the name of the division to keep consistent
+     * the value can be missing
+     * @param htmlString   a (possibly) shortened version of weight divisions ex. light heavyweight -> light heavy
+     * @return the weight division as a WeightDivision value otherwise we return the found value
      */
     static parseDivision(htmlString: string): WeightDivision | null {
-        let division: string = trimRemoveLineBreaks(htmlString);
-        division = division.toLowerCase();
+        const cleanedDivision: string = trimRemoveLineBreaks(htmlString.toLowerCase());
+        const withWeight: string = !/weight$/.test(cleanedDivision)
+            ? `${cleanedDivision}weight` : cleanedDivision;
+        const fullWeightDivision: WeightDivision = Object.values(WeightDivision)
+            .find(item => item === withWeight);
 
-        if (Object.values(WeightDivision).includes(division)) {
-            return division as WeightDivision;
+        if (fullWeightDivision) {
+            return fullWeightDivision;
         }
 
         return null;
@@ -345,6 +348,8 @@ export abstract class BoxrecCommonTablesColumnsClass {
     }
 
     /**
+     * todo parse if `vacant` or not (is in name)
+     * BoxRec currently returns belts in order of ID ASC.  If that changes, add custom sorting logic here
      * @hidden
      */
     static parseTitles(htmlString: string): BoxrecTitles[] {
@@ -361,7 +366,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
                 if (matches && matches[1]) {
                     const id: string = matches[1];
                     let name: string = $(elem).text();
-                    name = trimRemoveLineBreaks(name);
+                    name = replaceWithWeight(name);
 
                     titles.push({
                         id, name,
@@ -374,7 +379,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
                 if (matches) {
                     titles[titleIndexAt].supervisor = {
                         id: parseInt(matches[0], 10),
-                        name: $(elem).text(),
+                        name: replaceWithWeight($(elem).text()),
                     };
                 }
             }

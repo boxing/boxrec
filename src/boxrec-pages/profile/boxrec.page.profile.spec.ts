@@ -11,9 +11,9 @@ import {
     mockProfileRefereeRobertByrd,
     mockProfileSupervisorSammyMacias
 } from "boxrec-mocks";
+import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {WinLossDraw} from "../boxrec.constants";
 import {Country} from "../location/people/boxrec.location.people.constants";
-import {BoxrecRole} from "../search/boxrec.search.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {
     BoxrecProfileBoxerBoutOutput,
@@ -85,21 +85,35 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should return the URL of the person's profile picture", () => {
-                    expect(outputRJJ.picture).toBe("http://static.boxrec.com/thumb/1/12/RoyJonesJrPP.jpg/200px-RoyJonesJrPP.jpg");
+                    // was previously "https://static.boxrec.com/thumb"
+                    expect(outputRJJ.picture)
+                        .toContain("https://boxrec.com/media/images");
                 });
 
                 it("should return the number of bouts this boxer has been in, not including scheduled bouts", () => {
                     expect(outputRJJ.numberOfBouts).toBeGreaterThanOrEqual(75);
                 });
 
-                it("should return an object of the person's roles", () => {
-                    expect(outputRJJ.role).toEqual([{
-                        id: 774820,
-                        name: BoxrecRole.boxer,
-                    }, {
-                        id: 774820,
-                        name: BoxrecRole.promoter,
-                    }]);
+                describe("getter roles", () => {
+
+                    it("should return an array of the person's roles if they have one role", () => {
+                        // todo need a person with one role
+                    });
+
+                    it("should not include `All Sports`", () => {
+                        // todo
+                    });
+
+                    it("should return an array of the person's roles (sorted by id, name ASC)", () => {
+                        expect(outputRJJ.role).toEqual([{
+                            id: 774820,
+                            name: BoxrecRole.proBoxer,
+                        }, {
+                            id: 774820,
+                            name: BoxrecRole.promoter,
+                        }]);
+                    });
+
                 });
 
                 it("should return the number of professionally fought rounds this boxer has been in", () => {
@@ -174,7 +188,7 @@ describe("class BoxrecPageProfile", () => {
                 describe("getter vadacbp", () => {
 
                     it("should return boolean if VADA is on profile", () => {
-                        expect(outputGGG.vadacbp).toBe(true);
+                        expect(outputGGG.vadacbp).toEqual(jasmine.any(Boolean));
                     });
 
                     it("should return false if VADA is not on profile", () => {
@@ -244,6 +258,12 @@ describe("class BoxrecPageProfile", () => {
                     });
 
                     describe("getter links", () => {
+
+                        it("should parse out `javascript` dropdown open links", () => {
+                            supervisorSammyMaciasLatestBout.links.other.forEach(link => {
+                                expect(link).not.toContain("javascript");
+                            });
+                        });
 
                         it("should return an object of links", () => {
                             expect(supervisorSammyMaciasLatestBout.links).toEqual({
@@ -396,25 +416,34 @@ describe("class BoxrecPageProfile", () => {
 
                     describe("getter titles", () => {
 
-                        it("should return what titles were on the line", () => {
-                            expect(gggCanelo.titles).toEqual([{
-                                id: "75/Middleweight",
-                                name: "International Boxing Federation World Middleweight Title"
-                            }, {
-                                id: "189/Middleweight",
-                                name: "International Boxing Organization World Middleweight Title",
-                                supervisor: {
-                                    id: 403048,
-                                    name: "Ed Levine",
+                        it("should return what titles were on the line (in order by id)", () => {
+                            expect(gggCanelo.titles).toEqual([
+                                {
+                                    id: "6/Middleweight",
+                                    name: "World Boxing Council World Middleweight Title"
                                 },
-                            }, {
-                                id: "43/Middleweight",
-                                name: "World Boxing Association Super World Middleweight Title"
-                            }, {
-                                id: "6/Middleweight",
-                                name: "World Boxing Council World Middleweight Title"
-                            }
+                                {
+                                    id: "43/Middleweight",
+                                    name: "World Boxing Association Super World Middleweight Title"
+                                },
+                                {
+                                    id: "75/Middleweight",
+                                    name: "International Boxing Federation World Middleweight Title"
+                                },
+                                {
+                                    id: "189/Middleweight",
+                                    name: "International Boxing Organization World Middleweight Title",
+                                    supervisor: {
+                                        id: 403048,
+                                        name: "Ed Levine",
+                                    },
+                                },
                             ]);
+                        });
+
+                        it("should convert the short divisions to full division for consistency", () => {
+                            expect(rjjLacy.titles[0].name)
+                                .toBe("World Boxing Organisation NABO Light Heavyweight Title");
                         });
 
                         it("should be able to parse weight divisions with spaces (ex. Light%20Heavyweight)", () => {

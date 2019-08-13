@@ -1,3 +1,9 @@
+## 5.0.0 (2019-08-12)
+
+### Fixed
+
+-   Support and changes to accommodate BoxRec new roles
+
 ## 4.0.1 (2019-06-21)
 
 ### Fixed

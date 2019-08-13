@@ -4,6 +4,7 @@ import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
 
+// todo include fighters and weight division/record etc.
 export class BoxrecPageLocationPeopleRow {
 
     protected readonly $: CheerioStatic;

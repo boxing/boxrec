@@ -1,10 +1,12 @@
+import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData} from "../../helpers";
+import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
 
+// includes BoxRec role regardless of searching for all fighters or a specific fight role
 export class BoxrecPageSearchRow {
 
     private readonly $: CheerioStatic;
@@ -15,15 +17,16 @@ export class BoxrecPageSearchRow {
     }
 
     get alias(): string | null {
-        return BoxrecCommonTablesColumnsClass.parseAlias(getColumnData(this.$, 2, false));
+        const alias: string = getColumnData(this.$, 1, true);
+        return BoxrecCommonTablesColumnsClass.parseAlias(this.$(alias).find("span").text());
     }
 
     get career(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 6, false));
+        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 5, false));
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 5, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 6, false));
     }
 
     get id(): number {
@@ -35,7 +38,8 @@ export class BoxrecPageSearchRow {
     }
 
     get name(): string | null {
-        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 1));
+        const nameIdEl: Cheerio = this.$(getColumnData(this.$, 1));
+        return BoxrecCommonTablesColumnsClass.parseName(nameIdEl.find("a").text());
     }
 
     get output(): BoxrecPageSearchRowOutput {
@@ -48,6 +52,7 @@ export class BoxrecPageSearchRow {
             name: this.name,
             record: this.record,
             residence: this.residence,
+            sport: this.sport, // todo is not part roles other than fighters
         };
     }
 
@@ -57,6 +62,12 @@ export class BoxrecPageSearchRow {
 
     get residence(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 7));
+    }
+
+    // todo this should be an array?
+    get sport(): BoxrecFighterRole {
+        // todo should this be the URL role or the text role?  Do we need a `parseSport` method?
+        return trimRemoveLineBreaks(getColumnData(this.$, 2, false)) as BoxrecFighterRole;
     }
 
 }

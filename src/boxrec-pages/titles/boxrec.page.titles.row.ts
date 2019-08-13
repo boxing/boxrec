@@ -33,6 +33,7 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get location(): BoxrecLocation {
+        // should be 6 or 5?
         const column: number = this.isDivisionPage ? 8 : 5;
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, column), 1);
     }
@@ -76,7 +77,7 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     get rating(): number | null {
-        const column: number = this.isDivisionPage ? 11 : 7;
+        const column: number = this.isDivisionPage ? 12 : 8;
         return BoxrecCommonTablesColumnsClass.parseRating(getColumnData(this.$, column));
     }
 
@@ -94,13 +95,11 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
      * @returns {number}
      */
     private get isDivisionPage(): boolean {
-        // division page has 12 columns
-        // "all scheduled" page has 8 columns
-        const len: number = this.$("tr:nth-child(1) td").length;
+        const len: number = this.getNumberOfColumns();
 
-        if (len === 12) {
+        if (len === 13) {
             return true;
-        } else if (len === 8) {
+        } else if (len === 9) {
             return false;
         }
 
@@ -108,8 +107,13 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
     }
 
     protected parseLinks(): Cheerio {
-        const column: number = this.isDivisionPage ? 12 : 8;
-        return this.$(getColumnData(this.$, column));
+        return this.$(getColumnData(this.$, this.getNumberOfColumns()));
+    }
+
+    private getNumberOfColumns(): number {
+        // division page has 13 columns
+        // "all scheduled" page has 8 columns
+        return this.$("tr:nth-child(1) td").length;
     }
 
 }

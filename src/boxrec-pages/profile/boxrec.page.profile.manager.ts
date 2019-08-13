@@ -18,7 +18,7 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
     }
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
-        return this.$("#listManagedBoxers tbody tr")
+        return this.$(".dataTable tbody tr")
             .map((i: number, elem: CheerioElement) => this.$(elem).html())
             .get()
             .map(item => new BoxrecPageProfileManagerBoxerRow(item));

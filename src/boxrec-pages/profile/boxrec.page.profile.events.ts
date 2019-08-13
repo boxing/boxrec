@@ -21,7 +21,7 @@ export class BoxrecPageProfileEvents extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileEventRow[]}
      */
     get events(): BoxrecPageProfileEventRow[] {
-        return this.$("#listShowsResults tbody tr")
+        return this.$(".dataTable tbody tr")
             .map((index: number, elem: CheerioElement) => this.$(elem).html() || "")
             .get() // Cheerio -> string[]
             .map(item => new BoxrecPageProfileEventRow(item));

@@ -24,16 +24,16 @@ describe("class BoxrecPageLocationPeople", () => {
                 locationOutput = location.people[1];
             });
 
-            it("career should be undefined", () => {
-                expect(locationOutput.career).not.toBeDefined();
+            it("miles should be a number and greater than or equal to zero", () => {
+                expect(locationOutput.miles).toBeGreaterThanOrEqual(0);
             });
 
-            it("division should be undefined", () => {
-                expect(locationOutput.division).not.toBeDefined();
+            it("name should be defined", () => {
+                expect(locationOutput.name).toBeDefined();
             });
 
-            it("record should be undefined", () => {
-                expect(locationOutput.record).not.toBeDefined();
+            it("sex should be defined", () => {
+                expect(locationOutput.sex).toBe("male" || "female");
             });
 
         });
