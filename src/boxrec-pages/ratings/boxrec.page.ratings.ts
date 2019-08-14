@@ -5,7 +5,7 @@ import {BoxrecPageRatingsActiveAllDivisionsRow} from "./boxrec.page.ratings.acti
 import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRow} from "./boxrec.page.ratings.active-inactive-all-divisions.row";
 import {BoxrecPageRatingsActiveInactiveDivisionRow} from "./boxrec.page.ratings.active-inactive-division.row";
-import {BoxrecRatingsOutput, RatingsColumns} from "./boxrec.ratings.constants";
+import {BoxrecRatingsOutput} from "./boxrec.ratings.constants";
 
 enum BoxrecRatingsType {
     activeAllDivisions,
@@ -23,7 +23,6 @@ const ratingsTableEl: string = "#ratingsResults";
 export class BoxrecPageRatings extends BoxrecPageLists {
 
     protected readonly $: CheerioStatic;
-    private headerColumns: RatingsColumns[] = [];
 
     constructor(boxrecBodyString: string) {
         super(boxrecBodyString);
@@ -32,17 +31,19 @@ export class BoxrecPageRatings extends BoxrecPageLists {
 
     get boxers(): Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
         BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow> {
+        const headerColumns: string[] = getHeaderColumnText(this.$(ratingsTableEl));
+
         // todo iterates too many times through this, set variable?
         return this.parseRatingsTableContent().map(item => {
             switch (this.getRatingsType()) {
                 case BoxrecRatingsType.activeWeightDivision:
-                    return new BoxrecPageRatingsActiveDivisionRow(this.parseRatingsTableHeaderText(), item);
+                    return new BoxrecPageRatingsActiveDivisionRow(headerColumns, item);
                 case BoxrecRatingsType.activeInactiveAllDivisions:
-                    return new BoxrecPageRatingsActiveInactiveAllDivisionsRow(this.parseRatingsTableHeaderText(), item);
+                    return new BoxrecPageRatingsActiveInactiveAllDivisionsRow(headerColumns, item);
                 case BoxrecRatingsType.activeAllDivisions:
-                    return new BoxrecPageRatingsActiveAllDivisionsRow(this.parseRatingsTableHeaderText(), item);
+                    return new BoxrecPageRatingsActiveAllDivisionsRow(headerColumns, item);
                 case BoxrecRatingsType.activeInactiveWeightDivision:
-                    return new BoxrecPageRatingsActiveInactiveDivisionRow(this.parseRatingsTableHeaderText(), item);
+                    return new BoxrecPageRatingsActiveInactiveDivisionRow(headerColumns, item);
             }
         });
     }
@@ -52,17 +53,6 @@ export class BoxrecPageRatings extends BoxrecPageLists {
             boxers: this.boxers.map(boxerRow => boxerRow.output),
             numberOfPages: this.numberOfPages,
         };
-    }
-
-    /**
-     * Returns an array of the table header column text
-     */
-    private parseRatingsTableHeaderText(): RatingsColumns[] {
-        if (this.headerColumns.length === 0) {
-            this.headerColumns = getHeaderColumnText(this.$(ratingsTableEl)) as RatingsColumns[];
-        }
-
-        return this.headerColumns;
     }
 
     /**

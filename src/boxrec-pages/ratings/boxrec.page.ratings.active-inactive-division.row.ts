@@ -6,7 +6,7 @@ import {getColumnDataByColumnHeader} from "../../helpers";
 export class BoxrecPageRatingsActiveInactiveDivisionRow extends BoxrecPageRatingsRow {
 
     get career(): number[] {
-        const career: string = getColumnDataByColumnHeader(this.$, this.headerColumnText, "career", false);
+        const career: string = getColumnDataByColumnHeader(this.$, this.headerColumns, "career", false);
 
         return career.split("-").map(item => parseInt(item, 10));
     }

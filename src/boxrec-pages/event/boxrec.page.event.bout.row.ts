@@ -12,7 +12,8 @@ export class BoxrecPageEventBoutRow {
     private readonly $: CheerioStatic;
     private readonly isEventPage: boolean = false;
 
-    constructor(boxrecBodyBout: string, additionalData: string | null = null, isEventPage = false) {
+    constructor(private headerColumns: string[], boxrecBodyBout: string, additionalData: string | null = null,
+                isEventPage = false) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         this.isEventPage = isEventPage; // should extend this class for date/event
         this.$ = cheerio.load(html);
@@ -127,7 +128,7 @@ export class BoxrecPageEventBoutRow {
     }
 
     get sport(): BoxrecFighterRole {
-        return this.getColumnData( 11, 4, false) as BoxrecFighterRole;
+        return this.getColumnData(11, 4, false) as BoxrecFighterRole;
     }
 
     private get hasMoreColumns(): boolean {

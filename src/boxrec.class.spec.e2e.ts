@@ -830,6 +830,7 @@ describe("class Boxrec (E2E)", () => {
         });
 
         it("should offset the results if using `offset` param", () => {
+            // todo this doesn't work properly
             expect(results.people[0].id).not.toBe(nextResults.people[0].id);
         });
 

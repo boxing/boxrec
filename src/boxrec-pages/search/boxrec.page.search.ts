@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
 import {BoxrecPageSearchOutput} from "./boxrec.search.constants";
+import {getHeaderColumnText} from "../../helpers";
 
 /**
  * parse a BoxRec Search Results page
@@ -21,7 +22,9 @@ export class BoxrecPageSearch {
     }
 
     get results(): BoxrecPageSearchRow[] {
-        return this.parse().map(item => new BoxrecPageSearchRow(item));
+        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+
+        return this.parse().map(item => new BoxrecPageSearchRow(headerColumns, item));
     }
 
     private parse(): string[] {

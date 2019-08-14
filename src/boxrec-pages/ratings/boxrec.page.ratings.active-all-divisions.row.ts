@@ -9,7 +9,7 @@ import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-d
 export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsActiveDivisionRow {
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumnText,
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
             "division", false));
     }
 

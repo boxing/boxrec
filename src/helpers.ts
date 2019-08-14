@@ -48,6 +48,7 @@ export function changeToCamelCase(str: string): string {
  * @param {CheerioAPI} $        requires that the CheerioApi object be passed in
  * @param {number} nthChild     the column number starting at 1
  * @param {boolean} returnHTML  if true, the HTML will be returned, otherwise just text with HTML removed
+ * @deprecated  can slowly be removed from a lot of classes, should try to use `getColumnDataByColumnHeader`.  Not high priority
  * @returns {string}
  */
 export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: boolean = true): string {
@@ -62,9 +63,10 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
 
 /**
  * Takes CheerioStatic and tries to find column data by finding the table header index and then gets that columns data
- * @param $         the cheerio static item that will have the "mock" fake table row
+ * Nice thing about this is that if the column number changes, the data will not fail and tests will pass
+ * @param $                 the cheerio static item that will have the "mock" fake table row
  * @param tableColumnsArr   contains the name of the table headers
- * @param columnHeaderText  the header text we are searching for, throws error if it cannot find it
+ * @param columnHeaderText  the header text we are searching for, throws error if it cannot find it todo make type
  * @param returnHTML
  */
 export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: string[], columnHeaderText: string,
@@ -74,7 +76,7 @@ export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: s
     const idx: number = tableColumnsArr.findIndex(item => item === columnHeaderText);
 
     if (idx === -1) {
-        throw new Error("Could not find the column header in the array");
+        throw new Error(`Could not find the column header in the array: ${tableColumnsArr}, ${columnHeaderText}`);
     }
     const el: Cheerio = tableEl.find(`tr:nth-child(1) td:nth-child(${idx + 1})`);
 
@@ -114,7 +116,7 @@ export function getHeaderColumnText(tableEl: Cheerio): string[] {
                     .find(`tbody tr:nth-child(1) td:nth-child(${i + 1})`);
 
                 // check if rating column
-                if (!!tbodyColumn.find(".starRating").length) {
+                if (tbodyColumn.find(".starRating").length) {
                     text = "rating";
                 }
             }

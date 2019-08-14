@@ -1,6 +1,6 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
-import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
@@ -105,8 +105,10 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
     }
 
     get bouts(): BoxrecPageEventBoutRow[] {
+        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+
         return this.parseBouts().map((val: [string, string | null]) =>
-            new BoxrecPageEventBoutRow(val[0], val[1], true));
+            new BoxrecPageEventBoutRow(headerColumns, val[0], val[1], true));
     }
 
     get location(): BoxrecBoutLocation {
