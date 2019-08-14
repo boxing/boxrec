@@ -1,29 +1,12 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
-import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
+import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
 
 // active boxers all divisions (P4P list)
-export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsRow {
-
-    protected readonly columns: string[] = [
-        "id",
-        "name",
-        "points",
-        "rating",
-        "division",
-        "age",
-        "record",
-        "last 6",
-        "stance",
-        "residence",
-    ];
-
-    get age(): number {
-        return BoxrecPageRatingsHelpersRow.getAge(this.$, this.getColumnByType("age"));
-    }
+// all division is the same as division specific except it has the division column
+export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsActiveDivisionRow {
 
     get division(): WeightDivision | null {
         return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$,
@@ -44,14 +27,6 @@ export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsRow
             residence: this.residence,
             stance: this.stance,
         };
-    }
-
-    /**
-     * Rating of the boxer between 0 and 100
-     *
-     */
-    get rating(): number | null {
-        return BoxrecPageRatingsHelpersRow.getRating(this.$, this.getColumnByType("rating"));
     }
 
 }

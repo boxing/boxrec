@@ -1,3 +1,4 @@
+import * as cheerio from "cheerio";
 import * as querystring from "querystring";
 import {ParsedUrlQuery} from "querystring";
 
@@ -57,6 +58,33 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
     }
 
     return el.text();
+}
+
+/**
+ * Takes a table element, clones it and then reads the thead column text and returns an array
+ * @param tableEl
+ */
+export function getHeaderColumnText(tableEl: Cheerio): string[] {
+    return tableEl.clone().find("thead th")
+        .map((i: number, elem: CheerioElement) => {
+            const elemEl: any = cheerio.load(elem) as CheerioStatic;
+            let text: string = trimRemoveLineBreaks(elemEl.text());
+
+            // some of the columns do not have table header text
+            // therefore try to figure out what the column is
+            if (text.length === 0) {
+                // get the tbody column element for further analysing
+                const tbodyColumn: Cheerio = tableEl
+                    .find(`tbody tr:nth-child(1) td:nth-child(${i + 1})`);
+
+                // check if rating column
+                if (!!tbodyColumn.find(".starRating").length) {
+                    text = "rating";
+                }
+            }
+
+            return text;
+        }).get();
 }
 
 // the following regex assumes the string is always in the same format

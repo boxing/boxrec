@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
-import {trimRemoveLineBreaks} from "../../helpers";
+import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageRatingsActiveAllDivisionsRow} from "./boxrec.page.ratings.active-all-divisions.row";
 import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRow} from "./boxrec.page.ratings.active-inactive-all-divisions.row";
@@ -58,30 +58,8 @@ export class BoxrecPageRatings extends BoxrecPageLists {
      * Returns an array of the table header column text
      */
     private parseRatingsTableHeaderText(): RatingsColumns[] {
-        if (this.headerColumns.length !== 0) {
-            return this.headerColumns;
-        } else {
-            this.$(ratingsTableEl).find("thead th")
-                .each((i: number, elem: CheerioElement) => {
-                    let text: string = trimRemoveLineBreaks(this.$(elem).text());
-
-                    // some of the columns do not have table header text
-                    // therefore try to figure out what the column is
-                    if (text.length === 0) {
-                        // get the tbody column element for further analysing
-                        const tbodyColumn: Cheerio = this.$(ratingsTableEl)
-                            .find(`tbody tr:nth-child(1) td:nth-child(${i + 1})`);
-
-                        // check if rating column
-                        if (!!tbodyColumn.find(".starRating").length) {
-                            text = "rating";
-                        }
-                    }
-
-                    this.headerColumns.push(text as RatingsColumns);
-                })
-                .get();
-
+        if (this.headerColumns.length === 0) {
+            this.headerColumns = getHeaderColumnText(this.$(ratingsTableEl)) as RatingsColumns[];
         }
 
         return this.headerColumns;

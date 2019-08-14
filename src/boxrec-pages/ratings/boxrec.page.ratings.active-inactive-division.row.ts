@@ -5,17 +5,6 @@ import {BoxrecPageRatingsActiveInactiveDivisionRowOutput} from "./boxrec.ratings
 // ratings page where both active/inactive are selected and a specific division
 export class BoxrecPageRatingsActiveInactiveDivisionRow extends BoxrecPageRatingsRow {
 
-    protected readonly columns: string[] = [
-        "id",
-        "name",
-        "points",
-        "record",
-        "career",
-        "last 6",
-        "stance",
-        "residence",
-    ];
-
     get career(): number[] {
         return BoxrecPageRatingsHelpersRow.getCareer(this.$, this.getColumnByType("career"));
     }

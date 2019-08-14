@@ -5,18 +5,6 @@ import {BoxrecPageRatingsActiveDivisionRowOutput} from "./boxrec.ratings.constan
 // ratings page where both active boxers are selected and specific division
 export class BoxrecPageRatingsActiveDivisionRow extends BoxrecPageRatingsRow {
 
-    protected readonly columns: string[] = [
-        "id",
-        "name",
-        "points",
-        "rating",
-        "age",
-        "record",
-        "last 6",
-        "stance",
-        "residence",
-    ];
-
     get age(): number {
         return BoxrecPageRatingsHelpersRow.getAge(this.$, this.getColumnByType("age"));
     }

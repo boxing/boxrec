@@ -1,32 +1,17 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
-import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
+import {BoxrecPageRatingsActiveInactiveDivisionRow} from "./boxrec.page.ratings.active-inactive-division.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
 
 // ratings page where both active/inactive are selected and ALL divisions
-export class BoxrecPageRatingsActiveInactiveAllDivisionsRow extends BoxrecPageRatingsRow {
-
-    protected readonly columns: string[] = [
-        "id",
-        "name",
-        "points",
-        "record",
-        "division",
-        "career",
-        "last 6",
-        "stance",
-        "residence",
-    ];
-
-    get career(): number[] {
-        return BoxrecPageRatingsHelpersRow.getCareer(this.$, this.getColumnByType("career"));
-    }
+export class BoxrecPageRatingsActiveInactiveAllDivisionsRow extends BoxrecPageRatingsActiveInactiveDivisionRow {
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$,
-            this.getColumnByType("division"), false));
+        const t: any = getColumnData(this.$,
+            this.getColumnByType("division"), false);
+
+        return BoxrecCommonTablesColumnsClass.parseDivision(t);
     }
 
     get output(): BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput {

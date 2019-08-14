@@ -7,7 +7,6 @@ import {RatingsColumns} from "./boxrec.ratings.constants";
 export abstract class BoxrecPageRatingsRow {
 
     protected readonly $: CheerioStatic;
-    protected abstract readonly columns: string[] = []; // abstracted
 
     constructor(private headerColumnText: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
@@ -55,16 +54,17 @@ export abstract class BoxrecPageRatingsRow {
     // classes that inherit this class require a `columns` array
     protected getColumnByType(columnType: RatingsColumns): number {
         // todo instead of hardcoding the columns, find the column by name
-        let columnIdx: number = this.headerColumnText.findIndex(item => item === columnType);
-
-        if (columnIdx > -1) {
-            columnIdx++;
-        } else {
-            console.log(this.headerColumnText)
-            throw new Error(`Trying to find column that isn't accounted for: ${columnType}`);
+        if (this.headerColumnText.length === 0) {
+            throw new Error("Could not get any header columns?");
         }
 
-        return columnIdx;
+        const columnIdx: number = this.headerColumnText.findIndex(item => item === columnType);
+
+        if (columnIdx > -1) {
+            return columnIdx + 1;
+        }
+
+        throw new Error(`Trying to find column that isn't accounted for: ${columnType}`);
     }
 
 }
