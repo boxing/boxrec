@@ -60,18 +60,39 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
     return el.text();
 }
 
-export function getColumnDataByColumnHeader(tableEl: Cheerio, columnHeaderText: string, returnHTML: boolean = true)
+/**
+ * Takes CheerioStatic and tries to find column data by finding the table header index and then gets that columns data
+ * @param $         the cheerio static item that will have the "mock" fake table row
+ * @param tableColumnsArr   contains the name of the table headers
+ * @param columnHeaderText  the header text we are searching for, throws error if it cannot find it
+ * @param returnHTML
+ */
+export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: string[], columnHeaderText: string,
+                                            returnHTML: boolean = true)
     : string {
-    /*const columnHeaderTextArr: string[] = getHeaderColumnText(tableEl);*/
-    const idx: number = getHeaderColumnText(tableEl).findIndex(item => item === columnHeaderText);
+    const tableEl: Cheerio = $($("<div>").append($("table").clone()).html());
+    const idx: number = tableColumnsArr.findIndex(item => item === columnHeaderText);
 
+    if (idx === -1) {
+        throw new Error("Could not find the column header in the array");
+    }
     const el: Cheerio = tableEl.find(`tr:nth-child(1) td:nth-child(${idx + 1})`);
 
-    if (returnHTML) {
-        return el.html() || "";
+    if (!el.length) {
+        throw new Error(`Tried to get column data for column that doesn't exist,
+         but existed in array?: ${columnHeaderText}`);
     }
 
-    return el.text();
+    if (returnHTML) {
+        const html: string | null = el.html();
+        if (html) {
+            return trimRemoveLineBreaks(html);
+        }
+
+        return "";
+    }
+
+    return trimRemoveLineBreaks(el.text());
 }
 
 /**
@@ -79,6 +100,7 @@ export function getColumnDataByColumnHeader(tableEl: Cheerio, columnHeaderText: 
  * @param tableEl
  */
 export function getHeaderColumnText(tableEl: Cheerio): string[] {
+    // we clone because it modifies the passed in element when we use map
     return tableEl.clone().find("thead th")
         .map((i: number, elem: CheerioElement) => {
             const elemEl: any = cheerio.load(elem) as CheerioStatic;

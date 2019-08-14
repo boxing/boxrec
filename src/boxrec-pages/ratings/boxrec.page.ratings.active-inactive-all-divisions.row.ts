@@ -1,5 +1,5 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData} from "../../helpers";
+import {getColumnData, getColumnDataByColumnHeader} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageRatingsActiveInactiveDivisionRow} from "./boxrec.page.ratings.active-inactive-division.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
@@ -8,10 +8,8 @@ import {BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput} from "./boxrec.rat
 export class BoxrecPageRatingsActiveInactiveAllDivisionsRow extends BoxrecPageRatingsActiveInactiveDivisionRow {
 
     get division(): WeightDivision | null {
-        const t: any = getColumnData(this.$,
-            this.getColumnByType("division"), false);
-
-        return BoxrecCommonTablesColumnsClass.parseDivision(t);
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumnText,
+            "division", false));
     }
 
     get output(): BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput {

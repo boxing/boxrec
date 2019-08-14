@@ -1,12 +1,14 @@
-import {BoxrecPageRatingsHelpersRow} from "./boxrec.page.ratings.helpers.row";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveDivisionRowOutput} from "./boxrec.ratings.constants";
+import {getColumnDataByColumnHeader} from "../../helpers";
+import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 
 // ratings page where both active boxers are selected and specific division
 export class BoxrecPageRatingsActiveDivisionRow extends BoxrecPageRatingsRow {
 
     get age(): number {
-        return BoxrecPageRatingsHelpersRow.getAge(this.$, this.getColumnByType("age"));
+        return parseInt(getColumnDataByColumnHeader(this.$, this.headerColumnText, "age", false),
+            10);
     }
 
     get output(): BoxrecPageRatingsActiveDivisionRowOutput {
@@ -28,7 +30,8 @@ export class BoxrecPageRatingsActiveDivisionRow extends BoxrecPageRatingsRow {
      * Rating of the boxer between 0 and 100
      */
     get rating(): number | null {
-        return BoxrecPageRatingsHelpersRow.getRating(this.$, this.getColumnByType("rating"));
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumnText,
+            "rating"));
     }
 
 }
