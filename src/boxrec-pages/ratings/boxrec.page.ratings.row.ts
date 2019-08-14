@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {getColumnData, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {RatingsColumns} from "./boxrec.ratings.constants";
 
@@ -48,7 +48,8 @@ export abstract class BoxrecPageRatingsRow {
     }
 
     get stance(): Stance {
-        return trimRemoveLineBreaks(getColumnData(this.$, this.getColumnByType("stance"), false)) as Stance;
+        return getColumnDataByColumnHeader(this.$, "stance", false) as Stance;
+        //return trimRemoveLineBreaks(getColumnData(this.$, this.getColumnByType("stance"), false)) as Stance;
     }
 
     // classes that inherit this class require a `columns` array

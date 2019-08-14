@@ -60,6 +60,20 @@ export function getColumnData($: CheerioStatic, nthChild: number, returnHTML: bo
     return el.text();
 }
 
+export function getColumnDataByColumnHeader(tableEl: Cheerio, columnHeaderText: string, returnHTML: boolean = true)
+    : string {
+    /*const columnHeaderTextArr: string[] = getHeaderColumnText(tableEl);*/
+    const idx: number = getHeaderColumnText(tableEl).findIndex(item => item === columnHeaderText);
+
+    const el: Cheerio = tableEl.find(`tr:nth-child(1) td:nth-child(${idx + 1})`);
+
+    if (returnHTML) {
+        return el.html() || "";
+    }
+
+    return el.text();
+}
+
 /**
  * Takes a table element, clones it and then reads the thead column text and returns an array
  * @param tableEl
