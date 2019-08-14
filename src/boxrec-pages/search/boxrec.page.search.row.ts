@@ -1,7 +1,7 @@
 import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
+import {getColumnData, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
@@ -11,7 +11,7 @@ export class BoxrecPageSearchRow {
 
     private readonly $: CheerioStatic;
 
-    constructor(boxrecBodySearchRow: string) {
+    constructor(private headerColumns: string[], boxrecBodySearchRow: string) {
         const html: string = `<table><tr>${boxrecBodySearchRow}</tr></table>`;
         this.$ = cheerio.load(html);
     }
@@ -22,11 +22,13 @@ export class BoxrecPageSearchRow {
     }
 
     get career(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 5, false));
+        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "career", false));
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 6, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "division", false));
     }
 
     get id(): number {

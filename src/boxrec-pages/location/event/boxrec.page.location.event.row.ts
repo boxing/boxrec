@@ -9,7 +9,7 @@ export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    constructor(boxrecBodyBout: string) {
+    constructor(headerColumns: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         super(html);
         this.$ = cheerio.load(html);

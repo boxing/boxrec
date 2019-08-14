@@ -1,12 +1,12 @@
+import {getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveInactiveDivisionRowOutput} from "./boxrec.ratings.constants";
-import {getColumnDataByColumnHeader} from "../../helpers";
 
 // ratings page where both active/inactive are selected and a specific division
 export class BoxrecPageRatingsActiveInactiveDivisionRow extends BoxrecPageRatingsRow {
 
     get career(): number[] {
-        const career: string = getColumnDataByColumnHeader(this.$, this.headerColumnText, "career", false);
+        const career: string = getColumnDataByColumnHeader(this.$, this.headerColumns, "career", false);
 
         return career.split("-").map(item => parseInt(item, 10));
     }

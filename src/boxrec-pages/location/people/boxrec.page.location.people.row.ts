@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData, trimRemoveLineBreaks} from "../../../helpers";
+import {getColumnDataByColumnHeader} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
 
@@ -9,13 +9,14 @@ export class BoxrecPageLocationPeopleRow {
 
     protected readonly $: CheerioStatic;
 
-    constructor(boxrecBodyBout: string) {
+    constructor(protected headerColumns: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
     get id(): number {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnData(this.$, 3)) as number;
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "name")) as number;
     }
 
     /**
@@ -24,15 +25,18 @@ export class BoxrecPageLocationPeopleRow {
      * @returns {BoxrecLocation}
      */
     get location(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnData(this.$, 2));
+        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "location"));
     }
 
     get miles(): number {
-        return parseInt(getColumnData(this.$, 1, false), 10);
+        return parseInt(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "miles", false), 10);
     }
 
     get name(): string {
-        return BoxrecCommonTablesColumnsClass.parseName(getColumnData(this.$, 3)) as string;
+        return BoxrecCommonTablesColumnsClass.parseName(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "name", false)) as string;
     }
 
     get output(): BoxrecPageLocationPeopleRowOutput {
@@ -46,7 +50,8 @@ export class BoxrecPageLocationPeopleRow {
     }
 
     get sex(): "male" | "female" {
-        return trimRemoveLineBreaks(getColumnData(this.$, 4, false)) as "male" | "female";
+        return getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "sex", false) as "male" | "female";
     }
 
 }

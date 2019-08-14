@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {getColumnData} from "../../../helpers";
+import {getColumnDataByColumnHeader} from "../../../helpers";
 import {Record, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxrecPageLocationBoxerRowOutput} from "./boxrec.location.people.constants";
@@ -13,22 +13,25 @@ export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow {
 
     protected readonly $: CheerioStatic;
 
-    constructor(boxrecBodyBout: string) {
-        super(boxrecBodyBout);
+    constructor(protected headerColumns: string[], boxrecBodyBout: string) {
+        super(headerColumns, boxrecBodyBout);
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
     get career(): Array<number | null> {
-        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 8));
+        return BoxrecCommonTablesColumnsClass.parseCareer(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "career"));
     }
 
     get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnData(this.$, 7, false));
+        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "division", false));
     }
 
     get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnData(this.$, 6));
+        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "last 6"));
     }
 
     get output(): BoxrecPageLocationBoxerRowOutput {
@@ -46,7 +49,8 @@ export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow {
     }
 
     get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnData(this.$, 5));
+        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
+            "w-l-d"));
     }
 
 }
