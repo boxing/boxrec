@@ -1,3 +1,9 @@
+## 5.0.2 (2019-08-22)
+
+### Fixed
+
+-   `offset` properly works now for getting people by location
+
 ## 5.0.1 (2019-08-12)
 
 ### Fixed
