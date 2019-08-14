@@ -440,10 +440,11 @@ describe("class Boxrec (E2E)", () => {
             let judge: BoxrecPageProfileOtherCommon;
 
             beforeAll(async () => {
-                judge = await Boxrec.getPersonById(loggedInCookie, 401615, BoxrecRole.judge) as BoxrecPageProfileOtherCommon;
+                judge = await Boxrec.getPersonById(loggedInCookie, 401615, BoxrecRole.judge) as
+                    BoxrecPageProfileOtherCommon;
             });
-
-            it("should return the person's information", () => {
+            
+            xit("should return the person's information", () => {
                 expect(judge.name).toBe("C.J. Ross");
             });
 
