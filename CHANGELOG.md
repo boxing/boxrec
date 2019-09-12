@@ -1,3 +1,9 @@
+## 5.0.3 (2019-09-12)
+
+### Security
+
+-    Updated dependencies (lodash bump)
+
 ## 5.0.2 (2019-08-22)
 
 ### Fixed
