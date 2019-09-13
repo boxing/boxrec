@@ -116,8 +116,7 @@ describe("class Boxrec (E2E)", () => {
 
         describe("getter referee", () => {
 
-            // broken on BoxRec - disabled until resolved (https://github.com/boxing/boxrec/issues/171)
-            xit("should give the id and name of the referee", () => {
+            it("should give the id and name of the referee", () => {
                 expect(caneloKhanBout.referee).toEqual({
                     id: 400853,
                     name: "Kenny Bayless",
@@ -126,8 +125,7 @@ describe("class Boxrec (E2E)", () => {
 
         });
 
-        // disabled until this is resolved by BoxRec (https://github.com/boxing/boxrec/issues/170)
-        xdescribe("getter judges", () => {
+        describe("getter judges", () => {
 
             it("should include an array of judges", () => {
                 expect(caneloKhanBout.judges).toEqual(jasmine.any(Array));
@@ -443,9 +441,9 @@ describe("class Boxrec (E2E)", () => {
                 judge = await Boxrec.getPersonById(loggedInCookie, 401615, BoxrecRole.judge) as
                     BoxrecPageProfileOtherCommon;
             });
-            
-            xit("should return the person's information", () => {
-                expect(judge.name).toBe("C.J. Ross");
+
+            it("should return the person's information", () => {
+                expect(judge.name).toBe("CJ Ross");
             });
 
             it("should also have bouts to parse that they were a part of", () => {
