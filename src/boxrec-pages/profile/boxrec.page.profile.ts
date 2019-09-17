@@ -1,8 +1,6 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
 import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
 
@@ -32,13 +30,17 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
-     * Returns the country of which the person was born
-     * @returns {BoxrecLocation}
+     * Returns the place of which the person was born
+     * @returns {string | null}
      */
-    get birthPlace(): BoxrecLocation {
-        let birthPlace: string = this.parseProfileTableData(BoxrecProfileTable.birthPlace) || "";
-        birthPlace = `<div>${birthPlace}</div>`;
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(birthPlace);
+    get birthPlace(): string | null {
+        const birthPlace: string | void = this.parseProfileTableData(BoxrecProfileTable.birthPlace);
+
+        if (birthPlace) {
+            return this.$(`<div>${birthPlace}</div>`).text() || "";
+        }
+
+        return null;
     }
 
     /**
@@ -94,12 +96,16 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
     /**
      * Returns the current residency of the person
-     * @returns {BoxrecLocation}
+     * @returns {string | null}
      */
-    get residence(): BoxrecLocation {
-        let residence: string = this.parseProfileTableData(BoxrecProfileTable.residence) || "";
-        residence = `<div>${residence}</div>`;
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(residence);
+    get residence(): string | null {
+        const residence: string | void = this.parseProfileTableData(BoxrecProfileTable.residence);
+
+        if (residence) {
+            return this.$(`<div>${residence}</div>`).text() || "";
+        }
+
+        return null;
     }
 
     /**
