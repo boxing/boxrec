@@ -78,14 +78,20 @@ export class BoxrecPageChampions {
 
     private parseBoxingOrganizations(): string[] {
         const listOfBoxingOrganizations: string[] = [];
-        this.$(".dataTable tr:nth-child(1) th").each((index: number, elem: CheerioElement) => {
-            let boxingOrganization: string = this.$(elem).text();
-            boxingOrganization = boxingOrganization.trim();
+        // find the first `BoxRec` and get the siblings of it.  The table structure keeps changing
+        this.$(".dataTable th:contains(BoxRec)").first().siblings()
+            .each((index: number, elem: CheerioElement) => {
+                let boxingOrganization: string = this.$(elem).text();
+                boxingOrganization = boxingOrganization.trim();
 
-            if (boxingOrganization.length > 0) {
-                listOfBoxingOrganizations.push(boxingOrganization);
-            }
-        });
+                if (boxingOrganization.length > 0) {
+                    listOfBoxingOrganizations.push(boxingOrganization);
+                }
+            });
+
+        if (listOfBoxingOrganizations.length) {
+            listOfBoxingOrganizations.unshift("BoxRec");
+        }
 
         return listOfBoxingOrganizations;
     }
@@ -94,52 +100,50 @@ export class BoxrecPageChampions {
         const champions: BoxrecUnformattedChampions[] = [];
         const listOfBoxingOrganizations: string[] = this.parseBoxingOrganizations();
 
-        this.$(".dataTable tr").each((index: number, elem: CheerioElement) => {
-            // the first row is the list of belt name
-            // the second part of this is that there are empty table rows between weight classes
-            if (index !== 0 && index % 2 !== 0) {
-                const weightDivision: string = this.$(elem).find("td:nth-child(1)").text();
+        // todo develop more flexible way to get the champions, this is bound to change when they change their tables
+        this.$(".dataTable tr:nth-child(4n+3)").each((index: number, elem: CheerioElement) => {
+            const weightDivision: string = this.$(elem).prev().prev().find("td:nth-child(1)").text();
 
-                champions.push({
-                    beltHolders: Object.assign({}, beltOrganizations),
-                    weightDivision: BoxrecCommonTablesColumnsClass.parseDivision(weightDivision),
-                });
-                const last: number = champions.length - 1;
+            champions.push({
+                beltHolders: Object.assign({}, beltOrganizations),
+                weightDivision: BoxrecCommonTablesColumnsClass.parseDivision(weightDivision),
+            });
+            const last: number = champions.length - 1;
 
-                this.$(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
-                    if (tdIndex !== 0) {
-                        const boxer: BoxrecChampion | null = {
-                            id: null,
-                            name: null,
-                            picture: null,
-                        };
-                        const firstLink: Cheerio = this.$(tdElem).find("a:nth-child(1)");
+            this.$(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
+                if (tdIndex !== 0) {
+                    const boxer: BoxrecChampion | null = {
+                        id: null,
+                        name: null,
+                        picture: null,
+                    };
+                    const firstLink: Cheerio = this.$(tdElem).find("a:nth-child(1)");
 
-                        if (firstLink.length) {
-                            let name: string | null = this.$(tdElem).html();
+                    if (firstLink.length) {
+                        let name: string | null = this.$(tdElem).html();
 
-                            if (name) {
-                                name = name.replace("<br>", " ");
-                                name = this.$(name).text();
-                                name = trimRemoveLineBreaks(name);
+                        if (name) {
+                            name = name.replace("<br>", " ");
+                            name = this.$(name).text();
+                            name = trimRemoveLineBreaks(name);
 
-                                if (firstLink[0] && firstLink[0].attribs) {
-                                    const href: RegExpMatchArray | null = firstLink[0].attribs.href.match(/(\d+)$/);
-                                    const picture: string = this.$(tdElem).find("img").attr("src");
+                            if (firstLink[0] && firstLink[0].attribs) {
+                                const href: RegExpMatchArray | null = firstLink[0].attribs.href.match(/(\d+)$/);
+                                const picture: string = this.$(tdElem).find("img").attr("src");
 
-                                    if (href && href[1]) {
-                                        boxer.id = parseInt(href[1], 10);
-                                        boxer.name = name;
-                                        boxer.picture = picture;
-                                        (champions as any)[last]
-                                            .beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
-                                    }
+                                if (href && href[1]) {
+                                    boxer.id = parseInt(href[1], 10);
+                                    boxer.name = name;
+                                    boxer.picture = picture;
+                                    (champions as any)[last]
+                                        .beltHolders[listOfBoxingOrganizations[tdIndex - 1]] = boxer;
                                 }
                             }
                         }
                     }
-                });
-            }
+                }
+            });
+
         });
 
         return champions;
