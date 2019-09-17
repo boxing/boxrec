@@ -109,16 +109,9 @@ describe("class BoxrecPageEvent", () => {
     describe("getter matchmakers", () => {
 
         it("should be an array as there can be multiple matchmakers", () => {
-            expect(eventBellewHaye2.matchmakers).toEqual([
-                {
-                    id: 418276,
-                    name: "Neil Bowers",
-                },
-                {
-                    id: 809320,
-                    name: "Paul Ready"
-                }
-            ]);
+            // check for either value as the order can change
+            expect([418276, 809320]).toContain(eventBellewHaye2.matchmakers[0].id);
+            expect(["Neil Bowers", "Paul Ready"]).toContain(eventBellewHaye2.matchmakers[0].name);
         });
 
     });
