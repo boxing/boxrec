@@ -922,10 +922,10 @@ boxen@^1.2.1:
     term-size "^1.2.0"
     widest-line "^2.0.0"
 
-boxrec-mocks@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/boxrec-mocks/-/boxrec-mocks-3.0.0.tgz#e07476894748a18b3625f586dffa8ff9661e10ab"
-  integrity sha512-QeqJefbv39DFLhq3kIXSgbURoRJSG7f7kHTAuPGJYQTcD2+ABIUMrgEz195YyupoWDTytkjTNzZR8/jjV7WfVw==
+boxrec-mocks@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/boxrec-mocks/-/boxrec-mocks-3.0.1.tgz#a78ed496f0b62beeda0fc7655a8dcfb870423f96"
+  integrity sha512-s8WH2nyVn2g+8hFnmOOuM/HLiijFRBwLcQV12nY+4y1adAMZAaYrZVUGCCPWEIfmE1kwdk9PLrG0Klz0+7g6TQ==
   dependencies:
     html-loader "^0.5.5"
     webpack "^4.28.0"
