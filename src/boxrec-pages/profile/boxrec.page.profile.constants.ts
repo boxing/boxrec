@@ -1,5 +1,5 @@
 import {BoxrecGeneralLinks, BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
-import {BoxrecBasic, BoxrecJudge, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
+import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
@@ -9,12 +9,12 @@ import {BoxrecProfileRole} from "./boxrec.profile.constants";
 
 interface BoxrecProfileOutput {
     birthName: string | null;
-    birthPlace: BoxrecLocation | null;
+    birthPlace: string | null;
     globalId: number | null;
     name: string;
     otherInfo: string[][];
     picture: string;
-    residence: BoxrecLocation | null;
+    residence: string | null;
     role: BoxrecProfileRole[];
     status: string | null;
 }

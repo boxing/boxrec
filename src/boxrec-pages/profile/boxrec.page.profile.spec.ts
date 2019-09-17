@@ -13,7 +13,6 @@ import {
 } from "boxrec-mocks";
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {WinLossDraw} from "../boxrec.constants";
-import {Country} from "../location/people/boxrec.location.people.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
 import {
     BoxrecProfileBoxerBoutOutput,
@@ -169,20 +168,7 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should return the current residence of the person", () => {
-                    expect(outputRJJ.residence).toEqual({
-                        country: {
-                            id: Country.USA,
-                            name: "USA",
-                        },
-                        region: {
-                            id: "FL",
-                            name: "Florida",
-                        },
-                        town: {
-                            id: 18374,
-                            name: "Pensacola",
-                        },
-                    });
+                    expect(outputRJJ.residence).toBe("Pensacola, Florida, USA");
                 });
 
                 describe("getter vadacbp", () => {
@@ -217,20 +203,7 @@ describe("class BoxrecPageProfile", () => {
                 });
 
                 it("should return the birth place of the person", () => {
-                    expect(outputRJJ.birthPlace).toEqual({
-                        country: {
-                            id: Country.USA,
-                            name: "USA",
-                        },
-                        region: {
-                            id: "FL",
-                            name: "Florida",
-                        },
-                        town: {
-                            id: 18374,
-                            name: "Pensacola",
-                        },
-                    });
+                    expect(outputRJJ.birthPlace).toBe("Pensacola, Florida, USA");
                 });
 
                 describe("getter bouts", () => {
@@ -535,20 +508,7 @@ describe("class BoxrecPageProfile", () => {
             describe("getter residence", () => {
 
                 it("should return the residence for other roles", () => {
-                    expect(judgeDaveMoretti.residence).toEqual({
-                        country: {
-                            id: Country.USA,
-                            name: "USA",
-                        },
-                        region: {
-                            id: "NV",
-                            name: "Nevada",
-                        },
-                        town: {
-                            id: 20388,
-                            name: "Las Vegas",
-                        }
-                    });
+                    expect(judgeDaveMoretti.residence).toBe("Las Vegas, Nevada, USA");
                 });
 
             });
@@ -574,21 +534,8 @@ describe("class BoxrecPageProfile", () => {
                     output = judgeDaveMoretti.output;
                 });
 
-                it("should return the birth place of other roles", () => {
-                    expect(output.birthPlace).toEqual({
-                        country: {
-                            id: null,
-                            name: null,
-                        },
-                        region: {
-                            id: null,
-                            name: null,
-                        },
-                        town: {
-                            id: null,
-                            name: null,
-                        },
-                    });
+                it("should return the null if the birth place isn't set", () => {
+                    expect(output.birthPlace).toBe(null);
                 });
             });
         });
