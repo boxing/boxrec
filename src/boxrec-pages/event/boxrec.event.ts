@@ -141,6 +141,9 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         return locationObject;
     }
 
+    /**
+     * The order of returned matchmakers can change
+     */
     get matchmakers(): BoxrecBasic[] {
         const html: Cheerio = this.$(`<div>${this.parseMatchmakers()}</div>`);
         const matchmaker: BoxrecBasic[] = [];
