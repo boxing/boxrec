@@ -16,22 +16,18 @@ describe("class BoxrecPageSearch", () => {
 
         describe("getter results", () => {
 
-            it("should return an array of search results", () => {
-                expect(searchResults.output.results.length).not.toBe(0);
-            });
-
             describe("output values", () => {
 
-                let output: BoxrecSearch[];
+                let floydJrOutput: BoxrecSearch;
 
                 beforeAll(() => {
-                    output = searchResults.output.results; // Floyd Mayweather Jr.
+                    floydJrOutput = searchResults.output.results[1]; // Floyd Mayweather Jr
                 });
 
                 describe("getter id", () => {
 
                     it("should return the id of the boxer", () => {
-                        expect(output[1].id).toBe(352);
+                        expect(floydJrOutput.id).toBe(352);
                     });
 
                 });
@@ -40,7 +36,7 @@ describe("class BoxrecPageSearch", () => {
 
                     // todo this should either be fine or return the URL role
                     xit("should return the sport", () => {
-                        expect(output[1].sport).toBe(BoxrecFighterRole.proBoxer);
+                        expect(floydJrOutput.sport).toBe(BoxrecFighterRole.proBoxer);
                     });
 
                 });
@@ -48,7 +44,7 @@ describe("class BoxrecPageSearch", () => {
                 describe("getter name", () => {
 
                     it("should return the name of the boxer", () => {
-                        expect(output[1].name).toBe("Floyd Mayweather Jr");
+                        expect(floydJrOutput.name).toBe("Floyd Mayweather Jr");
                     });
 
                 });
@@ -56,7 +52,7 @@ describe("class BoxrecPageSearch", () => {
                 describe("getter alias", () => {
 
                     it("should return the alias of the boxer", () => {
-                        expect(output[1].alias).toBe("Money / Pretty Boy");
+                        expect(floydJrOutput.alias).toBe("Money / Pretty Boy");
                     });
 
                 });
@@ -64,9 +60,9 @@ describe("class BoxrecPageSearch", () => {
                 describe("getter record", () => {
 
                     it("should return the record of the boxer", () => {
-                        expect(output[1].record.win).toBe(50);
-                        expect(output[1].record.loss).toBe(0);
-                        expect(output[1].record.draw).toBe(0);
+                        expect(floydJrOutput.record.win).toBe(50);
+                        expect(floydJrOutput.record.loss).toBe(0);
+                        expect(floydJrOutput.record.draw).toBe(0);
                     });
 
                 });
@@ -74,7 +70,7 @@ describe("class BoxrecPageSearch", () => {
                 describe("getter last6", () => {
 
                     it("should return the results of the last 6 of the boxer", () => {
-                        expect(output[1].last6[0]).toBe(WinLossDraw.win);
+                        expect(floydJrOutput.last6[0]).toBe(WinLossDraw.win);
                     });
 
                 });
@@ -84,7 +80,7 @@ describe("class BoxrecPageSearch", () => {
                     // todo when person has multiple roles, it tells both careers/last6/divisions for that person
                     // ex. search `Hector Madera`
                     it("should return the division of the boxer", () => {
-                        expect(output[1].division).toBe("welterweight");
+                        expect(floydJrOutput.division).toBe("welterweight");
                     });
 
                 });
@@ -92,15 +88,15 @@ describe("class BoxrecPageSearch", () => {
                 describe("getter career", () => {
 
                     it("should be a length of two", () => {
-                        expect(output[1].career).toHaveLength(2);
+                        expect(floydJrOutput.career).toHaveLength(2);
                     });
 
                     it("should have the start date", () => {
-                        expect(output[1].career[0]).toBe(1996);
+                        expect(floydJrOutput.career[0]).toBe(1996);
                     });
 
                     it("should have the end date", () => {
-                        expect(output[1].career[1]).toBe(2017);
+                        expect(floydJrOutput.career[1]).toBe(2017);
                     });
 
                 });
@@ -108,15 +104,15 @@ describe("class BoxrecPageSearch", () => {
                 describe("getter residence", () => {
 
                     it("should return the town", () => {
-                        expect(output[1].residence.town.name).toBe("Las Vegas");
+                        expect(floydJrOutput.residence.town.name).toBe("Las Vegas");
                     });
 
                     it("should return the region", () => {
-                        expect(output[1].residence.region.id).toBe("NV");
+                        expect(floydJrOutput.residence.region.id).toBe("NV");
                     });
 
                     it("should return the country", () => {
-                        expect(output[1].residence.country.id).toBe("US");
+                        expect(floydJrOutput.residence.country.id).toBe("US");
                     });
 
                 });
