@@ -1,8 +1,19 @@
+## 6.0.0 (2019-09-16)
+
+### Changed
+
+-   Birth Place/Residence on Profile page is now a string, therefore changed to string
+
+### Fixed
+
+-   Name/Alias on Search page fixed and should be a bit more flexible
+-   Champions returned properly now since table format changed
+
 ## 5.0.3 (2019-09-12)
 
 ### Security
 
--    Updated dependencies (lodash bump)
+-   Updated dependencies (lodash bump)
 
 ## 5.0.2 (2019-08-22)
 
