@@ -18,7 +18,7 @@ export class BoxrecPageSearchRow {
 
     get alias(): string | null {
         const alias: string = getColumnData(this.$, 1, true);
-        return BoxrecCommonTablesColumnsClass.parseAlias(this.$(alias).find("span").text());
+        return BoxrecCommonTablesColumnsClass.parseAlias(this.$(`<div>${alias}</div>`).find("span").text());
     }
 
     get career(): Array<number | null> {
@@ -38,7 +38,7 @@ export class BoxrecPageSearchRow {
     }
 
     get name(): string | null {
-        const nameIdEl: Cheerio = this.$(getColumnData(this.$, 1));
+        const nameIdEl: Cheerio = this.$(`<div>${getColumnData(this.$, 1)}</div>`);
         return BoxrecCommonTablesColumnsClass.parseName(nameIdEl.find("a").text());
     }
 
