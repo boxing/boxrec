@@ -169,8 +169,10 @@ export class Boxrec {
      */
     static async getPersonById(cookieJar: CookieJar, globalId: number, role: BoxrecRole | null = null,
                                offset: number = 0):
-        Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
-        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getPersonById(cookieJar, globalId, role, offset);
+        Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents |
+            BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
+        const boxrecPageBody: RequestResponse["body"] = await BoxrecRequests.getPersonById(cookieJar, globalId,
+            role, offset);
 
         // there are 9 roles on the BoxRec website
         // the differences are that the boxers have 2 more columns `last6` for each boxer

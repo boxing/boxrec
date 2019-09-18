@@ -54,26 +54,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
     }
 
     /**
-     * Returns the date of birth of the boxer
-     * @example // Gennady Golovkin would return "1982-04-08"
-     * @returns {string | null}
-     */
-    get born(): string | null {
-        const born: string | void = this.parseProfileTableData(BoxrecProfileTable.born);
-        if (born) {
-            // some boxers have dob and age.  Match the YYYY-MM-DD
-            const regex: RegExp = /(\d{4}\-\d{2}\-\d{2})/;
-            const bornMatch: RegExpMatchArray | null = born.match(regex);
-
-            if (bornMatch) {
-                return bornMatch[1];
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Returns an array of bout information
      * The boxer's first bout is at the start of the array
      * The boxer's last or latest bout is at the end of the array

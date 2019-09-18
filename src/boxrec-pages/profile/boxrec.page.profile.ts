@@ -44,6 +44,46 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
+     * Returns the date of birth of the person
+     * @example // Gennady Golovkin would return "1982-04-08"
+     * this field is found on all profile types (ex. Lou Duva https://boxrec.com/en/promoter/24678)
+     * @returns {string | null}
+     */
+    get born(): string | null {
+        const born: string | void = this.parseProfileTableData(BoxrecProfileTable.born);
+        if (born) {
+            // some boxers have dob and age.  Match the YYYY-MM-DD
+            const regex: RegExp = /(\d{4}\-\d{2}\-\d{2})/;
+            const bornMatch: RegExpMatchArray | null = born.match(regex);
+
+            if (bornMatch) {
+                return bornMatch[1];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the date of the death
+     */
+    get deathDate(): string | null {
+        const death: string | void = this.parseProfileTableData(BoxrecProfileTable.death);
+
+        // unsure the results if the person has a death date but no date of birth, we'll assume that the `age` part will
+        // not be there
+        if (death) {
+            const splitDeath: string[] = death.split("/");
+
+            if (splitDeath.length > 0) {
+                return splitDeath[0].trim();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns the profile global id or id
      * @returns {number | null}
      */
