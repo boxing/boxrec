@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileOtherOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
@@ -9,13 +8,6 @@ import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.c
  * <pre>ex. http://boxrec.com/en/supervisor/406714</pre>
  */
 export class BoxrecPageProfileOtherCommon extends BoxrecPageProfile {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     /**
      * Returns the bouts information for the judge/supervisor

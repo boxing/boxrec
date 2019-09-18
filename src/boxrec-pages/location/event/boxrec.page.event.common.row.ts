@@ -6,8 +6,8 @@ export abstract class BoxrecPageEventCommonRow {
 
     protected readonly $: CheerioStatic;
 
-    protected constructor(html: string) {
-        this.$ = cheerio.load(html);
+    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
+        this.$ = cheerio.load(`<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`);
     }
 
     get venue(): BoxrecBasic {

@@ -1,5 +1,4 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import * as cheerio from "cheerio";
 import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
@@ -10,13 +9,6 @@ import {BoxrecParseBouts} from "./boxrec.parse.bouts";
  * Used specifically for Events page and Dates page
  */
 export abstract class BoxrecEvent extends BoxrecParseBouts {
-
-    protected $: CheerioStatic;
-
-    protected constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     protected static getVenueInformation(links: Cheerio): BoxrecBasic {
         const obj: BoxrecBasic = {

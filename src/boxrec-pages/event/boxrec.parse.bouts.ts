@@ -1,14 +1,6 @@
-import * as cheerio from "cheerio";
 import {BoxrecParseBoutsParseBouts} from "./boxrec.parse.bouts.parseBouts";
 
 export abstract class BoxrecParseBouts extends BoxrecParseBoutsParseBouts {
-
-    protected $: CheerioStatic;
-
-    protected constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     /**
      * If less than 25 (24 per page), we have to figure out the number a different way

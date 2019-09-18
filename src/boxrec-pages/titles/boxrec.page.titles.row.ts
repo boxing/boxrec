@@ -4,16 +4,15 @@ import {getColumnData, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
-import {BoxrecTitlesCommon} from "./boxrec.titles.common";
+import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
+import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 
-export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
+export class BoxrecPageTitlesRow {
 
     protected readonly $: CheerioStatic;
 
     constructor(tableRowInnerHTML: string, metadataFollowingRowInnerHTML: string | null = null) {
-        const html: string = `<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`;
-        super(html);
-        this.$ = cheerio.load(html);
+        this.$ = cheerio.load(`<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`);
     }
 
     get date(): string {
@@ -30,6 +29,15 @@ export class BoxrecPageTitlesRow extends BoxrecTitlesCommon {
 
     get firstBoxerWeight(): number | null {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnData(this.$, 4, false));
+    }
+
+    get links(): BoxrecGeneralLinks {
+        return BoxrecCommonLinks.parseLinkInformation<BoxrecGeneralLinks>(this.parseLinks(), {
+            bio: null,
+            bout: null,
+            event: null,
+            other: [], // any other links we'll throw the whole href attribute in here
+        });
     }
 
     get location(): BoxrecLocation {

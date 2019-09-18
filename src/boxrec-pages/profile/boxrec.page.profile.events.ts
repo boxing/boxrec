@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileEventsOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
@@ -7,13 +6,6 @@ import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
  * Parses profiles that have events listed
  */
 export class BoxrecPageProfileEvents extends BoxrecPageProfile {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     /**
      * Returns a list of events
