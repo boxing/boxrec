@@ -22,7 +22,7 @@ export class BoxrecPageLocationEvent extends BoxrecPageLists {
     }
 
     get numberOfLocations(): number {
-        return this.getNumberOfPages();
+        return this.numberOfPages;
     }
 
 }

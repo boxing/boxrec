@@ -10,10 +10,6 @@ export abstract class BoxrecPageLists {
     }
 
     get numberOfPages(): number {
-        return this.getNumberOfPages();
-    }
-
-    protected getNumberOfPages(): number {
         const text: string = this.$(".pagerResults").text() || "0";
         return parseInt(stripCommas(text), 10);
     }
