@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
@@ -10,13 +9,6 @@ import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
  * <pre>ex. http://boxrec.com/en/title/6/Middleweight
  */
 export class BoxrecPageTitle extends BoxrecParseBouts {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     /**
      * The number of bouts that have occurred for this title

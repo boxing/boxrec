@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {getColumnData} from "../../../helpers";
 import {Record, WinLossDraw} from "../../boxrec.constants";
@@ -10,14 +9,6 @@ import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 // todo this is not BoxerRow anymore but fighters
 // todo does this work for all fighter roles?
 export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyBout: string) {
-        super(boxrecBodyBout);
-        const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
-        this.$ = cheerio.load(html);
-    }
 
     get career(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseCareer(getColumnData(this.$, 8));

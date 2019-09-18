@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {parseHeight, trimRemoveLineBreaks} from "../../helpers";
 import {Stance} from "../boxrec.constants";
@@ -13,13 +12,6 @@ import {BoxrecProfileTable} from "./boxrec.profile.constants";
  * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
 export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     /**
      * The number of bouts that this boxer has finished by way of KO/TKOing their opponent

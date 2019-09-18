@@ -4,7 +4,7 @@ export abstract class BoxrecParseBoutsParseBouts {
 
     protected $: CheerioStatic;
 
-    protected constructor(boxrecBodyString: string) {
+    constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
