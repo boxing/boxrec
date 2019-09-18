@@ -1,3 +1,13 @@
+## 6.1.0 (2019-09-17)
+
+### Added
+
+-   Added support for `death` for profiles
+
+### Changed
+
+-   All profiles support `born` and not just boxers
+
 ## 6.0.0 (2019-09-16)
 
 ### Changed
