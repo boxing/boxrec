@@ -54,6 +54,7 @@ export enum BoxrecProfileTable {
     birthPlace = "birth place",
     company = "company",
     registeredContact = "registered contact",
+    death = "death date",
 }
 
 export interface BoxrecProfileBoutLocation {

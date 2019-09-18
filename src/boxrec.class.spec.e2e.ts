@@ -489,6 +489,12 @@ describe("class Boxrec (E2E)", () => {
             expect((boxers.get(352) as BoxrecPageProfileBoxer).picture).toContain("FloydMayweather");
         });
 
+        it("should include the death date if the person has passed away and the date is known", async () => {
+            const louDuva: BoxrecPageProfileEvents = await Boxrec.getPersonById(loggedInCookie,
+                24678, BoxrecRole.promoter) as BoxrecPageProfileEvents;
+            expect(louDuva.deathDate).toBe("2017-03-08");
+        });
+
     });
 
     describe("method getResults", () => {
