@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
@@ -8,14 +7,6 @@ import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
 
 // used for profiles other than boxers
 export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyBout: string, additionalData: string | null = null) {
-        const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
-        super(html);
-        this.$ = cheerio.load(html);
-    }
 
     get date(): string {
         return trimRemoveLineBreaks(this.getColumnData(1, false));

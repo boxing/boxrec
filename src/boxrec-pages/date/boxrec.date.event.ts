@@ -1,16 +1,10 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import * as cheerio from "cheerio";
 import {BoxrecEvent} from "../event/boxrec.event";
 
 /**
  * Used by the BoxRec Date page for event information
  */
 export class BoxrecDateEvent extends BoxrecEvent {
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     get id(): number {
         return parseInt(this.parseId(), 10);

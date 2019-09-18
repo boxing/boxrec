@@ -1,5 +1,4 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
@@ -11,11 +10,6 @@ import {emptyLocationObject} from "./boxrec.event.helpers";
  * Parse an Event page
  */
 export class BoxrecPageEvent extends BoxrecEvent {
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     get commission(): string | null {
         const commission: string = this.parseEventData("commission");

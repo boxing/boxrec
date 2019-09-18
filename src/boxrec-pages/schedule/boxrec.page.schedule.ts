@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {stripCommas} from "../../helpers";
 import {BoxrecPageEvent} from "../event/boxrec.page.event";
 import {BoxrecPageScheduleCommon} from "./boxrec.page.schedule.common";
@@ -10,13 +9,6 @@ import {BoxrecScheduleOutput} from "./boxrec.page.schedule.constants";
  * <pre>ex. http://boxrec.com/en/results?c%5BcountryCode%5D=US&c%5Bdivision%5D=Middleweight&c_go=</pre>
  */
 export class BoxrecPageSchedule extends BoxrecPageScheduleCommon {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     get events(): BoxrecPageEvent[] {
         return this.parse().map((event: string) => new BoxrecPageEvent(event));

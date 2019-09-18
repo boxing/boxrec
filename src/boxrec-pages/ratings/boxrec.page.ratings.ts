@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageRatingsActiveAllDivisionsRow} from "./boxrec.page.ratings.active-all-divisions.row";
@@ -21,13 +20,6 @@ const ratingsTableEl: string = "#ratingsResults";
  * <pre>ex. http://boxrec.com/en/ratings</pre>
  */
 export class BoxrecPageRatings extends BoxrecPageLists {
-
-    protected readonly $: CheerioStatic;
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     get boxers(): Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
         BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow> {

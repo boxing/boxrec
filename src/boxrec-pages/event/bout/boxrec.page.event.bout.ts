@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
 import {convertFractionsToNumber, parseHeight, trimRemoveLineBreaks} from "../../../helpers";
@@ -19,11 +18,6 @@ import {
  * <pre>http://boxrec.com/en/event/726555/2037455</pre>
  */
 export class BoxrecPageEventBout extends BoxrecPageEvent {
-
-    constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     private static parseOutcome(outcomeStr: string): BoutPageOutcome {
         const trimmedOutcomeStr: string = trimRemoveLineBreaks(outcomeStr);

@@ -1,5 +1,4 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import * as cheerio from "cheerio";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
 import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
@@ -7,13 +6,6 @@ import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants"
 const profileTableEl: string = ".profileTable";
 
 export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
-
-    protected readonly $: CheerioStatic;
-
-    protected constructor(boxrecBodyString: string) {
-        super(boxrecBodyString);
-        this.$ = cheerio.load(boxrecBodyString);
-    }
 
     /**
      * The birth name of the person
