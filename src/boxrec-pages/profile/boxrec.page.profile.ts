@@ -67,7 +67,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     /**
      * Returns the date of the death
      */
-    get deathDate(): string | null {
+    get death(): string | null {
         const death: string | void = this.parseProfileTableData(BoxrecProfileTable.death);
 
         // unsure the results if the person has a death date but no date of birth, we'll assume that the `age` part will
