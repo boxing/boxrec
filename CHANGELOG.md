@@ -1,3 +1,13 @@
+## 6.2.0 (2019-09-21)
+
+### Added
+
+-   Added support for `socialMedia` for profiles
+
+### Fixed
+
+-   Suspensions on profile should now again be working correctly
+
 ## 6.1.0 (2019-09-17)
 
 ### Added
