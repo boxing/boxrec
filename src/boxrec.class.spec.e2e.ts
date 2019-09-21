@@ -697,6 +697,26 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
+    describe("method getBoxerPDF", () => {
+
+        it("should return a PDF", async () => {
+            const pdf: string = await Boxrec.getBoxerPDF(loggedInCookie, 352);
+            expect(pdf).toBeDefined();
+            expect(pdf).not.toBeNull();
+        });
+
+    });
+
+    describe("method getBoxerPrint", () => {
+
+        it("should return the printable version of the profile", async () => {
+            const print: string = await Boxrec.getBoxerPrint(loggedInCookie, 352);
+            expect(print).toBeDefined();
+            expect(print).not.toBeNull();
+        });
+
+    });
+
     describe("method getPeopleByName", () => {
 
         let results: AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>;
