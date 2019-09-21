@@ -44,15 +44,7 @@ await boxrec.getPersonById(cookieJar, 352);
 
 ## Additional Documentation
 
-### Recent versions
-
-[Latest published on NPM (master)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/master/index.html)
-
-[Upcoming but not published (develop)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/develop/index.html)
-
-### Support/Legacy versions
-
-[Version 1.2.X](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/1.2.0/index.html)
+[Latest npm published (master)](https://boxrec-npm-docs.s3.us-east-2.amazonaws.com/master/index.html)
 
 ## Methods (How to use)
 
@@ -354,7 +346,9 @@ Last updated 2019-04-30
 
 -   [ ] Added 2019-04-13: Changes to this package should trigger builds in upcoming Docker project
 
--   [ ] Added 2019-04-13: Get to and keep a "A" maintainability in [Codacy](https://app.codacy.com/project/mikedidomizio/boxrec/dashboard)
+-   [X] Added 2019-04-13: Get to and keep a "A" maintainability in [Codacy](https://app.codacy.com/project/mikedidomizio/boxrec/dashboard)
+
+    Completed in 2019
 
 -   [ ] Added 2019-04-13: Separate typings into typings registry
 
@@ -369,11 +363,6 @@ Last updated 2019-04-30
     Completed 2019-04-30 - Using Git Flow
 
 ## Security Requirements
-
-### Non HTTPs requests
-
-BoxRec does not support HTTPS.  Communication between the Node server and BoxRec is [insecure](http://www.stealmylogin.com/).  
-This is not a flaw in the package design but a design flaw in BoxRec.
 
 ## Questions
 
