@@ -265,7 +265,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
      * @returns {string | null}
      */
     get suspended(): string | null {
-        const el: Cheerio = this.$("body").find(".profileTable div.hideMob:contains('suspended')");
+        const el: Cheerio = this.$("body").find(".profileTable div:contains('suspended'):nth-child(1)");
         if (el.length) {
             return trimRemoveLineBreaks(el.text());
         }
