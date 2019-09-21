@@ -198,6 +198,30 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
+     * Returns an array of social media links
+     * Due to social media platforms changing, this returns an array and not an object
+     */
+    get socialMedia(): string[] {
+        // we could check that the "type" is empty but that could change, let's check for links to common social media
+        // since BoxRec lists sites like Facebook and YouTube as string URLs and not links, we're going
+        // to protect ourselves by both checking for the strings as well as check for URLs because this could change
+        const tableColumns: Cheerio = this.$(`.profileTable table`)
+            .find(`td:contains(youtube.com), td a[href*='youtube.com'],
+                td:contains(facebook.com), td a[href*='facebook.com'],
+                td:contains(twitter.com), td a[href*='twitter.com']`);
+
+        if (tableColumns.length) {
+            return tableColumns.map((index: number, elem: CheerioElement) => {
+                const attr: string | undefined = this.$(elem).attr("href");
+                // if the element has the href attr we know it's the link otherwise it's a string column
+                return attr ? trimRemoveLineBreaks(attr) : trimRemoveLineBreaks(this.$(elem).text());
+            }).get();
+        }
+
+        return [];
+    }
+
+    /**
      * Returns whether the person is active or inactive in boxing
      * @example // returns "active"
      * @returns {string | null}
