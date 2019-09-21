@@ -74,6 +74,10 @@ describe("class BoxrecPageProfile", () => {
                     expect(outputRJJ.name).toBe("Roy Jones Jr");
                 });
 
+                it("should return null if they are not suspended", () => {
+                    expect(outputRJJ.suspended).toBe(null);
+                });
+
                 it("should return the boxer globalId", () => {
                     expect(outputRJJ.globalId).toBe(774820);
                     expect(outputGGG.globalId).toBe(356831);
