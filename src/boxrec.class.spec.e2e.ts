@@ -493,6 +493,14 @@ describe("class Boxrec (E2E)", () => {
             const louDuva: BoxrecPageProfileEvents = await Boxrec.getPersonById(loggedInCookie,
                 24678, BoxrecRole.promoter) as BoxrecPageProfileEvents;
             expect(louDuva.death).toBe("2017-03-08");
+
+        });
+
+        it("should return an array of their social media links", () => {
+            const socialMediaFloyd: string[] = (boxers.get(352) as BoxrecPageProfileBoxer).socialMedia;
+            const floydTwitter: string | undefined = socialMediaFloyd
+                .find(item => /(https?\:\/\/)?twitter\.com\/FloydMayweather/.test(item));
+            expect(floydTwitter).toBeDefined();
         });
 
     });

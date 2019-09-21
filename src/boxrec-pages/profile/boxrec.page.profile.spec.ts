@@ -643,5 +643,13 @@ describe("class BoxrecPageProfile", () => {
             });
 
         });
+
+        describe("getter socialMedia", () => {
+
+            it("should include social media links", () => {
+                expect(boxerGGG.socialMedia).toBeDefined();
+            });
+
+        });
     });
 });
