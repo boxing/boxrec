@@ -26,6 +26,7 @@ import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row"
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 import {Boxrec} from "./boxrec.class";
+import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
@@ -726,6 +727,36 @@ describe("class Boxrec (E2E)", () => {
             const print: string = await Boxrec.getBoxerPrint(loggedInCookie, 352);
             expect(print).toBeDefined();
             expect(print).not.toBeNull();
+        });
+
+    });
+
+    describe("method getDate", () => {
+
+        let sept282019: BoxrecPageDate;
+
+        beforeAll(async () => {
+            sept282019 = await Boxrec.getDate(loggedInCookie, "2019-09-28");
+        });
+
+        describe("getter events", () => {
+
+            describe("getter bouts", () => {
+
+                describe("getter firstBoxerRecord", () => {
+
+                    it("should return the first boxer's record", () => {
+                        expect(sept282019.events[0].bouts[0].firstBoxerRecord).toEqual({
+                            draw: jasmine.any(Number),
+                            loss: jasmine.any(Number),
+                            win: jasmine.any(Number),
+                        });
+                    });
+
+                });
+
+            });
+
         });
 
     });
