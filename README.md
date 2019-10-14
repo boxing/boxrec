@@ -52,8 +52,6 @@ await boxrec.getPersonById(cookieJar, 352);
 #### logs the user into BoxRec
 To use this properly, it requires a login to BoxRec.  BoxRec supplies additional information when logged in
 
-⚠ BoxRec does not support HTTPS.  More can be read below in the [Security Requirements](https://github.com/boxing/boxrec/tree/README-updates#security-requirements) section
-
 ```javascript
 try {
     const cookieJar = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
