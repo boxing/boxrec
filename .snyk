@@ -1,10 +1,37 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
 version: v1.13.5
-ignore: {}
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-LODASH-450202:
+    - cheerio > lodash:
+        reason: None given
+        expires: '2019-11-13T16:04:37.183Z'
+    - boxrec-requests > cheerio > lodash:
+        reason: None given
+        expires: '2019-11-13T16:04:37.183Z'
+  SNYK-JS-LODASH-73638:
+    - cheerio > lodash:
+        reason: None given
+        expires: '2019-11-13T16:04:37.183Z'
+    - boxrec-requests > cheerio > lodash:
+        reason: None given
+        expires: '2019-11-13T16:04:37.183Z'
+  SNYK-JS-LODASH-73639:
+    - cheerio > lodash:
+        reason: None given
+        expires: '2019-11-13T16:04:37.183Z'
+    - boxrec-requests > cheerio > lodash:
+        reason: None given
+        expires: '2019-11-13T16:04:37.183Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   SNYK-JS-LODASH-450202:
     - request-promise > request-promise-core > lodash:
-        patched: '2019-07-04T05:48:32.167Z'
+        patched: '2019-10-14T15:56:52.445Z'
     - boxrec-requests > request-promise > request-promise-core > lodash:
         patched: '2019-07-04T05:48:32.167Z'
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - boxrec-requests > snyk > proxy-agent > pac-proxy-agent > https-proxy-agent:
+        patched: '2019-10-14T16:03:21.959Z'
+    - boxrec-requests > snyk > proxy-agent > https-proxy-agent:
+        patched: '2019-10-14T16:03:21.959Z'
