@@ -2,13 +2,13 @@ import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants"
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {FirstBoxer, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
 
-@FirstBoxer()
+@FirstBoxerGetter()
 export class BoxrecPageEventBoutRow implements FirstBoxerInterface {
 
     firstBoxer: BoxrecBasic;

@@ -6,11 +6,14 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBrea
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
-import {FirstBoxer} from "../../decorators/firstBoxer.decorator";
+import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 
-@FirstBoxer()
-export class BoxrecPageTitlesRow {
+@DateGetter()
+@FirstBoxerGetter()
+export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface {
 
+    date: string;
     firstBoxer: BoxrecBasic;
 
     protected readonly $: CheerioStatic;
@@ -18,11 +21,6 @@ export class BoxrecPageTitlesRow {
     constructor(protected headerColumns: string[], tableRowInnerHTML: string,
                 metadataFollowingRowInnerHTML: string | null = null) {
         this.$ = cheerio.load(`<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`);
-    }
-
-    get date(): string {
-        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.date, false));
     }
 
     get division(): WeightDivision | null {

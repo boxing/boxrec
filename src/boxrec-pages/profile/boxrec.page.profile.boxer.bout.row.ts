@@ -1,12 +1,16 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
+import {DateGetter} from "../../decorators/date.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
+@DateGetter()
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
+
+    date: string;
 
     /**
      * Parses Before/After ratings of a boxer
@@ -29,11 +33,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
 
     private static outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
         return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(htmlString, parseText);
-    }
-
-    get date(): string {
-        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.date, false));
     }
 
     /**

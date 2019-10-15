@@ -1,15 +1,14 @@
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationEventRowOutput} from "./boxrec.location.event.constants";
 import {BoxrecPageEventCommonRow} from "./boxrec.page.event.common.row";
+import {DateGetter, DateInterface} from "../../../decorators/date.decorator";
 
-export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow {
+@DateGetter()
+export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow implements DateInterface {
 
-    get date(): string {
-        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.date, false));
-    }
+    date: string;
 
     get day(): string {
         return getColumnDataByColumnHeader(this.$, this.headerColumns,
