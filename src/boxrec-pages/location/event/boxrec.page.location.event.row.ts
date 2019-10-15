@@ -4,16 +4,14 @@ import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationEventRowOutput} from "./boxrec.location.event.constants";
 import {BoxrecPageEventCommonRow} from "./boxrec.page.event.common.row";
 import {DateGetter, DateInterface} from "../../../decorators/date.decorator";
+import {DayGetter, DayInterface} from "../../../decorators/day.decorator";
 
 @DateGetter()
-export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow implements DateInterface {
+@DayGetter()
+export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow implements DateInterface, DayInterface {
 
     date: string;
-
-    get day(): string {
-        return getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.day, false);
-    }
+    day: string;
 
     get id(): number | null {
         return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
