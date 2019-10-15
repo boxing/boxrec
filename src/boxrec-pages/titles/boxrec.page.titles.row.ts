@@ -6,33 +6,32 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBrea
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
+import {FirstBoxer} from "../../decorators/firstBoxer.decorator";
 
+@FirstBoxer()
 export class BoxrecPageTitlesRow {
+
+    firstBoxer: BoxrecBasic;
 
     protected readonly $: CheerioStatic;
 
-    constructor(protected headerColumnTextArr: string[], tableRowInnerHTML: string,
+    constructor(protected headerColumns: string[], tableRowInnerHTML: string,
                 metadataFollowingRowInnerHTML: string | null = null) {
         this.$ = cheerio.load(`<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`);
     }
 
     get date(): string {
-        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
+        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.date, false));
     }
 
     get division(): WeightDivision | null {
         return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.division));
-    }
-
-    get firstBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.fighter));
+            this.headerColumns, BoxrecCommonTableHeader.division));
     }
 
     get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
@@ -47,7 +46,7 @@ export class BoxrecPageTitlesRow {
 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.location), 1);
+            this.headerColumns, BoxrecCommonTableHeader.location), 1);
     }
 
     get metadata(): string | null {
@@ -57,7 +56,7 @@ export class BoxrecPageTitlesRow {
     // todo can we use parsing helper method?
     get numberOfRounds(): number[] {
         const numberOfRounds: string = trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.rounds, false));
+            this.headerColumns, BoxrecCommonTableHeader.rounds, false));
 
         if (numberOfRounds.includes("/")) {
             // ended early
@@ -71,7 +70,7 @@ export class BoxrecPageTitlesRow {
 
     get outcome(): WinLossDraw {
         return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.outcome, false));
+            this.headerColumns, BoxrecCommonTableHeader.outcome, false));
     }
 
     get output(): BoxrecPageTitlesRowOutput {
@@ -92,22 +91,22 @@ export class BoxrecPageTitlesRow {
     }
 
     get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
+        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.rating));
     }
 
     get secondBoxer(): BoxrecBasic {
         return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.opponent));
+            this.headerColumns, BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
+        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
     protected parseLinks(): Cheerio {
-        return this.$(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
+        return this.$(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.links));
     }
 
