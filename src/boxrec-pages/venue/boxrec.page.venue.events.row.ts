@@ -1,35 +1,34 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 
-export class BoxrecPageVenueEventsRow {
+@DateGetter()
+export class BoxrecPageVenueEventsRow implements DateInterface {
+
+    date: string;
 
     private readonly $: CheerioStatic;
 
-    constructor(private headerColumnTextArr: string[], boxrecBodyBout: string) {
+    constructor(private headerColumns: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
     }
 
-    get date(): string {
-        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
-            BoxrecCommonTableHeader.date, false));
-    }
-
     get day(): string {
-        return getColumnDataByColumnHeader(this.$, this.headerColumnTextArr, BoxrecCommonTableHeader.day, false);
+        return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.day, false);
     }
 
     get id(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumnTextArr,
+        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.links));
     }
 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
-            this.headerColumnTextArr, BoxrecCommonTableHeader.location), 2);
+            this.headerColumns, BoxrecCommonTableHeader.location), 2);
     }
 
     get output(): BoxrecPageVenueEventsRowOutput {
