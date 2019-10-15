@@ -4,21 +4,20 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helper
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {DayGetter, DayInterface} from "../../decorators/day.decorator";
 
 @DateGetter()
-export class BoxrecPageVenueEventsRow implements DateInterface {
+@DayGetter()
+export class BoxrecPageVenueEventsRow implements DateInterface, DayInterface {
 
     date: string;
+    day: string;
 
     private readonly $: CheerioStatic;
 
     constructor(private headerColumns: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
-    }
-
-    get day(): string {
-        return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.day, false);
     }
 
     get id(): number | null {
