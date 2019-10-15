@@ -1,17 +1,16 @@
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPageEventCommonRow} from "../location/event/boxrec.page.event.common.row";
 import {BoxrecProfileEventLinks} from "./boxrec.profile.constants";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 
 // used for profiles other than boxers
-export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow {
+@DateGetter()
+export class BoxrecPageProfileEventRow extends BoxrecPageEventCommonRow implements DateInterface {
 
-    get date(): string {
-        return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.date, false));
-    }
+    date: string;
 
     get links(): BoxrecProfileEventLinks {
         const linksStr: string = `<div>${getColumnDataByColumnHeader(this.$, this.headerColumns,

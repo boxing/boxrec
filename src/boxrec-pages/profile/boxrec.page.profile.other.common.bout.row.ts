@@ -3,13 +3,12 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helper
 import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 
-export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow {
+@DateGetter()
+export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow implements DateInterface {
 
-    get date(): string {
-        return getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.date, false);
-    }
+    date: string;
 
     // todo used on any profile?
     get firstBoxerRating(): Array<number | null> {
