@@ -3,19 +3,18 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBrea
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {BoxrecProfileCommonRow} from "../profile/boxrec.profile.common.row";
 import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
+import {FirstBoxer} from "../../decorators/firstBoxer.decorator";
 
+@FirstBoxer()
 export class BoxrecPageTitleRow extends BoxrecProfileCommonRow {
+
+    firstBoxer: BoxrecBasic;
 
     protected readonly $: CheerioStatic;
 
     get date(): string {
         return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.date, false));
-    }
-
-    get firstBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.fighter));
     }
 
     get firstBoxerWeight(): number | null {
