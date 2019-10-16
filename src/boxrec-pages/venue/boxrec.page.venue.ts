@@ -1,34 +1,28 @@
 import * as cheerio from "cheerio";
-import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
+import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecVenueOutput} from "./boxrec.page.venue.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
-
-const tableEl: string = "#eventsTable";
+import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
 
 /**
  * parse a BoxRec Venue page
  * <pre>ex. http://boxrec.com/en/venue/38555</pre>
  */
-export class BoxrecPageVenue {
+@EventsGetter(BoxrecPageVenueEventsRow, "#eventsTable")
+export class BoxrecPageVenue implements EventsInterface {
+
+    /**
+     * Returns an array of events
+     * @returns {BoxrecPageVenueEventsRow[]} is in order of the page
+     * events may have been inserted into BoxRec and the IDs will not always be in order
+     */
+    events: BoxrecPageVenueEventsRow[];
 
     private readonly $: CheerioStatic;
 
     constructor(boxrecBodyString: string) {
         this.$ = cheerio.load(boxrecBodyString);
-    }
-
-    /**
-     * Returns an array of events
-     * @returns {BoxrecPageVenueEventsRow[]} is in order of the page, events may have been inserted into BoxRec and the IDs will not always be in order
-     */
-    get events(): BoxrecPageVenueEventsRow[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$(tableEl));
-
-        return this.$(tableEl).find("tbody tr")
-            .map((i: number, elem: CheerioElement) => this.$(elem).html())
-            .get()
-            .map(item => new BoxrecPageVenueEventsRow(headerColumns, item));
     }
 
     /**

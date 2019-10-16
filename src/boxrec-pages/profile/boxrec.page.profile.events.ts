@@ -1,28 +1,20 @@
-import {getHeaderColumnText} from "../../helpers";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileEventsOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
-
-const tableEl: string = ".dataTable";
+import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
 
 /**
  * Parses profiles that have events listed
  */
-export class BoxrecPageProfileEvents extends BoxrecPageProfile {
+@EventsGetter(BoxrecPageProfileEventRow, ".dataTable")
+export class BoxrecPageProfileEvents extends BoxrecPageProfile implements EventsInterface {
 
     /**
      * Returns a list of events
      * is order from most recent to oldest
-     * @returns {BoxrecPageProfileEventRow[]}
+     * @returns array of passed in class
      */
-    get events(): BoxrecPageProfileEventRow[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$(tableEl));
-
-        return this.$(tableEl).find("tbody tr")
-            .map((index: number, elem: CheerioElement) => this.$(elem).html() || "")
-            .get() // Cheerio -> string[]
-            .map(item => new BoxrecPageProfileEventRow(headerColumns, item));
-    }
+    events: BoxrecPageProfileEventRow[];
 
     get output(): BoxrecProfileEventsOutput {
         return {
