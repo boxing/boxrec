@@ -3,20 +3,19 @@ import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxr
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
+import {IdGetter, IdInterface} from "../../../decorators/id.decorator";
 
 // todo include fighters and weight division/record etc.
-export class BoxrecPageLocationPeopleRow {
+@IdGetter()
+export class BoxrecPageLocationPeopleRow implements IdInterface {
+
+    id: number;
 
     protected readonly $: CheerioStatic;
 
     constructor(protected headerColumns: string[], boxrecBodyBout: string) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr></table>`;
         this.$ = cheerio.load(html);
-    }
-
-    get id(): number {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.name)) as number;
     }
 
     /**

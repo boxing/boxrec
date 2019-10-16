@@ -5,18 +5,16 @@ import {BoxrecPageLocationEventRowOutput} from "./boxrec.location.event.constant
 import {BoxrecPageEventCommonRow} from "./boxrec.page.event.common.row";
 import {DateGetter, DateInterface} from "../../../decorators/date.decorator";
 import {DayGetter, DayInterface} from "../../../decorators/day.decorator";
+import {IdGetter} from "../../../decorators/id.decorator";
 
 @DateGetter()
 @DayGetter()
+@IdGetter(BoxrecCommonTableHeader.links)
 export class BoxrecPageLocationEventRow extends BoxrecPageEventCommonRow implements DateInterface, DayInterface {
 
     date: string;
     day: string;
-
-    get id(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.links));
-    }
+    id: number | null;
 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
