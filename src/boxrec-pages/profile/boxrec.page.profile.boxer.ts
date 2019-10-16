@@ -6,12 +6,23 @@ import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileBoxerOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * BoxRec Boxer Profile Page
  * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
-export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
+@BoutsGetter("table", BoxrecPageProfileBoxerBoutRow, 1, true)
+export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsInterface {
+
+    /**
+     * Returns an array of bout information
+     * The boxer's first bout is at the start of the array
+     * The boxer's last or latest bout is at the end of the array
+     * For all other roles, it is most recent first
+     * @returns {BoxrecPageProfileBoxerBoutRow[]}
+     */
+    bouts: BoxrecPageProfileBoxerBoutRow[];
 
     /**
      * The number of bouts that this boxer has finished by way of KO/TKOing their opponent
@@ -43,18 +54,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile {
         }
 
         return null;
-    }
-
-    /**
-     * Returns an array of bout information
-     * The boxer's first bout is at the start of the array
-     * The boxer's last or latest bout is at the end of the array
-     * For all other roles, it is most recent first
-     * @returns {BoxrecPageProfileBoxerBoutRow[]}
-     */
-    get bouts(): BoxrecPageProfileBoxerBoutRow[] {
-        const boutsList: Array<[string, string | null]> = this.parseBouts(this.$(".dataTable tbody tr"));
-        return super.getBouts(boutsList, BoxrecPageProfileBoxerBoutRow).reverse();
     }
 
     /**

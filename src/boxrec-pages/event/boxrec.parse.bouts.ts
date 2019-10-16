@@ -22,8 +22,4 @@ export abstract class BoxrecParseBouts extends BoxrecParseBoutsParseBouts {
         return 0;
     }
 
-    protected parseBouts(): Array<[string, string | null]> {
-        return this.returnBouts(this.$("tbody tr"));
-    }
-
 }

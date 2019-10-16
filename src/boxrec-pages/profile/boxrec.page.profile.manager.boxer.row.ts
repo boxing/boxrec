@@ -3,9 +3,13 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
 // used for boxer rows under a manager
-export class BoxrecPageProfileManagerBoxerRow {
+@DivisionGetter()
+export class BoxrecPageProfileManagerBoxerRow implements DivisionInterface {
+
+    division: WeightDivision | null;
 
     private readonly $: CheerioStatic;
 
@@ -33,11 +37,6 @@ export class BoxrecPageProfileManagerBoxerRow {
         }
 
         return null;
-    }
-
-    get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.division, false));
     }
 
     get last6(): WinLossDraw[] {

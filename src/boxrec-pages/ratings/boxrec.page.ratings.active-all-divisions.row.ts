@@ -1,17 +1,15 @@
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
 import {BoxrecPageRatingsActiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
 // active boxers all divisions (P4P list)
 // all division is the same as division specific except it has the division column
-export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsActiveDivisionRow {
+@DivisionGetter()
+export class BoxrecPageRatingsActiveAllDivisionsRow extends BoxrecPageRatingsActiveDivisionRow
+    implements DivisionInterface {
 
-    get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.division, false));
-    }
+    division: WeightDivision | null;
 
     get output(): BoxrecPageRatingsActiveAllDivisionsRowOutput {
         return {

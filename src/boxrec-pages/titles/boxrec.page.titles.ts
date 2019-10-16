@@ -1,20 +1,18 @@
-import {getHeaderColumnText, stripCommas} from "../../helpers";
+import {stripCommas} from "../../helpers";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecTitlesOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * parse a BoxRec Titles page (different from Title page)
  * <pre>ex. http://boxrec.com/en/titles?WcX%5Bbout_title%5D=72&WcX%5Bdivision%5D=Super+Middleweight&t_go=</pre>
  */
-export class BoxrecPageTitles extends BoxrecParseBouts {
+@BoutsGetter(".dataTable", BoxrecPageTitlesRow)
+export class BoxrecPageTitles extends BoxrecParseBouts
+    implements BoutsInterface {
 
-    get bouts(): BoxrecPageTitlesRow[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
-
-        return this.parseBouts().map((val: [string, string | null]) =>
-            new BoxrecPageTitlesRow(headerColumns, val[0], val[1]));
-    }
+    bouts: BoxrecPageTitlesRow[];
 
     get numberOfPages(): number {
         const text: string = this.$(".filterBarFloat .pagerElement:nth-last-child(3)").text() || "0";

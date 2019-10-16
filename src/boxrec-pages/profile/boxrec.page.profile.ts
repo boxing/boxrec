@@ -259,14 +259,6 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
-     * Parses the bout information for the person
-     * @hidden
-     */
-    protected parseBouts(tr: Cheerio): Array<[string, string | null]> {
-        return this.returnBouts(tr);
-    }
-
-    /**
      * Parses the profile table data found at the top of the profile
      * @hidden
      */
