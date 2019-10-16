@@ -8,13 +8,16 @@ import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 
 @DateGetter()
 @FirstBoxerGetter()
-export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface {
+@MetadataGetter()
+export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface, MetadataInterface {
 
     date: string;
     firstBoxer: BoxrecBasic;
+    metadata: string | null;
 
     protected readonly $: CheerioStatic;
 
@@ -45,10 +48,6 @@ export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface {
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.location), 1);
-    }
-
-    get metadata(): string | null {
-        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }
 
     // todo can we use parsing helper method?

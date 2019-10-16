@@ -4,11 +4,15 @@ import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.consta
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 
 @DateGetter()
-export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow implements DateInterface {
+@MetadataGetter()
+export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
+    implements DateInterface, MetadataInterface {
 
     date: string;
+    metadata: string | null;
 
     // todo used on any profile?
     get firstBoxerRating(): Array<number | null> {
@@ -25,10 +29,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.location));
-    }
-
-    get metadata(): string | null {
-        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }
 
     get numberOfRounds(): Array<number | null> {
