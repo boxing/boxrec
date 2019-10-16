@@ -2,8 +2,12 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 
-export abstract class BoxrecPageRatingsRow {
+@IdGetter()
+export abstract class BoxrecPageRatingsRow implements IdInterface {
+
+    id: number;
 
     protected readonly $: CheerioStatic;
 
@@ -15,11 +19,6 @@ export abstract class BoxrecPageRatingsRow {
     get hasBoutScheduled(): boolean {
         return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.name, false)
             .slice(-1) === "*";
-    }
-
-    get id(): number {
-        return BoxrecCommonTablesColumnsClass.parseId(
-            getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.name)) as number;
     }
 
     get last6(): WinLossDraw[] {
