@@ -8,13 +8,16 @@ import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 
 @FirstBoxerGetter()
 @MetadataGetter()
-export class BoxrecPageEventBoutRow implements FirstBoxerInterface, MetadataInterface {
+@RatingGetter()
+export class BoxrecPageEventBoutRow implements FirstBoxerInterface, MetadataInterface, RatingInterface {
 
     firstBoxer: BoxrecBasic;
     metadata: string | null;
+    rating: number | null;
 
     private readonly $: CheerioStatic;
 
@@ -91,11 +94,6 @@ export class BoxrecPageEventBoutRow implements FirstBoxerInterface, MetadataInte
             secondBoxerWeight: this.secondBoxerWeight,
             sport: this.sport,
         };
-    }
-
-    get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.rating, false));
     }
 
     get secondBoxer(): BoxrecBasic {
