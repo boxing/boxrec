@@ -5,14 +5,17 @@ import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.ro
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 
 @DateGetter()
 @MetadataGetter()
+@RatingGetter(true)
 export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
-    implements DateInterface, MetadataInterface {
+    implements DateInterface, MetadataInterface, RatingInterface {
 
     date: string;
     metadata: string | null;
+    rating: number | null;
 
     // todo used on any profile?
     get firstBoxerRating(): Array<number | null> {
@@ -39,11 +42,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     get outcome(): WinLossDraw {
         return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.result, false));
-    }
-
-    get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.rating));
     }
 
     get secondBoxer(): BoxrecBasic {

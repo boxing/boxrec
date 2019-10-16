@@ -9,15 +9,18 @@ import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 
 @DateGetter()
 @FirstBoxerGetter()
 @MetadataGetter()
-export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface, MetadataInterface {
+@RatingGetter(true)
+export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface, MetadataInterface, RatingInterface {
 
     date: string;
     firstBoxer: BoxrecBasic;
     metadata: string | null;
+    rating: number | null;
 
     protected readonly $: CheerioStatic;
 
@@ -85,11 +88,6 @@ export class BoxrecPageTitlesRow implements DateInterface, FirstBoxerInterface, 
             secondBoxer: this.secondBoxer,
             secondBoxerWeight: this.secondBoxerWeight,
         };
-    }
-
-    get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.rating));
     }
 
     get secondBoxer(): BoxrecBasic {
