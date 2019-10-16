@@ -5,9 +5,13 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBrea
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
+import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 
 // includes BoxRec role regardless of searching for all fighters or a specific fight role
-export class BoxrecPageSearchRow {
+@IdGetter()
+export class BoxrecPageSearchRow implements IdInterface {
+
+    id: number;
 
     private readonly $: CheerioStatic;
 
@@ -30,11 +34,6 @@ export class BoxrecPageSearchRow {
     get division(): WeightDivision | null {
         return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.division, false));
-    }
-
-    get id(): number {
-        return BoxrecCommonTablesColumnsClass.parseId(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.name)) as number;
     }
 
     get last6(): WinLossDraw[] {
