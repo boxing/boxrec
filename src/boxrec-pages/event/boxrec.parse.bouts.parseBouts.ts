@@ -8,10 +8,10 @@ export abstract class BoxrecParseBoutsParseBouts {
         this.$ = cheerio.load(boxrecBodyString);
     }
 
-    protected returnBouts(tr: Cheerio): Array<[string, string | null]> {
+    protected returnBouts(): Array<[string, string | null]> {
         const bouts: Array<[string, string | null]> = [];
 
-        tr.each((i: number, elem: CheerioElement) => {
+        this.$("tbody tr").each((i: number, elem: CheerioElement) => {
             const boutId: string = this.$(elem).attr("id");
 
             // skip rows that are associated with the previous fight

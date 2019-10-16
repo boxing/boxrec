@@ -4,20 +4,20 @@ import {Record, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
 import {BoxrecPageLocationBoxerRowOutput} from "./boxrec.location.people.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
+import {DivisionGetter, DivisionInterface} from "../../../decorators/division.decorator";
 
 // at this time this does not support searching for "all fighters"
 // todo this is not BoxerRow anymore but fighters
 // todo does this work for all fighter roles?
-export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow {
+@DivisionGetter()
+export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow
+    implements DivisionInterface {
+
+    division: WeightDivision | null;
 
     get career(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseCareer(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.career));
-    }
-
-    get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.division, false));
     }
 
     get last6(): WinLossDraw[] {

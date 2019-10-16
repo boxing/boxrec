@@ -1,14 +1,23 @@
-import {getHeaderColumnText, replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
+import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecTitleOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
+import {BoxrecPageTitlesRow} from "../titles/boxrec.page.titles.row";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * parse a BoxRec Title page
  * <pre>ex. http://boxrec.com/en/title/6/Middleweight
  */
-export class BoxrecPageTitle extends BoxrecParseBouts {
+@BoutsGetter("table", BoxrecPageTitlesRow)
+export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface {
+
+    /**
+     * A list of bouts that have occurred for this title.  Most recent
+     * @returns {BoxrecPageTitleRow[]}
+     */
+    bouts: BoxrecPageTitlesRow[];
 
     /**
      * The number of bouts that have occurred for this title
@@ -16,17 +25,6 @@ export class BoxrecPageTitle extends BoxrecParseBouts {
      */
     get numberOfBouts(): number {
         return parseInt(this.$(".pagerResults").text(), 10);
-    }
-
-    /**
-     * A list of bouts that have occurred for this title.  Most recent
-     * @returns {BoxrecPageTitleRow[]}
-     */
-    get bouts(): BoxrecPageTitleRow[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
-
-        return this.parseBouts().map((val: [string, string | null]) => new BoxrecPageTitleRow(headerColumns,
-            val[0], val[1]));
     }
 
     /**

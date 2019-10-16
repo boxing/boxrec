@@ -9,12 +9,16 @@ import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
+@DivisionGetter()
 @FirstBoxerGetter()
 @MetadataGetter()
 @RatingGetter()
-export class BoxrecPageEventBoutRow implements FirstBoxerInterface, MetadataInterface, RatingInterface {
+export class BoxrecPageEventBoutRow
+    implements DivisionInterface, FirstBoxerInterface, MetadataInterface, RatingInterface {
 
+    division: WeightDivision | null;
     firstBoxer: BoxrecBasic;
     metadata: string | null;
     rating: number | null;
@@ -24,11 +28,6 @@ export class BoxrecPageEventBoutRow implements FirstBoxerInterface, MetadataInte
     constructor(private headerColumns: string[], boxrecBodyBout: string, additionalData: string | null = null) {
         const html: string = `<table><tr>${boxrecBodyBout}</tr><tr>${additionalData}</tr></table>`;
         this.$ = cheerio.load(html);
-    }
-
-    get division(): WeightDivision | null {
-        return BoxrecCommonTablesColumnsClass.parseDivision(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.division, false));
     }
 
     get firstBoxerLast6(): WinLossDraw[] {
