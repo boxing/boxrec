@@ -7,13 +7,17 @@ import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 
 @DateGetter()
 @MetadataGetter()
-export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow implements MetadataInterface {
+@RatingGetter(true)
+export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
+    implements MetadataInterface, RatingInterface {
 
     date: string;
     metadata: string | null;
+    rating: number | null;
 
     /**
      * Parses Before/After ratings of a boxer
@@ -105,11 +109,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow implem
             secondBoxerWeight: this.secondBoxerWeight,
             titles: this.titles,
         };
-    }
-
-    get rating(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.rating));
     }
 
     get referee(): BoxrecBasic {
