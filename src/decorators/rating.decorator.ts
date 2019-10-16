@@ -6,8 +6,8 @@ export function RatingGetter(returnHTML: boolean = false):
     return target => {
         Object.defineProperty(target.prototype, "rating", {
             get(): number | null {
-                return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$, this.headerColumns,
-                    BoxrecCommonTableHeader.rating, returnHTML));
+                return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,
+                    this.headerColumns, BoxrecCommonTableHeader.rating, returnHTML));
             },
         });
     };
