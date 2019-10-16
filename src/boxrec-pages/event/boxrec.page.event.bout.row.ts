@@ -7,11 +7,14 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helper
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 
 @FirstBoxerGetter()
-export class BoxrecPageEventBoutRow implements FirstBoxerInterface {
+@MetadataGetter()
+export class BoxrecPageEventBoutRow implements FirstBoxerInterface, MetadataInterface {
 
     firstBoxer: BoxrecBasic;
+    metadata: string | null;
 
     private readonly $: CheerioStatic;
 
@@ -52,10 +55,6 @@ export class BoxrecPageEventBoutRow implements FirstBoxerInterface {
             bout: null,
             other: [], // any other links we'll throw the whole href attribute in here
         });
-    }
-
-    get metadata(): string | null {
-        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }
 
     get numberOfRounds(): Array<number | null> {

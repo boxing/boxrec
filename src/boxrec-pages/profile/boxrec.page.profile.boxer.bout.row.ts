@@ -6,11 +6,14 @@ import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 
 @DateGetter()
-export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
+@MetadataGetter()
+export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow implements MetadataInterface {
 
     date: string;
+    metadata: string | null;
 
     /**
      * Parses Before/After ratings of a boxer
@@ -69,10 +72,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow {
     get location(): string {
         return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.location, false));
-    }
-
-    get metadata(): string | null {
-        return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
     }
 
     get numberOfRounds(): Array<number | null> {
