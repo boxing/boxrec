@@ -1,14 +1,18 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
-import {getHeaderColumnText, getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
+import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 import {BoxrecParseBouts} from "./boxrec.parse.bouts";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * Used specifically for Events page and Dates page
  */
-export abstract class BoxrecEvent extends BoxrecParseBouts {
+@BoutsGetter("table", BoxrecPageEventBoutRow, 2)
+export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInterface {
+
+    bouts: BoxrecPageEventBoutRow[];
 
     protected static getVenueInformation(links: Cheerio): BoxrecBasic {
         const obj: BoxrecBasic = {
@@ -94,13 +98,6 @@ export abstract class BoxrecEvent extends BoxrecParseBouts {
         }
 
         return locationObject;
-    }
-
-    get bouts(): BoxrecPageEventBoutRow[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$("table"), 2);
-
-        return this.parseBouts().map((val: [string, string | null]) =>
-            new BoxrecPageEventBoutRow(headerColumns, val[0], val[1]));
     }
 
     get location(): BoxrecBoutLocation {
