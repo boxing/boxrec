@@ -1,15 +1,27 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation} from "../boxrec.constants";
 import {BoxrecEvent} from "./boxrec.event";
 import {BoxrecEventOutput} from "./boxrec.event.constants";
 import {emptyLocationObject} from "./boxrec.event.helpers";
+import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 
 /**
  * Parse an Event page
  */
-export class BoxrecPageEvent extends BoxrecEvent {
+@OutputGetter([
+    {
+        function: (bouts: BoxrecPageEventBoutRow[]) => bouts.map(bout => bout.output),
+        method: "bouts",
+    },
+    "commission", "date", "doctors", "id",
+    "inspector", "location", "matchmakers", "media",
+    "numberOfBouts", "promoters", "television"])
+export class BoxrecPageEvent extends BoxrecEvent implements OutputInterface {
+
+    output: BoxrecEventOutput;
 
     get commission(): string | null {
         const commission: string = this.parseEventData("commission");
@@ -109,23 +121,6 @@ export class BoxrecPageEvent extends BoxrecEvent {
      */
     protected parseMatchmakers(): string {
         return this.parseEventData(BoxrecRole.matchmaker);
-    }
-
-    get output(): BoxrecEventOutput {
-        return {
-            bouts: this.bouts.map(bout => bout.output),
-            commission: this.commission,
-            date: this.date,
-            doctors: this.doctors,
-            id: this.id,
-            inspector: this.inspector,
-            location: this.location,
-            matchmakers: this.matchmakers,
-            media: this.media,
-            numberOfBouts: this.numberOfBouts,
-            promoters: this.promoters,
-            television: this.television,
-        };
     }
 
     /**

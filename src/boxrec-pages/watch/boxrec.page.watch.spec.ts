@@ -28,7 +28,7 @@ describe("class BoxrecPageWatch", () => {
 
     });
 
-    describe("get output", () => {
+    describe("getter output", () => {
 
         describe("list value", () => {
 

@@ -89,19 +89,6 @@ describe("class BoxrecPageChampions", () => {
             }
         });
 
-        it("should return `null` for vacant belts", () => {
-            jest.spyOn(BoxrecPageChampions.prototype, "output", "get").mockReturnValue({
-                byWeightDivision: {
-                    superMiddleweight: {
-                        IBO: null,
-                    },
-                },
-            });
-
-            list = new BoxrecPageChampions(mockChampions).output.byWeightDivision;
-            expect(list.superMiddleweight.IBO).toBeNull();
-        });
-
     });
 
 });

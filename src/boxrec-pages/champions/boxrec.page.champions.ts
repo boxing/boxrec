@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
 import {
     BoxrecBelts,
@@ -38,7 +39,12 @@ const weightDivisions: BoxrecChampionsByWeightDivision = {
     welterweight: beltOrganizations,
 };
 
-export class BoxrecPageChampions {
+@OutputGetter([
+    "boxingOrganizations", "byWeightDivision", "champions",
+])
+export class BoxrecPageChampions implements OutputInterface {
+
+    output: BoxrecChampionsOutput;
 
     private readonly $: CheerioStatic;
 
@@ -66,14 +72,6 @@ export class BoxrecPageChampions {
 
     get champions(): BoxrecUnformattedChampions[] {
         return this.parseChampions();
-    }
-
-    get output(): BoxrecChampionsOutput {
-        return {
-            boxingOrganizations: this.boxingOrganizations,
-            byWeightDivision: this.byWeightDivision,
-            champions: this.champions,
-        };
     }
 
     private parseBoxingOrganizations(): string[] {

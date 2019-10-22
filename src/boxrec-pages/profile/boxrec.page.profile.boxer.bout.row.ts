@@ -4,6 +4,7 @@ import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
@@ -15,14 +16,36 @@ import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
+@OutputGetter([
+    "date",
+    "firstBoxerRating",
+    "firstBoxerWeight",
+    "judges",
+    "links",
+    "location",
+    "metadata",
+    "numberOfRounds",
+    "outcome",
+    "rating",
+    "referee",
+    "result",
+    "secondBoxer",
+    "secondBoxerLast6",
+    "secondBoxerRating",
+    "secondBoxerRecord",
+    "secondBoxerWeight",
+    "titles"
+])
 @RatingGetter(true)
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
-    implements DateInterface, FirstBoxerWeightInterface, MetadataInterface, OutcomeInterface, RatingInterface {
+    implements DateInterface, FirstBoxerWeightInterface,
+        MetadataInterface, OutcomeInterface, OutputInterface, RatingInterface {
 
     date: string;
     firstBoxerWeight: number | null;
     metadata: string | null;
     outcome: WinLossDraw;
+    output: BoxrecProfileBoxerBoutOutput;
     rating: number | null;
 
     /**
@@ -82,29 +105,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     get numberOfRounds(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.rounds));
-    }
-
-    get output(): BoxrecProfileBoxerBoutOutput {
-        return {
-            date: this.date,
-            firstBoxerRating: this.firstBoxerRating,
-            firstBoxerWeight: this.firstBoxerWeight,
-            judges: this.judges,
-            links: this.links,
-            location: this.location,
-            metadata: this.metadata,
-            numberOfRounds: this.numberOfRounds,
-            outcome: this.outcome,
-            rating: this.rating,
-            referee: this.referee,
-            result: this.result,
-            secondBoxer: this.secondBoxer,
-            secondBoxerLast6: this.secondBoxerLast6,
-            secondBoxerRating: this.secondBoxerRating,
-            secondBoxerRecord: this.secondBoxerRecord,
-            secondBoxerWeight: this.secondBoxerWeight,
-            titles: this.titles,
-        };
     }
 
     get referee(): BoxrecBasic {

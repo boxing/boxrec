@@ -1,5 +1,6 @@
 import {BoxrecPageEventBoutRow} from "../boxrec-pages/event/boxrec.page.event.bout.row";
 import {BoxrecPageProfileBoxerBoutRow} from "../boxrec-pages/profile/boxrec.page.profile.boxer.bout.row";
+import {BoxrecPageProfileOtherCommonBoutRow} from "../boxrec-pages/profile/boxrec.page.profile.other.common.bout.row";
 import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row";
 import {getHeaderColumnText} from "../helpers";
 
@@ -35,5 +36,6 @@ export function BoutsGetter(tableEl: string, classType: (new (headerColumns: str
 }
 
 export interface BoutsInterface {
-    readonly bouts: Array<BoxrecPageEventBoutRow | BoxrecPageTitlesRow | BoxrecPageProfileBoxerBoutRow>;
+    readonly bouts: Array<BoxrecPageEventBoutRow | BoxrecPageTitlesRow | BoxrecPageProfileBoxerBoutRow |
+        BoxrecPageProfileOtherCommonBoutRow>;
 }
