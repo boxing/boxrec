@@ -1,8 +1,15 @@
 import * as cheerio from "cheerio";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {BoxrecPageWatchRow} from "./boxrec.page.watch.row";
 import {BoxrecWatchOutput} from "./boxrec.watch.constants";
 
-export class BoxrecPageWatch {
+@OutputGetter([{
+    function: (list: BoxrecPageWatchRow[]) => list.map(item => item.output),
+    method: "list"
+}])
+export class BoxrecPageWatch implements OutputInterface {
+
+    output: BoxrecWatchOutput;
 
     private readonly $: CheerioStatic;
 
@@ -27,12 +34,6 @@ export class BoxrecPageWatch {
         });
 
         return listOfWatchedBoxers;
-    }
-
-    get output(): BoxrecWatchOutput {
-        return {
-            list: this.list.map(item => item.output),
-        };
     }
 
     /**

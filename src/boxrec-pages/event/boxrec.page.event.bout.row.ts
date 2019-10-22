@@ -7,6 +7,7 @@ import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
@@ -18,17 +19,24 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter()
+@OutputGetter([
+    "division", "firstBoxer", "firstBoxerLast6", "firstBoxerRecord",
+    "firstBoxerWeight", "links", "metadata", "numberOfRounds",
+    "outcome", "outcomeByWayOf", "rating", "secondBoxer",
+    "secondBoxerLast6", "secondBoxerRecord", "secondBoxerWeight", "sport"
+])
 @RatingGetter()
 export class BoxrecPageEventBoutRow
     implements DivisionInterface,
         FirstBoxerInterface, FirstBoxerWeightInterface,
-        MetadataInterface, OutcomeInterface, RatingInterface {
+        MetadataInterface, OutcomeInterface, OutputInterface, RatingInterface {
 
     division: WeightDivision | null;
     firstBoxer: BoxrecBasic;
     firstBoxerWeight: number | null;
     metadata: string | null;
     outcome: WinLossDraw | null;
+    output: BoxrecEventBoutRowOutput;
     rating: number | null;
 
     private readonly $: CheerioStatic;
@@ -70,27 +78,6 @@ export class BoxrecPageEventBoutRow
     get outcomeByWayOf(): string | null {
         return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.outcomeByWayOf));
-    }
-
-    get output(): BoxrecEventBoutRowOutput {
-        return {
-            division: this.division,
-            firstBoxer: this.firstBoxer,
-            firstBoxerLast6: this.firstBoxerLast6,
-            firstBoxerRecord: this.firstBoxerRecord,
-            firstBoxerWeight: this.firstBoxerWeight,
-            links: this.links,
-            metadata: this.metadata,
-            numberOfRounds: this.numberOfRounds,
-            outcome: this.outcome,
-            outcomeByWayOf: this.outcomeByWayOf,
-            rating: this.rating,
-            secondBoxer: this.secondBoxer,
-            secondBoxerLast6: this.secondBoxerLast6,
-            secondBoxerRecord: this.secondBoxerRecord,
-            secondBoxerWeight: this.secondBoxerWeight,
-            sport: this.sport,
-        };
     }
 
     get secondBoxer(): BoxrecBasic {

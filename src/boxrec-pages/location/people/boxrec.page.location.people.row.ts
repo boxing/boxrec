@@ -1,15 +1,18 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {IdGetter, IdInterface} from "../../../decorators/id.decorator";
+import {OutputGetter, OutputInterface} from "../../../decorators/output.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
 
 // todo include fighters and weight division/record etc.
 @IdGetter()
-export class BoxrecPageLocationPeopleRow implements IdInterface {
+@OutputGetter(["id", "location", "miles", "name", "sex"])
+export class BoxrecPageLocationPeopleRow implements IdInterface, OutputInterface {
 
     id: number;
+    output: BoxrecPageLocationPeopleRowOutput;
 
     protected readonly $: CheerioStatic;
 
@@ -36,16 +39,6 @@ export class BoxrecPageLocationPeopleRow implements IdInterface {
     get name(): string {
         return BoxrecCommonTablesColumnsClass.parseName(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.name, false)) as string;
-    }
-
-    get output(): BoxrecPageLocationPeopleRowOutput {
-        return {
-            id: this.id,
-            location: this.location,
-            miles: this.miles,
-            name: this.name,
-            sex: this.sex,
-        };
     }
 
     get sex(): "male" | "female" {

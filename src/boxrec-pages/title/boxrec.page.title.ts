@@ -1,4 +1,5 @@
 import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
@@ -11,13 +12,23 @@ import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
  * <pre>ex. http://boxrec.com/en/title/6/Middleweight
  */
 @BoutsGetter("table", BoxrecPageTitlesRow)
-export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface {
+@OutputGetter([
+    {
+        function: (bouts: BoxrecPageTitlesRow[]) => bouts.map(bout => bout.output),
+        method: "bouts",
+    },
+    "champion",
+    "name",
+    "numberOfBouts",
+])
+export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface, OutputInterface {
 
     /**
      * A list of bouts that have occurred for this title.  Most recent
      * @returns {BoxrecPageTitleRow[]}
      */
     bouts: BoxrecPageTitlesRow[];
+    output: BoxrecTitleOutput;
 
     /**
      * The number of bouts that have occurred for this title
@@ -56,15 +67,6 @@ export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface 
 
     get name(): string {
         return replaceWithWeight(this.$("#pageOuter h1").text());
-    }
-
-    get output(): BoxrecTitleOutput {
-        return {
-            bouts: this.bouts.map(bout => bout.output),
-            champion: this.champion,
-            name: this.name,
-            numberOfBouts: this.numberOfBouts,
-        };
     }
 
 }

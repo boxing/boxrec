@@ -1,4 +1,5 @@
-import {BoutsGetter} from "../../decorators/bouts.decorator";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileOtherOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
@@ -9,7 +10,10 @@ import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.c
  * <pre>ex. http://boxrec.com/en/supervisor/406714</pre>
  */
 @BoutsGetter("table", BoxrecPageProfileOtherCommonBoutRow)
-export class BoxrecPageProfileOtherCommon extends BoxrecPageProfile {
+@OutputGetter(["birthName", "birthPlace", "bouts", "globalId", "name", "otherInfo", "picture",
+    "residence", "role", "status",
+])
+export class BoxrecPageProfileOtherCommon extends BoxrecPageProfile implements BoutsInterface, OutputInterface {
 
     /**
      * Returns the bouts information for the judge/supervisor
@@ -18,20 +22,6 @@ export class BoxrecPageProfileOtherCommon extends BoxrecPageProfile {
      * @returns {BoxrecPageProfileOtherCommonBoutRow[]}
      */
     bouts: BoxrecPageProfileOtherCommonBoutRow[];
-
-    get output(): BoxrecProfileOtherOutput {
-        return {
-            birthName: this.birthName,
-            birthPlace: this.birthPlace,
-            bouts: this.bouts,
-            globalId: this.globalId,
-            name: this.name,
-            otherInfo: this.otherInfo,
-            picture: this.picture,
-            residence: this.residence,
-            role: this.role,
-            status: this.status,
-        };
-    }
+    output: BoxrecProfileOtherOutput;
 
 }
