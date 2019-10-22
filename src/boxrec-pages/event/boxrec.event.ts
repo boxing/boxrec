@@ -1,10 +1,10 @@
 import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 import {BoxrecParseBouts} from "./boxrec.parse.bouts";
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * Used specifically for Events page and Dates page

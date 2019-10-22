@@ -1,12 +1,12 @@
 import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
+import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
-import {IdGetter, IdInterface} from "../../decorators/id.decorator";
-import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
 // includes BoxRec role regardless of searching for all fighters or a specific fight role
 @DivisionGetter()

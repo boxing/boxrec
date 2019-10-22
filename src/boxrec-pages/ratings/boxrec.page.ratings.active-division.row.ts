@@ -1,7 +1,7 @@
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecPageRatingsRow} from "./boxrec.page.ratings.row";
 import {BoxrecPageRatingsActiveDivisionRowOutput} from "./boxrec.ratings.constants";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 
 // ratings page where both active boxers are selected and specific division
 @RatingGetter(true)

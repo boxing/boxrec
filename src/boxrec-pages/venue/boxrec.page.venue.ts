@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
+import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecVenueOutput} from "./boxrec.page.venue.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
-import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
 
 /**
  * parse a BoxRec Venue page

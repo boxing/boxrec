@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {IdGetter, IdInterface} from "../../../decorators/id.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {BoxrecLocation} from "../../boxrec.constants";
 import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
-import {IdGetter, IdInterface} from "../../../decorators/id.decorator";
 
 // todo include fighters and weight division/record etc.
 @IdGetter()

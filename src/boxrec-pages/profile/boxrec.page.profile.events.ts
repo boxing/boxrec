@@ -1,7 +1,7 @@
+import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileEventsOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
-import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
 
 /**
  * Parses profiles that have events listed

@@ -204,7 +204,56 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
     }
 
     get outcome(): BoutPageBoutOutcome {
-        return this.parseBoutOutcome();
+        const outcome: BoutPageBoutOutcome = {
+            boxer: {
+                id: null,
+                name: null,
+            },
+            outcome: null,
+            outcomeByWayOf: null
+        };
+
+        const objRow: Cheerio[] = this.getBoxersSideObjRow();
+        const textWon: Cheerio = objRow[0].find(".textWon");
+        const textWonSecond: Cheerio = objRow[1].find(".textWon");
+        const textDraw: Cheerio = objRow[0].find(".textDrawn");
+
+        if (textWon.length === 1 || textWonSecond.length === 1) {
+            let boxerStr: string = "";
+            let outcomeString: string | undefined;
+            if (textWon.length === 1) {
+                // first boxer won
+                boxerStr = this.$.html(objRow[0].find(".personLink")[0]);
+                outcomeString = textWon[0].children[0].data;
+            } else {
+                // second boxer won
+                boxerStr = this.$.html(objRow[0].find(".personLink")[1]);
+                outcomeString = textWonSecond[0].children[0].data;
+            }
+
+            if (outcomeString) {
+                const outcomeResult: BoutPageOutcome = this.parseOutcomeOfBout(outcomeString);
+                outcome.outcome = outcomeResult.outcome;
+                outcome.outcomeByWayOf = outcomeResult.outcomeByWayOf;
+            }
+
+            const boxer: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(boxerStr);
+            outcome.boxer.id = boxer.id;
+            outcome.boxer.name = boxer.name;
+
+        } else if (textDraw.length === 2) {
+            // outcome was a draw
+            outcome.outcome = WinLossDraw.draw;
+            // i'm assuming the first boxer should always have the draw info
+            const firstBoxerDrawText: string | undefined = textDraw[0].children[0].data;
+
+            if (firstBoxerDrawText) {
+                const outcomeResult: BoutPageOutcome = this.parseOutcomeOfBout(firstBoxerDrawText);
+                outcome.outcomeByWayOf = outcomeResult.outcomeByWayOf;
+            }
+        }
+
+        return outcome;
     }
 
     get rating(): number | null {
@@ -325,59 +374,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
             loss: parseInt(lost, 10),
             win: parseInt(won, 10),
         };
-    }
-
-    private parseBoutOutcome(): BoutPageBoutOutcome {
-        const outcome: BoutPageBoutOutcome = {
-            boxer: {
-                id: null,
-                name: null,
-            },
-            outcome: null,
-            outcomeByWayOf: null
-        };
-
-        const objRow: Cheerio[] = this.getBoxersSideObjRow();
-        const textWon: Cheerio = objRow[0].find(".textWon");
-        const textWonSecond: Cheerio = objRow[1].find(".textWon");
-        const textDraw: Cheerio = objRow[0].find(".textDrawn");
-
-        if (textWon.length === 1 || textWonSecond.length === 1) {
-            let boxerStr: string = "";
-            let outcomeString: string | undefined;
-            if (textWon.length === 1) {
-                // first boxer won
-                boxerStr = this.$.html(objRow[0].find(".personLink")[0]);
-                outcomeString = textWon[0].children[0].data;
-            } else {
-                // second boxer won
-                boxerStr = this.$.html(objRow[0].find(".personLink")[1]);
-                outcomeString = textWonSecond[0].children[0].data;
-            }
-
-            if (outcomeString) {
-                const outcomeResult: BoutPageOutcome = this.parseOutcomeOfBout(outcomeString);
-                outcome.outcome = outcomeResult.outcome;
-                outcome.outcomeByWayOf = outcomeResult.outcomeByWayOf;
-            }
-
-            const boxer: BoxrecBasic = BoxrecCommonTablesColumnsClass.parseNameAndId(boxerStr);
-            outcome.boxer.id = boxer.id;
-            outcome.boxer.name = boxer.name;
-
-        } else if (textDraw.length === 2) {
-            // outcome was a draw
-            outcome.outcome = WinLossDraw.draw;
-            // i'm assuming the first boxer should always have the draw info
-            const firstBoxerDrawText: string | undefined = textDraw[0].children[0].data;
-
-            if (firstBoxerDrawText) {
-                const outcomeResult: BoutPageOutcome = this.parseOutcomeOfBout(firstBoxerDrawText);
-                outcome.outcomeByWayOf = outcomeResult.outcomeByWayOf;
-            }
-        }
-
-        return outcome;
     }
 
     private parseBoxerAge(tableColumn: number): number | null {

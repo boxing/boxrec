@@ -1,8 +1,8 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
-import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 
 @IdGetter()
 export abstract class BoxrecPageRatingsRow implements IdInterface {

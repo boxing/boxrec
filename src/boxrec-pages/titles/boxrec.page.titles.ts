@@ -1,8 +1,8 @@
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {stripCommas} from "../../helpers";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
 import {BoxrecTitlesOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitlesRow} from "./boxrec.page.titles.row";
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * parse a BoxRec Titles page (different from Title page)
