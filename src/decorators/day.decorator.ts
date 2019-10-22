@@ -1,5 +1,9 @@
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
 
+/**
+ * Adds a getter to the class that returns the day column and parses it
+ * @constructor
+ */
 export function DayGetter(): (target: any) => void {
     return target => {
         Object.defineProperty(target.prototype, "day", {

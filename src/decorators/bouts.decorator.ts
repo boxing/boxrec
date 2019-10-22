@@ -1,8 +1,16 @@
-import {getHeaderColumnText} from "../helpers";
-import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageEventBoutRow} from "../boxrec-pages/event/boxrec.page.event.bout.row";
 import {BoxrecPageProfileBoxerBoutRow} from "../boxrec-pages/profile/boxrec.page.profile.boxer.bout.row";
+import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row";
+import {getHeaderColumnText} from "../helpers";
 
+/**
+ * Adds a getter to the class that returns the bouts
+ * @param tableEl   table element to parse bouts for
+ * @param classType the class instance to return
+ * @param theadNumber   some tables the header element that contains the column data is at different points in the table
+ * @param reverseOrder  if true, will reverse the order of the returned bouts
+ * @constructor
+ */
 export function BoutsGetter(tableEl: string, classType: (new (headerColumns: string[], tableRowInnerHTML: string,
                                                               metadataFollowingRowInnerHTML: string | null) => any),
                             theadNumber: number = 1, reverseOrder: boolean = false):

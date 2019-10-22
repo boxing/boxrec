@@ -1,3 +1,7 @@
+/**
+ * Adds a getter to the class that returns the metadata for a table row (usually the row after)
+ * @constructor
+ */
 export function MetadataGetter():
     (target: any) => void {
     return target => {
