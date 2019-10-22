@@ -5,6 +5,7 @@ import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorator
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
@@ -17,10 +18,14 @@ import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 @MetadataGetter()
 @NumberOfRoundsGetter()
 @OutcomeGetter()
+@OutputGetter([
+    "date", "firstBoxer", "firstBoxerWeight", "links", "location", "metadata",
+    "numberOfRounds", "outcome", "rating", "secondBoxer", "secondBoxerWeight",
+])
 @RatingGetter()
 export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     implements DateInterface, FirstBoxerInterface, FirstBoxerWeightInterface,
-        MetadataInterface, NumberOfRoundsInterface, OutcomeInterface,
+        MetadataInterface, NumberOfRoundsInterface, OutcomeInterface, OutputInterface,
         RatingInterface {
 
     date: string;
@@ -30,6 +35,7 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     // todo can we use parsing helper method?
     numberOfRounds: number[];
     outcome: WinLossDraw;
+    output: BoxrecPageTitleRowOutput;
     rating: number | null;
 
     protected readonly $: CheerioStatic;
@@ -37,22 +43,6 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.location), 1);
-    }
-
-    get output(): BoxrecPageTitleRowOutput {
-        return {
-            date: this.date,
-            firstBoxer: this.firstBoxer,
-            firstBoxerWeight: this.firstBoxerWeight,
-            links: this.links,
-            location: this.location,
-            metadata: this.metadata,
-            numberOfRounds: this.numberOfRounds,
-            outcome: this.outcome,
-            rating: this.rating,
-            secondBoxer: this.secondBoxer,
-            secondBoxerWeight: this.secondBoxerWeight,
-        };
     }
 
     get secondBoxer(): BoxrecBasic {

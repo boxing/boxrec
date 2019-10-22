@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {parseHeight, trimRemoveLineBreaks} from "../../helpers";
 import {Stance} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
@@ -13,7 +14,18 @@ import {BoxrecProfileTable} from "./boxrec.profile.constants";
  * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
 @BoutsGetter("table", BoxrecPageProfileBoxerBoutRow, 1, true)
-export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsInterface {
+@OutputGetter([
+    "KOs", "alias", "birthName", "birthPlace", "born",
+    {
+        function: (bouts: BoxrecPageProfileBoxerBoutRow[]) => bouts.map(bout => bout.output),
+        method: "bouts",
+    }, "debut", "division", "globalId", "hasBoutScheduled",
+    "height", "name", "nationality", "numberOfBouts", "otherInfo",
+    "picture", "ranking", "rating", "reach", "residence",
+    "role", "rounds", "stance", "status", "suspended",
+    "titlesHeld", "vadacbp",
+])
+export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsInterface, OutputInterface {
 
     /**
      * Returns an array of bout information
@@ -23,6 +35,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
      * @returns {BoxrecPageProfileBoxerBoutRow[]}
      */
     bouts: BoxrecPageProfileBoxerBoutRow[];
+    output: BoxrecProfileBoxerOutput;
 
     /**
      * The number of bouts that this boxer has finished by way of KO/TKOing their opponent
@@ -131,38 +144,6 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
         }
 
         return 0;
-    }
-
-    get output(): BoxrecProfileBoxerOutput {
-        return {
-            KOs: this.KOs,
-            alias: this.alias,
-            birthName: this.birthName,
-            birthPlace: this.birthPlace,
-            born: this.born,
-            bouts: this.bouts.map(bout => bout.output),
-            debut: this.debut,
-            division: this.division,
-            globalId: this.globalId,
-            hasBoutScheduled: this.hasBoutScheduled,
-            height: this.height,
-            name: this.name,
-            nationality: this.nationality,
-            numberOfBouts: this.numberOfBouts,
-            otherInfo: this.otherInfo,
-            picture: this.picture,
-            ranking: this.ranking,
-            rating: this.rating,
-            reach: this.reach,
-            residence: this.residence,
-            role: this.role,
-            rounds: this.rounds,
-            stance: this.stance,
-            status: this.status,
-            suspended: this.suspended,
-            titlesHeld: this.titlesHeld,
-            vadacbp: this.vadacbp,
-        };
     }
 
     /**

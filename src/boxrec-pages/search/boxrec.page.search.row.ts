@@ -3,6 +3,7 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {IdGetter, IdInterface} from "../../decorators/id.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
@@ -11,10 +12,14 @@ import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
 // includes BoxRec role regardless of searching for all fighters or a specific fight role
 @DivisionGetter()
 @IdGetter()
-export class BoxrecPageSearchRow implements DivisionInterface, IdInterface {
+@OutputGetter(["alias", "career", "division", "id", "last6", "name", "record", "residence",
+    "sport" // todo is not part roles other than fighters
+])
+export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, OutputInterface {
 
     division: WeightDivision | null;
     id: number;
+    output: BoxrecPageSearchRowOutput;
 
     private readonly $: CheerioStatic;
 
@@ -43,20 +48,6 @@ export class BoxrecPageSearchRow implements DivisionInterface, IdInterface {
         const nameIdEl: string = `<div>${getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.name)}</div>`;
         return BoxrecCommonTablesColumnsClass.parseAlias(this.$(nameIdEl).find("a").text());
-    }
-
-    get output(): BoxrecPageSearchRowOutput {
-        return {
-            alias: this.alias,
-            career: this.career,
-            division: this.division,
-            id: this.id,
-            last6: this.last6,
-            name: this.name,
-            record: this.record,
-            residence: this.residence,
-            sport: this.sport, // todo is not part roles other than fighters
-        };
     }
 
     get record(): Record {

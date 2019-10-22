@@ -1,8 +1,13 @@
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {BoxrecProfilePromoterOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
 
-export class BoxrecPageProfilePromoter extends BoxrecPageProfileEvents {
+@OutputGetter(["birthName", "birthPlace", "company", "events", "globalId", "name",
+    "otherInfo", "picture", "residence", "role", "status"])
+export class BoxrecPageProfilePromoter extends BoxrecPageProfileEvents implements OutputInterface {
+
+    output: BoxrecProfilePromoterOutput;
 
     // found on promoter page
     get company(): string | null {
@@ -15,19 +20,4 @@ export class BoxrecPageProfilePromoter extends BoxrecPageProfileEvents {
         return null;
     }
 
-    get output(): BoxrecProfilePromoterOutput {
-        return {
-            birthName: this.birthName,
-            birthPlace: this.birthPlace,
-            company: this.company,
-            events: this.events,
-            globalId: this.globalId,
-            name: this.name,
-            otherInfo: this.otherInfo,
-            picture: this.picture,
-            residence: this.residence,
-            role: this.role,
-            status: this.status,
-        };
-    }
 }

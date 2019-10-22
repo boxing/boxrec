@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DivisionGetter, DivisionInterface} from "../../../decorators/division.decorator";
+import {OutputGetter, OutputInterface} from "../../../decorators/output.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {Record, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
@@ -10,10 +11,12 @@ import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 // todo this is not BoxerRow anymore but fighters
 // todo does this work for all fighter roles?
 @DivisionGetter()
+@OutputGetter(["career", "division", "id", "last6", "location", "miles", "name", "record", "sex"])
 export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow
-    implements DivisionInterface {
+    implements DivisionInterface, OutputInterface {
 
     division: WeightDivision | null;
+    output: BoxrecPageLocationBoxerRowOutput;
 
     get career(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseCareer(getColumnDataByColumnHeader(this.$, this.headerColumns,
@@ -23,20 +26,6 @@ export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow
     get last6(): WinLossDraw[] {
         return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.firstLast6));
-    }
-
-    get output(): BoxrecPageLocationBoxerRowOutput {
-        return {
-            career: this.career,
-            division: this.division,
-            id: this.id,
-            last6: this.last6,
-            location: this.location,
-            miles: this.miles,
-            name: this.name,
-            record: this.record,
-            sex: this.sex,
-        };
     }
 
     get record(): Record {

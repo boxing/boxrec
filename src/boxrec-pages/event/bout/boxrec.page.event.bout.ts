@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
+import {OutputGetter, OutputInterface} from "../../../decorators/output.decorator";
 import {convertFractionsToNumber, parseHeight, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
@@ -17,7 +18,20 @@ import {
  * Note: because BoxRec is using inline styles for a lot of things, can't guarantee perfect results.  Report issues
  * <pre>http://boxrec.com/en/event/726555/2037455</pre>
  */
-export class BoxrecPageEventBout extends BoxrecPageEvent {
+@OutputGetter([
+    "bouts", "commission", "date", "division", "doctors", "firstBoxer", "firstBoxerAge",
+    "firstBoxerHeight", "firstBoxerKOs", "firstBoxerLast6", "firstBoxerPointsAfter",
+    "firstBoxerPointsBefore", "firstBoxerRanking", "firstBoxerReach", "firstBoxerRecord",
+    "firstBoxerStance", "id", "inspector", "judges", "location", "matchmakers", "media",
+    "numberOfBouts", "numberOfRounds", "outcome", "promoters", "rating", "referee",
+    "secondBoxer", "secondBoxerAge", "secondBoxerHeight", "secondBoxerKOs",
+    "secondBoxerLast6", "secondBoxerPointsAfter", "secondBoxerPointsBefore",
+    "secondBoxerRanking", "secondBoxerReach", "secondBoxerRecord", "secondBoxerStance",
+    "television", "titles",
+])
+export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterface {
+
+    output: BoxrecEventBoutOutput;
 
     private static parseOutcome(outcomeStr: string): BoutPageOutcome {
         const trimmedOutcomeStr: string = trimRemoveLineBreaks(outcomeStr);
@@ -57,52 +71,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent {
         }
 
         return date;
-    }
-
-    get output(): BoxrecEventBoutOutput {
-        return {
-            bouts: this.bouts,
-            commission: this.commission,
-            date: this.date,
-            division: this.division,
-            doctors: this.doctors,
-            firstBoxer: this.firstBoxer,
-            firstBoxerAge: this.firstBoxerAge,
-            firstBoxerHeight: this.firstBoxerHeight,
-            firstBoxerKOs: this.firstBoxerKOs,
-            firstBoxerLast6: this.firstBoxerLast6,
-            firstBoxerPointsAfter: this.firstBoxerPointsAfter,
-            firstBoxerPointsBefore: this.firstBoxerPointsBefore,
-            firstBoxerRanking: this.firstBoxerRanking,
-            firstBoxerReach: this.firstBoxerReach,
-            firstBoxerRecord: this.firstBoxerRecord,
-            firstBoxerStance: this.firstBoxerStance,
-            id: this.id,
-            inspector: this.inspector,
-            judges: this.judges,
-            location: this.location,
-            matchmakers: this.matchmakers,
-            media: this.media,
-            numberOfBouts: this.numberOfBouts,
-            numberOfRounds: this.numberOfRounds,
-            outcome: this.outcome,
-            promoters: this.promoters,
-            rating: this.rating,
-            referee: this.referee,
-            secondBoxer: this.secondBoxer,
-            secondBoxerAge: this.secondBoxerAge,
-            secondBoxerHeight: this.secondBoxerHeight,
-            secondBoxerKOs: this.secondBoxerKOs,
-            secondBoxerLast6: this.secondBoxerLast6,
-            secondBoxerPointsAfter: this.secondBoxerPointsAfter,
-            secondBoxerPointsBefore: this.secondBoxerPointsBefore,
-            secondBoxerRanking: this.secondBoxerRanking,
-            secondBoxerReach: this.secondBoxerReach,
-            secondBoxerRecord: this.secondBoxerRecord,
-            secondBoxerStance: this.secondBoxerStance,
-            television: this.television,
-            titles: this.titles,
-        };
     }
 
     get division(): WeightDivision | null {

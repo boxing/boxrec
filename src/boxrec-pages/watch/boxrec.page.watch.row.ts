@@ -1,9 +1,13 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageWatchRowOutput} from "./boxrec.watch.constants";
 
-export class BoxrecPageWatchRow {
+@OutputGetter(["alias", "globalId", "name", "schedule"])
+export class BoxrecPageWatchRow implements OutputInterface {
+
+    output: BoxrecPageWatchRowOutput;
 
     private readonly $: CheerioStatic;
 
@@ -21,15 +25,6 @@ export class BoxrecPageWatchRow {
 
     get name(): string {
         return BoxrecCommonTablesColumnsClass.parseName(this.$("td:nth-child(1)").text());
-    }
-
-    get output(): BoxrecPageWatchRowOutput {
-        return {
-            alias: this.alias,
-            globalId: this.globalId,
-            name: this.name,
-            schedule: this.schedule,
-        };
     }
 
     get schedule(): string | null {

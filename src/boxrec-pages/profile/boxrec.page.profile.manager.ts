@@ -1,9 +1,15 @@
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {getHeaderColumnText} from "../../helpers";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileManagerOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
 
-export class BoxrecPageProfileManager extends BoxrecPageProfile {
+@OutputGetter(["birthName", "birthPlace", "boxers", "globalId", "name", "otherInfo", "picture",
+    "residence", "role", "status",
+])
+export class BoxrecPageProfileManager extends BoxrecPageProfile implements OutputInterface {
+
+    output: BoxrecProfileManagerOutput;
 
     get boxers(): BoxrecPageProfileManagerBoxerRow[] {
         const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
@@ -14,18 +20,4 @@ export class BoxrecPageProfileManager extends BoxrecPageProfile {
             .map(item => new BoxrecPageProfileManagerBoxerRow(headerColumns, item));
     }
 
-    get output(): BoxrecProfileManagerOutput {
-        return {
-            birthName: this.birthName,
-            birthPlace: this.birthPlace,
-            boxers: this.boxers,
-            globalId: this.globalId,
-            name: this.name,
-            otherInfo: this.otherInfo,
-            picture: this.picture,
-            residence: this.residence,
-            role: this.role,
-            status: this.status,
-        };
-    }
 }

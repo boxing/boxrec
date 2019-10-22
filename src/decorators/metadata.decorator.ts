@@ -4,10 +4,10 @@
  */
 export function MetadataGetter():
     (target: any) => void {
-    return target => {
+    return (target: any) => {
         Object.defineProperty(target.prototype, "metadata", {
             get(): string | null {
-                return this.$(`tr:nth-child(2) td:nth-child(1)`).html();
+                return this.$("tr:nth-child(2) td:nth-child(1)").html();
             },
         });
     };

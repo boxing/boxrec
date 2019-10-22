@@ -1,8 +1,9 @@
 import * as cheerio from "cheerio";
 import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
-import {BoxrecVenueOutput} from "./boxrec.page.venue.constants";
+import {BoxrecPageVenueEventsRowOutput, BoxrecVenueOutput} from "./boxrec.page.venue.constants";
 import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
 
 /**
@@ -10,12 +11,20 @@ import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
  * <pre>ex. http://boxrec.com/en/venue/38555</pre>
  */
 @EventsGetter(BoxrecPageVenueEventsRow, "#eventsTable")
-export class BoxrecPageVenue implements EventsInterface {
+@OutputGetter(
+    [{
+        function: (events: BoxrecPageVenueEventsRowOutput[]) => events.map((event: any) => event.output),
+        method: "events",
+    }, "localBoxers", "localManagers", "location", "name"]
+)
+export class BoxrecPageVenue implements EventsInterface, OutputInterface {
+
+    output: BoxrecVenueOutput;
 
     /**
      * Returns an array of events
-     * @returns {BoxrecPageVenueEventsRow[]} is in order of the page
-     * events may have been inserted into BoxRec and the IDs will not always be in order
+     * @returns {BoxrecPageVenueEventsRow[]} is in order of the page events may have been inserted into BoxRec and
+     * the IDs will not always be in order
      */
     events: BoxrecPageVenueEventsRow[];
 
@@ -51,16 +60,6 @@ export class BoxrecPageVenue implements EventsInterface {
 
     get name(): string {
         return trimRemoveLineBreaks(this.$(".pageOuter h1").text());
-    }
-
-    get output(): BoxrecVenueOutput {
-        return {
-            events: this.events.map(event => event.output),
-            localBoxers: this.localBoxers,
-            localManagers: this.localManagers,
-            location: this.location,
-            name: this.name
-        };
     }
 
     private parseBasicInfo(type: "manager" | "boxer"): Array<{ id: number, name: string }> {

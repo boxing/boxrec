@@ -3,6 +3,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {DayGetter, DayInterface} from "../../decorators/day.decorator";
 import {IdGetter} from "../../decorators/id.decorator";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
 import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
@@ -10,11 +11,13 @@ import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
 @DateGetter()
 @DayGetter()
 @IdGetter(BoxrecCommonTableHeader.links)
-export class BoxrecPageVenueEventsRow implements DateInterface, DayInterface {
+@OutputGetter(["date", "day", "id", "location"])
+export class BoxrecPageVenueEventsRow implements DateInterface, DayInterface, OutputInterface {
 
     date: string;
     day: string;
     id: number | null;
+    output: BoxrecPageVenueEventsRowOutput;
 
     private readonly $: CheerioStatic;
 
@@ -26,15 +29,6 @@ export class BoxrecPageVenueEventsRow implements DateInterface, DayInterface {
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.location), 2);
-    }
-
-    get output(): BoxrecPageVenueEventsRowOutput {
-        return {
-            date: this.date,
-            day: this.day,
-            id: this.id,
-            location: this.location,
-        };
     }
 
 }

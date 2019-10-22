@@ -1,4 +1,5 @@
 import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
+import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecPageRatingsActiveAllDivisionsRow} from "./boxrec.page.ratings.active-all-divisions.row";
 import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
@@ -19,7 +20,18 @@ const ratingsTableEl: string = "#ratingsResults";
  * parse a BoxRec Ratings Page
  * <pre>ex. http://boxrec.com/en/ratings</pre>
  */
-export class BoxrecPageRatings extends BoxrecPageLists {
+@OutputGetter([
+    {
+        function: (boxers: Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
+            BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow>) => boxers
+            .map(boxerRow => boxerRow.output),
+        method: "boxers",
+    },
+    "numberOfPages"
+])
+export class BoxrecPageRatings extends BoxrecPageLists implements OutputInterface {
+
+    output: BoxrecRatingsOutput;
 
     get boxers(): Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
         BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow> {
@@ -38,13 +50,6 @@ export class BoxrecPageRatings extends BoxrecPageLists {
                     return new BoxrecPageRatingsActiveInactiveDivisionRow(headerColumns, item);
             }
         });
-    }
-
-    get output(): BoxrecRatingsOutput {
-        return {
-            boxers: this.boxers.map(boxerRow => boxerRow.output),
-            numberOfPages: this.numberOfPages,
-        };
     }
 
     /**
