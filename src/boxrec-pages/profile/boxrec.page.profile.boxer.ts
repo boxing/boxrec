@@ -1,4 +1,5 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {parseHeight, trimRemoveLineBreaks} from "../../helpers";
 import {Stance} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
@@ -6,7 +7,6 @@ import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileBoxerOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileTable} from "./boxrec.profile.constants";
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * BoxRec Boxer Profile Page

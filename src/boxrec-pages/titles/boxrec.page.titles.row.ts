@@ -2,25 +2,27 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
+import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
-import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
-import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
-import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 
 @DateGetter()
 @DivisionGetter()
 @FirstBoxerGetter()
 @MetadataGetter()
 @NumberOfRoundsGetter()
+@OutcomeGetter()
 @RatingGetter(true)
 export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, FirstBoxerInterface, MetadataInterface,
-    NumberOfRoundsInterface, RatingInterface {
+    NumberOfRoundsInterface, OutcomeInterface, RatingInterface {
 
     date: string;
     division: WeightDivision | null;
@@ -28,6 +30,7 @@ export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, Fi
     metadata: string | null;
     // todo can we use parsing helper method?
     numberOfRounds: number[];
+    outcome: WinLossDraw;
     rating: number | null;
 
     protected readonly $: CheerioStatic;
@@ -54,11 +57,6 @@ export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, Fi
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.location), 1);
-    }
-
-    get outcome(): WinLossDraw {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.outcome, false));
     }
 
     get output(): BoxrecPageTitlesRowOutput {

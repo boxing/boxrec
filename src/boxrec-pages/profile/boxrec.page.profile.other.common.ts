@@ -1,7 +1,7 @@
+import {BoutsGetter} from "../../decorators/bouts.decorator";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecProfileOtherOutput} from "./boxrec.page.profile.constants";
 import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
-import {BoutsGetter} from "../../decorators/bouts.decorator";
 
 /**
  * BoxRec Judge/Supervisor Profile Page

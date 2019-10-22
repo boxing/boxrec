@@ -1,20 +1,24 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
-import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 
 @DateGetter()
 @MetadataGetter()
+@OutcomeGetter(BoxrecCommonTableHeader.result)
 @RatingGetter(true)
 export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
-    implements DateInterface, MetadataInterface, RatingInterface {
+    implements DateInterface, MetadataInterface, OutcomeInterface, RatingInterface {
 
     date: string;
     metadata: string | null;
+    // todo tests?  have left this as `BoxrecCommonTableHeader.result` until looked into
+    outcome: WinLossDraw;
     rating: number | null;
 
     // todo used on any profile?
@@ -37,11 +41,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     get numberOfRounds(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.rounds, false));
-    }
-
-    get outcome(): WinLossDraw {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.result, false));
     }
 
     get secondBoxer(): BoxrecBasic {

@@ -3,6 +3,7 @@ import {CookieJar} from "request";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
+import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
 import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
@@ -26,7 +27,6 @@ import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row"
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 import {Boxrec} from "./boxrec.class";
-import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 

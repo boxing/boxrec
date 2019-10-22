@@ -1,22 +1,25 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {DateGetter} from "../../decorators/date.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 
 @DateGetter()
 @MetadataGetter()
+@OutcomeGetter(BoxrecCommonTableHeader.result)
 @RatingGetter(true)
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
-    implements MetadataInterface, RatingInterface {
+    implements MetadataInterface, OutcomeInterface, RatingInterface {
 
     date: string;
     metadata: string | null;
+    outcome: WinLossDraw;
     rating: number | null;
 
     /**
@@ -81,11 +84,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     get numberOfRounds(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.rounds));
-    }
-
-    get outcome(): WinLossDraw {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.result, false));
     }
 
     get output(): BoxrecProfileBoxerBoutOutput {
