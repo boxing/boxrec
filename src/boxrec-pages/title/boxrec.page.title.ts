@@ -1,10 +1,10 @@
+import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic} from "../boxrec.constants";
 import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
+import {BoxrecPageTitlesRow} from "../titles/boxrec.page.titles.row";
 import {BoxrecTitleOutput} from "./boxrec.page.title.constants";
 import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
-import {BoxrecPageTitlesRow} from "../titles/boxrec.page.titles.row";
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 
 /**
  * parse a BoxRec Title page

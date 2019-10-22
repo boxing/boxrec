@@ -2,25 +2,28 @@ import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants"
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
 @DivisionGetter()
 @FirstBoxerGetter()
 @MetadataGetter()
+@OutcomeGetter()
 @RatingGetter()
 export class BoxrecPageEventBoutRow
-    implements DivisionInterface, FirstBoxerInterface, MetadataInterface, RatingInterface {
+    implements DivisionInterface, FirstBoxerInterface, MetadataInterface, OutcomeInterface, RatingInterface {
 
     division: WeightDivision | null;
     firstBoxer: BoxrecBasic;
     metadata: string | null;
+    outcome: WinLossDraw | null;
     rating: number | null;
 
     private readonly $: CheerioStatic;
@@ -62,11 +65,6 @@ export class BoxrecPageEventBoutRow
     get numberOfRounds(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseNumberOfRounds(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.rounds));
-    }
-
-    get outcome(): WinLossDraw | null {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.outcome, false));
     }
 
     get outcomeByWayOf(): string | null {

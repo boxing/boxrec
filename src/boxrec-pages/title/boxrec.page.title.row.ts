@@ -1,27 +1,31 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
+import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {BoxrecProfileCommonRow} from "../profile/boxrec.profile.common.row";
 import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
-import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 
 @DateGetter()
 @FirstBoxerGetter()
 @MetadataGetter()
 @NumberOfRoundsGetter()
+@OutcomeGetter()
 @RatingGetter()
 export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
-    implements DateInterface, FirstBoxerInterface, MetadataInterface, NumberOfRoundsInterface, RatingInterface {
+    implements DateInterface, FirstBoxerInterface, MetadataInterface, NumberOfRoundsInterface, OutcomeInterface,
+        RatingInterface {
 
     date: string;
     firstBoxer: BoxrecBasic;
     metadata: string | null;
     // todo can we use parsing helper method?
     numberOfRounds: number[];
+    outcome: WinLossDraw;
     rating: number | null;
 
     protected readonly $: CheerioStatic;
@@ -34,11 +38,6 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.location), 1);
-    }
-
-    get outcome(): WinLossDraw {
-        return BoxrecCommonTablesColumnsClass.parseOutcome(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.outcome, false));
     }
 
     get output(): BoxrecPageTitleRowOutput {

@@ -1,7 +1,7 @@
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageRatingsActiveInactiveDivisionRow} from "./boxrec.page.ratings.active-inactive-division.row";
 import {BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput} from "./boxrec.ratings.constants";
-import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
 // ratings page where both active/inactive are selected and ALL divisions
 @DivisionGetter()

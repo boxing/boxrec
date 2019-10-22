@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 
 // used for boxer rows under a manager
 @DivisionGetter()
