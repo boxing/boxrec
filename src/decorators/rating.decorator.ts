@@ -1,6 +1,11 @@
 import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
 
+/**
+ * Adds a getter to the class that returns the rating for this bout
+ * @param returnHTML    whether to return HTML or not
+ * @constructor
+ */
 export function RatingGetter(returnHTML: boolean = false):
     (target: any) => void {
     return target => {

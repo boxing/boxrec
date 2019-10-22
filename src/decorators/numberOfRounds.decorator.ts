@@ -1,5 +1,9 @@
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../helpers";
 
+/**
+ * Adds a getter to the class that returns the number of rounds for this bout
+ * @constructor
+ */
 export function NumberOfRoundsGetter(): (target: any) => void {
     return target => {
         Object.defineProperty(target.prototype, "numberOfRounds", {

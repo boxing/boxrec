@@ -2,6 +2,10 @@ import {BoxrecBasic} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
 
+/**
+ * Adds a getter to the class that returns the first boxer for that table row
+ * @constructor
+ */
 export function FirstBoxerGetter(): (target: any) => void {
     return target => {
         Object.defineProperty(target.prototype, "firstBoxer", {

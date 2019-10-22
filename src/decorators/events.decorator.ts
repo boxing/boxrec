@@ -1,7 +1,13 @@
-import {getHeaderColumnText} from "../helpers";
 import {BoxrecPageProfileEventRow} from "../boxrec-pages/profile/boxrec.page.profile.event.row";
 import {BoxrecPageVenueEventsRow} from "../boxrec-pages/venue/boxrec.page.venue.events.row";
+import {getHeaderColumnText} from "../helpers";
 
+/**
+ * Adds a getter to the class that returns the events section of a table
+ * @param classType the passed in class type that will be initialized and returned
+ * @param tableEl   the table element to search data for
+ * @constructor
+ */
 export function EventsGetter(classType: (new (headerColumns: string[], item: string) => any), tableEl: string):
     (target: any) => void {
     return target => {
