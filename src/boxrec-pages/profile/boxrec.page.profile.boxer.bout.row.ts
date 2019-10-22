@@ -1,23 +1,26 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
-import {DateGetter} from "../../decorators/date.decorator";
+import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
-import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 
 @DateGetter()
+@FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
 @RatingGetter(true)
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
-    implements MetadataInterface, OutcomeInterface, RatingInterface {
+    implements DateInterface, FirstBoxerWeightInterface, MetadataInterface, OutcomeInterface, RatingInterface {
 
     date: string;
+    firstBoxerWeight: number | null;
     metadata: string | null;
     outcome: WinLossDraw;
     rating: number | null;
@@ -55,11 +58,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     get firstBoxerRating(): Array<number | null> {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.firstRating));
-    }
-
-    get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     get judges(): BoxrecJudge[] {

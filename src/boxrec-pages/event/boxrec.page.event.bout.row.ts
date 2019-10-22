@@ -4,6 +4,7 @@ import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links"
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
@@ -14,14 +15,18 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
 
 @DivisionGetter()
 @FirstBoxerGetter()
+@FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter()
 @RatingGetter()
 export class BoxrecPageEventBoutRow
-    implements DivisionInterface, FirstBoxerInterface, MetadataInterface, OutcomeInterface, RatingInterface {
+    implements DivisionInterface,
+        FirstBoxerInterface, FirstBoxerWeightInterface,
+        MetadataInterface, OutcomeInterface, RatingInterface {
 
     division: WeightDivision | null;
     firstBoxer: BoxrecBasic;
+    firstBoxerWeight: number | null;
     metadata: string | null;
     outcome: WinLossDraw | null;
     rating: number | null;
@@ -43,11 +48,6 @@ export class BoxrecPageEventBoutRow
     get firstBoxerRecord(): Record {
         return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.record));
-    }
-
-    get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     // not the exact same as the other page links

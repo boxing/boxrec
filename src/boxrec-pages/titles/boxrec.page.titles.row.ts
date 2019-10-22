@@ -5,28 +5,32 @@ import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.const
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
+import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
-import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 
 @DateGetter()
 @DivisionGetter()
 @FirstBoxerGetter()
+@FirstBoxerWeightGetter()
 @MetadataGetter()
 @NumberOfRoundsGetter()
 @OutcomeGetter()
 @RatingGetter(true)
-export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, FirstBoxerInterface, MetadataInterface,
+export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, FirstBoxerInterface,
+    FirstBoxerWeightInterface, MetadataInterface,
     NumberOfRoundsInterface, OutcomeInterface, RatingInterface {
 
     date: string;
     division: WeightDivision | null;
     firstBoxer: BoxrecBasic;
+    firstBoxerWeight: number | null;
     metadata: string | null;
     // todo can we use parsing helper method?
     numberOfRounds: number[];
@@ -38,11 +42,6 @@ export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, Fi
     constructor(protected headerColumns: string[], tableRowInnerHTML: string,
                 metadataFollowingRowInnerHTML: string | null = null) {
         this.$ = cheerio.load(`<table><tr>${tableRowInnerHTML}</tr><tr>${metadataFollowingRowInnerHTML}</tr></table>`);
-    }
-
-    get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     get links(): BoxrecGeneralLinks {
