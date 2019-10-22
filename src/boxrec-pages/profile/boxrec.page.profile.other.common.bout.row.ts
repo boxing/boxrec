@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
@@ -9,13 +10,16 @@ import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.ro
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
 @DateGetter()
+@FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
 @RatingGetter(true)
 export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
-    implements DateInterface, MetadataInterface, OutcomeInterface, RatingInterface {
+    implements DateInterface, FirstBoxerWeightInterface, MetadataInterface, OutcomeInterface, RatingInterface {
 
     date: string;
+    // todo this seems busted, doesn't look like it exists for referee
+    firstBoxerWeight: number | null;
     metadata: string | null;
     // todo tests?  have left this as `BoxrecCommonTableHeader.result` until looked into
     outcome: WinLossDraw;
@@ -25,12 +29,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     get firstBoxerRating(): Array<number | null> {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.firstRating));
-    }
-
-    // todo this seems busted, doesn't look like it exists for referee
-    get firstBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.firstFighterWeight, false));
     }
 
     get location(): BoxrecLocation {
