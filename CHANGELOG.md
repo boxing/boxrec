@@ -1,3 +1,11 @@
+## 7.0.0 (2019-10-22)
+
+### Changed
+
+-   It won't affect consumers of the package but data is now more flexible by finding data by either the header or 
+column data.  This is important because now table changes won't break the package
+-   Decorators added to multiple areas to ensure consistency of data returned
+
 ## 6.2.0 (2019-09-21)
 
 ### Added
