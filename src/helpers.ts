@@ -151,6 +151,19 @@ export function assignWeight(headersArr: string[]): BoxrecCommonTableHeader.firs
     return BoxrecCommonTableHeader.firstFighterWeight;
 }
 
+export function assignFighter(headersArr: string[]): BoxrecCommonTableHeader.fighter |
+    BoxrecCommonTableHeader.opponent {
+    // if the array has the first fighter, we know this one is for the second fighter
+    const hasFirstFighterWeight: boolean = headersArr.some(item =>
+        item === BoxrecCommonTableHeader.fighter);
+
+    if (hasFirstFighterWeight) {
+        return BoxrecCommonTableHeader.opponent;
+    }
+
+    return BoxrecCommonTableHeader.fighter;
+}
+
 /**
  * Returns an array of all row data from a specific column
  * @param tableEl       the table element to check from
@@ -233,6 +246,11 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                 if (rowDataText.length > 0 && !isNaN(rowDataText as unknown as number) ||
                     /[¼½¾]/.test(rowDataText)) {
                     headersArr.push(assignWeight(headersArr));
+                    return;
+                }
+
+                if ($(`<div>${tbodyColumnEl.html()}</div>`).find(".personLink").length === 1) {
+                    headersArr.push(assignFighter(headersArr));
                     return;
                 }
 

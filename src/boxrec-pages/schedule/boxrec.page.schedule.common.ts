@@ -11,9 +11,11 @@ export abstract class BoxrecPageScheduleCommon {
 
     /**
      * Parses different table formats into a way we can parse the information out of the table further
-     * @param headerLocationFirst if true the header information we require is the first thead element
+     * @param headerColumns the header column values passed in from the parent to add to all tables, these
+     *                      contain the column values i.e. division, outcome, etc.
+     * @returns             an array of event tables in string format
      */
-    protected parse(headerLocationFirst: boolean = false): string[] {
+    protected parse(headerColumns: string): string[] {
         // this is set up incredibly strange on BoxRec
         // so it's just a giant slew of `thead` and `tbody`
         // loop through, if `thead`, it's the new schedule
@@ -27,11 +29,9 @@ export abstract class BoxrecPageScheduleCommon {
             const tagName: string = el.get(0).tagName; // this will either be `thead` or `tbody`
 
             if (tagName === "thead") { // is the date, location, event, wiki
-                if (headerLocationFirst && i === 1) {
-                    event += `<thead>${el.html()}</thead>`;
-                } else if (i !== 1) {
-                    event += `<thead>${el.html()}</thead>`;
-                }
+                event += `<thead>${el.html()}</thead>`;
+                // and then add the "header columns values" we pass in to add a row of the values
+                event += headerColumns;
             } else { // are the bouts, or just an empty space to break up the content
                 // we check content length because there's an empty `tbody` before the next event
                 const contentLength: number = trimRemoveLineBreaks(el.text() || "").length;

@@ -4,6 +4,8 @@ import {getHeaderColumnText} from "../helpers";
 
 /**
  * Adds a getter to the class that returns the events section of a table
+ * This events getter is for pages that have single listings
+ * like you'd find on a venue page, or profile pages (judges, matchmaker, etc.)
  * @param classType the passed in class type that will be initialized and returned
  * @param tableEl   the table element to search data for
  * @constructor

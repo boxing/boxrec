@@ -100,6 +100,7 @@ export class BoxrecPageEventBoutRow
             BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
+    // todo the value returned does not match the typedef
     get sport(): BoxrecFighterRole {
         return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.sport,
             false) as BoxrecFighterRole;
