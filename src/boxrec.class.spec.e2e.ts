@@ -1,4 +1,9 @@
-import {BoxrecBasic, BoxrecFighterOption, BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {
+    BoxrecBasic,
+    BoxrecFighterOption,
+    BoxrecFighterRole,
+    BoxrecRole
+} from "boxrec-requests/dist/boxrec-requests.constants";
 import {CookieJar} from "request";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
@@ -595,7 +600,8 @@ describe("class Boxrec (E2E)", () => {
 
         });
 
-        // note: these events will change daily, some of these tests should either use try/catches or loop through events to satisfy the test case
+        // note: these events will change daily
+        // some of these tests should either use try/catches or loop through events to satisfy the test case
         describe("getter events", () => {
 
             let event: BoxrecPageEvent;
@@ -620,8 +626,16 @@ describe("class Boxrec (E2E)", () => {
 
                 describe("getter values", () => {
 
-                    it("firstBoxer", () => {
-                        expect(event.bouts[0].firstBoxer.id).not.toBeNull();
+                    describe("firstBoxer", () => {
+
+                        it("id should not be null", () => {
+                            expect(event.bouts[0].firstBoxer.id).not.toBeNull();
+                        });
+
+                        it("name should not be null", () => {
+                            expect(event.bouts[0].firstBoxer.name).not.toBeNull();
+                        });
+
                     });
 
                     it("secondBoxer", () => {
@@ -733,24 +747,116 @@ describe("class Boxrec (E2E)", () => {
 
     describe("method getDate", () => {
 
+        // we get two different dates, one a previous date and one from the future
+        // the reason is because the data changes whether the event has occurred or not
         let sept282019: BoxrecPageDate;
+        let nextDate: BoxrecPageDate;
 
         beforeAll(async () => {
             sept282019 = await Boxrec.getDate(loggedInCookie, "2019-09-28");
+
+            // get the next saturday, there's very few times (if ever) where there won't be a boxing match
+            // not timezone proof.  Depending on who/what runs this, it may return Friday/Sunday
+            function getNextSaturdayDateObject(): Date {
+                const currentDate: Date = new Date();
+                const resultDate: Date = new Date(currentDate.getTime());
+                resultDate.setDate(currentDate.getDate() + (7 + 6 - currentDate.getDay()) % 7);
+                return resultDate;
+            }
+
+            nextDate = await Boxrec.getDate(loggedInCookie,
+                getNextSaturdayDateObject().toISOString().substr(0, 10));
         });
 
-        describe("getter events", () => {
+        describe("passed date", () => {
 
-            describe("getter bouts", () => {
+            describe("getter events", () => {
 
-                describe("getter firstBoxerRecord", () => {
+                describe("getter bouts", () => {
 
-                    it("should return the first boxer's record", () => {
-                        expect(sept282019.events[0].bouts[0].firstBoxerRecord).toEqual({
-                            draw: jasmine.any(Number),
-                            loss: jasmine.any(Number),
-                            win: jasmine.any(Number),
+                    describe("getter firstBoxerRecord", () => {
+
+                        it("should return the first boxer's record", () => {
+                            expect(sept282019.events[0].bouts[0].firstBoxerRecord).toEqual({
+                                draw: jasmine.any(Number),
+                                loss: jasmine.any(Number),
+                                win: jasmine.any(Number),
+                            });
                         });
+
+                    });
+
+                    describe("getter firstBoxerWeight", () => {
+
+                        it("should not return null as there should have been a weigh in", () => {
+                            expect(sept282019.events[0].bouts[0].firstBoxerWeight).toEqual(jasmine.any(Number));
+                        });
+
+                    });
+
+                    describe("getter outcomeByWayOf", () => {
+
+                        it("should return a value as the bout has happened", () => {
+                            expect(sept282019.events[0].bouts[0].outcomeByWayOf).not.toBeNull();
+                        });
+
+                    });
+
+                    describe("getter outcome", () => {
+
+                        it("should return a value as the bout has happened", () => {
+                            expect([WinLossDraw.win, WinLossDraw.loss, WinLossDraw.draw])
+                            .toContain(sept282019.events[0].bouts[0].outcome);
+                        });
+
+                    });
+
+                });
+
+            });
+
+        });
+
+        describe("future date", () => {
+
+            describe("getter events", () => {
+
+                describe("getter bouts", () => {
+
+                    describe("getter firstBoxerRecord", () => {
+
+                        it("should return the first boxer's record", () => {
+                            expect(nextDate.events[0].bouts[0].firstBoxerRecord).toEqual({
+                                draw: jasmine.any(Number),
+                                loss: jasmine.any(Number),
+                                win: jasmine.any(Number),
+                            });
+                        });
+
+                    });
+
+                    describe("getter firstBoxerWeight", () => {
+
+                        it("should return null as there hasn't been a weigh in", () => {
+                            expect(nextDate.events[0].bouts[0].firstBoxerWeight).toBeNull();
+                        });
+
+                    });
+
+                    describe("getter outcomeByWayOf", () => {
+
+                        it("should return null as the bout has not happened", () => {
+                            expect(nextDate.events[0].bouts[0].outcomeByWayOf).toBeNull();
+                        });
+
+                    });
+
+                    describe("getter outcome", () => {
+
+                        it("should return `scheduled` as the bout has not happened", () => {
+                            expect(nextDate.events[0].bouts[0].outcome).toBe(WinLossDraw.scheduled);
+                        });
+
                     });
 
                 });
