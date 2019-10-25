@@ -99,6 +99,44 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
     }
 
     /**
+     * Returns an array of things this fighter is enrolled under
+     * todo `sport` is broken when it comes to interface (boxrec-requests), it needs to be fixed to replace string
+     */
+    get enrollments(): Array<{ by: string, expires: string, id: number, sport: string }> {
+        const enrollmentsTableData: Cheerio =
+            this.$("h2:contains('Enrollments') + .boxerSectionContent table tbody tr");
+        const enrollments: Array<{ by: string, expires: string, id: number, sport: string }> = [];
+
+        if (enrollmentsTableData) {
+            enrollmentsTableData.each((i: number, elem: CheerioElement): void => {
+                const children: CheerioElement[] = this.$(elem).get(0).children;
+
+                let by: string | undefined = children[0].children[0].data;
+                let sport: string | undefined = children[1].children[0].data;
+                let expires: string | undefined = children[2].children[0].data;
+                const id: string | undefined = children[3].children[0].children[0].data;
+
+                if (by && sport && expires && id) {
+                    by = trimRemoveLineBreaks(by);
+                    sport = trimRemoveLineBreaks(sport);
+                    expires = trimRemoveLineBreaks(expires);
+                    const idConverted: number = parseInt(trimRemoveLineBreaks(
+                        id.replace(/\D+/, "")), 10);
+
+                    enrollments.push({
+                        by,
+                        expires,
+                        id: idConverted,
+                        sport,
+                    });
+                }
+            });
+        }
+
+        return enrollments;
+    }
+
+    /**
      * Returns whether the boxer has a bout scheduled or not
      * @example // Mike Tyson would return false
      * @returns {boolean}

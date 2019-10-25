@@ -1,8 +1,4 @@
-import {
-    BoxrecBasic,
-    BoxrecFighterOption,
-    BoxrecRole
-} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecBasic, BoxrecFighterOption, BoxrecRole, Sport} from "boxrec-requests/dist/boxrec-requests.constants";
 import {CookieJar} from "request";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
@@ -336,9 +332,45 @@ describe("class Boxrec (E2E)", () => {
             boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352, BoxrecRole.proBoxer));
             // Sugar Ray Robinson
             boxers.set(9625, await Boxrec.getPersonById(loggedInCookie, 9625, BoxrecRole.proBoxer));
+            // Saul Alvarez
+            boxers.set(348759, await Boxrec.getPersonById(loggedInCookie, 348759, BoxrecRole.proBoxer));
         });
 
         describe("where role is boxer", () => {
+
+            describe("enrollments", () => {
+
+                it("should return an empty array if they have none", () => {
+                    expect(getBoxer(9625).enrollments).toEqual([]);
+                });
+
+                describe("when a boxer has enrollments", () => {
+
+                    let enrolledBoxer: any;
+
+                    beforeAll(() => {
+                        enrolledBoxer = getBoxer(348759).enrollments;
+                    });
+
+                    it("should return who", () => {
+                        expect(enrolledBoxer[0].by).toBe("Voluntary Anti-Doping Association (VADA) CBP");
+                    });
+
+                    it("should return the expiry date", () => {
+                        expect(enrolledBoxer[0].expires).toBe("2020-10-15");
+                    });
+
+                    it("should return the id of the enrollment", () => {
+                        expect(enrolledBoxer[0].id).toBe(348759);
+                    });
+
+                    it("should return the sport", () => {
+                        expect(enrolledBoxer[0].sport).toBe(Sport.proBoxing);
+                    });
+
+                });
+
+            });
 
             it("should return the person's information", () => {
                 expect(getBoxer(352).name).toBe("Floyd Mayweather Jr");
@@ -813,7 +845,7 @@ describe("class Boxrec (E2E)", () => {
 
                         it("should return a value as the bout has happened", () => {
                             expect([WinLossDraw.win, WinLossDraw.loss, WinLossDraw.draw])
-                            .toContain(sept282019.events[0].bouts[0].outcome);
+                                .toContain(sept282019.events[0].bouts[0].outcome);
                         });
 
                     });
