@@ -1,4 +1,5 @@
 import {mockScheduleWorldwide} from "boxrec-mocks";
+import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoxrecEventOutput} from "../event/boxrec.event.constants";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 
@@ -100,6 +101,29 @@ describe("class BoxrecPageSchedule", () => {
 
                     it("should return the town which can be a string or null", () => {
                         expect(event.location.location.town).toBeDefined();
+                    });
+
+                });
+
+                describe("getter bouts", () => {
+
+                    describe("getter firstBoxer", () => {
+
+                        it("should not return null values", () => {
+                            expect(event.bouts[0].firstBoxer).toEqual({
+                                id: jasmine.any(Number),
+                                name: jasmine.any(String),
+                            });
+                        });
+
+                    });
+
+                    describe("getter division", () => {
+
+                        it("should return the division of the bout", () => {
+                            expect(Object.values(WeightDivision)).toContain(event.bouts[0].division);
+                        });
+
                     });
 
                 });

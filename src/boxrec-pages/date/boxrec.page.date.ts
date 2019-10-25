@@ -13,7 +13,10 @@ export class BoxrecPageDate extends BoxrecPageScheduleCommon
     output: BoxrecDateOutput;
 
     get events(): BoxrecDateEvent[] {
-        return this.parse(true).map((event: string) => new BoxrecDateEvent(event));
+        const el: Cheerio = this.$(".calendarTable:nth-child(1) thead:nth-child(2)");
+        const headers: string = `<thead>${el.html()}</thead>`;
+
+        return this.parse(headers).map((event: string) => new BoxrecDateEvent(event));
     }
 
 }
