@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import {EventsGetter, EventsInterface} from "../../decorators/events.decorator";
+import {ListingsGetter, ListingsInterface} from "../../decorators/listings.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation} from "../boxrec.constants";
@@ -10,14 +10,14 @@ import {BoxrecPageVenueEventsRow} from "./boxrec.page.venue.events.row";
  * parse a BoxRec Venue page
  * <pre>ex. http://boxrec.com/en/venue/38555</pre>
  */
-@EventsGetter(BoxrecPageVenueEventsRow, "#eventsTable")
+@ListingsGetter("events", BoxrecPageVenueEventsRow, "#eventsTable")
 @OutputGetter(
     [{
         function: (events: BoxrecPageVenueEventsRowOutput[]) => events.map((event: any) => event.output),
         method: "events",
     }, "localBoxers", "localManagers", "location", "name"]
 )
-export class BoxrecPageVenue implements EventsInterface, OutputInterface {
+export class BoxrecPageVenue implements ListingsInterface, OutputInterface {
 
     output: BoxrecVenueOutput;
 

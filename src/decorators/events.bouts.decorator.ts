@@ -6,7 +6,6 @@ import { BoxrecPageEvent } from "../boxrec-pages/event/boxrec.page.event";
  * This events getter is for pages that have bouts listed underneath
  * like you'd find on a date page, or schedule page
  * @param classType the passed in class type that will be initialized and returned
- * @param tableEl   the table element to search data for
  * @constructor
  */
 export function EventsBoutsGetter(classType: (new (event: string) => any)):
