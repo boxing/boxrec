@@ -1,7 +1,6 @@
 import {
     BoxrecBasic,
     BoxrecFighterOption,
-    BoxrecFighterRole,
     BoxrecRole
 } from "boxrec-requests/dist/boxrec-requests.constants";
 import {CookieJar} from "request";
@@ -748,7 +747,7 @@ describe("class Boxrec (E2E)", () => {
     describe("method getDate", () => {
 
         // we get two different dates, one a previous date and one from the future
-        // the reason is because the data changes whether the event has occurred or not
+        // the reason is because the data and number of columns changes whether the event has occurred or not
         let sept282019: BoxrecPageDate;
         let nextDate: BoxrecPageDate;
 
