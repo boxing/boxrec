@@ -1,3 +1,4 @@
+import { BoxrecPageLocationEventRow } from "../boxrec-pages/location/event/boxrec.page.location.event.row";
 import {BoxrecPageProfileEventRow} from "../boxrec-pages/profile/boxrec.page.profile.event.row";
 import {BoxrecPageVenueEventsRow} from "../boxrec-pages/venue/boxrec.page.venue.events.row";
 import {getHeaderColumnText} from "../helpers";
@@ -32,5 +33,5 @@ export function EventsGetter(classType: (new (headerColumns: string[], item: str
 }
 
 export interface EventsInterface {
-    readonly events: BoxrecPageProfileEventRow[] | BoxrecPageVenueEventsRow[];
+    readonly events: BoxrecPageProfileEventRow[] | BoxrecPageVenueEventsRow[] | BoxrecPageLocationEventRow[];
 }
