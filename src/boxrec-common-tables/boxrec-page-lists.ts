@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import {getHeaderColumnText, stripCommas} from "../helpers";
+import {stripCommas} from "../helpers";
 
 export abstract class BoxrecPageLists {
 
