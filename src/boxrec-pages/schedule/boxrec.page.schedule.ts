@@ -1,3 +1,4 @@
+import { EventsBoutsGetter, EventsBoutsInterface } from "../../decorators/events.bouts.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {stripCommas} from "../../helpers";
 import {BoxrecEventOutput} from "../event/boxrec.event.constants";
@@ -10,6 +11,7 @@ import {BoxrecScheduleOutput} from "./boxrec.page.schedule.constants";
  * <pre>ex. http://boxrec.com/en/schedule?c%5BcountryCode%5D=&c%5Bdivision%5D=Light+Middleweight&c%5Btv%5D=&c_go=</pre>
  * <pre>ex. http://boxrec.com/en/results?c%5BcountryCode%5D=US&c%5Bdivision%5D=Middleweight&c_go=</pre>
  */
+@EventsBoutsGetter(BoxrecPageEvent)
 @OutputGetter([
     {
         function: (events: BoxrecPageEvent[]): BoxrecEventOutput[] => events.map(eventRow => eventRow.output),
@@ -17,16 +19,10 @@ import {BoxrecScheduleOutput} from "./boxrec.page.schedule.constants";
     },
     "numberOfPages",
 ])
-export class BoxrecPageSchedule extends BoxrecPageScheduleCommon implements OutputInterface {
+export class BoxrecPageSchedule extends BoxrecPageScheduleCommon implements EventsBoutsInterface, OutputInterface {
 
+    events: BoxrecPageEvent[];
     output: BoxrecScheduleOutput;
-
-    get events(): BoxrecPageEvent[] {
-        const el: Cheerio = this.$(".calendarTable:nth-child(1) thead:nth-child(2)");
-        const headers: string = `<thead>${el.html()}</thead>`;
-
-        return this.parse(headers).map((event: string) => new BoxrecPageEvent(event));
-    }
 
     get numberOfPages(): number {
         const text: string = this.$(".filterBarFloat .pagerElement:nth-last-child(3)").text() || "0";
