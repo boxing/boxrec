@@ -124,44 +124,17 @@ export enum BoxrecCommonTableHeader {
     venue = "venue"
 }
 
-export function assignRecord(headersArr: string[]): BoxrecCommonTableHeader.record |
-    BoxrecCommonTableHeader.secondRecord {
-    // if the array has the first fighter record, we know this one is for the second fighter
-    const hasFirstFighterRecord: boolean = headersArr.some(item =>
-        item === BoxrecCommonTableHeader.record);
+export function getValueForHeadersArr(headersArr: string[],
+                                      firstValue: BoxrecCommonTableHeader, secondValue: BoxrecCommonTableHeader):
+any {
+    const hasRecord: boolean = headersArr.some(item =>
+        item === firstValue);
 
-    if (hasFirstFighterRecord) {
-        return BoxrecCommonTableHeader.secondRecord;
+    if (hasRecord) {
+        return secondValue;
     }
 
-    return BoxrecCommonTableHeader.record;
-}
-
-// todo maybe this should all be in a class as it's making a lot of functions for certain functionality
-export function assignWeight(headersArr: string[]): BoxrecCommonTableHeader.firstFighterWeight |
-    BoxrecCommonTableHeader.secondFighterWeight {
-    // if the array has the first fighter weight, we know this one is for the second fighter
-    const hasFirstFighterWeight: boolean = headersArr.some(item =>
-        item === BoxrecCommonTableHeader.firstFighterWeight);
-
-    if (hasFirstFighterWeight) {
-        return BoxrecCommonTableHeader.secondFighterWeight;
-    }
-
-    return BoxrecCommonTableHeader.firstFighterWeight;
-}
-
-export function assignFighter(headersArr: string[]): BoxrecCommonTableHeader.fighter |
-    BoxrecCommonTableHeader.opponent {
-    // if the array has the first fighter, we know this one is for the second fighter
-    const hasFirstFighterWeight: boolean = headersArr.some(item =>
-        item === BoxrecCommonTableHeader.fighter);
-
-    if (hasFirstFighterWeight) {
-        return BoxrecCommonTableHeader.opponent;
-    }
-
-    return BoxrecCommonTableHeader.fighter;
+    return firstValue;
 }
 
 /**
@@ -245,12 +218,14 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
 
                 if (rowDataText.length > 0 && !isNaN(rowDataText as unknown as number) ||
                     /[¼½¾]/.test(rowDataText)) {
-                    headersArr.push(assignWeight(headersArr));
+                    headersArr.push(getValueForHeadersArr(headersArr,
+                        BoxrecCommonTableHeader.firstFighterWeight, BoxrecCommonTableHeader.secondFighterWeight));
                     return;
                 }
 
                 if ($(`<div>${tbodyColumnEl.html()}</div>`).find(".personLink").length === 1) {
-                    headersArr.push(assignFighter(headersArr));
+                    headersArr.push(getValueForHeadersArr(headersArr,
+                        BoxrecCommonTableHeader.fighter, BoxrecCommonTableHeader.opponent));
                     return;
                 }
 
@@ -261,12 +236,14 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
             // some headers have "lbs" and "kilos" where the referee page just had "lbs"
             // todo maybe this should be more strict and check for symbols
             if (headerText.includes("lbs") || headerText.includes("kilos")) {
-                headersArr.push(assignWeight(headersArr));
+                headersArr.push(getValueForHeadersArr(headersArr,
+                    BoxrecCommonTableHeader.firstFighterWeight, BoxrecCommonTableHeader.secondFighterWeight));
                 return;
             }
 
             if (headerText === "w-l-d") {
-                headersArr.push(assignRecord(headersArr));
+                headersArr.push(getValueForHeadersArr(headersArr,
+                    BoxrecCommonTableHeader.record, BoxrecCommonTableHeader.secondRecord));
                 return;
             }
 

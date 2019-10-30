@@ -5,7 +5,7 @@ import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row
 import {getHeaderColumnText} from "../helpers";
 
 /**
- * Adds a getter to the class that returns the maps and returns an array of bouts from an events/schedule/date table
+ * Adds a getter to the class that returns an array of bouts from an events/schedule/date table
  * @param tableEl   table element to parse bouts for
  * @param classType the class instance to return
  * @param theadNumber   some tables the header element that contains the column data is at different points in the table
