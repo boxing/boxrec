@@ -45,7 +45,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
         const cleanedDivision: string = trimRemoveLineBreaks(htmlString.toLowerCase());
         const withWeight: string = !/weight$/.test(cleanedDivision)
             ? `${cleanedDivision}weight` : cleanedDivision;
-        const fullWeightDivision: WeightDivision = Object.values(WeightDivision)
+        const fullWeightDivision: WeightDivision | undefined = Object.values(WeightDivision)
             .find(item => item === withWeight);
 
         if (fullWeightDivision) {
@@ -266,7 +266,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
             outcomeByWayOf = outcomeByWayOf.trim();
 
             if (parseText) {
-                return BoxingBoutOutcome[outcomeByWayOf as any];
+                return BoxingBoutOutcome[outcomeByWayOf as keyof typeof BoxingBoutOutcome];
             }
 
             return outcomeByWayOf;
