@@ -1,3 +1,9 @@
+## 7.0.1 (2019-10-30)
+
+### Fixed
+
+-   Resolved issue where data was missing between past dates and future dates
+
 ## 7.0.0 (2019-10-22)
 
 ### Changed
