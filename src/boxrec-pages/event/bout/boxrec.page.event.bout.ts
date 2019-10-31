@@ -575,7 +575,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
 
         // if it finds the key in the enum, we can return it as that type
         if (foundKey) {
-            const outcomeByWayOf: BoxingBoutOutcome = BoxingBoutOutcome[foundKey as any] as BoxingBoutOutcome;
+            const outcomeByWayOf: BoxingBoutOutcome = BoxingBoutOutcome[foundKey as keyof typeof BoxingBoutOutcome];
 
             return {
                 outcome: WinLossDraw.win,
