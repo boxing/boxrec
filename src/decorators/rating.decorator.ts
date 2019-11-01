@@ -3,16 +3,15 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
 
 /**
  * Adds a getter to the class that returns the rating for this bout
- * @param returnHTML    whether to return HTML or not
  * @constructor
  */
-export function RatingGetter(returnHTML: boolean = false):
+export function RatingGetter():
     (target: any) => void {
     return target => {
         Object.defineProperty(target.prototype, "rating", {
             get(): number | null {
                 return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,
-                    this.headerColumns, BoxrecCommonTableHeader.rating, returnHTML));
+                    this.headerColumns, BoxrecCommonTableHeader.rating, true));
             },
         });
     };

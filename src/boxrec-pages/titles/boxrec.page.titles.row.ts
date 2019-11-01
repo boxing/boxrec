@@ -26,7 +26,7 @@ import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 @OutputGetter(["date", "division", "firstBoxer", "firstBoxerWeight", "links",
     "location", "metadata", "numberOfRounds", "outcome", "rating", "secondBoxer", "secondBoxerWeight",
 ])
-@RatingGetter(true)
+@RatingGetter()
 export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, FirstBoxerInterface,
     FirstBoxerWeightInterface, MetadataInterface,
     NumberOfRoundsInterface, OutcomeInterface, OutputInterface, RatingInterface {
