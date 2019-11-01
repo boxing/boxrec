@@ -126,6 +126,14 @@ describe("class BoxrecPageSchedule", () => {
 
                     });
 
+                    describe("getter rating", () => {
+
+                        it("should return a value of 0 or greater", () => {
+                            expect(event.bouts[0].rating).toBeGreaterThanOrEqual(0);
+                        });
+
+                    });
+
                 });
 
             });
