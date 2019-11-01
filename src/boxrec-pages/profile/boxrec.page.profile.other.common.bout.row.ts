@@ -13,7 +13,7 @@ import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
-@RatingGetter(true)
+@RatingGetter()
 export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     implements DateInterface, FirstBoxerWeightInterface, MetadataInterface, OutcomeInterface, RatingInterface {
 

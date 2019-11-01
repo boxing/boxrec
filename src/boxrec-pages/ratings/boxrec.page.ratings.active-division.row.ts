@@ -8,7 +8,7 @@ import {BoxrecPageRatingsActiveDivisionRowOutput} from "./boxrec.ratings.constan
 @OutputGetter([
     "age", "hasBoutScheduled", "id", "last6", "name", "points", "rating", "record", "residence", "stance"
 ])
-@RatingGetter(true)
+@RatingGetter()
 export class BoxrecPageRatingsActiveDivisionRow extends BoxrecPageRatingsRow
     implements OutputInterface, RatingInterface {
 
