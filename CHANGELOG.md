@@ -1,3 +1,9 @@
+## 7.0.2 (2019-11-01)
+
+### Fixed
+
+-   Resolved issue where rating values were returning `null` for schedule data
+
 ## 7.0.1 (2019-10-30)
 
 ### Fixed
