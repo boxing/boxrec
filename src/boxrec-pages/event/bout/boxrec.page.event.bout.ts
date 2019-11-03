@@ -4,7 +4,7 @@ import {OutputGetter, OutputInterface} from "../../../decorators/output.decorato
 import {convertFractionsToNumber, parseHeight, trimRemoveLineBreaks} from "../../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
-import {BoxingBoutOutcome} from "../boxrec.event.constants";
+import {BoxingBoutOutcome, BoxingBoutOutcomeKeys} from "../boxrec.event.constants";
 import {BoxrecPageEvent} from "../boxrec.page.event";
 import {
     BoutPageBoutOutcome,
@@ -575,7 +575,7 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
 
         // if it finds the key in the enum, we can return it as that type
         if (foundKey) {
-            const outcomeByWayOf: BoxingBoutOutcome = BoxingBoutOutcome[foundKey as keyof typeof BoxingBoutOutcome];
+            const outcomeByWayOf: BoxingBoutOutcome = BoxingBoutOutcome[foundKey as BoxingBoutOutcomeKeys];
 
             return {
                 outcome: WinLossDraw.win,
