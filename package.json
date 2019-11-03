@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
     "@types/jest": "^22.1.1",
+    "@types/node": "^12.12.5",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "boxrec-mocks": "^3.0.1",
@@ -39,7 +40,7 @@
     "ts-jest": "<23.10.0",
     "tslint": "^5.10.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.4.5",
+    "typescript": "^3.6.4",
     "uglifyjs-folder": "^1.5.1"
   },
   "bugs": {
