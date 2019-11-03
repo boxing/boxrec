@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import * as querystring from "querystring";
 import {BoxrecBasic, BoxrecJudge, BoxrecLocation, Record, WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
-import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
+import {BoxingBoutOutcome, BoxingBoutOutcomeKeys} from "../boxrec-pages/event/boxrec.event.constants";
 import {convertFractionsToNumber, replaceWithWeight, trimRemoveLineBreaks, whatTypeOfLink} from "../helpers";
 import {BoxrecTitles} from "./boxrec-common.constants";
 
@@ -266,7 +266,7 @@ export abstract class BoxrecCommonTablesColumnsClass {
             outcomeByWayOf = outcomeByWayOf.trim();
 
             if (parseText) {
-                return BoxingBoutOutcome[outcomeByWayOf as keyof typeof BoxingBoutOutcome];
+                return BoxingBoutOutcome[outcomeByWayOf as BoxingBoutOutcomeKeys];
             }
 
             return outcomeByWayOf;
