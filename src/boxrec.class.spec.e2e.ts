@@ -507,7 +507,8 @@ describe("class Boxrec (E2E)", () => {
             let doctor: BoxrecPageProfileEvents;
 
             beforeAll(async () => {
-                doctor = await Boxrec.getPersonById(loggedInCookie, 412676, BoxrecRole.doctor) as BoxrecPageProfileEvents;
+                doctor = await Boxrec
+                    .getPersonById(loggedInCookie, 412676, BoxrecRole.doctor) as BoxrecPageProfileEvents;
             });
 
             it("should return the person's information", () => {
