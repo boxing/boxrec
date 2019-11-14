@@ -1,3 +1,9 @@
+## 7.1.0 (2019-11-05)
+
+### Added
+
+-   Can now get programs that the fighter is enrolled into
+
 ## 7.0.2 (2019-11-01)
 
 ### Fixed

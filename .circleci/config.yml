@@ -37,7 +37,15 @@ jobs:
         command: npm run tslint
     - run:
         name: Run tests
-        command: yarn jest --ci --config=jest.config.json --coverage --runInBand && cat ./coverage/lcov.info | yarn coveralls
+        command: yarn jest --ci --config=jest.config.json --coverage --runInBand
+    - run:
+        name: Push results to Coveralls
+        # Only push to Coveralls if we have the repo token
+        # If the MR is a fork, Coveralls will reject and fail.  Therefore we skip this step
+        command: |
+          if [[ -v "${COVERALLS_REPO_TOKEN}" ]]; then
+            cat ./coverage/lcov.info | yarn coveralls
+          fi
     - run:
         name: Generate docs
         command: npm run generate-docs
@@ -66,14 +74,8 @@ workflows:
     - build:
         filters:
           branches:
-            only:
-            - master
-            - develop
-            - /feature.*/
-            - /bugfix.*/
-            - /release.*/
-            - /hotfix.*/
-            - /support.*/
+            # For whatever reason if we want to skip builds
+            ignore: /skip-build\/*/
     - lint_and_test:
         requires:
         - build

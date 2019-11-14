@@ -1,4 +1,4 @@
-import {mockProfileBoxerRJJ, mockProfileJudgeDaveMoretti} from "boxrec-mocks";
+import {mockProfileBoxerRJJ} from "boxrec-mocks";
 import {BoxrecRequests} from "boxrec-requests";
 import {BoxrecFighterOption, BoxrecRole, Country} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as fs from "fs";
@@ -132,27 +132,27 @@ describe("class Boxrec", () => {
 
     describe("method getPersonById", () => {
 
-        it("should make a POST request to https://boxrec.com/en/quick_search if no role specified", async () => {
-            const spy: SpyInstance = jest.spyOn(rp, "get");
+        it("should not pass a role to boxrec-requests if none was specified", async () => {
+            const spy: SpyInstance = jest.spyOn(BoxrecRequests, "getPersonById");
             spy.mockReturnValueOnce(Promise.resolve(mockProfileBoxerRJJ));
             await Boxrec.getPersonById(loggedInCookie, 555);
-            expect(getLastCall(spy)).toBe("https://boxrec.com/en/quick_search");
+            expect(spy).toHaveBeenCalledWith(loggedInCookie, 555, null, 0);
         });
 
-        it("should make a GET request to a `judge` endpoint if the role is provided", async () => {
-            const spy: SpyInstance = jest.spyOn(rp, "get");
-            spy.mockReturnValueOnce(Promise.resolve(mockProfileJudgeDaveMoretti));
-            await Boxrec.getPersonById(loggedInCookie, 1, BoxrecRole.judge);
-            expect(getLastCall(spy)).toBe("https://boxrec.com/en/judge/1");
+        it("should pass `judge` as role if role is provided", async () => {
+            const spy: SpyInstance = jest.spyOn(BoxrecRequests, "getPersonById");
+            spy.mockReturnValueOnce(Promise.resolve(""));
+            spy.mockReturnValueOnce(Promise.resolve(""));
+            await Boxrec.getPersonById(loggedInCookie, 401002, BoxrecRole.judge);
+            expect(spy).toHaveBeenCalledWith(loggedInCookie, 401002, BoxrecRole.judge, 0);
         });
 
         it("supplying an `offset` value will append this to the URL", async () => {
-            const spy: SpyInstance = jest.spyOn(rp, "get");
-            spy.mockReturnValueOnce(Promise.resolve(mockProfileJudgeDaveMoretti));
-            await Boxrec.getPersonById(loggedInCookie, 1, BoxrecRole.judge, 20);
-            expect(getLastCall(spy, "qs")).toEqual({
-                offset: 20,
-            });
+            const spy: SpyInstance = jest.spyOn(BoxrecRequests, "getPersonById");
+            spy.mockReturnValueOnce(Promise.resolve(""));
+            spy.mockReturnValueOnce(Promise.resolve(""));
+            await Boxrec.getPersonById(loggedInCookie, 401002, BoxrecRole.judge, 20);
+            expect(spy).toHaveBeenCalledWith(loggedInCookie, 401002, BoxrecRole.judge, 20);
         });
 
     });

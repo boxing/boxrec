@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "7.0.2",
+  "version": "7.1.0",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
     "@types/jest": "^22.1.1",
+    "@types/node": "^12.12.5",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
     "boxrec-mocks": "^3.0.1",
@@ -39,7 +40,7 @@
     "ts-jest": "<23.10.0",
     "tslint": "^5.10.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.4.5",
+    "typescript": "^3.7.0",
     "uglifyjs-folder": "^1.5.1"
   },
   "bugs": {
@@ -50,7 +51,7 @@
     "url": "https://github.com/boxing/boxrec"
   },
   "dependencies": {
-    "boxrec-requests": "^5.0.2",
+    "boxrec-requests": "^5.0.4",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
