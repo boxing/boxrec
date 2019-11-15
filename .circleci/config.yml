@@ -36,16 +36,16 @@ jobs:
         name: Run TSLint
         command: npm run tslint
     - run:
-        name: Run tests
+        name: Run tests and push to Coveralls
         command: yarn jest --ci --config=jest.config.json --coverage --runInBand
     - run:
-        name: Push results to Coveralls
-        # Only push to Coveralls if we have the repo token
-        # If the MR is a fork, Coveralls will reject and fail.  Therefore we skip this step
         command: |
-          if [[ -v "${COVERALLS_REPO_TOKEN}" ]]; then
-            cat ./coverage/lcov.info | yarn coveralls
-          fi
+            if [ -z ${COVERALLS_REPO_TOKEN} ]; then
+              cat ./coverage/lcov.info | yarn coveralls
+              echo "Coverage report sent to Coveralls!"
+            else
+              echo "Coverage report not sent to Coveralls.  This could be caused by a fork making a merge request or the env var not being set"
+            fi
     - run:
         name: Generate docs
         command: npm run generate-docs
