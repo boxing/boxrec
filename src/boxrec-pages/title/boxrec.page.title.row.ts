@@ -1,14 +1,12 @@
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {LocationGetter} from "../../decorators/location.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
+import {BoxerWeightInterface, WeightGetter} from "../../decorators/weight.decorator";
 import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {BoxrecProfileCommonRow} from "../profile/boxrec.profile.common.row";
 import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
@@ -16,7 +14,7 @@ import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 @DateGetter()
 @BoxerGetter()
 @BoxerGetter("secondBoxer")
-@FirstBoxerWeightGetter()
+@WeightGetter()
 @LocationGetter(1)
 @MetadataGetter()
 @NumberOfRoundsGetter()
@@ -26,8 +24,9 @@ import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
     "numberOfRounds", "outcome", "rating", "secondBoxer", "secondBoxerWeight",
 ])
 @RatingGetter()
+@WeightGetter("secondBoxerWeight")
 export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
-    implements DateInterface, BoxerInterface, FirstBoxerWeightInterface,
+    implements DateInterface, BoxerInterface, BoxerWeightInterface,
         MetadataInterface, NumberOfRoundsInterface, OutcomeInterface, OutputInterface,
         RatingInterface {
 
@@ -42,12 +41,8 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     output: BoxrecPageTitleRowOutput;
     rating: number | null;
     secondBoxer: BoxrecBasic;
+    secondBoxerWeight: number | null;
 
     protected readonly $: CheerioStatic;
-
-    get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.secondFighterWeight, false));
-    }
 
 }

@@ -1,6 +1,6 @@
-import { BoxrecPageLocationEventRow } from "../boxrec-pages/location/event/boxrec.page.location.event.row";
-import { BoxrecPageLocationBoxerRow } from "../boxrec-pages/location/people/boxrec.page.location.boxer.row";
-import { BoxrecPageLocationPeopleRow } from "../boxrec-pages/location/people/boxrec.page.location.people.row";
+import {BoxrecPageLocationEventRow} from "../boxrec-pages/location/event/boxrec.page.location.event.row";
+import {BoxrecPageLocationBoxerRow} from "../boxrec-pages/location/people/boxrec.page.location.boxer.row";
+import {BoxrecPageLocationPeopleRow} from "../boxrec-pages/location/people/boxrec.page.location.people.row";
 import {BoxrecPageProfileEventRow} from "../boxrec-pages/profile/boxrec.page.profile.event.row";
 import {BoxrecPageVenueEventsRow} from "../boxrec-pages/venue/boxrec.page.venue.events.row";
 import {getHeaderColumnText} from "../helpers";

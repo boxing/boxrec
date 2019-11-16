@@ -1,5 +1,5 @@
 import {BoxrecPageLists} from "../../../boxrec-common-tables/boxrec-page-lists";
-import { ListingsGetter, ListingsInterface } from "../../../decorators/listings.decorator";
+import {ListingsGetter, ListingsInterface} from "../../../decorators/listings.decorator";
 import {OutputGetter, OutputInterface} from "../../../decorators/output.decorator";
 import {BoxrecPageLocationPeopleOutput} from "./boxrec.location.people.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";

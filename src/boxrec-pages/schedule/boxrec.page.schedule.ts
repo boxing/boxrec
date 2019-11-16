@@ -1,4 +1,4 @@
-import { EventsBoutsGetter, EventsBoutsInterface } from "../../decorators/events.bouts.decorator";
+import {EventsBoutsGetter, EventsBoutsInterface} from "../../decorators/events.bouts.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {stripCommas} from "../../helpers";
 import {BoxrecEventOutput} from "../event/boxrec.event.constants";

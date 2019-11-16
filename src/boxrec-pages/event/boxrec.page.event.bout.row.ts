@@ -4,11 +4,11 @@ import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links"
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
-import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
+import {BoxerWeightInterface, WeightGetter} from "../../decorators/weight.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
@@ -17,7 +17,6 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
 @BoxerGetter()
 @BoxerGetter("secondBoxer")
 @DivisionGetter()
-@FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter()
 @OutputGetter([
@@ -27,9 +26,11 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
     "secondBoxerLast6", "secondBoxerRecord", "secondBoxerWeight", "sport"
 ])
 @RatingGetter()
+@WeightGetter()
+@WeightGetter("secondBoxerWeight")
 export class BoxrecPageEventBoutRow
     implements DivisionInterface,
-        BoxerInterface, FirstBoxerWeightInterface,
+        BoxerInterface, BoxerWeightInterface,
         MetadataInterface, OutcomeInterface, OutputInterface, RatingInterface {
 
     division: WeightDivision | null;
@@ -39,6 +40,8 @@ export class BoxrecPageEventBoutRow
     outcome: WinLossDraw | null;
     output: BoxrecEventBoutRowOutput;
     rating: number | null;
+    secondBoxer: BoxrecBasic;
+    secondBoxerWeight: number | null;
 
     private readonly $: CheerioStatic;
 
@@ -89,11 +92,6 @@ export class BoxrecPageEventBoutRow
     get secondBoxerRecord(): Record {
         return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.secondRecord));
-    }
-
-    get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
     // todo the value returned does not match the typedef

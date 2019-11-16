@@ -2,11 +2,11 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
 import {BoxerGetter} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
+import {BoxerWeightInterface, WeightGetter} from "../../decorators/weight.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
 import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
@@ -15,7 +15,6 @@ import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
 @BoxerGetter("secondBoxer")
 @DateGetter()
-@FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
 @OutputGetter([
@@ -39,8 +38,10 @@ import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
     "titles"
 ])
 @RatingGetter()
+@WeightGetter()
+@WeightGetter("secondBoxerWeight")
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
-    implements DateInterface, FirstBoxerWeightInterface,
+    implements DateInterface, BoxerWeightInterface,
         MetadataInterface, OutcomeInterface, OutputInterface, RatingInterface {
 
     date: string;
@@ -49,6 +50,7 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     outcome: WinLossDraw;
     output: BoxrecProfileBoxerBoutOutput;
     rating: number | null;
+    secondBoxerWeight: number | null;
 
     /**
      * Parses Before/After ratings of a boxer
@@ -146,11 +148,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     get secondBoxerRecord(): Record {
         return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.record));
-    }
-
-    get secondBoxerWeight(): number | null {
-        return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.secondFighterWeight, false));
     }
 
     get titles(): BoxrecTitles[] {
