@@ -6,6 +6,7 @@ import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
+import {LocationGetter} from "../../decorators/location.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
@@ -21,6 +22,7 @@ import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 @DateGetter()
 @DivisionGetter()
 @FirstBoxerWeightGetter()
+@LocationGetter(1)
 @MetadataGetter()
 @NumberOfRoundsGetter()
 @OutcomeGetter()
@@ -36,6 +38,7 @@ export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, Bo
     division: WeightDivision | null;
     firstBoxer: BoxrecBasic;
     firstBoxerWeight: number | null;
+    location: BoxrecLocation;
     metadata: string | null;
     // todo can we use parsing helper method?
     numberOfRounds: number[];
@@ -57,11 +60,6 @@ export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, Bo
             event: null,
             other: [], // any other links we'll throw the whole href attribute in here
         });
-    }
-
-    get location(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.location), 1);
     }
 
     get secondBoxerWeight(): number | null {
