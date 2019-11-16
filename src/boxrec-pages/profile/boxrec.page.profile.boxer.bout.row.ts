@@ -1,5 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
+import {BoxerGetter} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
@@ -12,6 +13,7 @@ import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
 import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
+@BoxerGetter("secondBoxer")
 @DateGetter()
 @FirstBoxerWeightGetter()
 @MetadataGetter()
@@ -121,11 +123,6 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
             BoxrecPageProfileBoxerBoutRow.outcomeByWayOf(result),
             BoxrecPageProfileBoxerBoutRow.outcomeByWayOf(result, true)
         ];
-    }
-
-    get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
