@@ -2,9 +2,9 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
+import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
-import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
@@ -16,9 +16,10 @@ import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
 
+@BoxerGetter()
+@BoxerGetter("secondBoxer")
 @DateGetter()
 @DivisionGetter()
-@FirstBoxerGetter()
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @NumberOfRoundsGetter()
@@ -27,7 +28,7 @@ import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
     "location", "metadata", "numberOfRounds", "outcome", "rating", "secondBoxer", "secondBoxerWeight",
 ])
 @RatingGetter()
-export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, FirstBoxerInterface,
+export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, BoxerInterface,
     FirstBoxerWeightInterface, MetadataInterface,
     NumberOfRoundsInterface, OutcomeInterface, OutputInterface, RatingInterface {
 
@@ -61,11 +62,6 @@ export class BoxrecPageTitlesRow implements DateInterface, DivisionInterface, Fi
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.location), 1);
-    }
-
-    get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerWeight(): number | null {

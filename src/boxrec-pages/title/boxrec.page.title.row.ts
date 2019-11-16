@@ -1,6 +1,6 @@
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
@@ -13,7 +13,8 @@ import {BoxrecProfileCommonRow} from "../profile/boxrec.profile.common.row";
 import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 
 @DateGetter()
-@FirstBoxerGetter()
+@BoxerGetter()
+@BoxerGetter("secondBoxer")
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @NumberOfRoundsGetter()
@@ -24,7 +25,7 @@ import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 ])
 @RatingGetter()
 export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
-    implements DateInterface, FirstBoxerInterface, FirstBoxerWeightInterface,
+    implements DateInterface, BoxerInterface, FirstBoxerWeightInterface,
         MetadataInterface, NumberOfRoundsInterface, OutcomeInterface, OutputInterface,
         RatingInterface {
 
@@ -37,17 +38,13 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     outcome: WinLossDraw;
     output: BoxrecPageTitleRowOutput;
     rating: number | null;
+    secondBoxer: BoxrecBasic;
 
     protected readonly $: CheerioStatic;
 
     get location(): BoxrecLocation {
         return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.location), 1);
-    }
-
-    get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerWeight(): number | null {

@@ -2,8 +2,8 @@ import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants"
 import * as cheerio from "cheerio";
 import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
+import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
-import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
@@ -14,8 +14,9 @@ import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
 
+@BoxerGetter()
+@BoxerGetter("secondBoxer")
 @DivisionGetter()
-@FirstBoxerGetter()
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter()
@@ -28,7 +29,7 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
 @RatingGetter()
 export class BoxrecPageEventBoutRow
     implements DivisionInterface,
-        FirstBoxerInterface, FirstBoxerWeightInterface,
+        BoxerInterface, FirstBoxerWeightInterface,
         MetadataInterface, OutcomeInterface, OutputInterface, RatingInterface {
 
     division: WeightDivision | null;
@@ -78,11 +79,6 @@ export class BoxrecPageEventBoutRow
     get outcomeByWayOf(): string | null {
         return BoxrecCommonTablesColumnsClass.parseOutcomeByWayOf(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.outcomeByWayOf));
-    }
-
-    get secondBoxer(): BoxrecBasic {
-        return BoxrecCommonTablesColumnsClass.parseNameAndId(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.opponent));
     }
 
     get secondBoxerLast6(): WinLossDraw[] {
