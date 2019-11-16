@@ -1,5 +1,5 @@
-import { BoxrecDateEvent } from "../boxrec-pages/date/boxrec.date.event";
-import { BoxrecPageEvent } from "../boxrec-pages/event/boxrec.page.event";
+import {BoxrecDateEvent} from "../boxrec-pages/date/boxrec.date.event";
+import {BoxrecPageEvent} from "../boxrec-pages/event/boxrec.page.event";
 
 /**
  * Adds a getter to the class that returns the events section of a table

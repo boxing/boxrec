@@ -1,4 +1,4 @@
-import { ListingsGetter, ListingsInterface } from "../../../decorators/listings.decorator";
+import {ListingsGetter, ListingsInterface} from "../../../decorators/listings.decorator";
 import {BoxrecPageLocationBoxerRow} from "./boxrec.page.location.boxer.row";
 import {BoxrecPageLocationPeople} from "./boxrec.page.location.people";
 
