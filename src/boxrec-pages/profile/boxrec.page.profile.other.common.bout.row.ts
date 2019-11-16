@@ -2,17 +2,19 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {BoxerGetter} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
+import {LocationGetter} from "../../decorators/location.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
 import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
-import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
+import {Record, WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
 import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
 
 @BoxerGetter("secondBoxer")
 @DateGetter()
 @FirstBoxerWeightGetter()
+@LocationGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
 @RatingGetter()
@@ -31,11 +33,6 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     get firstBoxerRating(): Array<number | null> {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.firstRating));
-    }
-
-    get location(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.location));
     }
 
     get numberOfRounds(): Array<number | null> {

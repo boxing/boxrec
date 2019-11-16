@@ -2,6 +2,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {BoxerGetter, BoxerInterface} from "../../decorators/boxer.decorator";
 import {DateGetter, DateInterface} from "../../decorators/date.decorator";
 import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
+import {LocationGetter} from "../../decorators/location.decorator";
 import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
 import {NumberOfRoundsGetter, NumberOfRoundsInterface} from "../../decorators/numberOfRounds.decorator";
 import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
@@ -16,6 +17,7 @@ import {BoxrecPageTitleRowOutput} from "./boxrec.page.title.constants";
 @BoxerGetter()
 @BoxerGetter("secondBoxer")
 @FirstBoxerWeightGetter()
+@LocationGetter(1)
 @MetadataGetter()
 @NumberOfRoundsGetter()
 @OutcomeGetter()
@@ -32,6 +34,7 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     date: string;
     firstBoxer: BoxrecBasic;
     firstBoxerWeight: number | null;
+    location: BoxrecLocation;
     metadata: string | null;
     // todo can we use parsing helper method?
     numberOfRounds: number[];
@@ -41,11 +44,6 @@ export class BoxrecPageTitleRow extends BoxrecProfileCommonRow
     secondBoxer: BoxrecBasic;
 
     protected readonly $: CheerioStatic;
-
-    get location(): BoxrecLocation {
-        return BoxrecCommonTablesColumnsClass.parseLocationLink(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.location), 1);
-    }
 
     get secondBoxerWeight(): number | null {
         return BoxrecCommonTablesColumnsClass.parseWeight(getColumnDataByColumnHeader(this.$, this.headerColumns,
