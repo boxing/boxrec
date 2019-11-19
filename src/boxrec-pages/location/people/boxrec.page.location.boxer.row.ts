@@ -2,6 +2,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxr
 import {DivisionGetter, DivisionInterface} from "../../../decorators/division.decorator";
 import {Last6Getter, Last6Interface} from "../../../decorators/last6.decorator";
 import {OutputGetter, OutputInterface} from "../../../decorators/output.decorator";
+import {RecordGetter, RecordInterface} from "../../../decorators/record.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
 import {Record, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
@@ -14,21 +15,18 @@ import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 @DivisionGetter()
 @Last6Getter()
 @OutputGetter(["career", "division", "id", "last6", "location", "miles", "name", "record", "sex"])
+@RecordGetter()
 export class BoxrecPageLocationBoxerRow extends BoxrecPageLocationPeopleRow
-    implements DivisionInterface, Last6Interface, OutputInterface {
+    implements DivisionInterface, Last6Interface, OutputInterface, RecordInterface {
 
     division: WeightDivision | null;
     last6: WinLossDraw[];
     output: BoxrecPageLocationBoxerRowOutput;
+    record: Record;
 
     get career(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseCareer(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.career));
-    }
-
-    get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.record));
     }
 
 }
