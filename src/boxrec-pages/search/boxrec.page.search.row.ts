@@ -5,6 +5,7 @@ import {DivisionGetter, DivisionInterface} from "../../decorators/division.decor
 import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 import {Last6Getter, Last6Interface} from "../../decorators/last6.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
+import {RecordGetter, RecordInterface} from "../../decorators/record.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
@@ -17,12 +18,15 @@ import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
 @OutputGetter(["alias", "career", "division", "id", "last6", "name", "record", "residence",
     "sport" // todo is not part roles other than fighters
 ])
-export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, Last6Interface, OutputInterface {
+@RecordGetter()
+export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, Last6Interface,
+    OutputInterface, RecordInterface {
 
     division: WeightDivision | null;
     id: number;
     last6: WinLossDraw[];
     output: BoxrecPageSearchRowOutput;
+    record: Record;
 
     private readonly $: CheerioStatic;
 
@@ -46,11 +50,6 @@ export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, Last
         const nameIdEl: string = `<div>${getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.name)}</div>`;
         return BoxrecCommonTablesColumnsClass.parseAlias(this.$(nameIdEl).find("a").text());
-    }
-
-    get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.record));
     }
 
     get residence(): BoxrecLocation {

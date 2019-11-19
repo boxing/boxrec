@@ -2,16 +2,19 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {IdGetter, IdInterface} from "../../decorators/id.decorator";
 import {Last6Getter, Last6Interface} from "../../decorators/last6.decorator";
+import {RecordGetter, RecordInterface} from "../../decorators/record.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 
 @IdGetter()
 @Last6Getter()
-export abstract class BoxrecPageRatingsRow implements IdInterface, Last6Interface {
+@RecordGetter()
+export abstract class BoxrecPageRatingsRow implements IdInterface, Last6Interface, RecordInterface {
 
     id: number;
     // `record` and `last6` *were* lumped under the same `td` at one point
     last6: WinLossDraw[];
+    record: Record;
 
     protected readonly $: CheerioStatic;
 
@@ -36,11 +39,6 @@ export abstract class BoxrecPageRatingsRow implements IdInterface, Last6Interfac
         const points: number = parseInt(pointsData, 10);
 
         return !isNaN(points) ? points : null;
-    }
-
-    get record(): Record {
-        return BoxrecCommonTablesColumnsClass.parseRecord(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.record));
     }
 
     get residence(): BoxrecLocation {
