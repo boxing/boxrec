@@ -1,15 +1,18 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
+import {Last6Getter, Last6Interface} from "../../decorators/last6.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
 // used for boxer rows under a manager
 @DivisionGetter()
-export class BoxrecPageProfileManagerBoxerRow implements DivisionInterface {
+@Last6Getter()
+export class BoxrecPageProfileManagerBoxerRow implements DivisionInterface, Last6Interface {
 
     division: WeightDivision | null;
+    last6: WinLossDraw[];
 
     private readonly $: CheerioStatic;
 
@@ -37,11 +40,6 @@ export class BoxrecPageProfileManagerBoxerRow implements DivisionInterface {
         }
 
         return null;
-    }
-
-    get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$,
-            this.headerColumns, BoxrecCommonTableHeader.firstLast6));
     }
 
     get name(): string {
