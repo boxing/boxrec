@@ -3,6 +3,7 @@ import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
 import {IdGetter, IdInterface} from "../../decorators/id.decorator";
+import {Last6Getter, Last6Interface} from "../../decorators/last6.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
@@ -12,13 +13,15 @@ import {BoxrecPageSearchRowOutput} from "./boxrec.search.constants";
 // includes BoxRec role regardless of searching for all fighters or a specific fight role
 @DivisionGetter()
 @IdGetter()
+@Last6Getter()
 @OutputGetter(["alias", "career", "division", "id", "last6", "name", "record", "residence",
     "sport" // todo is not part roles other than fighters
 ])
-export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, OutputInterface {
+export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, Last6Interface, OutputInterface {
 
     division: WeightDivision | null;
     id: number;
+    last6: WinLossDraw[];
     output: BoxrecPageSearchRowOutput;
 
     private readonly $: CheerioStatic;
@@ -37,11 +40,6 @@ export class BoxrecPageSearchRow implements DivisionInterface, IdInterface, Outp
     get career(): Array<number | null> {
         return BoxrecCommonTablesColumnsClass.parseCareer(getColumnDataByColumnHeader(this.$, this.headerColumns,
             BoxrecCommonTableHeader.career, false));
-    }
-
-    get last6(): WinLossDraw[] {
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.firstLast6));
     }
 
     get name(): string | null {

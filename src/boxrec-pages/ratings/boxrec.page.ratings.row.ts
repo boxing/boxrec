@@ -1,13 +1,17 @@
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {IdGetter, IdInterface} from "../../decorators/id.decorator";
+import {Last6Getter, Last6Interface} from "../../decorators/last6.decorator";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 
 @IdGetter()
-export abstract class BoxrecPageRatingsRow implements IdInterface {
+@Last6Getter()
+export abstract class BoxrecPageRatingsRow implements IdInterface, Last6Interface {
 
     id: number;
+    // `record` and `last6` *were* lumped under the same `td` at one point
+    last6: WinLossDraw[];
 
     protected readonly $: CheerioStatic;
 
@@ -19,12 +23,6 @@ export abstract class BoxrecPageRatingsRow implements IdInterface {
     get hasBoutScheduled(): boolean {
         return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.name, false)
             .slice(-1) === "*";
-    }
-
-    get last6(): WinLossDraw[] {
-        // `record` and `last6` *were* lumped under the same `td` at one point
-        return BoxrecCommonTablesColumnsClass.parseLast6Column(
-            getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.firstLast6));
     }
 
     get name(): string {
