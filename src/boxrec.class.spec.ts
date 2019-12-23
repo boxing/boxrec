@@ -94,7 +94,7 @@ describe("class Boxrec", () => {
 
         it("should throw an error if GDPR consent has not been given to BoxRec", async () => {
             const spy: SpyInstance = jest.spyOn(rp, "post");
-            spy.mockReturnValueOnce(Promise.resolve(Object.assign({body: "<div>GDPR</div>"}, emptyUriPathName)));
+            spy.mockReturnValueOnce(Promise.resolve({body: "", request: {uri: {pathname: "gdpr"}}})); // resolve because 200 response
             await expect(Boxrec.login("", "")).rejects.toThrowError("GDPR consent is needed with this account.  Log into BoxRec through their website and accept before using this account");
         });
 
