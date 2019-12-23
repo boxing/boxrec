@@ -1,7 +1,7 @@
-import {BoxingBoutOutcome} from "boxrec-requests/dist/boxrec-requests.constants";
 import * as cheerio from "cheerio";
 import * as querystring from "querystring";
 import {ParsedUrlQuery} from "querystring";
+import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
 
 /**
  * Converts fractional symbols into decimals

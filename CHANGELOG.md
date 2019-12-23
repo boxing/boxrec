@@ -1,3 +1,9 @@
+## 7.1.1 (2019-12-23)
+
+### Fixed
+
+-   Update `boxrec-requests` dependency.  It had too strict of a check for GDPR which was preventing logging in 
+
 ## 7.1.0 (2019-11-05)
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "7.1.0",
+  "version": "7.1.1",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -29,6 +29,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@snyk/cli-interface": "^2.3.0",
     "@types/cheerio": "^0.22.7",
     "@types/jest": "^22.1.1",
     "@types/node": "^12.12.5",
@@ -51,7 +52,7 @@
     "url": "https://github.com/boxing/boxrec"
   },
   "dependencies": {
-    "boxrec-requests": "^5.0.4",
+    "boxrec-requests": "^5.0.5",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
