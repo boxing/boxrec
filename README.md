@@ -81,7 +81,7 @@ console.log(gennadyGolovkin.bouts[37].opponent.name); // Saul Alvarez
 boxrec.getPersonById(cookieJar, 401615, BoxrecRole.judge); // judge CJ Ross
 ```
 
-Additionally to get JSON output of all boxer data use `gennadyGolovkin.output`
+Additionally to get JSON output of all boxer data in the above example use `gennadyGolovkin.output`
 
 Output:
 ```{
@@ -156,6 +156,7 @@ Output:
                 "secondBoxerWeight": null,
                 "titles": []
             },
+            ...
             ...
             ...
         ],
