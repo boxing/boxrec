@@ -2,7 +2,7 @@ import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-
 import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
 import {parseHeight, trimRemoveLineBreaks} from "../../helpers";
-import {Stance} from "../boxrec.constants";
+import {Record, Stance} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 import {BoxrecPageProfile} from "./boxrec.page.profile";
 import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
@@ -21,7 +21,7 @@ import {BoxrecProfileTable} from "./boxrec.profile.constants";
         method: "bouts",
     }, "debut", "division", "globalId", "hasBoutScheduled",
     "height", "name", "nationality", "numberOfBouts", "otherInfo",
-    "picture", "ranking", "rating", "reach", "residence",
+    "picture", "ranking", "rating", "reach", "record", "residence",
     "role", "rounds", "stance", "status", "suspended",
     "titlesHeld", "vadacbp",
 ])
@@ -252,6 +252,34 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
         }
 
         return null;
+    }
+
+    get record(): Record {
+        const record: Record = {
+            draw: null,
+            loss: null,
+            win: null,
+        };
+        // the record bar is the bar that above the profile that displays the record of the person
+        const recordBar: Cheerio = this.$(".profileWLD tr:nth-child(1)");
+
+        const win: string = recordBar.find("td:nth-child(1)").text();
+        const loss: string = recordBar.find("td:nth-child(2)").text();
+        const draw: string = recordBar.find("td:nth-child(3)").text();
+
+        if (win) {
+            record.win = parseInt(win, 10);
+        }
+
+        if (loss) {
+            record.loss = parseInt(loss, 10);
+        }
+
+        if (draw) {
+            record.draw = parseInt(draw, 10);
+        }
+
+        return record;
     }
 
     /**
