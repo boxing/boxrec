@@ -1,3 +1,9 @@
+## 7.1.2 (2020-09-23)
+
+### Fixed
+
+- Boxer profile was not returning record
+
 ## 7.1.1 (2019-12-23)
 
 ### Fixed
