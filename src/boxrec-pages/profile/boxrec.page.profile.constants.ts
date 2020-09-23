@@ -34,6 +34,7 @@ export interface BoxrecProfileBoxerOutput extends BoxrecProfileOutput {
     ranking: number[][] | null;
     rating: number | null;
     reach: number[] | null;
+    record: Record;
     rounds: number | null;
     stance: string | null;
     suspended: string | null;

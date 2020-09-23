@@ -87,6 +87,12 @@ describe("class BoxrecPageProfile", () => {
                     expect(outputGGG.rating).toEqual(jasmine.any(Number));
                 });
 
+                it("should return boxer's record", () => {
+                    expect(outputRJJ.record.win).toBeGreaterThanOrEqual(66);
+                    expect(outputRJJ.record.draw).toBeGreaterThanOrEqual(0);
+                    expect(outputRJJ.record.loss).toBeGreaterThanOrEqual(9);
+                });
+
                 it("should return the URL of the person's profile picture", () => {
                     // was previously "https://static.boxrec.com/thumb"
                     expect(outputRJJ.picture)
