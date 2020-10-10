@@ -1,3 +1,9 @@
+## 7.1.3 (2020-10-09)
+
+### Added
+
+- Added that BoxRec will now block users that abuse requests to their service
+
 ## 7.1.2 (2020-09-23)
 
 ### Fixed

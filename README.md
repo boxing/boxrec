@@ -7,6 +7,10 @@
 This project allows you to query information from [BoxRec](http://boxrec.com) and return it in JSON format.
 The purpose of this project is to act as an API for BoxRec.
 
+## :warning: Notice before using this package :warning:
+
+BoxRec has put in some work that will throw captchas if making too many quick requests and IP block you if you trip their firewall.  For the sole purpose of blocking packages like this, which is understandable.  But at the cost of making it a worse UX for actual people.  If you use this project you put yourself at risk of being IP banned by BoxRec for some time, not by user but by IP.  This is automatic from their firewall and not something they do manually.  There are ways to get by this but nothing to discuss about at this time.  Use this package for learning purposes at this time.
+
 ## Installation
 
 This project is written in [Node](http://nodejs.org).  Currently this project supports Node 8-10. 
