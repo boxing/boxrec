@@ -5,7 +5,7 @@ jobs:
   # Build job that installs and saves cache
   build:
     docker:
-    - image: circleci/node:8.9.4
+    - image: circleci/node:11.0.0
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
     - run:
@@ -26,7 +26,7 @@ jobs:
   # Does not require dependencies installed
   lint_and_test:
     docker:
-    - image: circleci/node:8.9.4
+    - image: circleci/node:11.0.0
     steps: # a collection of executable commands
     - checkout
     - restore_cache: # special step to restore the dependency cache
