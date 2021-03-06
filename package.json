@@ -15,7 +15,7 @@
     "test:coverage": "yarn test --coverage",
     "test:coverage:watch": "yarn test:coverage --watchAll",
     "test:watch": "yarn test --watchAll",
-    "test-e2e": "jest --config jest.config.e2e.json --runInBand",
+    "test-e2e": "jest --config jest.config.e2e.json --runInBand --bail",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
     "test-watch": "jest --config jest.config.json --watchAll",
     "tslint": "tslint -c tslint.json src/**/*.ts"
