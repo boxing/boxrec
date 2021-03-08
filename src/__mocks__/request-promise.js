@@ -1,5 +1,5 @@
 const rp = (jest).fn((/*uri*/) => {
-    //
+    return {};
 });
 
 const PHPSESSID = "PHPSESSID=fakeaebcll1kss57th16nkg111";

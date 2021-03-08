@@ -20,13 +20,13 @@ import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
 import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
-import {BoxrecPageTitleRow} from "./boxrec-pages/title/boxrec.page.title.row";
 import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 import {Boxrec} from "./boxrec.class";
+import DoneCallback = jest.DoneCallback;
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
@@ -49,12 +49,24 @@ const expectId: (id: number | null, expectedId: any) => void = (id: number | nul
 const expectMatchDate: (date: string | null) => void = (date: string | null) =>
     expect(date).toMatch(/\d{4}-\d{2}-\d{2}/);
 
+const wait: (done: DoneCallback) => void = (done: DoneCallback) => setTimeout(done, 5000);
+
 describe("class Boxrec (E2E)", () => {
 
     let loggedInCookie: CookieJar;
+    let num: number = 0;
 
-    beforeAll(async () => {
+    beforeAll(async done => {
         loggedInCookie = await Boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+        wait(done);
+    });
+
+    // delay each test so we don't get blocked by BoxRec
+    beforeEach(done => {
+        num++;
+        // tslint:disable-next-line:no-console
+        console.log(num);
+        wait(done);
     });
 
     describe("method getBoutById", () => {
@@ -1234,7 +1246,7 @@ describe("class Boxrec (E2E)", () => {
 
             describe("bout values", () => {
 
-                let mostRecentWBCBout: BoxrecPageTitleRow;
+                let mostRecentWBCBout: BoxrecPageTitlesRow;
 
                 beforeAll(() => {
                     mostRecentWBCBout = WBCMiddleweightResult.bouts[0];
@@ -1320,8 +1332,8 @@ describe("class Boxrec (E2E)", () => {
 
         it("should include watched boxers", async () => {
             const response: BoxrecPageWatchRow[] = await Boxrec.getWatched(loggedInCookie);
-            const find: BoxrecPageWatchRow | undefined = response.find(item => item.globalId === 447121);
-            expect(find).toBeDefined();
+            const boxer: BoxrecPageWatchRow | undefined = response.find(item => item.globalId === 447121);
+            expect(boxer).toBeDefined();
         });
 
     });

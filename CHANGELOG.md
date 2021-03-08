@@ -1,14 +1,20 @@
+## 7.1.4 (2021-03-08)
+
+### Fixed
+
+-   Updated `boxrec-requests` to 5.1.1 which includes a login fix for logging into BoxRec
+
 ## 7.1.3 (2020-10-09)
 
 ### Added
 
-- Added that BoxRec will now block users that abuse requests to their service
+-   Added that BoxRec will now block users that abuse requests to their service
 
 ## 7.1.2 (2020-09-23)
 
 ### Fixed
 
-- Boxer profile was not returning record
+-   Boxer profile was not returning record
 
 ## 7.1.1 (2019-12-23)
 
