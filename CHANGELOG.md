@@ -1,3 +1,9 @@
+## 7.1.5 (2021-05-08)
+
+### Fixed
+
+-   `getPersonById` should work by bumping `boxrec-requests` version
+
 ## 7.1.4 (2021-03-08)
 
 ### Fixed

@@ -5,6 +5,7 @@ src/
 coverage/
 *.log
 docs/
+tmp/
 
 # ignore webpack
 webpack*.js
