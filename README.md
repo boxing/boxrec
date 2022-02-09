@@ -1,6 +1,8 @@
 # BoxRec
-[![CircleCI](https://circleci.com/gh/boxing/boxrec.svg?style=svg)](https://circleci.com/gh/boxing/boxrec) [![Coverage Status](https://coveralls.io/repos/github/boxing/boxrec/badge.svg?branch=master)](https://coveralls.io/github/boxing/boxrec?branch=master) [![dependencies Status](https://david-dm.org/boxing/boxrec/status.svg)](https://david-dm.org/boxing/boxrec) [![devDependencies Status](https://david-dm.org/boxing/boxrec/dev-status.svg)](https://david-dm.org/boxing/boxrec?type=dev) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1643/badge)](https://bestpractices.coreinfrastructure.org/projects/1643) [![npm version](https://badge.fury.io/js/boxrec.svg)](https://badge.fury.io/js/boxrec)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9618d7ebf6454a638f0357406d1e7649)](https://www.codacy.com/app/mikedidomizio/boxrec?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=boxing/boxrec&amp;utm_campaign=Badge_Grade)
+[![CircleCI](https://circleci.com/gh/boxing/boxrec.svg?style=svg)](https://circleci.com/gh/boxing/boxrec) 
+[![Coverage Status](https://coveralls.io/repos/github/boxing/boxrec/badge.svg?branch=master)](https://coveralls.io/github/boxing/boxrec?branch=master)  
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1643/badge)](https://bestpractices.coreinfrastructure.org/projects/1643) 
+[![npm version](https://badge.fury.io/js/boxrec.svg)](https://badge.fury.io/js/boxrec)
 [![DeepScan grade](https://deepscan.io/api/teams/3514/projects/5187/branches/40336/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3514&pid=5187&bid=40336)
 [![Known Vulnerabilities](https://snyk.io/test/github/boxing/boxrec/badge.svg?targetFile=package.json)](https://snyk.io/test/github/boxing/boxrec?targetFile=package.json)
 
@@ -10,6 +12,15 @@ The purpose of this project is to act as an API for BoxRec.
 ## :warning: Notice before using this package :warning:
 
 BoxRec has put in some work that will throw captchas if making too many quick requests and IP block you if you trip their firewall.  For the sole purpose of blocking packages like this, which is understandable.  But at the cost of making it a worse UX for actual people.  If you use this project you put yourself at risk of being IP banned by BoxRec for some time, not by user but by IP.  This is automatic from their firewall and not something they do manually.  There are ways to get by this but nothing to discuss about at this time.  Use this package for learning purposes at this time.
+
+## :warning: Maintenance :warning:
+
+A few years ago a lot of time was spent on this project, but not so much at the time of this update.  With the changes that go into BoxRec, it is always a game of 
+cat and mouse when it comes to keeping things working.  Do not expect this package to continuously work.
+
+If you do find issues, please [raise an issue](https://github.com/boxing/boxrec/issues) so others are aware and so they can be triaged.
+
+Thanks
 
 ## Installation
 
