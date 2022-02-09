@@ -1,3 +1,9 @@
+## 7.1.5 (2022-02-09)
+
+### Fixed
+
+-   Another update to `boxrec-requests` to 5.1.3 which should fix getting boxers
+
 ## 7.1.4 (2021-03-08)
 
 ### Fixed
