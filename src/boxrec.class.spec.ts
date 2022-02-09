@@ -25,7 +25,7 @@ const testFileWrite: any =
         return expect(spyStream).toHaveBeenCalledWith(pathFileName);
     };
 
-describe("class Boxrec", () => {
+describe.skip("class Boxrec", () => {
 
     const loggedInCookie: CookieJar = rp.jar();
 
