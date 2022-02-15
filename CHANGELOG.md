@@ -1,3 +1,9 @@
+## 7.1.6 (2022-02-14)
+
+### Fixed
+
+-   Another update to `boxrec-requests` to 5.1.4 which should fix the packaged version of `boxrec-requests`
+
 ## 7.1.5 (2022-02-09)
 
 ### Fixed
