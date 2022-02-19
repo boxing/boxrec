@@ -55,7 +55,7 @@
     "boxrec-requests": "5.1.4",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4",
+    "request-promise": "^4.2.6",
     "snyk": "^1.226.2"
   },
   "snyk": true
