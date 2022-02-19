@@ -225,11 +225,14 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
     }
 
     get rating(): number | null {
-        let starRating: string | null = this.$(".starRating").parent().html();
+        // todo what about the half star if or no stars?
+        const fullStarClassName: string = ".fa-star";
+        const halfStarClassName: string = ".fa-half-star";
+        let starRating: string | null = this.$(`${fullStarClassName},${halfStarClassName}`).parents("div").html();
         if (starRating) {
             starRating = `<div>${starRating}</div>`;
 
-            return BoxrecCommonTablesColumnsClass.parseRating(starRating);
+            return BoxrecCommonTablesColumnsClass.parseRating(starRating, fullStarClassName, halfStarClassName);
         }
 
         return null;

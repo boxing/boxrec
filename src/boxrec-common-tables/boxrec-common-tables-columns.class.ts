@@ -275,25 +275,12 @@ export abstract class BoxrecCommonTablesColumnsClass {
         return null;
     }
 
-    static parseRating(htmlString: string): number | null {
+    static parseRating(htmlString: string, fullStarClassName: string, halfStarClassName: string): number | null {
         const html: Cheerio = $(htmlString);
-        let rating: number | null = null;
-        const starRating: Cheerio = html.find(".starRating");
+        const fullStarRating: Cheerio = html.find(fullStarClassName);
+        const halfStarRating: Cheerio = html.find(halfStarClassName);
 
-        if (starRating && starRating.get(0)) {
-            const widthString: string = starRating.get(0).attribs.style;
-
-            if (widthString) {
-                const regex: RegExp = /width:\s(\d+)%;/;
-                const widthMatch: RegExpMatchArray | null = widthString.match(regex);
-
-                if (widthMatch && widthMatch[1]) {
-                    rating = parseInt(widthMatch[1], 10);
-                }
-            }
-        }
-
-        return rating;
+        return (fullStarRating.length * 20) + (halfStarRating.length * 10);
     }
 
     static parseRecord(htmlString: string): Record {
