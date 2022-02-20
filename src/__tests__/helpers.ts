@@ -19,7 +19,7 @@ export const expectId: (id: number | null, expectedId: any) => void = (id: numbe
 export const expectMatchDate: (date: string | null) => void = (date: string | null) =>
     expect(date).toMatch(/\d{4}-\d{2}-\d{2}/);
 
-export const logIn: () => Promise<CookieJar> = async (): Promise<CookieJar> => {
+export const logIn: () => Promise<{ madeRequest: boolean, cookieJar: CookieJar}> = async (): Promise<{ madeRequest: boolean, cookieJar: CookieJar}> => {
     const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
     if (!BOXREC_USERNAME) {
@@ -32,6 +32,7 @@ export const logIn: () => Promise<CookieJar> = async (): Promise<CookieJar> => {
 
     let cookieJar: CookieJar = rp.jar();
     let cookieBuffer: Buffer;
+    let madeRequest: boolean = true;
     const tmpPath: string = path.resolve(process.cwd(), "./tmp/cookies.txt");
     const cookieDomain: string = "https://boxrec.com";
     let cookieString: string | null = null;
@@ -39,6 +40,7 @@ export const logIn: () => Promise<CookieJar> = async (): Promise<CookieJar> => {
         cookieBuffer = await fs.readFileSync(tmpPath);
         cookieString = cookieBuffer.toString();
         cookieJar.setCookie(cookieString, cookieDomain);
+        madeRequest = false;
     } catch (e) {
         fs.promises.mkdir(path.resolve(process.cwd(), "./tmp/"), { recursive: true }).catch(console.error);
         // if the file doesn't exist, we login and store the cookie in the "../tmp" directory
@@ -47,5 +49,8 @@ export const logIn: () => Promise<CookieJar> = async (): Promise<CookieJar> => {
         await fs.writeFileSync(tmpPath, newCookieString);
     }
 
-    return cookieJar;
+    return {
+        cookieJar,
+        madeRequest,
+    };
 };

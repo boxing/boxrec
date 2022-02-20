@@ -1,6 +1,6 @@
 import {BoxrecFighterOption, BoxrecRole, Sport} from "boxrec-requests/dist/boxrec-requests.constants";
 import {CookieJar} from "request";
-import {expectId, expectMatchDate} from "./__tests__/helpers";
+import {expectId, expectMatchDate, logIn} from "./__tests__/helpers";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
@@ -43,16 +43,22 @@ jest.unmock("request-promise");
 jest.setTimeout(30000);
 
 // 15000 was fine
-const wait: (done: DoneCallback) => void = (done: DoneCallback) => setTimeout(done, 10000);
+const wait: (done: DoneCallback) => void = (done: DoneCallback) => setTimeout(done, 15000);
 
 describe("class Boxrec (E2E)", () => {
 
     let loggedInCookie: CookieJar;
     let num: number = 0;
 
-    beforeAll(async done => {
-        loggedInCookie = await Boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
-        wait(done);
+    beforeAll(async (done: DoneCallback) => {
+        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
+        loggedInCookie = logInResponse.cookieJar;
+
+        if (logInResponse.madeRequest) {
+            wait(done);
+        } else {
+            done();
+        }
     });
 
     // delay each test so we don't get blocked by BoxRec
