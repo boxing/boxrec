@@ -31,7 +31,6 @@ export interface BoxrecEventBoutOutput {
     firstBoxerKOs: number;
     firstBoxerLast6: BoutPageLast6[];
     firstBoxerPointsAfter: number | null;
-    firstBoxerPointsBefore: number | null;
     firstBoxerRanking: number | null;
     firstBoxerReach: number[] | null;
     firstBoxerRecord: Record;
@@ -54,7 +53,6 @@ export interface BoxrecEventBoutOutput {
     secondBoxerKOs: number;
     secondBoxerLast6: BoutPageLast6[];
     secondBoxerPointsAfter: number | null;
-    secondBoxerPointsBefore: number | null;
     secondBoxerRanking: number | null;
     secondBoxerReach: number[] | null;
     secondBoxerRecord: Record;

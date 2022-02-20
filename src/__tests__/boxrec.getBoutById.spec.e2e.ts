@@ -57,7 +57,6 @@ describe("method getBoutById", () => {
             expect(town.name).toBe("Las Vegas");
             expect(region.name).toBe("Nevada");
             expect(country.id).toBe("US");
-
         });
 
     });
@@ -117,14 +116,6 @@ describe("method getBoutById", () => {
 
         it("should return the ranking", () => {
             expect(caneloKhanBout.secondBoxerRanking).toEqual(jasmine.any(Number));
-        });
-
-    });
-
-    describe("getter firstBoxerPointsBefore", () => {
-
-        it("should return the points", () => {
-            expect(caneloKhanBout.firstBoxerPointsBefore).toEqual(jasmine.any(Number));
         });
 
     });
