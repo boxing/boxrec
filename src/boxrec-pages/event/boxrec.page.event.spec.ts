@@ -1,7 +1,7 @@
 import {mockEventPageBellewHaye2, mockEventPageMayweatherMcGregor} from "boxrec-mocks";
 import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
-import {WinLossDraw} from "../boxrec.constants";
-import {BoxrecEventBoutRowOutput, BoxrecEventOutput, BoxrecPromoter} from "./boxrec.event.constants";
+import {BoxrecBasic, WinLossDraw} from "../boxrec.constants";
+import {BoxrecEventBoutRowOutput, BoxrecEventOutput} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 
 describe("class BoxrecPageEvent", () => {
@@ -70,31 +70,6 @@ describe("class BoxrecPageEvent", () => {
 
         it("should return the id", () => {
             expect(eventBellewHaye2.id).toBe(761332);
-        });
-
-    });
-
-    describe("getter promoter", () => {
-
-        describe("listing the promoter(s)", () => {
-
-            const expectPromoter: (p: BoxrecPromoter[], c: string, i: number, n: string) => void =
-                (promoters: BoxrecPromoter[], companyExpect: string, idExpect: number, nameExpect: string): void => {
-                    const prom: BoxrecPromoter = promoters.find(item => item.id === idExpect) as BoxrecPromoter;
-                    expect(prom.company).toBe(companyExpect);
-                    expect(prom.id).toBe(idExpect);
-                    expect(prom.name).toBe(nameExpect);
-                };
-
-            it("should give the first promoter", () => {
-                // todo these values flip flop back and forth, sort by id or name
-                expectPromoter(eventBellewHaye2.promoters, "Matchroom Boxing", 596434, "Eddie Hearn");
-            });
-
-            it("should give the second promoter", () => {
-                expectPromoter(eventBellewHaye2.promoters, "Hayemaker Promotions", 550318, "David Haye");
-            });
-
         });
 
     });
