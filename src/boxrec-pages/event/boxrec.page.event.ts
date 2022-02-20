@@ -99,7 +99,7 @@ export class BoxrecPageEvent extends BoxrecEvent implements OutputInterface {
             // todo this is because one is for events, one if for bouts.  It's not the best approach and should be refactored
             const locationClone: Cheerio = this.$(".page a[href*='/locations/event']").parents("div").clone();
             locationClone.remove("h2");
-            locationClone.find("a[href*='venue']").remove();
+            locationClone.find("a:nth-child(1)").remove();
             location = locationClone.html();
         }
 

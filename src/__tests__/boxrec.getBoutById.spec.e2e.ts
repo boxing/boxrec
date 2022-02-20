@@ -235,7 +235,8 @@ describe("method getBoutById", () => {
     describe("getter promoter", () => {
 
         it("should return the array of promoters", () => {
-            expect(caneloKhanBout.promoters[0].company).toBe("Golden Boy Promotions");
+            expect(caneloKhanBout.promoters[0].name).toBe("Oscar De La Hoya");
+            expect(caneloKhanBout.promoters[0].id).toBe("8253");
         });
 
     });
