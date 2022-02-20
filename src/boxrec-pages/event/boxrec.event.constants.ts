@@ -2,10 +2,6 @@ import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants"
 import {BoxrecBasic, BoxrecBoutLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 
-export interface BoxrecPromoter extends BoxrecBasic {
-    company: string | null;
-}
-
 export enum BoxingBoutOutcome {
     TKO = "technical knockout",
     KO = "knockout",
@@ -37,7 +33,7 @@ export interface BoxrecEventOutput {
     matchmakers: BoxrecBasic[];
     media: string[];
     numberOfBouts: number;
-    promoters: BoxrecPromoter[];
+    promoters: BoxrecBasic[];
     television: string[];
 }
 

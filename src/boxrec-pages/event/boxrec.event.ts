@@ -2,7 +2,6 @@ import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
-import {BoxrecPromoter} from "./boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
 import {BoxrecParseBouts} from "./boxrec.parse.bouts";
 
@@ -153,83 +152,19 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
     }
 
     // does not exist on dates page
-    get promoters(): BoxrecPromoter[] {
-        const html: Cheerio = this.$(`<div>${this.parsePromoters()}</div>`);
-        const promoter: BoxrecPromoter[] = [];
+    get promoters(): BoxrecBasic[] {
+        return this.$(".page a[href*='/promoter']").map((index: number, elem: CheerioElement) => {
+            const idMatches: RegExpMatchArray | null = this.$(elem).attr("href").match(/\/promoter\/(\d+)$/);
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
-            const href: string = this.$(elem).get(0).attribs.href;
-            const name: string = this.$(elem).text();
-            let id: number | null = null;
-            let company: string | null = null;
-
-            const matches: RegExpMatchArray | null = href.match(/(\d+)$/);
-
-            if (matches) {
-                id = parseInt(matches[0], 10);
+            if (!idMatches) {
+                throw new Error("Could not get promoter ID from link");
             }
 
-            const htmlString: string | null = html.html();
-
-            if (htmlString) {
-                // this regex may not work for everything (this comment was about `event` pages)
-                // turns out `events` page and `bout` page display promoters differently
-                // ex. of links between `event` pages and `bout` pages
-                // events - `Golden Boy Promotions - Oscar De La Hoya`
-                // bouts  - `Oscar De La Hoya (Golden Boy Promotions)`
-
-                // first we'll figure out which one we're looking at, then choose the proper regex to use
-                // we should also assume that both might fail
-
-                // these both share the same characters for company names
-                // capture forward slashes in it because `360/GGG/K2 Promotions`
-                const promoterEventsPageRegex: RegExp = /([\w\d\/\-\s]+)\s-\s<a\shref/g;
-                const promoterBoutsPageRegex: RegExp = /\(([\w\d\/\-\s]+)\)/g;
-
-                const eventsRegexReturnsResults: RegExpMatchArray | null = promoterEventsPageRegex.exec(htmlString);
-
-                let regexThatGetsResults: RegExp;
-
-                if (eventsRegexReturnsResults !== null) {
-                    regexThatGetsResults = promoterEventsPageRegex;
-                } else {
-                    const boutsRegexReturnsResults: RegExpMatchArray | null = promoterBoutsPageRegex.exec(htmlString);
-
-                    if (boutsRegexReturnsResults !== null) {
-                        regexThatGetsResults = promoterBoutsPageRegex;
-                    } else {
-                        // both regex did not work, either broken or they don't exist
-                        return promoter;
-                    }
-                }
-
-                regexThatGetsResults.lastIndex = 0; // reset the index of the `RegExp` // requires `g` flag on regex
-
-                let m: RegExpExecArray | null;
-                let j: number = 0;
-
-                do {
-                    m = regexThatGetsResults.exec(htmlString);
-                    if (m && m[1]) {
-                        if (j === promoter.length) {
-                            company = m[1].trim();
-                        }
-                    }
-                    j++;
-                } while (m);
-
-                if (company) {
-                    promoter.push({
-                        company,
-                        id,
-                        name,
-                    });
-                }
-            }
-
-        });
-
-        return promoter;
+            return {
+                id: idMatches[1],
+                name: this.$(elem).text(),
+            };
+        }).toArray() as unknown as BoxrecBasic[];
     }
 
     /**
