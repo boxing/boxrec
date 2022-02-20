@@ -1,7 +1,7 @@
 import {mockBoutCaneloGGG1} from "boxrec-mocks";
-import {WinLossDraw} from "../../boxrec.constants";
+import {BoxrecBasic, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
-import {BoxingBoutOutcome, BoxrecPromoter} from "../boxrec.event.constants";
+import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoutPageLast6, BoxrecEventBoutOutput} from "./boxrec.event.bout.constants";
 import {BoxrecPageEventBout} from "./boxrec.page.event.bout";
 
@@ -35,14 +35,6 @@ describe("class BoxrecPageEventBout", () => {
 
         it("should give the date", () => {
             expect(caneloGGG1.date).toBe("2017-09-16");
-        });
-
-    });
-
-    describe("getter rating", () => {
-
-        it("should return the rating of the bout", () => {
-            expect(caneloGGG1.rating).toBe(100);
         });
 
     });
@@ -183,26 +175,6 @@ describe("class BoxrecPageEventBout", () => {
 
         it("should be the second boxer's age", () => {
             expect(caneloGGG1.secondBoxerAge).toBe(27);
-        });
-
-    });
-
-    describe("getter promoter", () => {
-
-        it("should return the first promoter", () => {
-            // todo should sort by id or name to keep consistency
-            const {company, id, name} = caneloGGG1.promoters.find(item => item.id === 8253) as BoxrecPromoter;
-            expect(id).toBe(8253);
-            expect(name).toBe("Oscar De La Hoya");
-            expect(company).toBe("Golden Boy Promotions");
-        });
-
-        it("should return the second promoter if they exist", () => {
-            // if this starts breaking, let's sort these values
-            const {company, id, name} = caneloGGG1.promoters[1];
-            expect(id).toBeGreaterThan(8252);
-            expect(name).not.toBeNull();
-            expect(company).not.toBeNull();
         });
 
     });

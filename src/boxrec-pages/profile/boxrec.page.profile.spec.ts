@@ -259,14 +259,6 @@ describe("class BoxrecPageProfile", () => {
 
                     });
 
-                    describe("getter rating", () => {
-
-                        it("should return the rating of the bout", () => {
-                            expect(gggCanelo.rating).toBe(100);
-                        });
-
-                    });
-
                     describe("getter date", () => {
 
                         it("should return the date if it is known", () => {
