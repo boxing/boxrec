@@ -1,7 +1,7 @@
 import {BoxrecTitles} from "../../../boxrec-common-tables/boxrec-common.constants";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecJudge, Record, Stance, WinLossDraw} from "../../boxrec.constants";
 import {WeightDivision} from "../../champions/boxrec.champions.constants";
-import {BoxingBoutOutcome, BoxrecPromoter} from "../boxrec.event.constants";
+import {BoxingBoutOutcome} from "../boxrec.event.constants";
 import {BoxrecPageEventBoutRow} from "../boxrec.page.event.bout.row";
 
 export interface BoutPageLast6 extends BoutPageOutcome {
@@ -44,7 +44,7 @@ export interface BoxrecEventBoutOutput {
     numberOfBouts: number;
     numberOfRounds: number | null;
     outcome: BoutPageBoutOutcome;
-    promoters: BoxrecPromoter[];
+    promoters: BoxrecBasic[];
     rating: number | null;
     referee: BoxrecBasic;
     secondBoxer: BoxrecBasic;
