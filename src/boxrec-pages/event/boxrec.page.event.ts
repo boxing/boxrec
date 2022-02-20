@@ -67,13 +67,12 @@ export class BoxrecPageEvent extends BoxrecEvent implements OutputInterface {
         };
 
         const parent: Cheerio = this.$(this.parseEventResults()).find("h2").next();
-        let wikiHref: string | null = parent.find(".bio_closedP").parent().attr("href");
+        const wikiHref: string | null = parent.find("a[href*='/media/index']").attr("href");
         if (wikiHref) {
             return getLink(wikiHref);
         }
 
-        wikiHref = parent.find(".bio_openP").parent().attr("href");
-        return getLink(wikiHref);
+        return null;
     }
 
     get inspector(): BoxrecBasic {
