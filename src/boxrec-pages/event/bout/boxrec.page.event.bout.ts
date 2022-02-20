@@ -21,11 +21,11 @@ import {
 @OutputGetter([
     "bouts", "commission", "date", "division", "doctors", "firstBoxer", "firstBoxerAge",
     "firstBoxerHeight", "firstBoxerKOs", "firstBoxerLast6", "firstBoxerPointsAfter",
-    "firstBoxerPointsBefore", "firstBoxerRanking", "firstBoxerReach", "firstBoxerRecord",
+    "firstBoxerRanking", "firstBoxerReach", "firstBoxerRecord",
     "firstBoxerStance", "id", "inspector", "judges", "location", "matchmakers", "media",
     "numberOfBouts", "numberOfRounds", "outcome", "promoters", "rating", "referee",
     "secondBoxer", "secondBoxerAge", "secondBoxerHeight", "secondBoxerKOs",
-    "secondBoxerLast6", "secondBoxerPointsAfter", "secondBoxerPointsBefore",
+    "secondBoxerLast6", "secondBoxerPointsAfter",
     "secondBoxerRanking", "secondBoxerReach", "secondBoxerRecord", "secondBoxerStance",
     "television", "titles",
 ])
@@ -100,10 +100,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
 
     get firstBoxerPointsAfter(): number | null {
         return this.parsePoints(false, 1);
-    }
-
-    get firstBoxerPointsBefore(): number | null {
-        return this.parsePoints(true, 1);
     }
 
     get firstBoxerRanking(): number | null {
@@ -267,10 +263,6 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
 
     get secondBoxerPointsAfter(): number | null {
         return this.parsePoints(false, 3);
-    }
-
-    get secondBoxerPointsBefore(): number | null {
-        return this.parsePoints(true, 3);
     }
 
     get secondBoxerRanking(): number | null {

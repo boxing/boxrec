@@ -388,22 +388,6 @@ describe("class BoxrecPageEventBout", () => {
 
     });
 
-    describe("getter firstBoxerPointsBefore", () => {
-
-        it("should return the points before", () => {
-            expect(caneloGGG1.firstBoxerPointsBefore).toEqual(jasmine.any(Number));
-        });
-
-    });
-
-    describe("getter secondBoxerPointsBefore", () => {
-
-        it("should return the points before", () => {
-            expect(caneloGGG1.secondBoxerPointsBefore).toEqual(jasmine.any(Number));
-        });
-
-    });
-
     describe("getter firstBoxerPointsAfter", () => {
 
         it("should return the points after", () => {
