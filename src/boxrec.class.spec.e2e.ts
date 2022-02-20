@@ -922,28 +922,6 @@ describe("class Boxrec (E2E)", () => {
 
     });
 
-    describe("method getChampions", () => {
-
-        describe("object champions", () => {
-
-            let results: BoxrecPageChampions;
-
-            beforeAll(async () => {
-                results = await Boxrec.getChampions(loggedInCookie);
-            });
-
-            it("should return an array of champions by weight class", () => {
-                expect(results.champions[0].weightDivision).toBe(WeightDivision.heavyweight);
-            });
-
-            it("should return the ABC belts", () => {
-                expect(results.champions[0].beltHolders.IBF).toBeDefined();
-            });
-
-        });
-
-    });
-
     describe("method getTitles", () => {
 
         let titleBouts: BoxrecPageTitles;
