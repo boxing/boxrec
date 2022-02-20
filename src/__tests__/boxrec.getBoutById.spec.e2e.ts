@@ -17,9 +17,14 @@ describe("method getBoutById", () => {
     let loggedInCookie: CookieJar;
 
     beforeAll(async (done: DoneCallback) => {
-        // todo, if no async request, skip wait
-        loggedInCookie = await logIn();
-        wait(done);
+        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
+        loggedInCookie = logInResponse.cookieJar;
+
+        if (logInResponse.madeRequest) {
+            wait(done);
+        } else {
+            done();
+        }
     });
 
     let caneloKhanBout: BoxrecPageEventBout;
