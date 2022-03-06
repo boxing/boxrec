@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import {BoxrecGeneralLinks} from "./boxrec-common.constants";
 
 const $: CheerioStatic = cheerio;
 
@@ -17,7 +18,7 @@ export class BoxrecCommonLinks {
      * @param {T} obj
      * @returns {T}
      */
-    static parseLinkInformation<T>(html: Cheerio, obj: T): T {
+    static parseLinkInformation<T extends BoxrecGeneralLinks>(html: Cheerio, obj: T): T {
         html.find("a").each((i: number, elem: CheerioElement) => {
             const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
             return BoxrecCommonLinks.parseLinks<T>(hrefArr, href, obj);
@@ -30,19 +31,25 @@ export class BoxrecCommonLinks {
      * Takes a link column and returns the needed data to parse it
      * @param {CheerioElement} elem
      * @returns {LinksObj}
+     * @todo a lot of this was necessary when the links had certain classes
      */
     static parseLinksColumn(elem: CheerioElement): LinksObj {
         const div: Cheerio = $(elem).find("div");
         const href: string = $(elem).attr("href");
         const classAttr: string = div.attr("class");
-        const hrefArr: string[] = classAttr.split(" ");
 
-        return {
+        const linkObj: LinksObj = {
             classAttr,
             div,
             href,
-            hrefArr,
+            hrefArr: [],
         };
+
+        if (classAttr) {
+            linkObj.hrefArr = classAttr.split(" ");
+        }
+
+        return linkObj;
     }
 
     /**
@@ -51,40 +58,24 @@ export class BoxrecCommonLinks {
      * @param href
      * @param obj
      */
-    private static parseLinks<T>(hrefArr: string[], href: string, obj: T): T {
-        // todo reduce complexity
-        // tslint:disable-next-line
-        hrefArr.forEach((cls: string) => {
-            if (cls !== "primaryIcon" && cls !== "clickableIcon") {
-                const matches: RegExpMatchArray | null = href.match(/([\d\/]+)$/);
-                if (matches && matches[1] && matches[1] !== "other") {
+    private static parseLinks<T extends BoxrecGeneralLinks>(hrefArr: string[], href: string, obj: T): T {
+        const hrefMatch: RegExpMatchArray | null = href.match(/([\/\d]+)$/);
 
-                    let formattedCls: string = cls;
-                    // for some reason they add a `P` to the end of the class name, we will remove it
-                    if (cls.slice(-1) === "P") {
-                        formattedCls = cls.slice(0, -1);
-                    }
+        if (hrefMatch && hrefMatch[1]) {
+            // todo this might not be necessary anymore and be kept because the mocks are out of date
+            const link: string = hrefMatch[1].charAt(0) === "/" ? hrefMatch[1].substring(1) : hrefMatch[1];
 
-                    // `bio_open` for events that haven't concluded.  `bio_closed` for belt/division selected
-                    // if it's one of the `bio_closed/bio_open` link, change it to just `bio`
-                    formattedCls = formattedCls === "bio_open" || formattedCls === "bio_closed" ? "bio" : formattedCls;
-
-                    // check if it contains "/" but is not the first character
-                    if (matches[1].includes("/")) {
-                        const formattedMatch: string = matches[1].substring(1);
-                        const numberOfSlashes: RegExpMatchArray | null = matches[1].match(/(\/)/g);
-
-                        // if there are more than 1 slash, it's a string otherwise we've stripped it off and can make it a number
-                        (obj as any)[formattedCls] = numberOfSlashes && numberOfSlashes.length > 1 ?
-                            formattedMatch : parseInt(formattedMatch, 10);
-                    } else {
-                        (obj as any)[formattedCls] = parseInt(matches[1], 10);
-                    }
-                } else if (!href.includes("javascript")) { // any other links other than the dropdown link
-                    (obj as any).other.push(href);
+            // todo other links?
+            if (href.includes("/event/")) {
+                if (/\d+\/\d+/.test(href)) {
+                    obj.bout = link;
+                } else {
+                    obj.event = parseInt(link, 10);
                 }
+            } else if (href.includes("/media/")) {
+                obj.bio = parseInt(link, 10);
             }
-        });
+        }
 
         return obj;
     }

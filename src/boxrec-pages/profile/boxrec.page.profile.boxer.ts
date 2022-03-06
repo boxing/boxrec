@@ -13,7 +13,8 @@ import {BoxrecProfileTable} from "./boxrec.profile.constants";
  * BoxRec Boxer Profile Page
  * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
-@BoutsGetter("table", BoxrecPageProfileBoxerBoutRow, 1, true)
+// todo this is a bit flaky but the BoutsDecorator is restricted to using strings at this time
+@BoutsGetter(".dataTable[width='100%']", BoxrecPageProfileBoxerBoutRow, 1, true)
 @OutputGetter([
     "KOs", "alias", "birthName", "birthPlace", "born",
     {

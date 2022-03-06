@@ -3,25 +3,18 @@ import {BoxrecPageTitle} from "../boxrec-pages/title/boxrec.page.title";
 import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row";
 import {Boxrec} from "../boxrec.class";
 import {expectMatchDate, logIn, wait} from "./helpers";
-import DoneCallback = jest.DoneCallback;
 
 jest.unmock("request-promise");
 
-jest.setTimeout(30000);
+jest.setTimeout(200000);
 
 describe("method getTitleById", () => {
 
     let loggedInCookie: CookieJar;
 
-    beforeAll(async (done: DoneCallback) => {
+    beforeAll(async () => {
         const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
         loggedInCookie = logInResponse.cookieJar;
-
-        if (logInResponse.madeRequest) {
-            wait(done);
-        } else {
-            done();
-        }
     });
 
     const WBCMiddleweightEndpoint: string = "6/Middleweight";
@@ -29,6 +22,7 @@ describe("method getTitleById", () => {
 
     beforeAll(async () => {
         WBCMiddleweightResult = await Boxrec.getTitleById(loggedInCookie, WBCMiddleweightEndpoint);
+        await wait();
     });
 
     describe("getter name", () => {

@@ -1,31 +1,24 @@
-import {BoxrecFighterOption, BoxrecRole, Sport} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecFighterOption, BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
 import {CookieJar} from "request";
-import {expectId, expectMatchDate, logIn} from "./__tests__/helpers";
+import {expectId, expectMatchDate, logIn, wait} from "./__tests__/helpers";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
-import {WeightDivision} from "./boxrec-pages/champions/boxrec.champions.constants";
-import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
 import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec-pages/event/boxrec.page.event.bout.row";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
 import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
-import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
 import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
-import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
 import {BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
-import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
 import {WeightDivisionCapitalized} from "./boxrec-pages/titles/boxrec.page.title.constants";
 import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
 import {BoxrecPageTitlesRow} from "./boxrec-pages/titles/boxrec.page.titles.row";
 import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
 import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
 import {Boxrec} from "./boxrec.class";
-import DoneCallback = jest.DoneCallback;
 
 export const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
@@ -40,274 +33,15 @@ if (!BOXREC_PASSWORD) {
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
 
-jest.setTimeout(30000);
-
-// 15000 was fine
-const wait: (done: DoneCallback) => void = (done: DoneCallback) => setTimeout(done, 15000);
+jest.setTimeout(2000000);
 
 describe("class Boxrec (E2E)", () => {
 
     let loggedInCookie: CookieJar;
-    let num: number = 0;
 
-    beforeAll(async (done: DoneCallback) => {
+    beforeAll(async () => {
         const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
         loggedInCookie = logInResponse.cookieJar;
-
-        if (logInResponse.madeRequest) {
-            wait(done);
-        } else {
-            done();
-        }
-    });
-
-    // delay each test so we don't get blocked by BoxRec
-    beforeEach(done => {
-        num++;
-        // tslint:disable-next-line:no-console
-        console.log(num);
-        wait(done);
-    });
-
-    describe("method getPersonById", () => {
-
-        type Person =
-            BoxrecPageProfileBoxer
-            | BoxrecPageProfileOtherCommon
-            | BoxrecPageProfileEvents
-            | BoxrecPageProfileManager;
-
-        const boxers: Map<number, Person> = new Map();
-        const getBoxer: (id: number) => any =
-            (id: number): Person | undefined => boxers.get(id);
-
-        beforeAll(async () => {
-            // Floyd Mayweather Jr.
-            boxers.set(352, await Boxrec.getPersonById(loggedInCookie, 352, BoxrecRole.proBoxer));
-            // Sugar Ray Robinson
-            boxers.set(9625, await Boxrec.getPersonById(loggedInCookie, 9625, BoxrecRole.proBoxer));
-            // Saul Alvarez
-            boxers.set(348759, await Boxrec.getPersonById(loggedInCookie, 348759, BoxrecRole.proBoxer));
-        });
-
-        describe("where role is boxer", () => {
-
-            describe("enrollments", () => {
-
-                it("should return an empty array if they have none", () => {
-                    expect(getBoxer(9625).enrollments).toEqual([]);
-                });
-
-                describe("when a boxer has enrollments", () => {
-
-                    let enrolledBoxer: any;
-
-                    beforeAll(() => {
-                        enrolledBoxer = getBoxer(348759).enrollments;
-                    });
-
-                    it("should return who", () => {
-                        expect(enrolledBoxer[0].by).toBe("Voluntary Anti-Doping Association (VADA) CBP");
-                    });
-
-                    it("should return the expiry date", () => {
-                        expect(enrolledBoxer[0].expires).toBe("2020-10-15");
-                    });
-
-                    it("should return the id of the enrollment", () => {
-                        expect(enrolledBoxer[0].id).toBe(348759);
-                    });
-
-                    it("should return the sport", () => {
-                        expect(enrolledBoxer[0].sport).toBe(Sport.proBoxing);
-                    });
-
-                });
-
-            });
-
-            it("should return the person's information", () => {
-                expect(getBoxer(352).name).toBe("Floyd Mayweather Jr");
-            });
-
-            it("should include the person's alias", () => {
-                expect(getBoxer(352).alias).toBe("Money / Pretty Boy");
-            });
-
-            describe("number of bouts", () => {
-
-                it("should include the number of bouts they were in", () => {
-                    expect(getBoxer(352).bouts.length).toBe(50);
-                });
-
-                it("should break number of boxer bouts to multiple pages", async () => {
-                    const sugarRayRobinsonPage1: BoxrecPageProfileBoxer = boxers.get(9625) as BoxrecPageProfileBoxer;
-                    const sugarRayRobinsonPage2: BoxrecPageProfileBoxer =
-                        await Boxrec.getPersonById(loggedInCookie, 9625, BoxrecRole.proBoxer,
-                            sugarRayRobinsonPage1.bouts.length) as BoxrecPageProfileBoxer;
-
-                    expect(sugarRayRobinsonPage1.bouts[0].secondBoxer.name)
-                        .not.toEqual(sugarRayRobinsonPage2.bouts[0].secondBoxer.name);
-                });
-
-            });
-
-            it("should return if they are suspended or not", () => {
-                expect(getBoxer(352).suspended).toBe(null);
-            });
-
-            it("should include their role as a boxer", () => {
-                expect(getBoxer(352).role).toEqual([{
-                    id: 352,
-                    name: BoxrecRole.proBoxer,
-                }]);
-            });
-
-            describe("bouts", () => {
-
-                it("should return an array of bouts", () => {
-                    expect(getBoxer(352).bouts.length).toBeGreaterThanOrEqual(49);
-                });
-
-                it("should return the opponent's name", () => {
-                    expect(getBoxer(352).bouts[49].secondBoxer.name).toBe("Conor McGregor");
-                });
-
-                describe("location", () => {
-
-                    it("should return the venue name", () => {
-                        expect(getBoxer(352).bouts[49].location).toBe("T-Mobile Arena, Las Vegas");
-                    });
-
-                });
-
-                describe("firstBoxerRating", () => {
-
-                    it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].firstBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
-                    });
-
-                    it("should strip all commas from the rating", () => {
-                        expect(getBoxer(352).bouts[47].firstBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
-                    });
-
-                });
-
-                describe("secondBoxerRating", () => {
-
-                    it("should return the boxer rating before and after the bout", () => {
-                        expect(getBoxer(352).bouts[49].secondBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
-                    });
-
-                    it("should strip all commas from the rating", () => {
-                        expect(getBoxer(352).bouts[47].secondBoxerRating)
-                            .toEqual([jasmine.any(Number), jasmine.any(Number)]);
-                    });
-
-                });
-
-                describe("last 6", () => {
-
-                    it("should return an empty array if it's the boxer's debut bout", () => {
-                        expect(getBoxer(352).bouts[49].secondBoxerLast6).toEqual([]);
-                    });
-
-                });
-
-                describe("weight", () => {
-
-                    it("should change fractions to decimals", () => {
-                        expect(getBoxer(352).bouts[49].firstBoxerWeight).toBe(149.5);
-                    });
-
-                });
-
-                describe("links", () => {
-
-                    it("should return an object of links", () => {
-                        expect(getBoxer(352).bouts[49].links.event).toBe(752960);
-                    });
-
-                });
-
-            });
-
-        });
-
-        describe("where role is judge", () => {
-
-            let judge: BoxrecPageProfileOtherCommon;
-
-            beforeAll(async () => {
-                judge = await Boxrec.getPersonById(loggedInCookie, 401615, BoxrecRole.judge) as
-                    BoxrecPageProfileOtherCommon;
-            });
-
-            it("should return the person's information", () => {
-                expect(judge.name).toBe("CJ Ross");
-            });
-
-            it("should also have bouts to parse that they were a part of", () => {
-                expect(judge.bouts).toEqual(jasmine.any(Array));
-            });
-
-        });
-
-        describe("where role is doctor", () => {
-
-            let doctor: BoxrecPageProfileEvents;
-
-            beforeAll(async () => {
-                doctor = await Boxrec
-                    .getPersonById(loggedInCookie, 412676, BoxrecRole.doctor) as BoxrecPageProfileEvents;
-            });
-
-            it("should return the person's information", () => {
-                expect(doctor.name).toBe("Anthony Ruggeroli");
-            });
-
-            it("should return an array of events", () => {
-                expect(doctor.events).toEqual(jasmine.any(Array));
-                expect(doctor.events.length).toBeGreaterThan(10);
-            });
-
-        });
-
-        describe("where role is promoter", () => {
-
-            let promoter: BoxrecPageProfilePromoter;
-
-            beforeAll(async () => {
-                promoter = await Boxrec.getPersonById(loggedInCookie, 419406, BoxrecRole.promoter) as BoxrecPageProfilePromoter;
-            });
-
-            it("should return the company name", () => {
-                expect(promoter.company).toBe("Mayweather Promotions");
-            });
-
-        });
-
-        it("should return the URL of the person's profile picture", () => {
-            expect((boxers.get(352) as BoxrecPageProfileBoxer).picture).toContain("FloydMayweather");
-        });
-
-        it("should include the death date if the person has passed away and the date is known", async () => {
-            const louDuva: BoxrecPageProfileEvents = await Boxrec.getPersonById(loggedInCookie,
-                24678, BoxrecRole.promoter) as BoxrecPageProfileEvents;
-            expect(louDuva.death).toBe("2017-03-08");
-
-        });
-
-        it("should return an array of their social media links", () => {
-            const socialMediaFloyd: string[] = (boxers.get(352) as BoxrecPageProfileBoxer).socialMedia;
-            const floydTwitter: string | undefined = socialMediaFloyd
-                .find(item => /(https?\:\/\/)?twitter\.com\/FloydMayweather/.test(item));
-            expect(floydTwitter).toBeDefined();
-        });
-
     });
 
     describe("method getRatings", () => {
@@ -318,6 +52,7 @@ describe("class Boxrec (E2E)", () => {
             ratings = await Boxrec.getRatings(loggedInCookie, {
                 sex: "M",
             });
+            await wait();
         });
 
         describe("getter numberOfPages", () => {
@@ -334,6 +69,7 @@ describe("class Boxrec (E2E)", () => {
 
         it("should return a PDF", async () => {
             const pdf: string = await Boxrec.getBoxerPDF(loggedInCookie, 352);
+            await wait();
             expect(pdf).toBeDefined();
             expect(pdf).not.toBeNull();
         });
@@ -344,6 +80,7 @@ describe("class Boxrec (E2E)", () => {
 
         it("should return the printable version of the profile", async () => {
             const print: string = await Boxrec.getBoxerPrint(loggedInCookie, 352);
+            await wait();
             expect(print).toBeDefined();
             expect(print).not.toBeNull();
         });
@@ -359,6 +96,7 @@ describe("class Boxrec (E2E)", () => {
 
         beforeAll(async () => {
             sept282019 = await Boxrec.getDate(loggedInCookie, "2019-09-28");
+            await wait();
 
             // get the next saturday, there's very few times (if ever) where there won't be a boxing match
             // not timezone proof.  Depending on who/what runs this, it may return Friday/Sunday
@@ -371,6 +109,7 @@ describe("class Boxrec (E2E)", () => {
 
             nextDate = await Boxrec.getDate(loggedInCookie,
                 getNextSaturdayDateObject().toISOString().substr(0, 10));
+            await wait();
         });
 
         describe("passed date", () => {
@@ -479,8 +218,10 @@ describe("class Boxrec (E2E)", () => {
 
         beforeAll(async () => {
             results = await Boxrec.getPeopleByName(loggedInCookie, "Floyd", "Mayweather");
+            await wait();
             nextResults = await Boxrec.getPeopleByName(loggedInCookie, "Floyd", "Mayweather",
                 BoxrecRole.proBoxer, BoxrecStatus.all, 20);
+            await wait();
         });
 
         it("should return Floyd Sr. and then Floyd Jr.", async () => {
@@ -505,6 +246,7 @@ describe("class Boxrec (E2E)", () => {
 
         beforeAll(async () => {
             venue = await Boxrec.getVenueById(loggedInCookie, 37664);
+            await wait();
         });
 
         it("should return the name of the venue", () => {
@@ -550,7 +292,9 @@ describe("class Boxrec (E2E)", () => {
 
         beforeAll(async () => {
             events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
+            await wait();
             events.set(752960, await Boxrec.getEventById(loggedInCookie, 752960)); // Mayweather McGregor
+            await wait();
         });
 
         it("should return the venue name", () => {
@@ -607,11 +351,13 @@ describe("class Boxrec (E2E)", () => {
                 sport: BoxrecFighterOption["Pro Boxing"],
                 year: 2017,
             });
+            await wait();
             nextEvents = await Boxrec.getEventsByLocation(loggedInCookie, {
                 country: Country.USA,
                 sport: BoxrecFighterOption["Pro Boxing"],
                 year: 2017,
             }, 20);
+            await wait();
         });
 
         it("should return an array of events", async () => {
@@ -673,6 +419,7 @@ describe("class Boxrec (E2E)", () => {
                 bout_title: 322,
                 division: WeightDivisionCapitalized.welterweight,
             });
+            await wait();
         });
 
         describe("getter numberOfBouts", () => {
@@ -710,6 +457,7 @@ describe("class Boxrec (E2E)", () => {
 
         it("should add the boxer to the list", async () => {
             const response: boolean = await Boxrec.watch(loggedInCookie, 447121); // Terence Crawford
+            await wait();
             expect(response).toBe(true);
         });
 
@@ -719,6 +467,7 @@ describe("class Boxrec (E2E)", () => {
 
         it("should include watched boxers", async () => {
             const response: BoxrecPageWatchRow[] = await Boxrec.getWatched(loggedInCookie);
+            await wait();
             const boxer: BoxrecPageWatchRow | undefined = response.find(item => item.globalId === 447121);
             expect(boxer).toBeDefined();
         });
@@ -729,6 +478,7 @@ describe("class Boxrec (E2E)", () => {
 
         it("should remove the boxer from the list", async () => {
             const response: boolean = await Boxrec.unwatch(loggedInCookie, 447121); // Terence Crawford
+            await wait();
             expect(response).toBe(true);
         });
 

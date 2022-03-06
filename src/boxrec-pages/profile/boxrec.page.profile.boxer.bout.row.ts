@@ -49,22 +49,18 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     rating: number | null;
 
     /**
-     * Parses Before/After ratings of a boxer
+     * Parses ratings of a boxer
      * @param {string} rating
-     * @returns {Array<number | null>}
+     * @returns number | null
      */
-    static parseBoxerRating(rating: string): Array<number | null> {
-        const ratings: Array<number | null> = [null, null];
-        const ratingsMatch: RegExpMatchArray | null = trimRemoveLineBreaks(rating)
-            .replace(/,/g, "")
-            .match(/^([\d.]+)&#x279E;([\d.]+)$/);
+    static parseBoxerRating(rating: string): number | null {
+        const ratingsMatch: string = trimRemoveLineBreaks(rating);
 
         if (ratingsMatch) {
-            ratings[0] = parseFloat(ratingsMatch[1]);
-            ratings[1] = parseFloat(ratingsMatch[2]);
+            return parseFloat(ratingsMatch);
         }
 
-        return ratings;
+        return null;
     }
 
     private static outcomeByWayOf(htmlString: string, parseText: boolean = false): BoxingBoutOutcome | string | null {
@@ -73,12 +69,11 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
 
     /**
      * Returns the boxer's rating in number of points
-     * First number is the boxer's points before the fight
-     * Second number is the boxer's points after the fight
+     * Number is result of the outcome of the fight
      * Higher number is better
-     * @returns {(number | null)[]}
+     * @returns {number | null}
      */
-    get firstBoxerRating(): Array<number | null> {
+    get firstBoxerRating(): number | null {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.firstRating));
     }
@@ -135,13 +130,12 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     }
 
     /**
-     * Returns the opponents's rating in number of points
-     * First number is the boxer's points before the fight
-     * Second number is the boxer's points after the fight
+     * Returns the opponent's rating in number of points
+     * Number is result of the outcome of the fight
      * Higher number is better
      * @returns {(number | null)[]}
      */
-    get secondBoxerRating(): Array<number | null> {
+    get secondBoxerRating(): number | null {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.secondRating));
     }

@@ -4,26 +4,19 @@ import {Country} from "../boxrec-pages/location/people/boxrec.location.people.co
 import {BoxrecPageLocationPeople} from "../boxrec-pages/location/people/boxrec.page.location.people";
 import {Boxrec} from "../boxrec.class";
 import {logIn, wait} from "./helpers";
-import DoneCallback = jest.DoneCallback;
 
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
 
-jest.setTimeout(30000);
+jest.setTimeout(200000);
 
 describe("method getPeopleByLocation", () => {
 
     let loggedInCookie: CookieJar;
 
-    beforeAll(async (done: DoneCallback) => {
+    beforeAll(async () => {
         const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
         loggedInCookie = logInResponse.cookieJar;
-
-        if (logInResponse.madeRequest) {
-            wait(done);
-        } else {
-            done();
-        }
     });
 
     let results: BoxrecPageLocationPeople;
@@ -34,10 +27,12 @@ describe("method getPeopleByLocation", () => {
             country: Country.USA,
             role: BoxrecRole.proBoxer,
         });
+        await wait();
         nextResults = await Boxrec.getPeopleByLocation(loggedInCookie, {
             country: Country.USA,
             role: BoxrecRole.proBoxer,
         }, 20);
+        await wait();
     });
 
     describe("getter numberOfPeople", () => {

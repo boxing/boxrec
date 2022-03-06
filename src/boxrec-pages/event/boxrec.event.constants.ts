@@ -18,7 +18,7 @@ export type BoxingBoutOutcomeKeys = keyof typeof BoxingBoutOutcome;
 
 export interface BoxrecEventLinks {
     bio: number | null; // this is the wiki link
-    bout: number | null;
+    bout: string | null;
     other: string[];
 }
 

@@ -5,32 +5,26 @@ import {BoxrecPageEventBout} from "../boxrec-pages/event/bout/boxrec.page.event.
 import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
 import {Boxrec} from "../boxrec.class";
 import {expectId, logIn, wait} from "./helpers";
-import DoneCallback = jest.DoneCallback;
 
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
 
-jest.setTimeout(30000);
+jest.setTimeout(200000);
 
 describe("method getBoutById", () => {
 
     let loggedInCookie: CookieJar;
 
-    beforeAll(async (done: DoneCallback) => {
+    beforeAll(async () => {
         const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
         loggedInCookie = logInResponse.cookieJar;
-
-        if (logInResponse.madeRequest) {
-            wait(done);
-        } else {
-            done();
-        }
     });
 
     let caneloKhanBout: BoxrecPageEventBout;
 
     beforeAll(async () => {
         caneloKhanBout = await Boxrec.getBoutById(loggedInCookie, "726555/2037455");
+        await wait();
     });
 
     describe("getter rating", () => {

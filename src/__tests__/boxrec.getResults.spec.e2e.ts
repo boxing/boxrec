@@ -2,26 +2,19 @@ import {CookieJar} from "request";
 import {BoxrecPageSchedule} from "../boxrec-pages/schedule/boxrec.page.schedule";
 import {Boxrec} from "../boxrec.class";
 import {logIn, wait} from "./helpers";
-import DoneCallback = jest.DoneCallback;
 
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
 
-jest.setTimeout(30000);
+jest.setTimeout(200000);
 
 describe("method getResults", () => {
 
     let loggedInCookie: CookieJar;
 
-    beforeAll(async (done: DoneCallback) => {
+    beforeAll(async () => {
         const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
         loggedInCookie = logInResponse.cookieJar;
-
-        if (logInResponse.madeRequest) {
-            wait(done);
-        } else {
-            done();
-        }
     });
 
     let results: BoxrecPageSchedule;
@@ -29,8 +22,10 @@ describe("method getResults", () => {
 
     beforeAll(async () => {
         results = await Boxrec.getResults(loggedInCookie, {});
+        await wait();
         // note: replace the following if have a reason to grab different schedule data
         nextResults = await Boxrec.getResults(loggedInCookie, {}, 20);
+        await wait();
     });
 
     it("should give an array of events", () => {
