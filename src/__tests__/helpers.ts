@@ -1,4 +1,3 @@
-import DoneCallback = jest.DoneCallback;
 import * as fs from "fs";
 import * as path from "path";
 import {CookieJar} from "request";
@@ -8,10 +7,9 @@ import {Boxrec} from "../boxrec.class";
 // ignores __mocks__ and makes real requests
 jest.unmock("request-promise");
 
-jest.setTimeout(30000);
+jest.setTimeout(200000);
 
-// 15000 was fine
-export const wait: (done: DoneCallback) => void = (done: DoneCallback) => setTimeout(done, 10000);
+export const wait: () => Promise<any> = async () => new Promise((r: any) => setTimeout(r, 20000));
 
 export const expectId: (id: number | null, expectedId: any) => void = (id: number | null, expectedId: any) =>
     expect(id).toEqual(expectedId);
@@ -45,6 +43,7 @@ export const logIn: () => Promise<{ madeRequest: boolean, cookieJar: CookieJar}>
         fs.promises.mkdir(path.resolve(process.cwd(), "./tmp/"), { recursive: true }).catch(console.error);
         // if the file doesn't exist, we login and store the cookie in the "../tmp" directory
         cookieJar = await Boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+        await wait();
         const newCookieString: string = cookieJar.getCookieString(cookieDomain);
         await fs.writeFileSync(tmpPath, newCookieString);
     }

@@ -3,7 +3,10 @@
     "^.+\\.ts?$": "ts-jest"
   },
   "testURL": "http://localhost",
-  "testRegex": "spec\\.e2e\\.ts$",
+  "testMatch": [
+    "<rootDir>/src/**/__tests__/*.spec.e2e.ts",
+    "<rootDir>/src/boxrec.class.spec.e2e.ts"
+  ],
   "restoreMocks": true,
   "moduleFileExtensions": [
     "ts",

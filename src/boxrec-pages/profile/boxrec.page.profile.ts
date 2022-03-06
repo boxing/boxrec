@@ -57,25 +57,6 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     /**
-     * Returns the date of the death
-     */
-    get death(): string | null {
-        const death: string | void = this.parseProfileTableData(BoxrecProfileTable.death);
-
-        // unsure the results if the person has a death date but no date of birth, we'll assume that the `age` part will
-        // not be there
-        if (death) {
-            const splitDeath: string[] = death.split("/");
-
-            if (splitDeath.length > 0) {
-                return splitDeath[0].trim();
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Returns the profile global id or id
      * @returns {number | null}
      */
@@ -147,14 +128,9 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     get role(): BoxrecProfileRole[] {
         const rolesWithLinks: BoxrecProfileRole[] = [];
         const parentEl: Cheerio = this.$(profileTableEl).find("h2").parent();
+        const currentRole: Cheerio = parentEl.find(".fa-user-circle");
 
-        // if they have one role they have this element, other they don't
-        const profileOneRole: Cheerio = parentEl.find(".profileP");
-
-        // current role (might not exist if they have one role
-        const currentRole: Cheerio = parentEl.find(".profileIcon");
-
-        if (currentRole.length || profileOneRole.length) {
+        if (currentRole.length) {
             const canonicalLinkMatches: RegExpMatchArray | null = this.$("link[rel='canonical']").attr("href")
                 .match(/\/en\/(\w+)\/\d+/);
 
@@ -168,8 +144,10 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
             }
         }
 
-        // other roles
-        parentEl.find("a").each((index: number, elem: CheerioElement) => {
+
+
+        // other roles (without all sports link)
+        parentEl.find("a").not("[style*=\"allSports=\"]").each((index: number, elem: CheerioElement) => {
             const hrefMatches: RegExpMatchArray | null = elem.attribs.href.match(/(\d+)$/);
             const type: string = trimRemoveLineBreaks(this.$(elem).text());
 
@@ -195,30 +173,6 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
         });
 
         return rolesWithLinks;
-    }
-
-    /**
-     * Returns an array of social media links
-     * Due to social media platforms changing, this returns an array and not an object
-     */
-    get socialMedia(): string[] {
-        // we could check that the "type" is empty but that could change, let's check for links to common social media
-        // since BoxRec lists sites like Facebook and YouTube as string URLs and not links, we're going
-        // to protect ourselves by both checking for the strings as well as check for URLs because this could change
-        const tableColumns: Cheerio = this.$(`.profileTable table`)
-            .find(`td:contains(youtube.com), td a[href*='youtube.com'],
-                td:contains(facebook.com), td a[href*='facebook.com'],
-                td:contains(twitter.com), td a[href*='twitter.com']`);
-
-        if (tableColumns.length) {
-            return tableColumns.map((index: number, elem: CheerioElement) => {
-                const attr: string | undefined = this.$(elem).attr("href");
-                // if the element has the href attr we know it's the link otherwise it's a string column
-                return attr ? trimRemoveLineBreaks(attr) : trimRemoveLineBreaks(this.$(elem).text());
-            }).get();
-        }
-
-        return [];
     }
 
     /**

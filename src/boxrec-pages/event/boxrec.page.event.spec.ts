@@ -1,6 +1,6 @@
 import {mockEventPageBellewHaye2, mockEventPageMayweatherMcGregor} from "boxrec-mocks";
 import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
-import {BoxrecBasic, WinLossDraw} from "../boxrec.constants";
+import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecEventBoutRowOutput, BoxrecEventOutput} from "./boxrec.event.constants";
 import {BoxrecPageEvent} from "./boxrec.page.event";
 

@@ -59,16 +59,8 @@ export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: s
     const tableEl: Cheerio = $($("<div>").append($("table").clone()).html());
     const idx: number = tableColumnsArr.findIndex(item => item === columnHeaderText);
 
-    /*if (idx === -1) {
-        throw new Error(`Could not find the column header in the array: ${tableColumnsArr}, ${columnHeaderText}`);
-    }*/
     if (idx > -1) {
         const el: Cheerio = tableEl.find(`tr:nth-child(1) td:nth-child(${idx + 1})`);
-
-        /*if (!el.length) {
-            throw new Error(`Tried to get column data for column that doesn't exist,
-             but existed in array?: ${columnHeaderText}`);
-        }*/
 
         if (returnHTML) {
             const html: string | null = el.html();
@@ -263,7 +255,7 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
 
             // so boxer profiles have "3" ratings.  The first fighter rating change, the second fighter rating change
             // and the rating of the bout.  The following tries to figure out if it's one of the first two
-            if (headerText === "rating" && rowDataText.includes("➞")) {
+            if (headerText === "rating") {
                 const hasFirstRating: boolean = headersArr.some(item =>
                     item === BoxrecCommonTableHeader.firstRating);
 

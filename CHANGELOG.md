@@ -1,3 +1,11 @@
+## 7.1.7 (2022-03-06)
+
+### Fixed
+
+-   Fixed a number of issues due to selectors being out of date
+-   Bouts no longer show the before points of a boxer, therefore is now just a number
+-   Profile pages no longer have the `death` date of a person
+
 ## 7.1.6 (2022-02-14)
 
 ### Fixed

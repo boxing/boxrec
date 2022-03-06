@@ -26,7 +26,7 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     rating: number | null;
 
     // todo used on any profile?
-    get firstBoxerRating(): Array<number | null> {
+    get firstBoxerRating(): number | null {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.firstRating));
     }
@@ -53,7 +53,7 @@ export class BoxrecPageProfileOtherCommonBoutRow extends BoxrecProfileCommonRow
     }
 
     // todo used on any profile?
-    get secondBoxerRating(): Array<number | null> {
+    get secondBoxerRating(): number | null {
         return BoxrecPageProfileBoxerBoutRow.parseBoxerRating(getColumnDataByColumnHeader(this.$,
             this.headerColumns, BoxrecCommonTableHeader.secondRating));
     }
