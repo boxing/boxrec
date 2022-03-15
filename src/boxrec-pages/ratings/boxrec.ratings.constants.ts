@@ -1,6 +1,6 @@
+import {Country} from "boxrec-requests";
 import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {Country} from "../location/people/boxrec.location.people.constants";
 import {WeightDivisionCapitalized} from "../titles/boxrec.page.title.constants";
 
 export interface BoxrecRatingsParams {
