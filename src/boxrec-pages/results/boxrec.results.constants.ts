@@ -1,4 +1,4 @@
-import {Country} from "../location/people/boxrec.location.people.constants";
+import {Country} from "boxrec-requests";
 
 export interface BoxrecResultsParams {
     countryCode?: Country;

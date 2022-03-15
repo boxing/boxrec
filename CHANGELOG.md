@@ -1,3 +1,9 @@
+## 7.2.0 (2022-03-15)
+
+### Added
+
+-   Export `Country` from `boxrec-requests` which allows developers to use it for locations
+
 ## 7.1.9 (2022-03-15)
 
 ### Fixed

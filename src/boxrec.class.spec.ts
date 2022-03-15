@@ -1,8 +1,9 @@
 import {mockProfileBoxerRJJ} from "boxrec-mocks";
-import {BoxrecRequests} from "boxrec-requests";
-import {BoxrecFighterOption, BoxrecRole, Country} from "boxrec-requests";
+import {BoxrecRequests, Country} from "boxrec-requests";
+import {BoxrecFighterOption, BoxrecRole} from "boxrec-requests";
 import * as fs from "fs";
 import {CookieJar} from "request";
+import {Boxrec} from "./";
 // @ts-ignore (because it's javascript)
 import * as rp from "./__mocks__/request-promise";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
@@ -11,7 +12,6 @@ import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profi
 import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
 import {BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
 import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
-import {Boxrec} from "./boxrec.class";
 import Mock = jest.Mock;
 import SpyInstance = jest.SpyInstance;
 

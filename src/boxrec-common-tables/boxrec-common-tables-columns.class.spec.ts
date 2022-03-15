@@ -1,5 +1,5 @@
+import {Country} from "boxrec-requests";
 import {BoxrecLocation} from "../boxrec-pages/boxrec.constants";
-import {Country} from "../boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecCommonTablesColumnsClass} from "./boxrec-common-tables-columns.class";
 
 describe("class BoxrecCommonTablesColumnsClass", () => {
