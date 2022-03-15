@@ -1,4 +1,4 @@
-import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecRole} from "boxrec-requests";
 import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
 import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";

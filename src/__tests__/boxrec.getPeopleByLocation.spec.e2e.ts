@@ -1,4 +1,4 @@
-import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecRole} from "boxrec-requests";
 import {CookieJar} from "request";
 import {Country} from "../boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageLocationPeople} from "../boxrec-pages/location/people/boxrec.page.location.people";

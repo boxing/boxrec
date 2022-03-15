@@ -1,4 +1,4 @@
-import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecRole} from "boxrec-requests";
 import {CookieJar} from "request";
 import {BoxrecPageProfileBoxer} from "../boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "../boxrec-pages/profile/boxrec.page.profile.events";

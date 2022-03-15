@@ -1,5 +1,5 @@
 import {mockScheduleWorldwide} from "boxrec-mocks";
-import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
+import {WeightDivision} from "boxrec-requests";
 import {BoxrecEventOutput} from "../event/boxrec.event.constants";
 import {BoxrecPageSchedule} from "./boxrec.page.schedule";
 

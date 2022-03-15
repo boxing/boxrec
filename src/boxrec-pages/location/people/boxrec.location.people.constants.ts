@@ -1,4 +1,4 @@
-import {WeightDivision, WinLossDraw} from "boxrec-requests/dist/boxrec-requests.constants";
+import {WeightDivision, WinLossDraw} from "boxrec-requests";
 import {BoxrecLocation, Record} from "../../boxrec.constants";
 import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
 

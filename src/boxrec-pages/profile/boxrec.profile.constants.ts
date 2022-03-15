@@ -1,4 +1,4 @@
-import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecRole} from "boxrec-requests";
 import {BoxrecBout} from "../boxrec.constants";
 
 export interface BoxrecProfile {

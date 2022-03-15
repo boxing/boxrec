@@ -1,4 +1,4 @@
-import {BoxrecFighterRole, BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecFighterRole, BoxrecRole} from "boxrec-requests";
 import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
 import {WeightDivision} from "../champions/boxrec.champions.constants";
 

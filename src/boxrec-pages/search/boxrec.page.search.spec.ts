@@ -1,5 +1,5 @@
 import {mockSearchMayweather} from "boxrec-mocks";
-import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecFighterRole} from "boxrec-requests";
 import {WinLossDraw} from "../boxrec.constants";
 import {BoxrecPageSearch} from "./boxrec.page.search";
 import {BoxrecSearch} from "./boxrec.search.constants";

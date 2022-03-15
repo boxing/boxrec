@@ -1,4 +1,4 @@
-import {BoxrecBasic} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecBasic} from "boxrec-requests";
 import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
 

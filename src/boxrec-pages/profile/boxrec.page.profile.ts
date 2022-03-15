@@ -1,4 +1,4 @@
-import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecRole} from "boxrec-requests";
 import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
 import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
 import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
