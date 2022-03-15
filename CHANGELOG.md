@@ -1,3 +1,9 @@
+## 7.1.8 (2022-03-14)
+
+### Fixed
+
+-   Updated `boxrec-requests` to have a better log in failure
+
 ## 7.1.7 (2022-03-06)
 
 ### Fixed
