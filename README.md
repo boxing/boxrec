@@ -7,7 +7,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/boxing/boxrec/badge.svg?targetFile=package.json)](https://snyk.io/test/github/boxing/boxrec?targetFile=package.json)
 
 This project allows you to query information from [BoxRec](http://boxrec.com) and return it in JSON format.
-The purpose of this project is to act as an API for BoxRec.
+The purpose of this project is to act as an API for BoxRec.  This project is not affilated with BoxRec.
 
 ## :warning: Notice before using this package :warning:
 
@@ -405,6 +405,3 @@ BoxRec had updated their [Terms and Conditions](http://boxrec.com/en/terms_condi
 [Web scraping](https://en.wikipedia.org/wiki/Web_scraping) on wikipedia states under legal issues _"The legality of web scraping varies across the world. In general, web scraping may be against the terms of use of some websites, but the enforceability of these terms is unclear"._
 
 Conclusion: It is unclear.  What you do with this package though could very well be illegal.
-
-## Note
-Not affiliated with the website [BoxRec](http://www.boxrec.com)
