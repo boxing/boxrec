@@ -1,5 +1,5 @@
 import {mockChampions} from "boxrec-mocks";
-import {WeightDivision} from "boxrec-requests/dist/boxrec-requests.constants";
+import {WeightDivision} from "boxrec-requests";
 import {
     BoxrecChampionsByWeightDivision,
     BoxrecChampionsOutput,

@@ -1,4 +1,4 @@
-import {BoxrecFighterOption, BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecFighterOption, BoxrecRole} from "boxrec-requests";
 import {CookieJar} from "request";
 import {expectId, expectMatchDate, logIn, wait} from "./__tests__/helpers";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";

@@ -1,3 +1,9 @@
+## 7.1.9 (2022-03-15)
+
+### Fixed
+
+-   Updated `boxrec-requests` as it had a login issue which prevented logging in
+
 ## 7.1.8 (2022-03-14)
 
 ### Fixed

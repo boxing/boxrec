@@ -1,4 +1,4 @@
-import {BoxrecFighterRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecFighterRole} from "boxrec-requests";
 import * as cheerio from "cheerio";
 import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
 import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";

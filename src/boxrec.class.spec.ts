@@ -1,6 +1,6 @@
 import {mockProfileBoxerRJJ} from "boxrec-mocks";
 import {BoxrecRequests} from "boxrec-requests";
-import {BoxrecFighterOption, BoxrecRole, Country} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecFighterOption, BoxrecRole, Country} from "boxrec-requests";
 import * as fs from "fs";
 import {CookieJar} from "request";
 // @ts-ignore (because it's javascript)
@@ -53,7 +53,7 @@ describe.skip("class Boxrec", () => {
             try {
                 // this will throw because the entire method in boxrec-requests isn't mocked here
                 await Boxrec.login("", "");
-            } catch(e) {
+            } catch (e) {
                 expect(rp).toHaveBeenCalledWith(jasmine.objectContaining({
                     method: "POST",
                     url: "https://boxrec.com/en/login",

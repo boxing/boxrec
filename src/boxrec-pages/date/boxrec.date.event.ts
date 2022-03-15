@@ -1,4 +1,4 @@
-import {BoxrecRole} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecRole} from "boxrec-requests";
 import {BoxrecEvent} from "../event/boxrec.event";
 
 /**

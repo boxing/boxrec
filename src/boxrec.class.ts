@@ -3,7 +3,7 @@ import {
     BoxrecLocationEventParams,
     BoxrecLocationsPeopleParams,
     BoxrecRole
-} from "boxrec-requests/dist/boxrec-requests.constants";
+} from "boxrec-requests";
 import * as fs from "fs";
 import {WriteStream} from "fs";
 import {CookieJar, RequestResponse} from "request";
@@ -47,8 +47,8 @@ export class Boxrec {
      * Note: credentials are sent over HTTP, BoxRec doesn't support HTTPS
      * @param {string} username     your BoxRec username
      * @param {string} password     your BoxRec password
-     * @returns {Promise<CookieJar>}    If the response is undefined, you have successfully logged in.
-     *                                  Otherwise an error will be thrown
+     * @returns {Promise<CookieJar>}    the BoxRec log in cookie to make subsequent requests
+     *
      */
     static async login(username: string, password: string): Promise<CookieJar> {
         return BoxrecRequests.login(username, password);

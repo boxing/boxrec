@@ -1,4 +1,4 @@
-import {BoxrecBasic} from "boxrec-requests/dist/boxrec-requests.constants";
+import {BoxrecBasic} from "boxrec-requests";
 import {CookieJar} from "request";
 import {WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {BoxrecPageEventBout} from "../boxrec-pages/event/bout/boxrec.page.event.bout";
