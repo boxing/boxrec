@@ -1276,10 +1276,10 @@ boxrec-mocks@^3.0.1:
     html-loader "^0.5.5"
     webpack "^4.28.0"
 
-boxrec-requests@5.1.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-5.1.4.tgz#1d510c6cbc5f801aa87f11786b78c135a5204c3b"
-  integrity sha512-x7Gn2PMCOVDqzL5AH1ABExVAgrY/TzE8iU06OceP/8aJjUWgAGzhS70JuilTh4s1tvBpTx1Tiyip6whG9bkT/Q==
+boxrec-requests@5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-5.2.2.tgz#0fa50714888ec12b0ac9eaebb973f7987b4d121f"
+  integrity sha512-o62rzQFgXAGpAbo5pNSXIbKKeXVChVFa0+zIgaxagCxVT5y3vagPkBvO2bS+KgWpYF8p1ueyxzFfyUSDK0incg==
   dependencies:
     cheerio "^1.0.0-rc.3"
     request "^2.88.0"
