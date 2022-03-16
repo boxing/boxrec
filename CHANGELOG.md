@@ -1,3 +1,9 @@
+## 7.2.1 (2022-03-16)
+
+### Changed
+
+-   No longer use `.npmignore` to ignore files - Reduce package size from 54.1kB/277.4kB to 50.1kB/265.2kB
+
 ## 7.2.0 (2022-03-15)
 
 ### Added
