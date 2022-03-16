@@ -928,10 +928,10 @@ boxrec-mocks@^3.0.1:
     html-loader "^0.5.5"
     webpack "^4.28.0"
 
-boxrec-requests@5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-5.3.0.tgz#77d2e2d89a4c68bc839f69c5a31abb3403a51f72"
-  integrity sha512-IZlaXzDfNmEAMHugsDzFWZ+njjndsae01ARJ7cZ69ejBe19ejSM8sL0f5Y7qxNAWoUq0fPppIiVAwVi/GvlKBA==
+boxrec-requests@5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/boxrec-requests/-/boxrec-requests-5.3.1.tgz#f47d2f0db5765820a95ff67d97b9a229e3a68a52"
+  integrity sha512-Qs1Hjmfek85R685iyXW3qgmJ82vVMD46v0beNp4IsaN5a1TU10p9wb5HDLNPzjSeG4540CPve8J1mENF0Q/qyw==
   dependencies:
     cheerio "^1.0.0-rc.3"
     request "^2.88.0"
