@@ -1,30 +1,30 @@
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {parseHeight, trimRemoveLineBreaks} from "../../helpers";
-import {Record, Stance} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecPageProfile} from "./boxrec.page.profile";
-import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
-import {BoxrecProfileBoxerOutput} from "./boxrec.page.profile.constants";
-import {BoxrecProfileTable} from "./boxrec.profile.constants";
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {BoutsGetter, BoutsInterface} from '../../decorators/bouts.decorator';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {parseHeight, trimRemoveLineBreaks} from '../../helpers';
+import {Record, Stance} from '../boxrec.constants';
+import {WeightDivision} from '../champions/boxrec.champions.constants';
+import {BoxrecPageProfile} from './boxrec.page.profile';
+import {BoxrecPageProfileBoxerBoutRow} from './boxrec.page.profile.boxer.bout.row';
+import {BoxrecProfileBoxerOutput} from './boxrec.page.profile.constants';
+import {BoxrecProfileTable} from './boxrec.profile.constants';
 
 /**
  * BoxRec Boxer Profile Page
  * <pre>ex. http://boxrec.com/en/boxer/155774</pre>
  */
 // todo this is a bit flaky but the BoutsDecorator is restricted to using strings at this time
-@BoutsGetter(".dataTable[width='100%']", BoxrecPageProfileBoxerBoutRow, 1, true)
+@BoutsGetter('.dataTable[width=\'100%\']', BoxrecPageProfileBoxerBoutRow, 1, true)
 @OutputGetter([
-    "KOs", "alias", "birthName", "birthPlace", "born",
+    'KOs', 'alias', 'birthName', 'birthPlace', 'born',
     {
         function: (bouts: BoxrecPageProfileBoxerBoutRow[]) => bouts.map(bout => bout.output),
-        method: "bouts",
-    }, "debut", "division", "globalId", "hasBoutScheduled",
-    "height", "name", "nationality", "numberOfBouts", "otherInfo",
-    "picture", "ranking", "rating", "reach", "record", "residence",
-    "role", "rounds", "stance", "status", "suspended",
-    "titlesHeld", "vadacbp",
+        method: 'bouts',
+    }, 'debut', 'division', 'globalId', 'hasBoutScheduled',
+    'height', 'name', 'nationality', 'numberOfBouts', 'otherInfo',
+    'picture', 'ranking', 'rating', 'reach', 'record', 'residence',
+    'role', 'rounds', 'stance', 'status', 'suspended',
+    'titlesHeld', 'vadacbp',
 ])
 export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsInterface, OutputInterface {
 
@@ -43,7 +43,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
      * @returns {number | null}
      */
     get KOs(): number | null {
-        const ko: string | void = this.$(".profileWLD tr:nth-child(2) .textWon").text();
+        const ko: string | void = this.$('.profileWLD tr:nth-child(2) .textWon').text();
 
         if (ko) {
             const kos: number = parseInt(ko, 10);
@@ -105,7 +105,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
      */
     get enrollments(): Array<{ by: string, expires: string, id: number, sport: string }> {
         const enrollmentsTableData: Cheerio =
-            this.$("h2:contains('Enrollments') + .boxerSectionContent table tbody tr");
+            this.$('h2:contains(\'Enrollments\') + .boxerSectionContent table tbody tr');
         const enrollments: Array<{ by: string, expires: string, id: number, sport: string }> = [];
 
         if (enrollmentsTableData) {
@@ -122,7 +122,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
                     sport = trimRemoveLineBreaks(sport);
                     expires = trimRemoveLineBreaks(expires);
                     const idConverted: number = parseInt(trimRemoveLineBreaks(
-                        id.replace(/\D+/, "")), 10);
+                        id.replace(/\D+/, '')), 10);
 
                     enrollments.push({
                         by,
@@ -194,12 +194,12 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
 
         if (ranking) {
             const html: Cheerio = this.$(`<div>${ranking}</div>`);
-            const links: Cheerio = html.find("a");
+            const links: Cheerio = html.find('a');
             const rankings: number[][] = [];
 
             links.each((i: number, elem: CheerioElement) => {
                 const text: string = this.$(elem).text();
-                const parsedArr: number[] = text.trim().replace(",", "").split("/").map((str: string) => parseInt(str, 10));
+                const parsedArr: number[] = text.trim().replace(',', '').split('/').map((str: string) => parseInt(str, 10));
                 rankings.push(parsedArr);
             });
 
@@ -262,11 +262,11 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
             win: null,
         };
         // the record bar is the bar that above the profile that displays the record of the person
-        const recordBar: Cheerio = this.$(".profileWLD tr:nth-child(1)");
+        const recordBar: Cheerio = this.$('.profileWLD tr:nth-child(1)');
 
-        const win: string = recordBar.find("td:nth-child(1)").text();
-        const loss: string = recordBar.find("td:nth-child(2)").text();
-        const draw: string = recordBar.find("td:nth-child(3)").text();
+        const win: string = recordBar.find('td:nth-child(1)').text();
+        const loss: string = recordBar.find('td:nth-child(2)').text();
+        const draw: string = recordBar.find('td:nth-child(3)').text();
 
         if (win) {
             record.win = parseInt(win, 10);
@@ -312,7 +312,7 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
      * @returns {string | null}
      */
     get suspended(): string | null {
-        const el: Cheerio = this.$("body").find(".profileTable div:contains('suspended'):nth-child(1)");
+        const el: Cheerio = this.$('body').find('.profileTable div:contains(\'suspended\'):nth-child(1)');
         if (el.length) {
             return trimRemoveLineBreaks(el.text());
         }
@@ -331,10 +331,10 @@ export class BoxrecPageProfileBoxer extends BoxrecPageProfile implements BoutsIn
             const html: Cheerio = this.$(titlesHeld);
             const tmpThis: CheerioStatic = this.$;
 
-            return html.find("a").map(function(this: Cheerio): string {
+            return html.find('a').map(function(this: Cheerio): string {
                 let text: string = tmpThis(this).text();
                 // on the Gennady Golovkin profile I found one belt had two spaces in the middle of it
-                text = text.replace(/\s{2,}/g, " ");
+                text = text.replace(/\s{2,}/g, ' ');
                 return text.trim();
             }).get();
         }

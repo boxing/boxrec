@@ -1,6 +1,6 @@
-import {WeightDivision, WinLossDraw} from "boxrec-requests";
-import {BoxrecLocation, Record} from "../../boxrec.constants";
-import {BoxrecPageLocationPeopleRow} from "./boxrec.page.location.people.row";
+import {WeightDivision, WinLossDraw} from 'boxrec-requests';
+import {BoxrecLocation, Record} from '../../boxrec.constants';
+import {BoxrecPageLocationPeopleRow} from './boxrec.page.location.people.row';
 
 export interface BoxrecPageLocationPeopleOutput {
     numberOfPages: number;
@@ -17,7 +17,7 @@ export interface BoxrecPageLocationBoxerRowOutput {
     miles: number;
     name: string;
     record: Record;
-    sex: "male" | "female";
+    sex: 'male' | 'female';
 }
 
 export interface BoxrecPageLocationPeopleRowOutput {
@@ -25,5 +25,5 @@ export interface BoxrecPageLocationPeopleRowOutput {
     location: BoxrecLocation;
     miles: number;
     name: string;
-    sex: "male" | "female";
+    sex: 'male' | 'female';
 }

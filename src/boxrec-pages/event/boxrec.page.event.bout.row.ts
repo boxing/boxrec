@@ -1,18 +1,18 @@
-import {BoxrecFighterRole} from "boxrec-requests";
-import * as cheerio from "cheerio";
-import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {DivisionGetter, DivisionInterface} from "../../decorators/division.decorator";
-import {FirstBoxerGetter, FirstBoxerInterface} from "../../decorators/firstBoxer.decorator";
-import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
-import {BoxrecBasic, Record, WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constants";
+import {BoxrecFighterRole} from 'boxrec-requests';
+import * as cheerio from 'cheerio';
+import {BoxrecCommonLinks} from '../../boxrec-common-tables/boxrec-common-links';
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {DivisionGetter, DivisionInterface} from '../../decorators/division.decorator';
+import {FirstBoxerGetter, FirstBoxerInterface} from '../../decorators/firstBoxer.decorator';
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from '../../decorators/firstBoxerWeight.decorator';
+import {MetadataGetter, MetadataInterface} from '../../decorators/metadata.decorator';
+import {OutcomeGetter, OutcomeInterface} from '../../decorators/outcome.decorator';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {RatingGetter, RatingInterface} from '../../decorators/rating.decorator';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../helpers';
+import {BoxrecBasic, Record, WinLossDraw} from '../boxrec.constants';
+import {WeightDivision} from '../champions/boxrec.champions.constants';
+import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from './boxrec.event.constants';
 
 @DivisionGetter()
 @FirstBoxerGetter()
@@ -20,10 +20,10 @@ import {BoxrecEventBoutRowOutput, BoxrecEventLinks} from "./boxrec.event.constan
 @MetadataGetter()
 @OutcomeGetter()
 @OutputGetter([
-    "division", "firstBoxer", "firstBoxerLast6", "firstBoxerRecord",
-    "firstBoxerWeight", "links", "metadata", "numberOfRounds",
-    "outcome", "outcomeByWayOf", "rating", "secondBoxer",
-    "secondBoxerLast6", "secondBoxerRecord", "secondBoxerWeight", "sport"
+    'division', 'firstBoxer', 'firstBoxerLast6', 'firstBoxerRecord',
+    'firstBoxerWeight', 'links', 'metadata', 'numberOfRounds',
+    'outcome', 'outcomeByWayOf', 'rating', 'secondBoxer',
+    'secondBoxerLast6', 'secondBoxerRecord', 'secondBoxerWeight', 'sport'
 ])
 @RatingGetter()
 export class BoxrecPageEventBoutRow

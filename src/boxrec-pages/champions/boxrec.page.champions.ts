@@ -1,14 +1,14 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {changeToCamelCase, trimRemoveLineBreaks} from "../../helpers";
+import * as cheerio from 'cheerio';
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {changeToCamelCase, trimRemoveLineBreaks} from '../../helpers';
 import {
     BoxrecBelts,
     BoxrecChampion,
     BoxrecChampionsByWeightDivision,
     BoxrecChampionsOutput,
     BoxrecUnformattedChampions
-} from "./boxrec.champions.constants";
+} from './boxrec.champions.constants';
 
 const beltOrganizations: BoxrecBelts = {
     BoxRec: null,
@@ -40,7 +40,7 @@ const weightDivisions: BoxrecChampionsByWeightDivision = {
 };
 
 @OutputGetter([
-    "boxingOrganizations", "byWeightDivision", "champions",
+    'boxingOrganizations', 'byWeightDivision', 'champions',
 ])
 export class BoxrecPageChampions implements OutputInterface {
 
@@ -77,7 +77,7 @@ export class BoxrecPageChampions implements OutputInterface {
     private parseBoxingOrganizations(): string[] {
         const listOfBoxingOrganizations: string[] = [];
         // find the first `BoxRec` and get the siblings of it.  The table structure keeps changing
-        this.$(".dataTable th:contains(BoxRec)").first().siblings()
+        this.$('.dataTable th:contains(BoxRec)').first().siblings()
             .each((index: number, elem: CheerioElement) => {
                 let boxingOrganization: string = this.$(elem).text();
                 boxingOrganization = boxingOrganization.trim();
@@ -88,7 +88,7 @@ export class BoxrecPageChampions implements OutputInterface {
             });
 
         if (listOfBoxingOrganizations.length) {
-            listOfBoxingOrganizations.unshift("BoxRec");
+            listOfBoxingOrganizations.unshift('BoxRec');
         }
 
         return listOfBoxingOrganizations;
@@ -99,8 +99,8 @@ export class BoxrecPageChampions implements OutputInterface {
         const listOfBoxingOrganizations: string[] = this.parseBoxingOrganizations();
 
         // todo develop more flexible way to get the champions, this is bound to change when they change their tables
-        this.$(".dataTable tr:nth-child(4n+3)").each((index: number, elem: CheerioElement) => {
-            const weightDivision: string = this.$(elem).prev().prev().find("td:nth-child(1)").text();
+        this.$('.dataTable tr:nth-child(4n+3)').each((index: number, elem: CheerioElement) => {
+            const weightDivision: string = this.$(elem).prev().prev().find('td:nth-child(1)').text();
 
             champions.push({
                 beltHolders: Object.assign({}, beltOrganizations),
@@ -108,26 +108,26 @@ export class BoxrecPageChampions implements OutputInterface {
             });
             const last: number = champions.length - 1;
 
-            this.$(elem).find("td").each((tdIndex: number, tdElem: CheerioElement) => {
+            this.$(elem).find('td').each((tdIndex: number, tdElem: CheerioElement) => {
                 if (tdIndex !== 0) {
                     const boxer: BoxrecChampion | null = {
                         id: null,
                         name: null,
                         picture: null,
                     };
-                    const firstLink: Cheerio = this.$(tdElem).find("a:nth-child(1)");
+                    const firstLink: Cheerio = this.$(tdElem).find('a:nth-child(1)');
 
                     if (firstLink.length) {
                         let name: string | null = this.$(tdElem).html();
 
                         if (name) {
-                            name = name.replace("<br>", " ");
+                            name = name.replace('<br>', ' ');
                             name = this.$(name).text();
                             name = trimRemoveLineBreaks(name);
 
                             if (firstLink[0] && firstLink[0].attribs) {
                                 const href: RegExpMatchArray | null = firstLink[0].attribs.href.match(/(\d+)$/);
-                                const picture: string = this.$(tdElem).find("img").attr("src");
+                                const picture: string = this.$(tdElem).find('img').attr('src');
 
                                 if (href && href[1]) {
                                     boxer.id = parseInt(href[1], 10);

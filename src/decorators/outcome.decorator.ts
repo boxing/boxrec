@@ -1,6 +1,6 @@
-import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {WinLossDraw} from "../boxrec-pages/boxrec.constants";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
+import {BoxrecCommonTablesColumnsClass} from '../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {WinLossDraw} from '../boxrec-pages/boxrec.constants';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../helpers';
 
 /**
  * Adds a getter to the class that returns the outcome for this bout
@@ -12,7 +12,7 @@ export function OutcomeGetter(columnHeaderText: BoxrecCommonTableHeader = Boxrec
                               returnHTML: boolean = false):
     (target: any) => void {
     return target => {
-        Object.defineProperty(target.prototype, "outcome", {
+        Object.defineProperty(target.prototype, 'outcome', {
             get(): WinLossDraw | null {
                 return BoxrecCommonTablesColumnsClass.parseOutcome(
                     getColumnDataByColumnHeader(this.$, this.headerColumns, columnHeaderText, returnHTML));

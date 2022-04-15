@@ -1,5 +1,5 @@
-import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
+import {BoxrecCommonTablesColumnsClass} from '../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../helpers';
 
 /**
  * Adds a getter to the class that returns the id for that table row
@@ -9,7 +9,7 @@ export function IdGetter(commonId: BoxrecCommonTableHeader.name | BoxrecCommonTa
                              = BoxrecCommonTableHeader.name):
     (target: any) => void {
     return target => {
-        Object.defineProperty(target.prototype, "id", {
+        Object.defineProperty(target.prototype, 'id', {
             get(): number {
                 return BoxrecCommonTablesColumnsClass.parseId(
                     getColumnDataByColumnHeader(this.$, this.headerColumns,

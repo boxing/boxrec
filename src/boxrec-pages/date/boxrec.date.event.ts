@@ -1,5 +1,5 @@
-import {BoxrecRole} from "boxrec-requests";
-import {BoxrecEvent} from "../event/boxrec.event";
+import {BoxrecRole} from 'boxrec-requests';
+import {BoxrecEvent} from '../event/boxrec.event';
 
 /**
  * Used by the BoxRec Date page for event information
@@ -11,7 +11,7 @@ export class BoxrecDateEvent extends BoxrecEvent {
     }
 
     protected parseLocation(): string {
-        return this.$(".flag").parent().html() as string;
+        return this.$('.flag').parent().html() as string;
     }
 
     /**
@@ -31,7 +31,7 @@ export class BoxrecDateEvent extends BoxrecEvent {
     }
 
     private parseId(): string {
-        const wikiHref: string | null = this.$("h2").next().find(".eventP").parent().attr("href");
+        const wikiHref: string | null = this.$('h2').next().find('.eventP').parent().attr('href');
         if (wikiHref) {
             const wikiLink: RegExpMatchArray | null = wikiHref.match(/(\d+)$/);
             if (wikiLink && wikiLink[1]) {
@@ -39,7 +39,7 @@ export class BoxrecDateEvent extends BoxrecEvent {
             }
         }
 
-        throw new Error("Could not find Event ID");
+        throw new Error('Could not find Event ID');
     }
 
 }

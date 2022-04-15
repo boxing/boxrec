@@ -1,4 +1,4 @@
-import {BoxrecLocation} from "../boxrec.constants";
+import {BoxrecLocation} from '../boxrec.constants';
 
 export interface BoxrecVenueOutput {
     events: BoxrecPageVenueEventsRowOutput[];

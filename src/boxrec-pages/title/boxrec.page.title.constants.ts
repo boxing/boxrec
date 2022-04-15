@@ -1,5 +1,5 @@
-import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
-import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
+import {BoxrecGeneralLinks} from '../../boxrec-common-tables/boxrec-common.constants';
+import {BoxrecBasic, BoxrecLocation, WinLossDraw} from '../boxrec.constants';
 
 export interface BoxrecTitleOutput {
     bouts: BoxrecPageTitleRowOutput[];

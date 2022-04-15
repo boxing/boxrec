@@ -1,4 +1,4 @@
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../helpers";
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from '../helpers';
 
 /**
  * Adds a getter to the class that returns the date column data
@@ -6,7 +6,7 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBrea
  */
 export function DateGetter(): (target: any) => void {
     return target => {
-        Object.defineProperty(target.prototype, "date", {
+        Object.defineProperty(target.prototype, 'date', {
             get(): string {
                 return trimRemoveLineBreaks(getColumnDataByColumnHeader(this.$,
                     this.headerColumns, BoxrecCommonTableHeader.date, false));

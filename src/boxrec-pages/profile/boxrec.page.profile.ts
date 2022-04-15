@@ -1,9 +1,9 @@
-import {BoxrecRole} from "boxrec-requests";
-import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecParseBoutsParseBouts} from "../event/boxrec.parse.bouts.parseBouts";
-import {BoxrecProfileRole, BoxrecProfileTable} from "./boxrec.profile.constants";
+import {BoxrecRole} from 'boxrec-requests';
+import {getHeaderColumnText, trimRemoveLineBreaks} from '../../helpers';
+import {BoxrecParseBoutsParseBouts} from '../event/boxrec.parse.bouts.parseBouts';
+import {BoxrecProfileRole, BoxrecProfileTable} from './boxrec.profile.constants';
 
-const profileTableEl: string = ".profileTable";
+const profileTableEl: string = '.profileTable';
 
 export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
 
@@ -29,7 +29,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
         const birthPlace: string | void = this.parseProfileTableData(BoxrecProfileTable.birthPlace);
 
         if (birthPlace) {
-            return this.$(`<div>${birthPlace}</div>`).text() || "";
+            return this.$(`<div>${birthPlace}</div>`).text() || '';
         }
 
         return null;
@@ -61,7 +61,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @returns {number | null}
      */
     get globalId(): number | null {
-        const tr: Cheerio = this.$(profileTableEl).find("h2");
+        const tr: Cheerio = this.$(profileTableEl).find('h2');
         const id: RegExpMatchArray | null = tr.text().match(/\d+/);
 
         if (id) {
@@ -79,7 +79,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @returns {Object}
      */
     get metadata(): object | null {
-        const metadata: string | null = this.$("script[type='application/ld+json']").html();
+        const metadata: string | null = this.$('script[type=\'application/ld+json\']').html();
         if (metadata) {
             JSON.parse(metadata);
         }
@@ -92,7 +92,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      * @returns {string}
      */
     get name(): string {
-        return this.$(profileTableEl).find("h1").text();
+        return this.$(profileTableEl).find('h1').text();
     }
 
     /**
@@ -104,7 +104,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     }
 
     get picture(): string {
-        return this.$(".profileTablePhoto img").attr("src");
+        return this.$('.profileTablePhoto img').attr('src');
     }
 
     /**
@@ -115,7 +115,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
         const residence: string | void = this.parseProfileTableData(BoxrecProfileTable.residence);
 
         if (residence) {
-            return this.$(`<div>${residence}</div>`).text() || "";
+            return this.$(`<div>${residence}</div>`).text() || '';
         }
 
         return null;
@@ -127,11 +127,11 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      */
     get role(): BoxrecProfileRole[] {
         const rolesWithLinks: BoxrecProfileRole[] = [];
-        const parentEl: Cheerio = this.$(profileTableEl).find("h2").parent();
-        const currentRole: Cheerio = parentEl.find(".fa-user-circle");
+        const parentEl: Cheerio = this.$(profileTableEl).find('h2').parent();
+        const currentRole: Cheerio = parentEl.find('.fa-user-circle');
 
         if (currentRole.length) {
-            const canonicalLinkMatches: RegExpMatchArray | null = this.$("link[rel='canonical']").attr("href")
+            const canonicalLinkMatches: RegExpMatchArray | null = this.$('link[rel=\'canonical\']').attr('href')
                 .match(/\/en\/(\w+)\/\d+/);
 
             if (canonicalLinkMatches && canonicalLinkMatches.length) {
@@ -144,10 +144,8 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
             }
         }
 
-
-
         // other roles (without all sports link)
-        parentEl.find("a").not("[style*=\"allSports=\"]").each((index: number, elem: CheerioElement) => {
+        parentEl.find('a').not('[style*="allSports="]').each((index: number, elem: CheerioElement) => {
             const hrefMatches: RegExpMatchArray | null = elem.attribs.href.match(/(\d+)$/);
             const type: string = trimRemoveLineBreaks(this.$(elem).text());
 
@@ -206,7 +204,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     protected getBouts<U>(boutsListArr: Array<[string, string | null]>,
                           type: (new (headerColumns: string[], boxrecBodyBout: string, additionalData: string | null)
                               => U)): U[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+        const headerColumns: string[] = getHeaderColumnText(this.$('.dataTable'));
         // todo also heads up that the opponent last6 is labelled firstLast6 because it only shows the opponents
 
         return boutsListArr.map((val: [string, string | null]) => new type(headerColumns, val[0], val[1]));
@@ -218,7 +216,7 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
      */
     protected parseProfileTableData(keyToRetrieve?: BoxrecProfileTable): string | void {
         const tableRow: Cheerio = this.profileTableBody.find(`tr:contains("${keyToRetrieve}")`);
-        const val: string | null = tableRow.find("td:nth-child(2)").html();
+        const val: string | null = tableRow.find('td:nth-child(2)').html();
 
         if (keyToRetrieve && val) {
             return val.trim();
@@ -228,12 +226,12 @@ export abstract class BoxrecPageProfile extends BoxrecParseBoutsParseBouts {
     private parseOtherInfo(): Array<[string, string]> {
         const otherInfo: Array<[string, string]> = [];
         const knownTableColumnKeys: string[] = Object.values(BoxrecProfileTable);
-        this.profileTableBody.find("tr").each((i: number, elem: CheerioElement) => {
-            const val: string | null = this.$(elem).find("td:nth-child(2)").html();
-            const key: string | null = trimRemoveLineBreaks(this.$(elem).find("td:nth-child(1)").text());
+        this.profileTableBody.find('tr').each((i: number, elem: CheerioElement) => {
+            const val: string | null = this.$(elem).find('td:nth-child(2)').html();
+            const key: string | null = trimRemoveLineBreaks(this.$(elem).find('td:nth-child(1)').text());
 
             // key.subtr because we don't want to match the `ID #` table row
-            if (key && val && key.substr(0, 2) !== "ID" && !knownTableColumnKeys.includes(key)) {
+            if (key && val && key.substr(0, 2) !== 'ID' && !knownTableColumnKeys.includes(key)) {
                 otherInfo.push([key, val]);
             }
         });

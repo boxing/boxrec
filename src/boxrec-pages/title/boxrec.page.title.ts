@@ -1,25 +1,25 @@
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {replaceWithWeight, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic} from "../boxrec.constants";
-import {BoxrecParseBouts} from "../event/boxrec.parse.bouts";
-import {BoxrecPageTitlesRow} from "../titles/boxrec.page.titles.row";
-import {BoxrecTitleOutput} from "./boxrec.page.title.constants";
-import {BoxrecPageTitleRow} from "./boxrec.page.title.row";
+import {BoutsGetter, BoutsInterface} from '../../decorators/bouts.decorator';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {replaceWithWeight, trimRemoveLineBreaks} from '../../helpers';
+import {BoxrecBasic} from '../boxrec.constants';
+import {BoxrecParseBouts} from '../event/boxrec.parse.bouts';
+import {BoxrecPageTitlesRow} from '../titles/boxrec.page.titles.row';
+import {BoxrecTitleOutput} from './boxrec.page.title.constants';
+import {BoxrecPageTitleRow} from './boxrec.page.title.row';
 
 /**
  * parse a BoxRec Title page
  * <pre>ex. http://boxrec.com/en/title/6/Middleweight
  */
-@BoutsGetter("table", BoxrecPageTitlesRow)
+@BoutsGetter('table', BoxrecPageTitlesRow)
 @OutputGetter([
     {
         function: (bouts: BoxrecPageTitlesRow[]) => bouts.map(bout => bout.output),
-        method: "bouts",
+        method: 'bouts',
     },
-    "champion",
-    "name",
-    "numberOfBouts",
+    'champion',
+    'name',
+    'numberOfBouts',
 ])
 export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface, OutputInterface {
 
@@ -35,7 +35,7 @@ export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface,
      * @returns {number}
      */
     get numberOfBouts(): number {
-        return parseInt(this.$(".pagerResults").text(), 10);
+        return parseInt(this.$('.pagerResults').text(), 10);
     }
 
     /**
@@ -43,9 +43,9 @@ export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface,
      * @returns {BoxrecBasic}
      */
     get champion(): BoxrecBasic {
-        const championStr: string | null = this.$("#pageOuter h2").html();
+        const championStr: string | null = this.$('#pageOuter h2').html();
         const html: Cheerio = this.$(`<div>${championStr}</div>`);
-        const boxerLink: Cheerio = html.find("a");
+        const boxerLink: Cheerio = html.find('a');
 
         if (boxerLink) {
             const link: CheerioElement = boxerLink.get(0);
@@ -66,7 +66,7 @@ export class BoxrecPageTitle extends BoxrecParseBouts implements BoutsInterface,
     }
 
     get name(): string {
-        return replaceWithWeight(this.$("#pageOuter h1").text());
+        return replaceWithWeight(this.$('#pageOuter h1').text());
     }
 
 }

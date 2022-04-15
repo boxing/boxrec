@@ -1,26 +1,26 @@
-import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
-import {BoxrecBasic, BoxrecLocation, WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecGeneralLinks} from '../../boxrec-common-tables/boxrec-common.constants';
+import {BoxrecBasic, BoxrecLocation, WinLossDraw} from '../boxrec.constants';
+import {WeightDivision} from '../champions/boxrec.champions.constants';
 
 // the params for searching titles are capitalized divisions
 export enum WeightDivisionCapitalized {
-    heavyweight = "Heavyweight",
-    cruiserweight = "Cruiserweight",
-    lightHeavyweight = "Light Heavyweight",
-    superMiddleweight = "Super Middleweight",
-    middleweight = "Middleweight",
-    superWelterweight = "Super Welterweight",
-    welterweight = "Welterweight",
-    superLightweight = "Super Lightweight",
-    lightweight = "Lightweight",
-    superFeatherweight = "Super Featherweight",
-    featherweight = "Featherweight",
-    superBantamweight = "Super Bantamweight",
-    bantamweight = "Bantamweight",
-    superFlyweight = "Super Flyweight",
-    flyweight = "Flyweight",
-    lightFlyweight = "Light Flyweight",
-    minimumweight = "Minimumweight"
+    heavyweight = 'Heavyweight',
+    cruiserweight = 'Cruiserweight',
+    lightHeavyweight = 'Light Heavyweight',
+    superMiddleweight = 'Super Middleweight',
+    middleweight = 'Middleweight',
+    superWelterweight = 'Super Welterweight',
+    welterweight = 'Welterweight',
+    superLightweight = 'Super Lightweight',
+    lightweight = 'Lightweight',
+    superFeatherweight = 'Super Featherweight',
+    featherweight = 'Featherweight',
+    superBantamweight = 'Super Bantamweight',
+    bantamweight = 'Bantamweight',
+    superFlyweight = 'Super Flyweight',
+    flyweight = 'Flyweight',
+    lightFlyweight = 'Light Flyweight',
+    minimumweight = 'Minimumweight'
 }
 
 export interface BoxrecTitlesParams {

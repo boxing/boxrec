@@ -1,6 +1,6 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
-import {BoxrecBasic} from "../../boxrec.constants";
+import * as cheerio from 'cheerio';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../../helpers';
+import {BoxrecBasic} from '../../boxrec.constants';
 
 export abstract class BoxrecPageEventCommonRow {
 
@@ -19,7 +19,7 @@ export abstract class BoxrecPageEventCommonRow {
             name: null,
         };
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
+        html.find('a').each((i: number, elem: CheerioElement) => {
             const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
             if (href) {
                 venue.name = this.$(elem).text();

@@ -25,7 +25,7 @@
     ],
     "quotemark": [
       true,
-      "double"
+      "single"
     ],
     "semicolon": [
       true,
@@ -111,7 +111,7 @@
     "promise-function-async": true,
     "quotemark": [
       true,
-      "double"
+      "single"
     ],
     "semicolon": [
       true,
@@ -127,8 +127,7 @@
     "typedef": [
       true,
       "call-signature",
-      "property-declaration",
-      "variable-declaration"
+      "property-declaration"
     ],
     "typedef-whitespace": [
       true,

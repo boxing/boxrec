@@ -1,13 +1,13 @@
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
-import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
-import {BoxrecPageProfileBoxerBoutRow} from "./boxrec.page.profile.boxer.bout.row";
-import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {DateGetter, DateInterface} from '../../decorators/date.decorator';
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from '../../decorators/firstBoxerWeight.decorator';
+import {MetadataGetter, MetadataInterface} from '../../decorators/metadata.decorator';
+import {OutcomeGetter, OutcomeInterface} from '../../decorators/outcome.decorator';
+import {RatingGetter, RatingInterface} from '../../decorators/rating.decorator';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../helpers';
+import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from '../boxrec.constants';
+import {BoxrecPageProfileBoxerBoutRow} from './boxrec.page.profile.boxer.bout.row';
+import {BoxrecProfileCommonRow} from './boxrec.profile.common.row';
 
 @DateGetter()
 @FirstBoxerWeightGetter()

@@ -1,10 +1,10 @@
-import {BoxrecPageSchedule} from "../boxrec-pages/schedule/boxrec.page.schedule";
-import {Boxrec} from "../boxrec.class";
-import {logIn, wait} from "./helpers";
+import {BoxrecPageSchedule} from '../boxrec-pages/schedule/boxrec.page.schedule';
+import {Boxrec} from '../boxrec.class';
+import {logIn, wait} from './helpers';
 
 jest.setTimeout(200000);
 
-describe("method getResults", () => {
+describe('method getResults', () => {
 
     let loggedInCookie: string;
 
@@ -24,17 +24,17 @@ describe("method getResults", () => {
         await wait();
     });
 
-    it("should give an array of events", () => {
+    it('should give an array of events', () => {
         expect(results.events.length).toBeGreaterThanOrEqual(0);
     });
 
-    it("should use the `offset` to give the next results", async () => {
+    it('should use the `offset` to give the next results', async () => {
         expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
     });
 
-    describe("getter numberOfPages", () => {
+    describe('getter numberOfPages', () => {
 
-        it("should return the number of pages", () => {
+        it('should return the number of pages', () => {
             expect(results.numberOfPages).toBeGreaterThan(0);
         });
 

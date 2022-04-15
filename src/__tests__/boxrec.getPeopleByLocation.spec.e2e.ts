@@ -1,12 +1,12 @@
-import {BoxrecRole} from "boxrec-requests";
-import {Country} from "boxrec-requests";
-import {BoxrecPageLocationPeople} from "../boxrec-pages/location/people/boxrec.page.location.people";
-import {Boxrec} from "../boxrec.class";
-import {logIn, wait} from "./helpers";
+import {BoxrecRole} from 'boxrec-requests';
+import {Country} from 'boxrec-requests';
+import {BoxrecPageLocationPeople} from '../boxrec-pages/location/people/boxrec.page.location.people';
+import {Boxrec} from '../boxrec.class';
+import {logIn, wait} from './helpers';
 
 jest.setTimeout(200000);
 
-describe("method getPeopleByLocation", () => {
+describe('method getPeopleByLocation', () => {
 
     let loggedInCookie: string;
 
@@ -31,41 +31,41 @@ describe("method getPeopleByLocation", () => {
         await wait();
     });
 
-    describe("getter numberOfPeople", () => {
+    describe('getter numberOfPeople', () => {
 
-        it("should return the number of people", () => {
+        it('should return the number of people', () => {
             // this was much higher at one point, over 10000.  Not sure what changed
             expect(results.numberOfPeople).toBeGreaterThanOrEqual(100);
         });
 
     });
 
-    describe("getter numberOfPages", () => {
+    describe('getter numberOfPages', () => {
 
-        it("should return a number", () => {
+        it('should return a number', () => {
             expect(results.numberOfPages).toBeGreaterThan(0);
         });
 
     });
 
-    it("should list people by name", () => {
+    it('should list people by name', () => {
         expect(results.people[0].name.length).toBeGreaterThan(0);
     });
 
-    it("should be in order from closest to farthest", () => {
+    it('should be in order from closest to farthest', () => {
         const firstPersonMiles: number = results.people[0].miles;
         const lastPersonMiles: number = results.people[results.people.length - 1].miles;
         expect(lastPersonMiles).toBeGreaterThanOrEqual(firstPersonMiles);
     });
 
-    it("should include the person's location", () => {
+    it('should include the person\'s location', () => {
         expect(results.people[0].location.country).toEqual({
             id: Country.USA,
-            name: "USA",
+            name: 'USA',
         });
     });
 
-    it("might omit the person's region/town if the person is '0 miles' from this location", () => {
+    it('might omit the person\'s region/town if the person is \'0 miles\' from this location', () => {
         expect(results.people[0].miles).toBe(0);
         expect(results.people[0].location.region).toEqual({
             id: null,
@@ -77,7 +77,7 @@ describe("method getPeopleByLocation", () => {
         });
     });
 
-    it("should offset the results if using `offset` param", () => {
+    it('should offset the results if using `offset` param', () => {
         // todo this doesn't work properly
         expect(results.people[0].id).not.toBe(nextResults.people[0].id);
     });

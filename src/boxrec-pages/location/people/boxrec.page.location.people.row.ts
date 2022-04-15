@@ -1,14 +1,14 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {IdGetter, IdInterface} from "../../../decorators/id.decorator";
-import {OutputGetter, OutputInterface} from "../../../decorators/output.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../../helpers";
-import {BoxrecLocation} from "../../boxrec.constants";
-import {BoxrecPageLocationPeopleRowOutput} from "./boxrec.location.people.constants";
+import * as cheerio from 'cheerio';
+import {BoxrecCommonTablesColumnsClass} from '../../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {IdGetter, IdInterface} from '../../../decorators/id.decorator';
+import {OutputGetter, OutputInterface} from '../../../decorators/output.decorator';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../../helpers';
+import {BoxrecLocation} from '../../boxrec.constants';
+import {BoxrecPageLocationPeopleRowOutput} from './boxrec.location.people.constants';
 
 // todo include fighters and weight division/record etc.
 @IdGetter()
-@OutputGetter(["id", "location", "miles", "name", "sex"])
+@OutputGetter(['id', 'location', 'miles', 'name', 'sex'])
 export class BoxrecPageLocationPeopleRow implements IdInterface, OutputInterface {
 
     id: number;
@@ -41,9 +41,9 @@ export class BoxrecPageLocationPeopleRow implements IdInterface, OutputInterface
             BoxrecCommonTableHeader.name, false)) as string;
     }
 
-    get sex(): "male" | "female" {
+    get sex(): 'male' | 'female' {
         return getColumnDataByColumnHeader(this.$, this.headerColumns,
-            BoxrecCommonTableHeader.sex, false) as "male" | "female";
+            BoxrecCommonTableHeader.sex, false) as 'male' | 'female';
     }
 
 }

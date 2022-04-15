@@ -1,9 +1,9 @@
-import { BoxrecPageLocationEventRow } from "../boxrec-pages/location/event/boxrec.page.location.event.row";
-import { BoxrecPageLocationBoxerRow } from "../boxrec-pages/location/people/boxrec.page.location.boxer.row";
-import { BoxrecPageLocationPeopleRow } from "../boxrec-pages/location/people/boxrec.page.location.people.row";
-import {BoxrecPageProfileEventRow} from "../boxrec-pages/profile/boxrec.page.profile.event.row";
-import {BoxrecPageVenueEventsRow} from "../boxrec-pages/venue/boxrec.page.venue.events.row";
-import {getHeaderColumnText} from "../helpers";
+import { BoxrecPageLocationEventRow } from '../boxrec-pages/location/event/boxrec.page.location.event.row';
+import { BoxrecPageLocationBoxerRow } from '../boxrec-pages/location/people/boxrec.page.location.boxer.row';
+import { BoxrecPageLocationPeopleRow } from '../boxrec-pages/location/people/boxrec.page.location.people.row';
+import {BoxrecPageProfileEventRow} from '../boxrec-pages/profile/boxrec.page.profile.event.row';
+import {BoxrecPageVenueEventsRow} from '../boxrec-pages/venue/boxrec.page.venue.events.row';
+import {getHeaderColumnText} from '../helpers';
 
 /**
  * Adds a getter to the class that returns the listings of a table
@@ -27,8 +27,8 @@ export function ListingsGetter(getter: string,
             get<T>(): T[] {
                 const headerColumns: string[] = getHeaderColumnText(this.$(tableEl));
 
-                return this.$(tableEl).find("tbody tr")
-                    .map((index: number, elem: CheerioElement) => this.$(elem).html() || "")
+                return this.$(tableEl).find('tbody tr')
+                    .map((index: number, elem: CheerioElement) => this.$(elem).html() || '')
                     .get() // Cheerio -> string[]
                     .map((item: string) => new classType(headerColumns, item));
             },

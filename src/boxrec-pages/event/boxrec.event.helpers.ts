@@ -1,4 +1,4 @@
-import {BoxrecBoutLocation} from "../boxrec.constants";
+import {BoxrecBoutLocation} from '../boxrec.constants';
 
 export const emptyLocationObject: BoxrecBoutLocation = {
     location: {

@@ -1,14 +1,14 @@
-import {BoxrecRole} from "boxrec-requests";
-import {BoutsGetter, BoutsInterface} from "../../decorators/bouts.decorator";
-import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from "../boxrec.constants";
-import {BoxrecPageEventBoutRow} from "./boxrec.page.event.bout.row";
-import {BoxrecParseBouts} from "./boxrec.parse.bouts";
+import {BoxrecRole} from 'boxrec-requests';
+import {BoutsGetter, BoutsInterface} from '../../decorators/bouts.decorator';
+import {getLocationValue, townRegionCountryRegex, trimRemoveLineBreaks} from '../../helpers';
+import {BoxrecBasic, BoxrecBoutLocation, BoxrecLocation} from '../boxrec.constants';
+import {BoxrecPageEventBoutRow} from './boxrec.page.event.bout.row';
+import {BoxrecParseBouts} from './boxrec.parse.bouts';
 
 /**
  * Used specifically for Events page and Dates page
  */
-@BoutsGetter("table", BoxrecPageEventBoutRow, 2)
+@BoutsGetter('table', BoxrecPageEventBoutRow, 2)
 export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInterface {
 
     bouts: BoxrecPageEventBoutRow[];
@@ -69,28 +69,28 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
             // 1 is only country
             if (links.length === 4) {
                 locationObject.region = {
-                    id: getLocationValue(links.get(2).attribs.href, "region"),
+                    id: getLocationValue(links.get(2).attribs.href, 'region'),
                     name: links.get(2).children[0].data as string,
                 };
                 locationObject.country = {
-                    id: getLocationValue(links.get(3).attribs.href, "country"),
+                    id: getLocationValue(links.get(3).attribs.href, 'country'),
                     name: links.get(3).children[0].data as string,
                 };
             } else if (links.length === 3) {
                 locationObject.country = {
-                    id: getLocationValue(links.get(2).attribs.href, "country"),
+                    id: getLocationValue(links.get(2).attribs.href, 'country'),
                     name: links.get(2).children[0].data as string,
                 };
             } else if (links.length === 2) {
                 locationObject.town = {
-                    id: getLocationValue(links.get(0).attribs.href, "town"),
+                    id: getLocationValue(links.get(0).attribs.href, 'town'),
                     name: links.get(0).children[0].data as string,
                 };
             }
 
             if (links.length === 2 || links.length === 1) {
                 locationObject.country = {
-                    id: getLocationValue(links.get(1).attribs.href, "country"),
+                    id: getLocationValue(links.get(1).attribs.href, 'country'),
                     name: links.get(1).children[0].data as string,
                 };
             }
@@ -122,7 +122,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
         };
 
         const html: Cheerio = this.$(`<div>${this.parseLocation()}</div>`);
-        const links: Cheerio = html.find("a");
+        const links: Cheerio = html.find('a');
 
         locationObject.venue = BoxrecEvent.getVenueInformation(links);
         locationObject.location = BoxrecEvent.getLocationInformation(links);
@@ -136,7 +136,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
         const html: Cheerio = this.$(`<div>${this.parseMatchmakers()}</div>`);
         const matchmaker: BoxrecBasic[] = [];
 
-        html.find("a").each((i: number, elem: CheerioElement) => {
+        html.find('a').each((i: number, elem: CheerioElement) => {
             const href: RegExpMatchArray | null = this.$(elem).get(0).attribs.href.match(/(\d+)$/);
             if (href) {
                 const name: string = this.$(elem).text();
@@ -153,11 +153,11 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
 
     // does not exist on dates page
     get promoters(): BoxrecBasic[] {
-        return this.$(".page a[href*='/promoter']").map((index: number, elem: CheerioElement) => {
-            const idMatches: RegExpMatchArray | null = this.$(elem).attr("href").match(/\/promoter\/(\d+)$/);
+        return this.$('.page a[href*=\'/promoter\']').map((index: number, elem: CheerioElement) => {
+            const idMatches: RegExpMatchArray | null = this.$(elem).attr('href').match(/\/promoter\/(\d+)$/);
 
             if (!idMatches) {
-                throw new Error("Could not get promoter ID from link");
+                throw new Error('Could not get promoter ID from link');
             }
 
             return {
@@ -172,22 +172,22 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
      * example: boxrec.com/en/date?ByV%5Bdate%5D%5Byear%5D=2019&ByV%5Bdate%5D%5Bmonth%5D=11&ByV%5Bdate%5D%5Bday%5D=16
      */
     get tickets(): string | null {
-        const tickets: string = this.parseEventData("tickets", false);
+        const tickets: string = this.parseEventData('tickets', false);
 
         return tickets ? trimRemoveLineBreaks(tickets) : null;
     }
 
     protected getPeopleTable(): Cheerio {
-        return this.$("table thead table tbody tr");
+        return this.$('table thead table tbody tr');
     }
 
-    protected parseEventData(role: BoxrecRole | "media" | "commission" | "tickets", parseHTML: boolean = true)
+    protected parseEventData(role: BoxrecRole | 'media' | 'commission' | 'tickets', parseHTML: boolean = true)
         : string {
-        let results: string | null = "";
+        let results: string | null = '';
 
         this.getPeopleTable().each((i: number, elem: CheerioElement) => {
-            const tag: string = this.$(elem).find("td:nth-child(1)").text().trim();
-            const val: Cheerio = this.$(elem).find("td:nth-child(2)");
+            const tag: string = this.$(elem).find('td:nth-child(1)').text().trim();
+            const val: Cheerio = this.$(elem).find('td:nth-child(2)');
 
             if (tag === role) {
                 // tested if `television` might actually be a BoxRec role but it isn't
@@ -200,17 +200,17 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
 
     // to be overridden by child class
     protected parseLocation(): string {
-        throw new Error("Needs to be overridden by child class");
+        throw new Error('Needs to be overridden by child class');
     }
 
     // to be overridden by child class
     protected parseMatchmakers(): string {
-        throw new Error("Needs to be overridden by child class");
+        throw new Error('Needs to be overridden by child class');
     }
 
     // to be overridden by child class
     protected parsePromoters(): string {
-        throw new Error("Needs to be overridden by child class");
+        throw new Error('Needs to be overridden by child class');
     }
 
 }

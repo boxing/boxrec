@@ -3,20 +3,20 @@ import {
     mockActiveAndInactiveRatings,
     mockNoDivisionRatings,
     mockRatings,
-} from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
-import {BoxrecPageRatings} from "./boxrec.page.ratings";
-import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
-import {BoxrecPageRatingsActiveInactiveDivisionRow} from "./boxrec.page.ratings.active-inactive-division.row";
+} from 'boxrec-mocks';
+import {WinLossDraw} from '../boxrec.constants';
+import {WeightDivision} from '../champions/boxrec.champions.constants';
+import {BoxrecPageRatings} from './boxrec.page.ratings';
+import {BoxrecPageRatingsActiveDivisionRow} from './boxrec.page.ratings.active-division.row';
+import {BoxrecPageRatingsActiveInactiveDivisionRow} from './boxrec.page.ratings.active-inactive-division.row';
 import {
     BoxrecPageRatingsActiveAllDivisionsRowOutput,
     BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput
-} from "./boxrec.ratings.constants";
+} from './boxrec.ratings.constants';
 
-describe("class BoxrecPageRatings", () => {
+describe('class BoxrecPageRatings', () => {
 
-    describe("active boxers with division", () => {
+    describe('active boxers with division', () => {
 
         let ratings: BoxrecPageRatings;
 
@@ -24,13 +24,13 @@ describe("class BoxrecPageRatings", () => {
             ratings = new BoxrecPageRatings(mockRatings);
         });
 
-        describe("getter boxers", () => {
+        describe('getter boxers', () => {
 
-            it("should return an array of ratings", () => {
+            it('should return an array of ratings', () => {
                 expect(ratings.boxers.length).toBeGreaterThan(0);
             });
 
-            describe("output values", () => {
+            describe('output values', () => {
 
                 let ratingsOutput: BoxrecPageRatingsActiveDivisionRow;
 
@@ -38,57 +38,57 @@ describe("class BoxrecPageRatings", () => {
                     ratingsOutput = ratings.boxers[0] as BoxrecPageRatingsActiveDivisionRow;
                 });
 
-                describe("getter id", () => {
+                describe('getter id', () => {
 
-                    it("should return the id", () => {
+                    it('should return the id', () => {
                         expect(ratingsOutput.id).toEqual(jasmine.any(Number));
                     });
 
                 });
 
-                describe("getter name", () => {
+                describe('getter name', () => {
 
-                    it("should return the boxer name", () => {
+                    it('should return the boxer name', () => {
                         expect(ratingsOutput.name).toEqual(jasmine.any(String));
                     });
 
                 });
 
-                describe("getter points", () => {
+                describe('getter points', () => {
 
-                    it("should return the points of the boxer", () => {
+                    it('should return the points of the boxer', () => {
                         expect(ratingsOutput.points).toEqual(jasmine.any(Number));
                     });
 
                 });
 
-                describe("getter rating", () => {
+                describe('getter rating', () => {
 
-                    it("should return the rating of the boxer", () => {
+                    it('should return the rating of the boxer', () => {
                         expect(ratingsOutput.rating).toEqual(jasmine.any(Number));
                     });
 
                 });
 
-                describe("getter hasBoutScheduled", () => {
+                describe('getter hasBoutScheduled', () => {
 
-                    it("should return if the boxer has a fight scheduled", () => {
+                    it('should return if the boxer has a fight scheduled', () => {
                         expect(ratingsOutput.hasBoutScheduled).toEqual(jasmine.any(Boolean));
                     });
 
                 });
 
-                describe("getter age", () => {
+                describe('getter age', () => {
 
-                    it("should return the age of the boxer", () => {
+                    it('should return the age of the boxer', () => {
                         expect(ratingsOutput.age).toEqual(jasmine.any(Number));
                     });
 
                 });
 
-                describe("getter record", () => {
+                describe('getter record', () => {
 
-                    it("should return the record of the boxer", () => {
+                    it('should return the record of the boxer', () => {
                         expect(ratingsOutput.record).toEqual({
                             draw: jasmine.any(Number),
                             loss: jasmine.any(Number),
@@ -98,34 +98,34 @@ describe("class BoxrecPageRatings", () => {
 
                 });
 
-                describe("getter last6", () => {
+                describe('getter last6', () => {
 
-                    it("should return an array", () => {
+                    it('should return an array', () => {
                         expect(ratingsOutput.last6[0]).toEqual(WinLossDraw.win);
                     });
 
                 });
 
-                describe("getter stance", () => {
+                describe('getter stance', () => {
 
-                    it("should return the stance", () => {
-                        expect(["orthodox", "southpaw"]).toContain(ratingsOutput.stance);
+                    it('should return the stance', () => {
+                        expect(['orthodox', 'southpaw']).toContain(ratingsOutput.stance);
                     });
 
                 });
 
-                describe("getter residence", () => {
+                describe('getter residence', () => {
 
                     const obj: { id: any, name: any } = {
                         id: jasmine.anything(),
                         name: jasmine.any(String),
                     };
 
-                    it("should return the country", () => {
+                    it('should return the country', () => {
                         expect(ratingsOutput.residence.country).toEqual(obj);
                     });
 
-                    it("should return the region (used to be populated, is now `null`)", () => {
+                    it('should return the region (used to be populated, is now `null`)', () => {
                         expect(ratingsOutput.residence.region).toEqual({
                             // ratings removed `region` at some point
                             id: null,
@@ -133,7 +133,7 @@ describe("class BoxrecPageRatings", () => {
                         });
                     });
 
-                    it("should return the town", () => {
+                    it('should return the town', () => {
                         expect(ratingsOutput.residence.town).toEqual(obj);
                     });
 
@@ -145,7 +145,7 @@ describe("class BoxrecPageRatings", () => {
 
     });
 
-    describe("active/inactive boxers with division", () => {
+    describe('active/inactive boxers with division', () => {
 
         let ratingsDivisionActiveInactive: BoxrecPageRatings;
 
@@ -153,13 +153,13 @@ describe("class BoxrecPageRatings", () => {
             ratingsDivisionActiveInactive = new BoxrecPageRatings(mockActiveAndInactiveRatings);
         });
 
-        describe("getter boxers", () => {
+        describe('getter boxers', () => {
 
-            it("should return an array of ratings", () => {
+            it('should return an array of ratings', () => {
                 expect(ratingsDivisionActiveInactive.boxers.length).toEqual(50);
             });
 
-            describe("output values", () => {
+            describe('output values', () => {
 
                 let ratingsOutput: BoxrecPageRatingsActiveInactiveDivisionRow;
 
@@ -168,21 +168,21 @@ describe("class BoxrecPageRatings", () => {
                         ratingsDivisionActiveInactive.boxers[0].output as BoxrecPageRatingsActiveInactiveDivisionRow;
                 });
 
-                describe("getter career", () => {
+                describe('getter career', () => {
 
-                    it("should return the start date", () => {
+                    it('should return the start date', () => {
                         expect(ratingsOutput.career[0]).toEqual(jasmine.any(Number));
                     });
 
-                    it("should return the end date", () => {
+                    it('should return the end date', () => {
                         expect(ratingsOutput.career[1]).toEqual(jasmine.any(Number));
                     });
 
                 });
 
-                describe("getter record", () => {
+                describe('getter record', () => {
 
-                    it("should return the record", () => {
+                    it('should return the record', () => {
                         // this test is more to ensure that columns are correct
                         expect(ratingsOutput.record).toEqual({
                             draw: jasmine.any(Number),
@@ -193,9 +193,9 @@ describe("class BoxrecPageRatings", () => {
 
                 });
 
-                describe("getter residence", () => {
+                describe('getter residence', () => {
 
-                    it("should return the residence", () => {
+                    it('should return the residence', () => {
                         expect(ratingsOutput.residence.country.name).not.toBeNull();
                     });
 
@@ -207,7 +207,7 @@ describe("class BoxrecPageRatings", () => {
 
     });
 
-    describe("active/inactive boxers ALL divisions", () => {
+    describe('active/inactive boxers ALL divisions', () => {
 
         let ratingsAllDivisionsActiveInactive: BoxrecPageRatings;
 
@@ -215,14 +215,14 @@ describe("class BoxrecPageRatings", () => {
             ratingsAllDivisionsActiveInactive = new BoxrecPageRatings(mockActiveAndInactiveNoDivisionRatings);
         });
 
-        describe("getter boxers", () => {
+        describe('getter boxers', () => {
 
-            it("should return an array of ratings", () => {
+            it('should return an array of ratings', () => {
                 // there are ads as table rows and we want to ensure we only get the rows we actually care about
                 expect(ratingsAllDivisionsActiveInactive.boxers.length).toEqual(50);
             });
 
-            describe("output values", () => {
+            describe('output values', () => {
 
                 let ratingsOutput: BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput;
 
@@ -231,9 +231,9 @@ describe("class BoxrecPageRatings", () => {
                         BoxrecPageRatingsActiveInactiveAllDivisionsRowOutput;
                 });
 
-                describe("getter division", () => {
+                describe('getter division', () => {
 
-                    it("should return the division", () => {
+                    it('should return the division', () => {
                         expect(Object.values(WeightDivision)).toContain(ratingsOutput.division);
                     });
 
@@ -245,7 +245,7 @@ describe("class BoxrecPageRatings", () => {
 
     });
 
-    describe("active boxers ALL divisions (P4P)", () => {
+    describe('active boxers ALL divisions (P4P)', () => {
 
         let ratingsAllDivisionsActive: BoxrecPageRatings;
 
@@ -253,14 +253,14 @@ describe("class BoxrecPageRatings", () => {
             ratingsAllDivisionsActive = new BoxrecPageRatings(mockNoDivisionRatings);
         });
 
-        describe("getter boxers", () => {
+        describe('getter boxers', () => {
 
-            it("should return an array of ratings", () => {
+            it('should return an array of ratings', () => {
                 // there are ads as table rows and we want to ensure we only get the rows we actually care about
                 expect(ratingsAllDivisionsActive.boxers.length).toEqual(50);
             });
 
-            describe("output values", () => {
+            describe('output values', () => {
 
                 let ratingsOutput: BoxrecPageRatingsActiveAllDivisionsRowOutput;
 
@@ -269,25 +269,25 @@ describe("class BoxrecPageRatings", () => {
                         BoxrecPageRatingsActiveAllDivisionsRowOutput;
                 });
 
-                describe("getter division", () => {
+                describe('getter division', () => {
 
-                    it("should return the division", () => {
+                    it('should return the division', () => {
                         expect(Object.values(WeightDivision)).toContain(ratingsOutput.division);
                     });
 
                 });
 
-                describe("getter age", () => {
+                describe('getter age', () => {
 
-                    it("should return the age", () => {
+                    it('should return the age', () => {
                         expect(ratingsOutput.age).toBeGreaterThan(0);
                     });
 
                 });
 
-                describe("getter rating", () => {
+                describe('getter rating', () => {
 
-                    it("should return the rating", () => {
+                    it('should return the rating', () => {
                         expect(ratingsOutput.rating).toBeGreaterThanOrEqual(0);
                     });
 

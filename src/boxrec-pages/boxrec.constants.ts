@@ -1,6 +1,6 @@
-import {BoxrecGeneralLinks} from "../boxrec-common-tables/boxrec-common.constants";
-import {BoxingBoutOutcome, BoxrecEventLinks} from "./event/boxrec.event.constants";
-import {BoxrecProfileBoutLocation} from "./profile/boxrec.profile.constants";
+import {BoxrecGeneralLinks} from '../boxrec-common-tables/boxrec-common.constants';
+import {BoxingBoutOutcome, BoxrecEventLinks} from './event/boxrec.event.constants';
+import {BoxrecProfileBoutLocation} from './profile/boxrec.profile.constants';
 
 interface BoxrecBasicLocation {
     id: string | number | null;
@@ -19,11 +19,11 @@ export interface BoxrecBoutLocation {
 }
 
 export enum WinLossDraw {
-    win = "win",
-    loss = "loss",
-    draw = "draw",
-    scheduled = "scheduled",
-    unknown = "unknown", // not a boxrec thing, just for us in the rare case that a different outcome is found
+    win = 'win',
+    loss = 'loss',
+    draw = 'draw',
+    scheduled = 'scheduled',
+    unknown = 'unknown', // not a boxrec thing, just for us in the rare case that a different outcome is found
 }
 
 export interface BoxrecBasic {
@@ -63,4 +63,4 @@ export interface BoxrecBout extends BoxrecBoutBasic {
     location: BoxrecProfileBoutLocation;
 }
 
-export type Stance = "orthodox" | "southpaw";
+export type Stance = 'orthodox' | 'southpaw';

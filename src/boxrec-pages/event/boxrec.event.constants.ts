@@ -1,17 +1,17 @@
-import {BoxrecFighterRole} from "boxrec-requests";
-import {BoxrecBasic, BoxrecBoutLocation, Record, WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecFighterRole} from 'boxrec-requests';
+import {BoxrecBasic, BoxrecBoutLocation, Record, WinLossDraw} from '../boxrec.constants';
+import {WeightDivision} from '../champions/boxrec.champions.constants';
 
 export enum BoxingBoutOutcome {
-    TKO = "technical knockout",
-    KO = "knockout",
-    UD = "unanimous decision",
-    MD = "majority decision",
-    SD = "split decision",
-    TD = "technical decision",
-    RTD = "corner retirement",
-    DQ = "disqualification",
-    NWS = "newspaper decision",
+    TKO = 'technical knockout',
+    KO = 'knockout',
+    UD = 'unanimous decision',
+    MD = 'majority decision',
+    SD = 'split decision',
+    TD = 'technical decision',
+    RTD = 'corner retirement',
+    DQ = 'disqualification',
+    NWS = 'newspaper decision',
 }
 
 export type BoxingBoutOutcomeKeys = keyof typeof BoxingBoutOutcome;

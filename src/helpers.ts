@@ -1,7 +1,7 @@
-import * as cheerio from "cheerio";
-import * as querystring from "querystring";
-import {ParsedUrlQuery} from "querystring";
-import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
+import * as cheerio from 'cheerio';
+import * as querystring from 'querystring';
+import {ParsedUrlQuery} from 'querystring';
+import {BoxingBoutOutcome} from './boxrec-pages/event/boxrec.event.constants';
 
 /**
  * Converts fractional symbols into decimals
@@ -10,14 +10,14 @@ import {BoxingBoutOutcome} from "./boxrec-pages/event/boxrec.event.constants";
  */
 export function convertFractionsToNumber(fraction: string): number {
     switch (fraction) {
-        case "&#xBC;":
-        case "¼":
+        case '&#xBC;':
+        case '¼':
             return .25;
-        case "&#xBD;":
-        case "½":
+        case '&#xBD;':
+        case '½':
             return .5;
-        case "&#xBE;":
-        case "¾":
+        case '&#xBE;':
+        case '¾':
             return .75;
         default:
             return 0;
@@ -30,7 +30,7 @@ export function convertFractionsToNumber(fraction: string): number {
  * @returns {string}
  */
 export function trimRemoveLineBreaks(str: string): string {
-    return str.trim().replace(/(?:\r\n|\r|\n)/g, "").replace(/\s{2,}/g, " ");
+    return str.trim().replace(/(?:\r\n|\r|\n)/g, '').replace(/\s{2,}/g, ' ');
 }
 
 /**
@@ -56,7 +56,7 @@ export function changeToCamelCase(str: string): string {
 export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: string[],
                                             columnHeaderText: BoxrecCommonTableHeader, returnHTML: boolean = true)
     : string {
-    const tableEl: Cheerio = $($("<div>").append($("table").clone()).html());
+    const tableEl: Cheerio = $($('<div>').append($('table').clone()).html());
     const idx: number = tableColumnsArr.findIndex(item => item === columnHeaderText);
 
     if (idx > -1) {
@@ -68,13 +68,13 @@ export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: s
                 return trimRemoveLineBreaks(html);
             }
 
-            return "";
+            return '';
         }
 
         return trimRemoveLineBreaks(el.text());
     }
 
-    return "";
+    return '';
 }
 
 /**
@@ -82,38 +82,38 @@ export function getColumnDataByColumnHeader($: CheerioStatic, tableColumnsArr: s
  * synthetic headers don't actually exist but are used to classify a column as that type of data
  */
 export enum BoxrecCommonTableHeader {
-    age = "age",
-    career = "career",
-    date = "date",
-    day = "day",
-    debut = "debut", // manager boxers
-    division = "division",
-    fighter = "fighter", // first boxer
-    firstLast6 = "firstLast6",
-    firstFighterWeight = "firstFighterWeight", // synthetic, no actual table header.  Is the first occurrence of "lbs"
-    firstRating = "firstRating", // synthetic, is the first fighter rating
-    links = "links", // synthetic, no actual table header
-    location = "location",
-    miles = "miles",
-    name = "name",
-    outcome = "outcome",
-    opponent = "opponent", // second boxer
-    outcomeByWayOf = "outcomeByWayOf", // synthetic, this is the outcome like TKO/KO/SD etc.
-    points = "points",
-    rating = "rating", // synthetic, no actual table header.  Is the rating of the bout/event
-    residence = "residence",
-    result = "result", // similar to outcome // todo can they be merged?
-    rounds = "rounds",
-    secondLast6 = "secondLast6",
-    secondFighterWeight = "secondFighterWeight", // synthetic, no actual table header. Is the second occurrence of "lbs"
-    secondRating = "secondRating", // synthetic, is the second fighter rating
-    secondRecord = "secondw-l-d", // on certain pages there are multiple records
-    sport = "sport",
-    stance = "stance",
-    record = "w-l-d",
-    sex = "sex",
-    tick = "tick", // this is purposeless column at this time, it shows whether a fight has occurred or not
-    venue = "venue"
+    age = 'age',
+    career = 'career',
+    date = 'date',
+    day = 'day',
+    debut = 'debut', // manager boxers
+    division = 'division',
+    fighter = 'fighter', // first boxer
+    firstLast6 = 'firstLast6',
+    firstFighterWeight = 'firstFighterWeight', // synthetic, no actual table header.  Is the first occurrence of "lbs"
+    firstRating = 'firstRating', // synthetic, is the first fighter rating
+    links = 'links', // synthetic, no actual table header
+    location = 'location',
+    miles = 'miles',
+    name = 'name',
+    outcome = 'outcome',
+    opponent = 'opponent', // second boxer
+    outcomeByWayOf = 'outcomeByWayOf', // synthetic, this is the outcome like TKO/KO/SD etc.
+    points = 'points',
+    rating = 'rating', // synthetic, no actual table header.  Is the rating of the bout/event
+    residence = 'residence',
+    result = 'result', // similar to outcome // todo can they be merged?
+    rounds = 'rounds',
+    secondLast6 = 'secondLast6',
+    secondFighterWeight = 'secondFighterWeight', // synthetic, no actual table header. Is the second occurrence of "lbs"
+    secondRating = 'secondRating', // synthetic, is the second fighter rating
+    secondRecord = 'secondw-l-d', // on certain pages there are multiple records
+    sport = 'sport',
+    stance = 'stance',
+    record = 'w-l-d',
+    sex = 'sex',
+    tick = 'tick', // this is purposeless column at this time, it shows whether a fight has occurred or not
+    venue = 'venue'
 }
 
 export function getValueForHeadersArr(headersArr: string[],
@@ -161,48 +161,91 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
     const tableHeaderRow: Cheerio = tableEl.clone().find(`> thead:nth-child(${theadNumber})`);
 
     tableHeaderRow
-        .find("th")
+        .find('th')
         // tslint:disable-next-line
         .each(function(this: CheerioElement, i, elem): void {
             const $: CheerioStatic = cheerio.load(elem);
             // replace all non-alphanumeric characters so we don't include "sort arrows" from dataTables
             const headerText: string = trimRemoveLineBreaks(stripArrows($(this).text()));
 
+            // some headers have "lbs" and "kilos" where the referee page just had "lbs"
+            // todo maybe this should be more strict and check for symbols
+            if (headerText.includes('lbs') || headerText.includes('kilos')) {
+                headersArr.push(getValueForHeadersArr(headersArr,
+                    BoxrecCommonTableHeader.firstFighterWeight, BoxrecCommonTableHeader.secondFighterWeight));
+                return;
+            }
+
+            if (headerText === 'w-l-d') {
+                headersArr.push(getValueForHeadersArr(headersArr,
+                    BoxrecCommonTableHeader.record, BoxrecCommonTableHeader.secondRecord));
+                return;
+            }
+
+            // some headings occur twice but we're expecting that, to differentiate what the column is
+            // we give it a different label in our array
+            if (headerText === 'last 6') {
+                const hasFirstFighterLast6: boolean = headersArr.some(item =>
+                    item === BoxrecCommonTableHeader.firstLast6);
+
+                if (hasFirstFighterLast6) {
+                    headersArr.push(BoxrecCommonTableHeader.secondLast6);
+                } else {
+                    headersArr.push(BoxrecCommonTableHeader.firstLast6);
+                }
+                return;
+            }
+
+            // so boxer profiles have "3" ratings.  The first fighter rating change, the second fighter rating change
+            // and the rating of the bout.  The following tries to figure out if it's one of the first two
+            if (headerText === 'rating') {
+                const hasFirstRating: boolean = headersArr.some(item =>
+                    item === BoxrecCommonTableHeader.firstRating);
+
+                if (hasFirstRating) {
+                    headersArr.push(BoxrecCommonTableHeader.secondRating);
+                } else {
+                    headersArr.push(BoxrecCommonTableHeader.firstRating);
+                }
+
+                return;
+            }
+
             // some of the columns do not have table header text
             // therefore try to figure out what the column is
             if (headerText.length === 0) {
                 // get the "direct" tbody cell element and read the cell contents to determine what the column is
-                const tbodyColumnEl: Cheerio = tableHeaderRow.siblings("tbody").eq(0).find(`tr:nth-child(1) td:nth-child(${i + 1})`);
+                const tbodyColumnEl: Cheerio = tableHeaderRow.siblings('tbody').eq(0).find(`tr:nth-child(1) td:nth-child(${i + 1})`);
 
                 if (!tbodyColumnEl.length) {
-                    throw new Error("Could not get table body element");
+                    throw new Error('Could not get table body element');
                 }
 
                 // check if rating column
-                if (tbodyColumnEl.find(".star-icon").length || tbodyColumnEl.find(".fa-star").length) {
+                if (tbodyColumnEl.find('.star-icon').length || tbodyColumnEl.find('.fa-star').length) {
                     headersArr.push(BoxrecCommonTableHeader.rating);
                     return;
                 }
 
-                if (tbodyColumnEl.find(".tick").length) {
+                if (tbodyColumnEl.find('.tick').length) {
                     headersArr.push(BoxrecCommonTableHeader.tick);
                     return;
                 }
 
                 // check if is a column with links
-                if (tbodyColumnEl.find("a[href*='/event/']").length) {
+                if (tbodyColumnEl.find('a[href*=\'/event/\']').length) {
                     headersArr.push(BoxrecCommonTableHeader.links);
                     return;
                 }
 
                 // check if outcome/results (W/L/D)
-                if (tbodyColumnEl.find(".boutResult").length) {
+                if (tbodyColumnEl.find('.boutResult').length) {
                     headersArr.push(BoxrecCommonTableHeader.outcome);
                     return;
                 }
 
                 // check if location (on profiles, it doesn't have a location header text)
-                if (tbodyColumnEl.find(".flag").length) {
+                if (tbodyColumnEl.find('.flag').length) {
                     headersArr.push(BoxrecCommonTableHeader.location);
                     return;
                 }
@@ -219,63 +262,14 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                     return;
                 }
 
-                if ($(`<div>${tbodyColumnEl.html()}</div>`).find(".personLink").length === 1) {
+                if ($(`<div>${tbodyColumnEl.html()}</div>`).find('.personLink').length === 1) {
                     headersArr.push(getValueForHeadersArr(headersArr,
                         BoxrecCommonTableHeader.fighter, BoxrecCommonTableHeader.opponent));
                     return;
                 }
 
-                // todo remove this
-                // throw new Error("Should not be here");
-            }
-
-            // some headers have "lbs" and "kilos" where the referee page just had "lbs"
-            // todo maybe this should be more strict and check for symbols
-            if (headerText.includes("lbs") || headerText.includes("kilos")) {
-                headersArr.push(getValueForHeadersArr(headersArr,
-                    BoxrecCommonTableHeader.firstFighterWeight, BoxrecCommonTableHeader.secondFighterWeight));
-                return;
-            }
-
-            if (headerText === "w-l-d") {
-                headersArr.push(getValueForHeadersArr(headersArr,
-                    BoxrecCommonTableHeader.record, BoxrecCommonTableHeader.secondRecord));
-                return;
-            }
-
-            // some headings occur twice but we're expecting that, to differentiate what the column is
-            // we give it a different label in our array
-            if (headerText === "last 6") {
-                const hasFirstFighterLast6: boolean = headersArr.some(item =>
-                    item === BoxrecCommonTableHeader.firstLast6);
-
-                if (hasFirstFighterLast6) {
-                    headersArr.push(BoxrecCommonTableHeader.secondLast6);
-                } else {
-                    headersArr.push(BoxrecCommonTableHeader.firstLast6);
-                }
-                return;
-            }
-
-            // so boxer profiles have "3" ratings.  The first fighter rating change, the second fighter rating change
-            // and the rating of the bout.  The following tries to figure out if it's one of the first two
-            if (headerText === "rating") {
-                const hasFirstRating: boolean = headersArr.some(item =>
-                    item === BoxrecCommonTableHeader.firstRating);
-
-                if (hasFirstRating) {
-                    headersArr.push(BoxrecCommonTableHeader.secondRating);
-                } else {
-                    headersArr.push(BoxrecCommonTableHeader.firstRating);
-                }
-
-                return;
-            }
-
-            // as a last resort, if the header text is empty, we'll try to parse the row data and
-            // see if we can figure out what column it is
-            // todo what's the difference between this and headerText.length === 0 above?
-            if (headerText === "") {
+                // as a last resort, if the header text is empty, we'll try to parse the row data and
+                // see if we can figure out what column it is
                 const tableDataRows: string[] = getTableColumnData(tableEl, i + 1);
                 const uniqueVals: string[] = tableDataRows
                     .filter((elemItem: string, pos: number, arr: string[]) => arr.indexOf(elemItem) === pos);
@@ -297,7 +291,6 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
             }
 
             headersArr.push(headerText as BoxrecCommonTableHeader);
-            return;
         });
 
     return headersArr;
@@ -316,17 +309,17 @@ export const townRegionCountryRegex: RegExp =
  * @returns {string}
  */
 export const stripCommas: (str: string) => string
-    = (str: string): string => str.replace(/,/g, "");
+    = (str: string): string => str.replace(/,/g, '');
 
 /**
  * Strips the dataTable arrows from table headers
  * @param str
  */
 export const stripArrows: (str: string) => string
-    = (str: string): string => str.replace(/[↕↓↑]/g, "");
+    = (str: string): string => str.replace(/[↕↓↑]/g, '');
 
-export const whatTypeOfLink: (href: string) => "town" | "region" | "country"
-    = (href: string): "town" | "region" | "country" => {
+export const whatTypeOfLink: (href: string) => 'town' | 'region' | 'country'
+    = (href: string): 'town' | 'region' | 'country' => {
     const matches: RegExpMatchArray | null = href.match(/(\w+)\=(\w+)/g);
     const locationObj: any = {
         country: null,
@@ -343,16 +336,16 @@ export const whatTypeOfLink: (href: string) => "town" | "region" | "country"
     }
 
     if (locationObj.country && locationObj.region && locationObj.town) {
-        return "town";
+        return 'town';
     } else if (locationObj.country && locationObj.region) {
-        return "region";
+        return 'region';
     }
 
-    return "country";
+    return 'country';
 };
 
-export const getLocationValue: (href: string, type: "town" | "region" | "country") => string | number | null =
-    (href: string, type: "town" | "region" | "country"): string | number | null => {
+export const getLocationValue: (href: string, type: 'town' | 'region' | 'country') => string | number | null =
+    (href: string, type: 'town' | 'region' | 'country'): string | number | null => {
         const matches: RegExpMatchArray | null = href.match(/(\w+)=(\w+)/g);
         if (matches) {
             for (const match of matches) {
@@ -371,7 +364,7 @@ export const getLocationValue: (href: string, type: "town" | "region" | "country
 // replaces short division with full ex. Middle Title -> Middleweight Title
 // ex. World Boxing Council World Middle Title -> World Boxing Council World Middleweight Title
 export const replaceWithWeight: (str: string) => string =
-    (str: string) => trimRemoveLineBreaks(str).replace(/(\w+)\sTitle$/i, "$1weight Title");
+    (str: string) => trimRemoveLineBreaks(str).replace(/(\w+)\sTitle$/i, '$1weight Title');
 
 export const parseHeight: (height: string | void) => number[] | null =
     (height: string | void): number[] | null => {
@@ -381,7 +374,7 @@ export const parseHeight: (height: string | void) => number[] | null =
             // height = height.replace(/&#xA0;/g, "");
             let regex: RegExp = /^(\d)\′\s(\d+)(½)?\″\s+\/\s+(\d{3})cm$/;
 
-            if (height.includes("#x2032")) {
+            if (height.includes('#x2032')) {
                 regex = /^(\d)\&\#x2032\;\s(\d{1,2})(\&\#xB[CDE]\;)?\&\#x2033\;\s\&\#xA0\;\s\/\s\&\#xA0\;\s(\d{3})cm$/;
             }
 

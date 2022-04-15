@@ -1,11 +1,11 @@
-import {BoxrecPageLists} from "../../boxrec-common-tables/boxrec-page-lists";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {getHeaderColumnText, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecPageRatingsActiveAllDivisionsRow} from "./boxrec.page.ratings.active-all-divisions.row";
-import {BoxrecPageRatingsActiveDivisionRow} from "./boxrec.page.ratings.active-division.row";
-import {BoxrecPageRatingsActiveInactiveAllDivisionsRow} from "./boxrec.page.ratings.active-inactive-all-divisions.row";
-import {BoxrecPageRatingsActiveInactiveDivisionRow} from "./boxrec.page.ratings.active-inactive-division.row";
-import {BoxrecRatingsOutput} from "./boxrec.ratings.constants";
+import {BoxrecPageLists} from '../../boxrec-common-tables/boxrec-page-lists';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {getHeaderColumnText, trimRemoveLineBreaks} from '../../helpers';
+import {BoxrecPageRatingsActiveAllDivisionsRow} from './boxrec.page.ratings.active-all-divisions.row';
+import {BoxrecPageRatingsActiveDivisionRow} from './boxrec.page.ratings.active-division.row';
+import {BoxrecPageRatingsActiveInactiveAllDivisionsRow} from './boxrec.page.ratings.active-inactive-all-divisions.row';
+import {BoxrecPageRatingsActiveInactiveDivisionRow} from './boxrec.page.ratings.active-inactive-division.row';
+import {BoxrecRatingsOutput} from './boxrec.ratings.constants';
 
 enum BoxrecRatingsType {
     activeAllDivisions,
@@ -14,7 +14,7 @@ enum BoxrecRatingsType {
     activeInactiveWeightDivision,
 }
 
-const ratingsTableEl: string = "#ratingsResults";
+const ratingsTableEl: string = '#ratingsResults';
 
 /**
  * parse a BoxRec Ratings Page
@@ -25,9 +25,9 @@ const ratingsTableEl: string = "#ratingsResults";
         function: (boxers: Array<BoxrecPageRatingsActiveDivisionRow | BoxrecPageRatingsActiveInactiveAllDivisionsRow |
             BoxrecPageRatingsActiveAllDivisionsRow | BoxrecPageRatingsActiveInactiveDivisionRow>) => boxers
             .map(boxerRow => boxerRow.output),
-        method: "boxers",
+        method: 'boxers',
     },
-    "numberOfPages"
+    'numberOfPages'
 ])
 export class BoxrecPageRatings extends BoxrecPageLists implements OutputInterface {
 
@@ -56,25 +56,25 @@ export class BoxrecPageRatings extends BoxrecPageLists implements OutputInterfac
      * Returns the HTML content of table rows
      */
     private parseRatingsTableContent(): string[] {
-        return this.$(ratingsTableEl).find("tbody tr")
+        return this.$(ratingsTableEl).find('tbody tr')
             .filter((index: number, tableRow: CheerioElement) => {
                 // being safe, we'll return true for anything greater than 6 columns
                 // in case the ads rows get additional columns.  Currently the "bad" rows either have 0-1 columns
-                return this.$(tableRow).find("td").length > 6;
+                return this.$(tableRow).find('td').length > 6;
             }).map((i: number, elem: CheerioElement) => this.$(elem).html())
             .get();
     }
 
     // returns whether these are ratings for just active boxers, the columns are different for active/inactive
     private getRatingsType(): BoxrecRatingsType {
-        const numberOfColumns: number = this.$(ratingsTableEl).find("tbody tr:nth-child(1) td").length;
+        const numberOfColumns: number = this.$(ratingsTableEl).find('tbody tr:nth-child(1) td').length;
 
         // in order in what I think is probability of being called
         if (numberOfColumns === 9) {
             // this can be `activeWeightDivision` or `activeInactiveAllDivisions`
             const headerText: string = trimRemoveLineBreaks(this.$(ratingsTableEl)
-                .find("thead th:nth-child(6)").text());
-            if (headerText === "career") {
+                .find('thead th:nth-child(6)').text());
+            if (headerText === 'career') {
                 return BoxrecRatingsType.activeInactiveAllDivisions;
             } else {
                 return BoxrecRatingsType.activeWeightDivision;
