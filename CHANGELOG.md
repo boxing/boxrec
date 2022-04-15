@@ -1,3 +1,10 @@
+## 8.0.0 (2022-04-15)
+
+### Fixed
+
+-   `getDate` endpoint returns information again.  It was broken due to `boxrec-requests` but also the table header selectors were not good
+-   `getSchedule` working again.  Issue was in `boxrec-requests`
+
 ## 7.2.1 (2022-03-16)
 
 ### Changed

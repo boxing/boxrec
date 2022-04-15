@@ -1,11 +1,7 @@
-import {CookieJar} from "request";
 import {WeightDivision} from "../boxrec-pages/champions/boxrec.champions.constants";
 import {BoxrecPageChampions} from "../boxrec-pages/champions/boxrec.page.champions";
 import {Boxrec} from "../boxrec.class";
 import {logIn, wait} from "./helpers";
-
-// ignores __mocks__ and makes real requests
-jest.unmock("request-promise");
 
 jest.setTimeout(200000);
 
@@ -14,11 +10,11 @@ describe.skip("method getChampions", () => {
 
     describe("object champions", () => {
 
-        let loggedInCookie: CookieJar;
+        let loggedInCookie: string;
 
         beforeAll(async () => {
-            const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
-            loggedInCookie = logInResponse.cookieJar;
+            const logInResponse: { madeRequest: boolean, cookieString: string} = await logIn();
+            loggedInCookie = logInResponse.cookieString;
         });
 
         let results: BoxrecPageChampions;

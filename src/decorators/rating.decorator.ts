@@ -10,7 +10,10 @@ export function RatingGetter():
     return target => {
         Object.defineProperty(target.prototype, "rating", {
             get(): number | null {
-                // todo duplication occurring, need a place to store these BoxRec classes or better yet find a single entry point
+                /**
+                 * todo duplication occurring
+                 * need a place to store these BoxRec classes or better yet find a single entry point
+                 */
                 const fullStarClassName: string = ".fa-star";
                 const halfStarClassName: string = ".fa-half-star";
                 return BoxrecCommonTablesColumnsClass.parseRating(getColumnDataByColumnHeader(this.$,

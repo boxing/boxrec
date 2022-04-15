@@ -1,22 +1,18 @@
 import {BoxrecRole} from "boxrec-requests";
 import {Country} from "boxrec-requests";
-import {CookieJar} from "request";
 import {BoxrecPageLocationPeople} from "../boxrec-pages/location/people/boxrec.page.location.people";
 import {Boxrec} from "../boxrec.class";
 import {logIn, wait} from "./helpers";
-
-// ignores __mocks__ and makes real requests
-jest.unmock("request-promise");
 
 jest.setTimeout(200000);
 
 describe("method getPeopleByLocation", () => {
 
-    let loggedInCookie: CookieJar;
+    let loggedInCookie: string;
 
     beforeAll(async () => {
-        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
-        loggedInCookie = logInResponse.cookieJar;
+        const logInResponse: { madeRequest: boolean, cookieString: string} = await logIn();
+        loggedInCookie = logInResponse.cookieString;
     });
 
     let results: BoxrecPageLocationPeople;

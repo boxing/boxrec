@@ -1,12 +1,10 @@
-import {BoxrecFighterOption, BoxrecRole} from "boxrec-requests";
-import {CookieJar} from "request";
+import {BoxrecDate, BoxrecFighterOption, BoxrecRole, Country} from "boxrec-requests";
 import {expectId, expectMatchDate, logIn, wait} from "./__tests__/helpers";
 import {WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
 import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
 import {BoxrecPageEventBoutRow} from "./boxrec-pages/event/boxrec.page.event.bout.row";
 import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {Country} from "./boxrec-pages/location/people/boxrec.location.people.constants";
 import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
@@ -30,18 +28,15 @@ if (!BOXREC_PASSWORD) {
     throw new Error("missing required env var BOXREC_PASSWORD");
 }
 
-// ignores __mocks__ and makes real requests
-jest.unmock("request-promise");
-
 jest.setTimeout(2000000);
 
 describe("class Boxrec (E2E)", () => {
 
-    let loggedInCookie: CookieJar;
+    let loggedInCookie: string;
 
     beforeAll(async () => {
-        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
-        loggedInCookie = logInResponse.cookieJar;
+        const logInResponse: { madeRequest: boolean, cookieString: string} = await logIn();
+        loggedInCookie = logInResponse.cookieString;
     });
 
     describe("method getRatings", () => {
@@ -68,10 +63,12 @@ describe("class Boxrec (E2E)", () => {
     describe("method getBoxerPDF", () => {
 
         it("should return a PDF", async () => {
-            const pdf: string = await Boxrec.getBoxerPDF(loggedInCookie, 352);
+            const pdf: string = await Boxrec.getBoxerPDF(loggedInCookie, 352, "./tmp/");
             await wait();
             expect(pdf).toBeDefined();
             expect(pdf).not.toBeNull();
+            expect(pdf).not.toContain("DOCTYPE");
+            expect(pdf).toContain("PDF-1.4");
         });
 
     });
@@ -79,7 +76,7 @@ describe("class Boxrec (E2E)", () => {
     describe("method getBoxerPrint", () => {
 
         it("should return the printable version of the profile", async () => {
-            const print: string = await Boxrec.getBoxerPrint(loggedInCookie, 352);
+            const print: string = await Boxrec.getBoxerPrint(loggedInCookie, 352, "./tmp/");
             await wait();
             expect(print).toBeDefined();
             expect(print).not.toBeNull();
@@ -95,24 +92,40 @@ describe("class Boxrec (E2E)", () => {
         let nextDate: BoxrecPageDate;
 
         beforeAll(async () => {
-            sept282019 = await Boxrec.getDate(loggedInCookie, "2019-09-28");
+            sept282019 = await Boxrec.getDate(loggedInCookie, {
+                day: 28,
+                month: 9,
+                year: 2019,
+            });
             await wait();
 
             // get the next saturday, there's very few times (if ever) where there won't be a boxing match
             // not timezone proof.  Depending on who/what runs this, it may return Friday/Sunday
-            function getNextSaturdayDateObject(): Date {
+            const nextSaturdayDateObject: BoxrecDate = (() => {
                 const currentDate: Date = new Date();
                 const resultDate: Date = new Date(currentDate.getTime());
                 resultDate.setDate(currentDate.getDate() + (7 + 6 - currentDate.getDay()) % 7);
-                return resultDate;
-            }
+                let year: number = resultDate.getFullYear();
+                let month: number = resultDate.getMonth() + 1;
+
+                if (month > 11) {
+                    month = 0;
+                    year++;
+                }
+
+                return {
+                    day: resultDate.getDate(),
+                    month,
+                    year,
+                };
+            })();
 
             nextDate = await Boxrec.getDate(loggedInCookie,
-                getNextSaturdayDateObject().toISOString().substr(0, 10));
+                nextSaturdayDateObject);
             await wait();
         });
 
-        describe("passed date", () => {
+        describe("past date", () => {
 
             describe("getter events", () => {
 
@@ -151,6 +164,22 @@ describe("class Boxrec (E2E)", () => {
                         it("should return a value as the bout has happened", () => {
                             expect([WinLossDraw.win, WinLossDraw.loss, WinLossDraw.draw])
                                 .toContain(sept282019.events[0].bouts[0].outcome);
+                        });
+
+                    });
+
+                    describe("links", () => {
+
+                        it("should return a bout ID in the links", () => {
+                            expect(sept282019.events[0].bouts[0].links.bout).toMatch(/\d+\/\d+/);
+                        });
+
+                    });
+
+                    describe("rating", () => {
+
+                        it("should return the rating of the bout", () => {
+                            expect(sept282019.events[0].bouts[0].rating).toBe(20);
                         });
 
                     });

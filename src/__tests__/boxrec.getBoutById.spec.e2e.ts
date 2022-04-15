@@ -1,23 +1,19 @@
 import {BoxrecBasic} from "boxrec-requests";
-import {CookieJar} from "request";
 import {WinLossDraw} from "../boxrec-pages/boxrec.constants";
 import {BoxrecPageEventBout} from "../boxrec-pages/event/bout/boxrec.page.event.bout";
 import {BoxingBoutOutcome} from "../boxrec-pages/event/boxrec.event.constants";
 import {Boxrec} from "../boxrec.class";
 import {expectId, logIn, wait} from "./helpers";
 
-// ignores __mocks__ and makes real requests
-jest.unmock("request-promise");
-
 jest.setTimeout(200000);
 
 describe("method getBoutById", () => {
 
-    let loggedInCookie: CookieJar;
+    let loggedInCookie: string;
 
     beforeAll(async () => {
-        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
-        loggedInCookie = logInResponse.cookieJar;
+        const logInResponse: { madeRequest: boolean, cookieString: string} = await logIn();
+        loggedInCookie = logInResponse.cookieString;
     });
 
     let caneloKhanBout: BoxrecPageEventBout;

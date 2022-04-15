@@ -1,5 +1,4 @@
 import {BoxrecRole} from "boxrec-requests";
-import {CookieJar} from "request";
 import {BoxrecPageProfileBoxer} from "../boxrec-pages/profile/boxrec.page.profile.boxer";
 import {BoxrecPageProfileEvents} from "../boxrec-pages/profile/boxrec.page.profile.events";
 import {BoxrecPageProfileManager} from "../boxrec-pages/profile/boxrec.page.profile.manager";
@@ -8,18 +7,15 @@ import {BoxrecPageProfilePromoter} from "../boxrec-pages/profile/boxrec.page.pro
 import {Boxrec} from "../boxrec.class";
 import {expectMatchDate, logIn, wait} from "./helpers";
 
-// ignores __mocks__ and makes real requests
-jest.unmock("request-promise");
-
 jest.setTimeout(120000);
 
 describe("method getPersonById", () => {
 
-    let loggedInCookie: CookieJar;
+    let loggedInCookie: string;
 
     beforeAll(async () => {
-        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
-        loggedInCookie = logInResponse.cookieJar;
+        const logInResponse: { madeRequest: boolean, cookieString: string} = await logIn();
+        loggedInCookie = logInResponse.cookieString;
     });
 
     type Person =

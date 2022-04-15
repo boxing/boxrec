@@ -137,7 +137,7 @@ any {
  */
 export function getTableColumnData(tableEl: Cheerio, columnNumber: number = 1, returnHTML: boolean = false): string[] {
     const arr: string[] = [];
-    tableEl.clone().find(`tbody tr`).each(function(this: CheerioElement, i, elem): void {
+    tableEl.clone().find(`> tbody tr`).each(function(this: CheerioElement, i, elem): void {
         const $: CheerioStatic = cheerio.load(elem);
         const tdColumn: Cheerio = $(this).find(`td:nth-child(${columnNumber})`);
         const data: string | null = returnHTML ? tdColumn.html() : tdColumn.text();
@@ -150,37 +150,36 @@ export function getTableColumnData(tableEl: Cheerio, columnNumber: number = 1, r
 }
 
 /**
- * Takes a table element, clones it and then reads the thead column text and returns an array
+ * Takes a table element and returns what the order of column headers and what each column is
  * @param tableEl
  * @param theadNumber   Some tables have more than 1 thead tag
  */
 // todo complex
 export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): BoxrecCommonTableHeader[] {
     const headersArr: BoxrecCommonTableHeader[] = [];
-
     // we clone because it modifies the passed in element when we use map
-    tableEl.clone().find(`thead:nth-child(${theadNumber}) th`)
-    // tslint:disable-next-line
+    const tableHeaderRow: Cheerio = tableEl.clone().find(`> thead:nth-child(${theadNumber})`);
+
+    tableHeaderRow
+        .find("th")
+        // tslint:disable-next-line
         .each(function(this: CheerioElement, i, elem): void {
             const $: CheerioStatic = cheerio.load(elem);
             // replace all non-alphanumeric characters so we don't include "sort arrows" from dataTables
             const headerText: string = trimRemoveLineBreaks(stripArrows($(this).text()));
 
-            // get the "direct" tbody column element for further analysing.  Not always necessary
-            /*const tbodyColumnEl: Cheerio = tableEl
-                .find(`> tbody tr:nth-child(1) td:nth-child(${i + 1})`);*/
-            const tbodyColumnEl: Cheerio = tableEl.clone().find(`> tbody tr:nth-child(1) td:nth-child(${i + 1})`);
-
-            // take the first rows data and get the text.  Some of the columns that don't have headers we can read the
-            // text and proceed to figure out what the column is
-            // todo this is not done right, it brings back too many values as one string
-            const rowDataText: string = trimRemoveLineBreaks(tbodyColumnEl.text());
-
             // some of the columns do not have table header text
             // therefore try to figure out what the column is
             if (headerText.length === 0) {
+                // get the "direct" tbody cell element and read the cell contents to determine what the column is
+                const tbodyColumnEl: Cheerio = tableHeaderRow.siblings("tbody").eq(0).find(`tr:nth-child(1) td:nth-child(${i + 1})`);
+
+                if (!tbodyColumnEl.length) {
+                    throw new Error("Could not get table body element");
+                }
+
                 // check if rating column
-                if (tbodyColumnEl.find(".starRating").length) {
+                if (tbodyColumnEl.find(".star-icon").length || tbodyColumnEl.find(".fa-star").length) {
                     headersArr.push(BoxrecCommonTableHeader.rating);
                     return;
                 }
@@ -196,7 +195,7 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                     return;
                 }
 
-                // check if outcome/results
+                // check if outcome/results (W/L/D)
                 if (tbodyColumnEl.find(".boutResult").length) {
                     headersArr.push(BoxrecCommonTableHeader.outcome);
                     return;
@@ -207,6 +206,11 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                     headersArr.push(BoxrecCommonTableHeader.location);
                     return;
                 }
+
+                // take the first rows data and get the text.  Some of the columns that don't have headers we can read the
+                // text and proceed to figure out what the column is
+                // todo this is not done right, it brings back too many values as one string
+                const rowDataText: string = trimRemoveLineBreaks(tbodyColumnEl.text());
 
                 if (rowDataText.length > 0 && !isNaN(rowDataText as unknown as number) ||
                     /[¼½¾]/.test(rowDataText)) {

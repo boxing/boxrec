@@ -14,5 +14,4 @@ export class BoxrecPageDate extends BoxrecPageScheduleCommon
 
     events: BoxrecDateEvent[];
     output: BoxrecDateOutput;
-
 }

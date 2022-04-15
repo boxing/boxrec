@@ -127,8 +127,9 @@ export abstract class BoxrecCommonTablesColumnsClass {
 
     /**
      * Can parse the id, town, region, country from multiple links
-     * @param {string} htmlString       passed in HTML string, more than likely the contents of an HTML table column
-     * @param {number} linkToLookAt     Sometimes the format is `town, region, country`.  Other times it is `country, region, town`
+     * @param {string} htmlString   passed in HTML string, more than likely the contents of an HTML table column
+     * @param {number} linkToLookAt Sometimes the format is `town, region, country`.
+     *                              Other times it is `country, region, town`
      * @hidden
      * @returns {BoxrecLocation}
      */
