@@ -1,21 +1,17 @@
-import {CookieJar} from "request";
 import {BoxrecPageEvent} from "../boxrec-pages/event/boxrec.page.event";
 import {BoxrecPageSchedule} from "../boxrec-pages/schedule/boxrec.page.schedule";
 import {Boxrec} from "../boxrec.class";
 import {expectId, expectMatchDate, logIn, wait} from "./helpers";
 
-// ignores __mocks__ and makes real requests
-jest.unmock("request-promise");
-
 jest.setTimeout(200000);
 
 describe("method getSchedule", () => {
 
-    let loggedInCookie: CookieJar;
+    let loggedInCookie: string;
 
     beforeAll(async () => {
-        const logInResponse: { madeRequest: boolean, cookieJar: CookieJar} = await logIn();
-        loggedInCookie = logInResponse.cookieJar;
+        const logInResponse: { madeRequest: boolean, cookieString: string} = await logIn();
+        loggedInCookie = logInResponse.cookieString;
     });
 
     let results: BoxrecPageSchedule;
