@@ -1,10 +1,10 @@
-import { EventsBoutsGetter, EventsBoutsInterface } from "../../decorators/events.bouts.decorator";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {stripCommas} from "../../helpers";
-import {BoxrecEventOutput} from "../event/boxrec.event.constants";
-import {BoxrecPageEvent} from "../event/boxrec.page.event";
-import {BoxrecPageScheduleCommon} from "./boxrec.page.schedule.common";
-import {BoxrecScheduleOutput} from "./boxrec.page.schedule.constants";
+import { EventsBoutsGetter, EventsBoutsInterface } from '../../decorators/events.bouts.decorator';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {stripCommas} from '../../helpers';
+import {BoxrecEventOutput} from '../event/boxrec.event.constants';
+import {BoxrecPageEvent} from '../event/boxrec.page.event';
+import {BoxrecPageScheduleCommon} from './boxrec.page.schedule.common';
+import {BoxrecScheduleOutput} from './boxrec.page.schedule.constants';
 
 /**
  * BoxRec Results/Schedule Page
@@ -15,9 +15,9 @@ import {BoxrecScheduleOutput} from "./boxrec.page.schedule.constants";
 @OutputGetter([
     {
         function: (events: BoxrecPageEvent[]): BoxrecEventOutput[] => events.map(eventRow => eventRow.output),
-        method: "events",
+        method: 'events',
     },
-    "numberOfPages",
+    'numberOfPages',
 ])
 export class BoxrecPageSchedule extends BoxrecPageScheduleCommon implements EventsBoutsInterface, OutputInterface {
 
@@ -25,7 +25,7 @@ export class BoxrecPageSchedule extends BoxrecPageScheduleCommon implements Even
     output: BoxrecScheduleOutput;
 
     get numberOfPages(): number {
-        const text: string = this.$(".filterBarFloat .pagerElement:nth-last-child(3)").text() || "0";
+        const text: string = this.$('.filterBarFloat .pagerElement:nth-last-child(3)').text() || '0';
         return parseInt(stripCommas(text), 10);
     }
 

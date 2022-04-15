@@ -1,5 +1,5 @@
-import * as cheerio from "cheerio";
-import {BoxrecGeneralLinks} from "./boxrec-common.constants";
+import * as cheerio from 'cheerio';
+import {BoxrecGeneralLinks} from './boxrec-common.constants';
 
 const $: CheerioStatic = cheerio;
 
@@ -19,7 +19,7 @@ export class BoxrecCommonLinks {
      * @returns {T}
      */
     static parseLinkInformation<T extends BoxrecGeneralLinks>(html: Cheerio, obj: T): T {
-        html.find("a").each((i: number, elem: CheerioElement) => {
+        html.find('a').each((i: number, elem: CheerioElement) => {
             const {href, hrefArr} = BoxrecCommonLinks.parseLinksColumn(elem);
             return BoxrecCommonLinks.parseLinks<T>(hrefArr, href, obj);
         });
@@ -34,9 +34,9 @@ export class BoxrecCommonLinks {
      * @todo a lot of this was necessary when the links had certain classes
      */
     static parseLinksColumn(elem: CheerioElement): LinksObj {
-        const div: Cheerio = $(elem).find("div");
-        const href: string = $(elem).attr("href");
-        const classAttr: string = div.attr("class");
+        const div: Cheerio = $(elem).find('div');
+        const href: string = $(elem).attr('href');
+        const classAttr: string = div.attr('class');
 
         const linkObj: LinksObj = {
             classAttr,
@@ -46,7 +46,7 @@ export class BoxrecCommonLinks {
         };
 
         if (classAttr) {
-            linkObj.hrefArr = classAttr.split(" ");
+            linkObj.hrefArr = classAttr.split(' ');
         }
 
         return linkObj;
@@ -63,16 +63,16 @@ export class BoxrecCommonLinks {
 
         if (hrefMatch && hrefMatch[1]) {
             // todo this might not be necessary anymore and be kept because the mocks are out of date
-            const link: string = hrefMatch[1].charAt(0) === "/" ? hrefMatch[1].substring(1) : hrefMatch[1];
+            const link: string = hrefMatch[1].charAt(0) === '/' ? hrefMatch[1].substring(1) : hrefMatch[1];
 
             // todo other links?
-            if (href.includes("/event/")) {
+            if (href.includes('/event/')) {
                 if (/\d+\/\d+/.test(href)) {
                     obj.bout = link;
                 } else {
                     obj.event = parseInt(link, 10);
                 }
-            } else if (href.includes("/media/")) {
+            } else if (href.includes('/media/')) {
                 obj.bio = parseInt(link, 10);
             }
         }

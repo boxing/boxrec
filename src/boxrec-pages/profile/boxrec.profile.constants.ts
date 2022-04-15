@@ -1,5 +1,5 @@
-import {BoxrecRole} from "boxrec-requests";
-import {BoxrecBout} from "../boxrec.constants";
+import {BoxrecRole} from 'boxrec-requests';
+import {BoxrecBout} from '../boxrec.constants';
 
 export interface BoxrecProfile {
     KOs: number | null;
@@ -31,29 +31,29 @@ export interface BoxrecProfile {
 }
 
 export enum BoxrecProfileTable {
-    globalId = "global ID",
-    role = "role",
-    rating = "rating",
-    ranking = "ranking",
-    vadacbp = "VADA CBP",
-    bouts = "bouts",
-    rounds = "rounds",
-    KOs = "KOs",
-    status = "status",
-    titlesHeld = "titles held",
-    birthName = "birth name",
-    alias = "alias",
-    born = "born",
-    nationality = "nationality",
-    debut = "debut",
-    division = "division",
-    stance = "stance",
-    height = "height",
-    reach = "reach",
-    residence = "residence",
-    birthPlace = "birth place",
-    company = "company",
-    registeredContact = "registered contact",
+    globalId = 'global ID',
+    role = 'role',
+    rating = 'rating',
+    ranking = 'ranking',
+    vadacbp = 'VADA CBP',
+    bouts = 'bouts',
+    rounds = 'rounds',
+    KOs = 'KOs',
+    status = 'status',
+    titlesHeld = 'titles held',
+    birthName = 'birth name',
+    alias = 'alias',
+    born = 'born',
+    nationality = 'nationality',
+    debut = 'debut',
+    division = 'division',
+    stance = 'stance',
+    height = 'height',
+    reach = 'reach',
+    residence = 'residence',
+    birthPlace = 'birth place',
+    company = 'company',
+    registeredContact = 'registered contact',
 }
 
 export interface BoxrecProfileBoutLocation {
@@ -67,9 +67,9 @@ export interface BoxrecProfileEventLinks {
 
 export interface PersonRequestParams {
     offset?: number;
-    pdf?: "y";
-    print?: "y";
-    toggleRatings?: "y"; // hard coded but this value doesn't actually matter to BoxRec
+    pdf?: 'y';
+    print?: 'y';
+    toggleRatings?: 'y'; // hard coded but this value doesn't actually matter to BoxRec
 }
 
 export interface BoxrecProfileRole {

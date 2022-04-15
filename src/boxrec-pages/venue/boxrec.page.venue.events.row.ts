@@ -1,17 +1,17 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {DayGetter, DayInterface} from "../../decorators/day.decorator";
-import {IdGetter} from "../../decorators/id.decorator";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
-import {BoxrecLocation} from "../boxrec.constants";
-import {BoxrecPageVenueEventsRowOutput} from "./boxrec.page.venue.constants";
+import * as cheerio from 'cheerio';
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {DateGetter, DateInterface} from '../../decorators/date.decorator';
+import {DayGetter, DayInterface} from '../../decorators/day.decorator';
+import {IdGetter} from '../../decorators/id.decorator';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../helpers';
+import {BoxrecLocation} from '../boxrec.constants';
+import {BoxrecPageVenueEventsRowOutput} from './boxrec.page.venue.constants';
 
 @DateGetter()
 @DayGetter()
 @IdGetter(BoxrecCommonTableHeader.links)
-@OutputGetter(["date", "day", "id", "location"])
+@OutputGetter(['date', 'day', 'id', 'location'])
 export class BoxrecPageVenueEventsRow implements DateInterface, DayInterface, OutputInterface {
 
     date: string;

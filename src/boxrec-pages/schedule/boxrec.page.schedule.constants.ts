@@ -1,4 +1,4 @@
-import {BoxrecEventOutput} from "../event/boxrec.event.constants";
+import {BoxrecEventOutput} from '../event/boxrec.event.constants';
 
 export interface BoxrecScheduleOutput {
     events: BoxrecEventOutput[];

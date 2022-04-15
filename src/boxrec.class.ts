@@ -1,40 +1,40 @@
-import {BoxrecRequests, BoxrecDate} from "boxrec-requests";
+import {BoxrecDate, BoxrecRequests} from 'boxrec-requests';
 import {
     BoxrecLocationEventParams,
     BoxrecLocationsPeopleParams,
     BoxrecRole
-} from "boxrec-requests";
-import * as fs from "fs";
-import {WriteStream} from "fs";
-import {BoxrecPageChampions} from "./boxrec-pages/champions/boxrec.page.champions";
-import {BoxrecPageDate} from "./boxrec-pages/date/boxrec.page.date";
-import {BoxrecPageEventBout} from "./boxrec-pages/event/bout/boxrec.page.event.bout";
-import {BoxrecPageEvent} from "./boxrec-pages/event/boxrec.page.event";
-import {BoxrecPageLocationEvent} from "./boxrec-pages/location/event/boxrec.page.location.event";
-import {BoxrecPageLocationBoxer} from "./boxrec-pages/location/people/boxrec.page.location.boxer";
-import {BoxrecPageLocationPeople} from "./boxrec-pages/location/people/boxrec.page.location.people";
-import {BoxrecPageProfileBoxer} from "./boxrec-pages/profile/boxrec.page.profile.boxer";
-import {BoxrecPageProfileEvents} from "./boxrec-pages/profile/boxrec.page.profile.events";
-import {BoxrecPageProfileManager} from "./boxrec-pages/profile/boxrec.page.profile.manager";
-import {BoxrecPageProfileOtherCommon} from "./boxrec-pages/profile/boxrec.page.profile.other.common";
-import {BoxrecPageProfilePromoter} from "./boxrec-pages/profile/boxrec.page.profile.promoter";
-import {BoxrecPageRatings} from "./boxrec-pages/ratings/boxrec.page.ratings";
-import {BoxrecRatingsParams} from "./boxrec-pages/ratings/boxrec.ratings.constants";
-import {BoxrecResultsParams} from "./boxrec-pages/results/boxrec.results.constants";
-import {BoxrecPageSchedule} from "./boxrec-pages/schedule/boxrec.page.schedule";
-import {BoxrecScheduleParams} from "./boxrec-pages/schedule/boxrec.schedule.constants";
-import {BoxrecPageSearch} from "./boxrec-pages/search/boxrec.page.search";
-import {BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from "./boxrec-pages/search/boxrec.search.constants";
-import {BoxrecPageTitle} from "./boxrec-pages/title/boxrec.page.title";
-import {BoxrecTitlesParams} from "./boxrec-pages/titles/boxrec.page.title.constants";
-import {BoxrecPageTitles} from "./boxrec-pages/titles/boxrec.page.titles";
-import {BoxrecPageVenue} from "./boxrec-pages/venue/boxrec.page.venue";
-import {BoxrecPageWatch} from "./boxrec-pages/watch/boxrec.page.watch";
-import {BoxrecPageWatchRow} from "./boxrec-pages/watch/boxrec.page.watch.row";
+} from 'boxrec-requests';
+import * as fs from 'fs';
+import {WriteStream} from 'fs';
+import {BoxrecPageChampions} from './boxrec-pages/champions/boxrec.page.champions';
+import {BoxrecPageDate} from './boxrec-pages/date/boxrec.page.date';
+import {BoxrecPageEventBout} from './boxrec-pages/event/bout/boxrec.page.event.bout';
+import {BoxrecPageEvent} from './boxrec-pages/event/boxrec.page.event';
+import {BoxrecPageLocationEvent} from './boxrec-pages/location/event/boxrec.page.location.event';
+import {BoxrecPageLocationBoxer} from './boxrec-pages/location/people/boxrec.page.location.boxer';
+import {BoxrecPageLocationPeople} from './boxrec-pages/location/people/boxrec.page.location.people';
+import {BoxrecPageProfileBoxer} from './boxrec-pages/profile/boxrec.page.profile.boxer';
+import {BoxrecPageProfileEvents} from './boxrec-pages/profile/boxrec.page.profile.events';
+import {BoxrecPageProfileManager} from './boxrec-pages/profile/boxrec.page.profile.manager';
+import {BoxrecPageProfileOtherCommon} from './boxrec-pages/profile/boxrec.page.profile.other.common';
+import {BoxrecPageProfilePromoter} from './boxrec-pages/profile/boxrec.page.profile.promoter';
+import {BoxrecPageRatings} from './boxrec-pages/ratings/boxrec.page.ratings';
+import {BoxrecRatingsParams} from './boxrec-pages/ratings/boxrec.ratings.constants';
+import {BoxrecResultsParams} from './boxrec-pages/results/boxrec.results.constants';
+import {BoxrecPageSchedule} from './boxrec-pages/schedule/boxrec.page.schedule';
+import {BoxrecScheduleParams} from './boxrec-pages/schedule/boxrec.schedule.constants';
+import {BoxrecPageSearch} from './boxrec-pages/search/boxrec.page.search';
+import {BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from './boxrec-pages/search/boxrec.search.constants';
+import {BoxrecPageTitle} from './boxrec-pages/title/boxrec.page.title';
+import {BoxrecTitlesParams} from './boxrec-pages/titles/boxrec.page.title.constants';
+import {BoxrecPageTitles} from './boxrec-pages/titles/boxrec.page.titles';
+import {BoxrecPageVenue} from './boxrec-pages/venue/boxrec.page.venue';
+import {BoxrecPageWatch} from './boxrec-pages/watch/boxrec.page.watch';
+import {BoxrecPageWatchRow} from './boxrec-pages/watch/boxrec.page.watch.row';
 
 // https://github.com/Microsoft/TypeScript/issues/14151
-if (typeof (Symbol as any).asyncIterator === "undefined") {
-    (Symbol as any).asyncIterator = Symbol("asyncIterator");
+if (typeof (Symbol as any).asyncIterator === 'undefined') {
+    (Symbol as any).asyncIterator = Symbol('asyncIterator');
 }
 
 export class Boxrec {
@@ -74,7 +74,7 @@ export class Boxrec {
      * @returns {Promise<string>}
      */
     static async getBoxerPDF(cookies: string, globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
-        return this.getBoxerOther(cookies, globalId, "pdf", pathToSaveTo, fileName);
+        return this.getBoxerOther(cookies, globalId, 'pdf', pathToSaveTo, fileName);
     }
 
     /**
@@ -86,7 +86,7 @@ export class Boxrec {
      * @returns {Promise<string>}
      */
     static async getBoxerPrint(cookies: string, globalId: number, pathToSaveTo?: string, fileName?: string): Promise<string> {
-        return this.getBoxerOther(cookies, globalId, "print", pathToSaveTo, fileName);
+        return this.getBoxerOther(cookies, globalId, 'print', pathToSaveTo, fileName);
     }
 
     /**
@@ -321,7 +321,7 @@ export class Boxrec {
         const isBoxerInList: boolean = new BoxrecPageWatch(boxrecPageBody).checkForBoxerInList(boxerGlobalId);
 
         if (isBoxerInList) {
-            throw new Error("Boxer appears in list after being removed");
+            throw new Error('Boxer appears in list after being removed');
         }
 
         return !isBoxerInList;
@@ -338,7 +338,7 @@ export class Boxrec {
         const isBoxerInList: boolean = new BoxrecPageWatch(boxrecPageBody).checkForBoxerInList(boxerGlobalId);
 
         if (!isBoxerInList) {
-            throw new Error("Boxer did not appear in list after being added");
+            throw new Error('Boxer did not appear in list after being added');
         }
 
         return isBoxerInList;
@@ -382,10 +382,10 @@ export class Boxrec {
      * @param {string} fileName
      * @returns {Promise<string>}
      */
-    private static async getBoxerOther(cookies: string, globalId: number, type: "pdf" | "print", pathToSaveTo?: string, fileName?: string): Promise<string> {
+    private static async getBoxerOther(cookies: string, globalId: number, type: 'pdf' | 'print', pathToSaveTo?: string, fileName?: string): Promise<string> {
         let boxrecPageBody: string;
 
-        if (type === "pdf") {
+        if (type === 'pdf') {
             boxrecPageBody = await BoxrecRequests.getBoxerPDF(cookies, globalId);
         } else {
             boxrecPageBody = await BoxrecRequests.getBoxerPrint(cookies, globalId);
@@ -397,13 +397,13 @@ export class Boxrec {
             if (fileName) {
                 fileNameToSaveAs = fileName;
             } else {
-                fileNameToSaveAs = `${globalId}.` + (type === "pdf" ? "pdf" : "html");
+                fileNameToSaveAs = `${globalId}.` + (type === 'pdf' ? 'pdf' : 'html');
             }
 
             let updatedPathToSave: string = pathToSaveTo;
 
-            if (updatedPathToSave.slice(-1) !== "/") {
-                updatedPathToSave += "/";
+            if (updatedPathToSave.slice(-1) !== '/') {
+                updatedPathToSave += '/';
             }
 
             const file: WriteStream = fs.createWriteStream(updatedPathToSave + fileNameToSaveAs);

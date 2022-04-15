@@ -1,8 +1,8 @@
-import * as cheerio from "cheerio";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {getHeaderColumnText} from "../../helpers";
-import {BoxrecPageSearchRow} from "./boxrec.page.search.row";
-import {BoxrecPageSearchOutput} from "./boxrec.search.constants";
+import * as cheerio from 'cheerio';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {getHeaderColumnText} from '../../helpers';
+import {BoxrecPageSearchRow} from './boxrec.page.search.row';
+import {BoxrecPageSearchOutput} from './boxrec.search.constants';
 
 /**
  * parse a BoxRec Search Results page
@@ -10,7 +10,7 @@ import {BoxrecPageSearchOutput} from "./boxrec.search.constants";
  */
 @OutputGetter([{
     function: (results: BoxrecPageSearchRow[]) => results.map(result => result.output),
-    method: "results",
+    method: 'results',
 }])
 export class BoxrecPageSearch implements OutputInterface {
 
@@ -23,13 +23,13 @@ export class BoxrecPageSearch implements OutputInterface {
     }
 
     get results(): BoxrecPageSearchRow[] {
-        const headerColumns: string[] = getHeaderColumnText(this.$(".dataTable"));
+        const headerColumns: string[] = getHeaderColumnText(this.$('.dataTable'));
 
         return this.parse().map(item => new BoxrecPageSearchRow(headerColumns, item));
     }
 
     private parse(): string[] {
-        return this.$(".dataTable tbody tr")
+        return this.$('.dataTable tbody tr')
             .map((i: number, elem: CheerioElement) => this.$(elem).html())
             .get();
     }

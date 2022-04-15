@@ -1,8 +1,8 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {IdGetter, IdInterface} from "../../decorators/id.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
-import {BoxrecLocation, Record, Stance, WinLossDraw} from "../boxrec.constants";
+import * as cheerio from 'cheerio';
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {IdGetter, IdInterface} from '../../decorators/id.decorator';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../helpers';
+import {BoxrecLocation, Record, Stance, WinLossDraw} from '../boxrec.constants';
 
 @IdGetter()
 export abstract class BoxrecPageRatingsRow implements IdInterface {
@@ -18,7 +18,7 @@ export abstract class BoxrecPageRatingsRow implements IdInterface {
 
     get hasBoutScheduled(): boolean {
         return getColumnDataByColumnHeader(this.$, this.headerColumns, BoxrecCommonTableHeader.name, false)
-            .slice(-1) === "*";
+            .slice(-1) === '*';
     }
 
     get last6(): WinLossDraw[] {

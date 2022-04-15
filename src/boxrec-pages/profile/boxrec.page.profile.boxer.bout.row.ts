@@ -1,40 +1,40 @@
-import {BoxrecCommonTablesColumnsClass} from "../../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecTitles} from "../../boxrec-common-tables/boxrec-common.constants";
-import {DateGetter, DateInterface} from "../../decorators/date.decorator";
-import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from "../../decorators/firstBoxerWeight.decorator";
-import {MetadataGetter, MetadataInterface} from "../../decorators/metadata.decorator";
-import {OutcomeGetter, OutcomeInterface} from "../../decorators/outcome.decorator";
-import {OutputGetter, OutputInterface} from "../../decorators/output.decorator";
-import {RatingGetter, RatingInterface} from "../../decorators/rating.decorator";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from "../../helpers";
-import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from "../boxrec.constants";
-import {BoxingBoutOutcome} from "../event/boxrec.event.constants";
-import {BoxrecProfileBoxerBoutOutput} from "./boxrec.page.profile.constants";
-import {BoxrecProfileCommonRow} from "./boxrec.profile.common.row";
+import {BoxrecCommonTablesColumnsClass} from '../../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {BoxrecTitles} from '../../boxrec-common-tables/boxrec-common.constants';
+import {DateGetter, DateInterface} from '../../decorators/date.decorator';
+import {FirstBoxerWeightGetter, FirstBoxerWeightInterface} from '../../decorators/firstBoxerWeight.decorator';
+import {MetadataGetter, MetadataInterface} from '../../decorators/metadata.decorator';
+import {OutcomeGetter, OutcomeInterface} from '../../decorators/outcome.decorator';
+import {OutputGetter, OutputInterface} from '../../decorators/output.decorator';
+import {RatingGetter, RatingInterface} from '../../decorators/rating.decorator';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader, trimRemoveLineBreaks} from '../../helpers';
+import {BoxrecBasic, BoxrecJudge, Record, WinLossDraw} from '../boxrec.constants';
+import {BoxingBoutOutcome} from '../event/boxrec.event.constants';
+import {BoxrecProfileBoxerBoutOutput} from './boxrec.page.profile.constants';
+import {BoxrecProfileCommonRow} from './boxrec.profile.common.row';
 
 @DateGetter()
 @FirstBoxerWeightGetter()
 @MetadataGetter()
 @OutcomeGetter(BoxrecCommonTableHeader.result)
 @OutputGetter([
-    "date",
-    "firstBoxerRating",
-    "firstBoxerWeight",
-    "judges",
-    "links",
-    "location",
-    "metadata",
-    "numberOfRounds",
-    "outcome",
-    "rating",
-    "referee",
-    "result",
-    "secondBoxer",
-    "secondBoxerLast6",
-    "secondBoxerRating",
-    "secondBoxerRecord",
-    "secondBoxerWeight",
-    "titles"
+    'date',
+    'firstBoxerRating',
+    'firstBoxerWeight',
+    'judges',
+    'links',
+    'location',
+    'metadata',
+    'numberOfRounds',
+    'outcome',
+    'rating',
+    'referee',
+    'result',
+    'secondBoxer',
+    'secondBoxerLast6',
+    'secondBoxerRating',
+    'secondBoxerRecord',
+    'secondBoxerWeight',
+    'titles'
 ])
 @RatingGetter()
 export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
@@ -103,7 +103,7 @@ export class BoxrecPageProfileBoxerBoutRow extends BoxrecProfileCommonRow
     }
 
     get referee(): BoxrecBasic {
-        const metadata: string = this.metadata || "";
+        const metadata: string = this.metadata || '';
         return BoxrecCommonTablesColumnsClass.parseReferee(metadata);
     }
 

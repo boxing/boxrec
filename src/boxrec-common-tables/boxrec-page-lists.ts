@@ -1,5 +1,5 @@
-import * as cheerio from "cheerio";
-import {stripCommas} from "../helpers";
+import * as cheerio from 'cheerio';
+import {stripCommas} from '../helpers';
 
 export abstract class BoxrecPageLists {
 
@@ -10,7 +10,7 @@ export abstract class BoxrecPageLists {
     }
 
     get numberOfPages(): number {
-        const text: string = this.$(".pagerResults").text() || "0";
+        const text: string = this.$('.pagerResults').text() || '0';
         return parseInt(stripCommas(text), 10);
     }
 

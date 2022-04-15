@@ -1,4 +1,4 @@
-import {BoxrecBasic} from "../boxrec.constants";
+import {BoxrecBasic} from '../boxrec.constants';
 
 export interface BoxrecChampionsByWeightDivision {
     bantamweight: BoxrecBelts;
@@ -45,21 +45,21 @@ export interface BoxrecUnformattedChampions {
 }
 
 export enum WeightDivision {
-    heavyweight = "heavyweight",
-    cruiserweight = "cruiserweight",
-    lightHeavyweight = "light heavyweight",
-    superMiddleweight = "super middleweight",
-    middleweight = "middleweight",
-    superWelterweight = "super welterweight",
-    welterweight = "welterweight",
-    superLightweight = "super lightweight",
-    lightweight = "lightweight",
-    superFeatherweight = "super featherweight",
-    featherweight = "featherweight",
-    superBantamweight = "super bantamweight",
-    bantamweight = "bantamweight",
-    superFlyweight = "super flyweight",
-    flyweight = "flyweight",
-    lightFlyweight = "light flyweight",
-    minimumweight = "minimumweight"
+    heavyweight = 'heavyweight',
+    cruiserweight = 'cruiserweight',
+    lightHeavyweight = 'light heavyweight',
+    superMiddleweight = 'super middleweight',
+    middleweight = 'middleweight',
+    superWelterweight = 'super welterweight',
+    welterweight = 'welterweight',
+    superLightweight = 'super lightweight',
+    lightweight = 'lightweight',
+    superFeatherweight = 'super featherweight',
+    featherweight = 'featherweight',
+    superBantamweight = 'super bantamweight',
+    bantamweight = 'bantamweight',
+    superFlyweight = 'super flyweight',
+    flyweight = 'flyweight',
+    lightFlyweight = 'light flyweight',
+    minimumweight = 'minimumweight'
 }

@@ -1,7 +1,7 @@
-import * as cheerio from "cheerio";
-import {BoxrecCommonLinks} from "../../boxrec-common-tables/boxrec-common-links";
-import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../../helpers";
+import * as cheerio from 'cheerio';
+import {BoxrecCommonLinks} from '../../boxrec-common-tables/boxrec-common-links';
+import {BoxrecGeneralLinks} from '../../boxrec-common-tables/boxrec-common.constants';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../../helpers';
 
 // contains common functionality of profiles rows
 export abstract class BoxrecProfileCommonRow {

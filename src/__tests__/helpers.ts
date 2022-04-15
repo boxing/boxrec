@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as path from "path";
-import {Boxrec} from "../boxrec.class";
+import * as fs from 'fs';
+import * as path from 'path';
+import {Boxrec} from '../boxrec.class';
 
 jest.setTimeout(200000);
 
@@ -18,15 +18,15 @@ export const logIn: () =>
     const {BOXREC_USERNAME, BOXREC_PASSWORD} = process.env;
 
     if (!BOXREC_USERNAME) {
-        throw new Error("missing required env var BOXREC_USERNAME");
+        throw new Error('missing required env var BOXREC_USERNAME');
     }
 
     if (!BOXREC_PASSWORD) {
-        throw new Error("missing required env var BOXREC_PASSWORD");
+        throw new Error('missing required env var BOXREC_PASSWORD');
     }
 
     const getNewCookie: () => void = async () => {
-        fs.promises.mkdir(path.resolve(process.cwd(), "./tmp/"), { recursive: true }).catch(console.error);
+        fs.promises.mkdir(path.resolve(process.cwd(), './tmp/'), { recursive: true }).catch(console.error);
         // if the file doesn't exist, we login and store the cookie in the "../tmp" directory
         cookieString = await Boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
         await wait();
@@ -35,8 +35,8 @@ export const logIn: () =>
 
     let cookieBuffer: Buffer;
     let madeRequest: boolean = true;
-    const tmpPath: string = path.resolve(process.cwd(), "./tmp/cookies.txt");
-    let cookieString: string = "";
+    const tmpPath: string = path.resolve(process.cwd(), './tmp/cookies.txt');
+    let cookieString: string = '';
 
     try {
         const { mtime } = fs.statSync(tmpPath);
@@ -47,7 +47,7 @@ export const logIn: () =>
         // I think it's an hour but due to testing times, anywhere close we'll get a new cookie
         if (currentUnixTime - timeWhenCookieFileModified > 2000) {
             // tslint:disable-next-line:no-console
-            console.log("Getting a new cookie");
+            console.log('Getting a new cookie');
             await getNewCookie();
         }
 

@@ -1,11 +1,11 @@
-import {BoxrecPageEvent} from "../boxrec-pages/event/boxrec.page.event";
-import {BoxrecPageSchedule} from "../boxrec-pages/schedule/boxrec.page.schedule";
-import {Boxrec} from "../boxrec.class";
-import {expectId, expectMatchDate, logIn, wait} from "./helpers";
+import {BoxrecPageEvent} from '../boxrec-pages/event/boxrec.page.event';
+import {BoxrecPageSchedule} from '../boxrec-pages/schedule/boxrec.page.schedule';
+import {Boxrec} from '../boxrec.class';
+import {expectId, expectMatchDate, logIn, wait} from './helpers';
 
 jest.setTimeout(200000);
 
-describe("method getSchedule", () => {
+describe('method getSchedule', () => {
 
     let loggedInCookie: string;
 
@@ -25,17 +25,17 @@ describe("method getSchedule", () => {
         await wait();
     });
 
-    it("should give an array of schedule events", () => {
+    it('should give an array of schedule events', () => {
         expect(results.events.length).toBeGreaterThanOrEqual(0);
     });
 
-    it("should use the `offset` to give the next results", async () => {
+    it('should use the `offset` to give the next results', async () => {
         expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
     });
 
-    describe("getter numberOfPages", () => {
+    describe('getter numberOfPages', () => {
 
-        it("should return the number of pages", () => {
+        it('should return the number of pages', () => {
             expect(results.numberOfPages).toBeGreaterThanOrEqual(0);
         });
 
@@ -43,7 +43,7 @@ describe("method getSchedule", () => {
 
     // note: these events will change daily
     // some of these tests should either use try/catches or loop through events to satisfy the test case
-    describe("getter events", () => {
+    describe('getter events', () => {
 
         let event: BoxrecPageEvent;
 
@@ -51,42 +51,42 @@ describe("method getSchedule", () => {
             event = results.events[0];
         });
 
-        describe("getter date", () => {
+        describe('getter date', () => {
 
-            it("should include the date of an event", () => {
+            it('should include the date of an event', () => {
                 expectMatchDate(event.date);
             });
 
         });
 
-        describe("getter bouts", () => {
+        describe('getter bouts', () => {
 
-            it("should be defined", () => {
+            it('should be defined', () => {
                 expect(event.bouts).toBeDefined();
             });
 
-            describe("getter values", () => {
+            describe('getter values', () => {
 
-                describe("firstBoxer", () => {
+                describe('firstBoxer', () => {
 
-                    it("id should not be null", () => {
+                    it('id should not be null', () => {
                         expect(event.bouts[0].firstBoxer.id).not.toBeNull();
                     });
 
-                    it("name should not be null", () => {
+                    it('name should not be null', () => {
                         expect(event.bouts[0].firstBoxer.name).not.toBeNull();
                     });
 
                 });
 
-                it("secondBoxer", () => {
+                it('secondBoxer', () => {
                     // second boxer could be empty, resulting in `null` values
                     expect(event.bouts[0].secondBoxer).toBeDefined();
                 });
 
-                describe("getter rating", () => {
+                describe('getter rating', () => {
 
-                    it("should return a value of 0 or greater", () => {
+                    it('should return a value of 0 or greater', () => {
                         expect(event.bouts[0].rating).toBeGreaterThanOrEqual(0);
                     });
 
@@ -96,34 +96,34 @@ describe("method getSchedule", () => {
 
         });
 
-        describe("getter location", () => {
+        describe('getter location', () => {
 
-            describe("venue", () => {
+            describe('venue', () => {
 
-                it("should include the id of the venue", () => {
+                it('should include the id of the venue', () => {
                     expectId(event.location.venue.id, jasmine.any(Number));
                 });
 
-                it("should include the name of the venue", () => {
+                it('should include the name of the venue', () => {
                     expect(event.location.venue.name).toEqual(jasmine.any(String));
                 });
 
             });
 
-            describe("location", () => {
+            describe('location', () => {
 
-                it("should include the town", () => {
+                it('should include the town', () => {
                     expect(event.location.location.town).toBeDefined();
                 });
 
-                it("should include the country", () => {
+                it('should include the country', () => {
                     expect(event.location.location.country).toEqual({
                         id: jasmine.any(String),
                         name: jasmine.any(String),
                     });
                 });
 
-                it("should include the region", () => {
+                it('should include the region', () => {
                     // it can be null
                     expect(event.location.location.region).toBeDefined();
                 });
@@ -132,41 +132,41 @@ describe("method getSchedule", () => {
 
         });
 
-        describe("getter promoter", () => {
+        describe('getter promoter', () => {
 
-            it("should include the promotional company in an array", () => {
+            it('should include the promotional company in an array', () => {
                 expect(event.promoters).toBeDefined();
                 expect(event.promoters.length).toBeGreaterThanOrEqual(0);
             });
 
         });
 
-        describe("getter matchmaker", () => {
+        describe('getter matchmaker', () => {
 
-            it("should be included if it exists", () => {
+            it('should be included if it exists', () => {
                 expect(event.matchmakers).toBeDefined();
             });
 
         });
 
-        describe("getter doctor", () => {
+        describe('getter doctor', () => {
 
-            it("should include an array of doctors", () => {
+            it('should include an array of doctors', () => {
                 expect(event.doctors).toBeDefined();
                 expect(event.doctors.length).toBeGreaterThanOrEqual(0);
             });
 
         });
 
-        describe("getter inspector", () => {
+        describe('getter inspector', () => {
 
-            it("should include the id and name of the inspector", () => {
+            it('should include the id and name of the inspector', () => {
                 expect(event.inspector).toBeDefined();
             });
 
         });
 
-        it("should include the wiki id as id", () => {
+        it('should include the wiki id as id', () => {
             expect(event.id).toBeGreaterThanOrEqual(0);
         });
 

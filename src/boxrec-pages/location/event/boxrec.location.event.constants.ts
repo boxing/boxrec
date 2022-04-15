@@ -1,4 +1,4 @@
-import {BoxrecBasic, BoxrecLocation} from "../../boxrec.constants";
+import {BoxrecBasic, BoxrecLocation} from '../../boxrec.constants';
 
 export interface BoxrecPageLocationEventRowOutput {
     date: string;

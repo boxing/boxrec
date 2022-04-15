@@ -1,4 +1,4 @@
-import {Country} from "boxrec-requests";
+import {Country} from 'boxrec-requests';
 
 export interface BoxrecResultsParams {
     countryCode?: Country;
@@ -7,7 +7,7 @@ export interface BoxrecResultsParams {
 }
 
 export interface BoxrecResultsParamsTransformed {
-    "c[countryCode]"?: Country;
-    "c[division]"?: string;
+    'c[countryCode]'?: Country;
+    'c[division]'?: string;
     offset?: number;
 }

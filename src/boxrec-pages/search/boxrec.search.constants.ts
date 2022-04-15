@@ -1,10 +1,10 @@
-import {BoxrecFighterRole, BoxrecRole} from "boxrec-requests";
-import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from "../boxrec.constants";
-import {WeightDivision} from "../champions/boxrec.champions.constants";
+import {BoxrecFighterRole, BoxrecRole} from 'boxrec-requests';
+import {BoxrecBasic, BoxrecLocation, Record, WinLossDraw} from '../boxrec.constants';
+import {WeightDivision} from '../champions/boxrec.champions.constants';
 
 export enum BoxrecStatus {
-    active = "a",
-    all = "", // active and inactive
+    active = 'a',
+    all = '', // active and inactive
 }
 
 export interface BoxrecPageSearchRowOutput {

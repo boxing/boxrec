@@ -1,8 +1,8 @@
-import {BoxrecPageEventBoutRow} from "../boxrec-pages/event/boxrec.page.event.bout.row";
-import {BoxrecPageProfileBoxerBoutRow} from "../boxrec-pages/profile/boxrec.page.profile.boxer.bout.row";
-import {BoxrecPageProfileOtherCommonBoutRow} from "../boxrec-pages/profile/boxrec.page.profile.other.common.bout.row";
-import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row";
-import {getHeaderColumnText} from "../helpers";
+import {BoxrecPageEventBoutRow} from '../boxrec-pages/event/boxrec.page.event.bout.row';
+import {BoxrecPageProfileBoxerBoutRow} from '../boxrec-pages/profile/boxrec.page.profile.boxer.bout.row';
+import {BoxrecPageProfileOtherCommonBoutRow} from '../boxrec-pages/profile/boxrec.page.profile.other.common.bout.row';
+import {BoxrecPageTitlesRow} from '../boxrec-pages/titles/boxrec.page.titles.row';
+import {getHeaderColumnText} from '../helpers';
 
 /**
  * Adds a getter to the class that returns an array of bouts from an events/schedule/date table
@@ -17,7 +17,7 @@ export function BoutsGetter(tableEl: string, classType: (new (headerColumns: str
                             theadNumber: number = 1, reverseOrder: boolean = false):
     (target: any) => void {
     return target => {
-        Object.defineProperty(target.prototype, "bouts", {
+        Object.defineProperty(target.prototype, 'bouts', {
             get(): Array<[string, string | null]> {
                 // on the pages with multiple events, not all tables have the header columns
                 // by using the "parse" method we add the header

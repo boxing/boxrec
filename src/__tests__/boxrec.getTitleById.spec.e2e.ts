@@ -1,11 +1,11 @@
-import {BoxrecPageTitle} from "../boxrec-pages/title/boxrec.page.title";
-import {BoxrecPageTitlesRow} from "../boxrec-pages/titles/boxrec.page.titles.row";
-import {Boxrec} from "../boxrec.class";
-import {expectMatchDate, logIn, wait} from "./helpers";
+import {BoxrecPageTitle} from '../boxrec-pages/title/boxrec.page.title';
+import {BoxrecPageTitlesRow} from '../boxrec-pages/titles/boxrec.page.titles.row';
+import {Boxrec} from '../boxrec.class';
+import {expectMatchDate, logIn, wait} from './helpers';
 
 jest.setTimeout(200000);
 
-describe("method getTitleById", () => {
+describe('method getTitleById', () => {
 
     let loggedInCookie: string;
 
@@ -14,7 +14,7 @@ describe("method getTitleById", () => {
         loggedInCookie = logInResponse.cookieString;
     });
 
-    const WBCMiddleweightEndpoint: string = "6/Middleweight";
+    const WBCMiddleweightEndpoint: string = '6/Middleweight';
     let WBCMiddleweightResult: BoxrecPageTitle;
 
     beforeAll(async () => {
@@ -22,17 +22,17 @@ describe("method getTitleById", () => {
         await wait();
     });
 
-    describe("getter name", () => {
+    describe('getter name', () => {
 
-        it("should return the name of the title", () => {
-            expect(WBCMiddleweightResult.name).toBe("World Boxing Council World Middleweight Title");
+        it('should return the name of the title', () => {
+            expect(WBCMiddleweightResult.name).toBe('World Boxing Council World Middleweight Title');
         });
 
     });
 
-    describe("getter champion", () => {
+    describe('getter champion', () => {
 
-        it("should return the name and id of current champion", () => {
+        it('should return the name and id of current champion', () => {
             expect(WBCMiddleweightResult.champion).toEqual({
                 id: jasmine.any(Number),
                 name: jasmine.any(String),
@@ -41,21 +41,21 @@ describe("method getTitleById", () => {
 
     });
 
-    describe("getter numberOfBouts", () => {
+    describe('getter numberOfBouts', () => {
 
-        it("should return the number of bouts that have occurred for this title", () => {
+        it('should return the number of bouts that have occurred for this title', () => {
             expect(WBCMiddleweightResult.numberOfBouts).toBeGreaterThanOrEqual(111);
         });
 
     });
 
-    describe("getter bouts", () => {
+    describe('getter bouts', () => {
 
-        it("should return an array of bouts that occurred for this title", () => {
+        it('should return an array of bouts that occurred for this title', () => {
             expect(WBCMiddleweightResult.bouts).toEqual(jasmine.any(Array));
         });
 
-        describe("bout values", () => {
+        describe('bout values', () => {
 
             let mostRecentWBCBout: BoxrecPageTitlesRow;
 
@@ -63,21 +63,21 @@ describe("method getTitleById", () => {
                 mostRecentWBCBout = WBCMiddleweightResult.bouts[0];
             });
 
-            it("should include the date", () => {
+            it('should include the date', () => {
                 expectMatchDate(mostRecentWBCBout.date);
             });
 
-            it("should include the name and id of the first boxer", () => {
+            it('should include the name and id of the first boxer', () => {
                 expect(mostRecentWBCBout.firstBoxer.id).not.toBeNull();
                 expect(mostRecentWBCBout.firstBoxer.name).not.toBeNull();
             });
 
-            it("should include the name and id of the second boxer", () => {
+            it('should include the name and id of the second boxer', () => {
                 expect(mostRecentWBCBout.secondBoxer.id).not.toBeNull();
                 expect(mostRecentWBCBout.secondBoxer.name).not.toBeNull();
             });
 
-            it("should include the number of rounds", () => {
+            it('should include the number of rounds', () => {
                 expect(mostRecentWBCBout.numberOfRounds[0]).toBeGreaterThan(0);
                 expect(mostRecentWBCBout.numberOfRounds[1]).toBeGreaterThan(0);
             });

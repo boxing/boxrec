@@ -10,28 +10,28 @@ import {
     mockProfilePromoterLeonardEllerbe,
     mockProfileRefereeRobertByrd,
     mockProfileSupervisorSammyMacias
-} from "boxrec-mocks";
-import {WinLossDraw} from "../boxrec.constants";
-import {BoxrecPageProfileBoxer} from "./boxrec.page.profile.boxer";
+} from 'boxrec-mocks';
+import {WinLossDraw} from '../boxrec.constants';
+import {BoxrecPageProfileBoxer} from './boxrec.page.profile.boxer';
 import {
     BoxrecProfileBoxerBoutOutput,
     BoxrecProfileBoxerOutput,
     BoxrecProfileManagerOutput,
     BoxrecProfileOtherOutput,
     BoxrecProfilePromoterOutput
-} from "./boxrec.page.profile.constants";
-import {BoxrecPageProfileEventRow} from "./boxrec.page.profile.event.row";
-import {BoxrecPageProfileEvents} from "./boxrec.page.profile.events";
-import {BoxrecPageProfileManager} from "./boxrec.page.profile.manager";
-import {BoxrecPageProfileManagerBoxerRow} from "./boxrec.page.profile.manager.boxer.row";
-import {BoxrecPageProfileOtherCommon} from "./boxrec.page.profile.other.common";
-import {BoxrecPageProfileOtherCommonBoutRow} from "./boxrec.page.profile.other.common.bout.row";
-import {BoxrecPageProfilePromoter} from "./boxrec.page.profile.promoter";
-import {BoxrecProfileTable} from "./boxrec.profile.constants";
+} from './boxrec.page.profile.constants';
+import {BoxrecPageProfileEventRow} from './boxrec.page.profile.event.row';
+import {BoxrecPageProfileEvents} from './boxrec.page.profile.events';
+import {BoxrecPageProfileManager} from './boxrec.page.profile.manager';
+import {BoxrecPageProfileManagerBoxerRow} from './boxrec.page.profile.manager.boxer.row';
+import {BoxrecPageProfileOtherCommon} from './boxrec.page.profile.other.common';
+import {BoxrecPageProfileOtherCommonBoutRow} from './boxrec.page.profile.other.common.bout.row';
+import {BoxrecPageProfilePromoter} from './boxrec.page.profile.promoter';
+import {BoxrecProfileTable} from './boxrec.profile.constants';
 
-describe("class BoxrecPageProfile", () => {
+describe('class BoxrecPageProfile', () => {
 
-    describe("class BoxrecPageProfile", () => {
+    describe('class BoxrecPageProfile', () => {
 
         let boxerGGG: BoxrecPageProfileBoxer;
         let boxerFloydMayweatherJr: BoxrecPageProfileBoxer;
@@ -57,9 +57,9 @@ describe("class BoxrecPageProfile", () => {
             supervisorSammyMacias = new BoxrecPageProfileOtherCommon(mockProfileSupervisorSammyMacias);
         });
 
-        describe("role boxer", () => {
+        describe('role boxer', () => {
 
-            describe("getter output", () => {
+            describe('getter output', () => {
 
                 let outputRJJ: BoxrecProfileBoxerOutput;
                 let outputGGG: BoxrecProfileBoxerOutput;
@@ -69,138 +69,138 @@ describe("class BoxrecPageProfile", () => {
                     outputGGG = new BoxrecPageProfileBoxer(mockProfileBoxerGGG).output;
                 });
 
-                it("should return the name", () => {
-                    expect(outputRJJ.name).toBe("Roy Jones Jr");
+                it('should return the name', () => {
+                    expect(outputRJJ.name).toBe('Roy Jones Jr');
                 });
 
-                it("should return null if they are not suspended", () => {
+                it('should return null if they are not suspended', () => {
                     expect(outputRJJ.suspended).toBe(null);
                 });
 
-                it("should return the boxer globalId", () => {
+                it('should return the boxer globalId', () => {
                     expect(outputRJJ.globalId).toBe(774820);
                     expect(outputGGG.globalId).toBe(356831);
                 });
 
-                it("should return the boxer's star rating", () => {
+                it('should return the boxer\'s star rating', () => {
                     expect(outputGGG.rating).toEqual(expect.any(Number));
                 });
 
-                it("should return boxer's record", () => {
+                it('should return boxer\'s record', () => {
                     expect(outputRJJ.record.win).toBeGreaterThanOrEqual(66);
                     expect(outputRJJ.record.draw).toBeGreaterThanOrEqual(0);
                     expect(outputRJJ.record.loss).toBeGreaterThanOrEqual(9);
                 });
 
-                it("should return the URL of the person's profile picture", () => {
+                it('should return the URL of the person\'s profile picture', () => {
                     // was previously "https://static.boxrec.com/thumb"
                     expect(outputRJJ.picture)
-                        .toContain("https://boxrec.com/media/images");
+                        .toContain('https://boxrec.com/media/images');
                 });
 
-                it("should return the number of bouts this boxer has been in, not including scheduled bouts", () => {
+                it('should return the number of bouts this boxer has been in, not including scheduled bouts', () => {
                     expect(outputRJJ.numberOfBouts).toBeGreaterThanOrEqual(75);
                 });
 
-                describe("getter roles", () => {
+                describe('getter roles', () => {
 
-                    it("should return an array of the person's roles if they have one role", () => {
+                    it('should return an array of the person\'s roles if they have one role', () => {
                         // todo need a person with one role
                     });
                 });
 
-                it("should return the number of professionally fought rounds this boxer has been in", () => {
+                it('should return the number of professionally fought rounds this boxer has been in', () => {
                     expect(outputRJJ.rounds).toBeGreaterThanOrEqual(495);
                 });
 
-                it("should return the number of KOs/TKOs this boxer has dealt out", () => {
+                it('should return the number of KOs/TKOs this boxer has dealt out', () => {
                     expect(outputRJJ.KOs).toBeGreaterThanOrEqual(47);
                 });
 
-                it("should return the status of the person", () => {
-                    expect(outputRJJ.status).toBe("inactive");
+                it('should return the status of the person', () => {
+                    expect(outputRJJ.status).toBe('inactive');
                 });
 
-                it("should return the birth name of the person", () => {
-                    expect(outputRJJ.birthName).toBe("Roy Levesta Jones");
+                it('should return the birth name of the person', () => {
+                    expect(outputRJJ.birthName).toBe('Roy Levesta Jones');
                 });
 
-                it("should give the nickname or alias of the boxer", () => {
+                it('should give the nickname or alias of the boxer', () => {
                     expect(outputRJJ.alias).toBe(null);
                 });
 
-                it("should return the date this person was born", () => {
-                    expect(outputRJJ.born).toBe("1969-01-16");
+                it('should return the date this person was born', () => {
+                    expect(outputRJJ.born).toBe('1969-01-16');
                 });
 
-                it("should return the date of this person's debut into the sport of boxing", () => {
-                    expect(outputRJJ.debut).toBe("1989-05-06");
+                it('should return the date of this person\'s debut into the sport of boxing', () => {
+                    expect(outputRJJ.debut).toBe('1989-05-06');
                 });
 
-                it("should return the nationality of this person", () => {
-                    expect(outputRJJ.nationality).toBe("USA");
+                it('should return the nationality of this person', () => {
+                    expect(outputRJJ.nationality).toBe('USA');
                 });
 
-                it("should return the division the last division this boxer fought in", () => {
-                    expect(outputRJJ.division).toBe("light heavyweight");
+                it('should return the division the last division this boxer fought in', () => {
+                    expect(outputRJJ.division).toBe('light heavyweight');
                 });
 
-                describe("getter height", () => {
+                describe('getter height', () => {
 
-                    it("should return the height of the boxer", () => {
+                    it('should return the height of the boxer', () => {
                         expect(outputRJJ.height).toEqual([5, 11, 180]);
                     });
 
-                    it("should convert any heights with fractional numbers into decimals", () => {
+                    it('should convert any heights with fractional numbers into decimals', () => {
                         expect(outputGGG.height).toEqual([5, 10.5, 179]);
                     });
 
                 });
 
-                it("should return the reach of the boxer", () => {
+                it('should return the reach of the boxer', () => {
                     expect(outputRJJ.reach).toEqual([74, 188]);
                 });
 
-                it("should return the current residence of the person", () => {
-                    expect(outputRJJ.residence).toBe("Pensacola, Florida, USA");
+                it('should return the current residence of the person', () => {
+                    expect(outputRJJ.residence).toBe('Pensacola, Florida, USA');
                 });
 
-                describe("getter vadacbp", () => {
+                describe('getter vadacbp', () => {
 
-                    it("should return boolean if VADA is on profile", () => {
+                    it('should return boolean if VADA is on profile', () => {
                         expect(outputGGG.vadacbp).toEqual(expect.any(Boolean));
                     });
 
-                    it("should return false if VADA is not on profile", () => {
+                    it('should return false if VADA is not on profile', () => {
                         expect(outputRJJ.vadacbp).toBe(false);
                     });
 
                 });
 
-                describe("getter ranking", () => {
+                describe('getter ranking', () => {
 
-                    it("should return the boxer's ranking", () => {
+                    it('should return the boxer\'s ranking', () => {
                         expect(outputGGG.ranking).toEqual([
                             [expect.any(Number), expect.any(Number)],
                             [expect.any(Number), expect.any(Number)],
                         ]);
                     });
 
-                    it("should return null if the boxer is not ranked", () => {
+                    it('should return null if the boxer is not ranked', () => {
                         expect(outputRJJ.ranking).toBeNull();
                     });
 
                 });
 
-                it("should return the currently held titles", () => {
+                it('should return the currently held titles', () => {
                     expect(outputGGG.titlesHeld).toEqual(expect.any(Array));
                 });
 
-                it("should return the birth place of the person", () => {
-                    expect(outputRJJ.birthPlace).toBe("Pensacola, Florida, USA");
+                it('should return the birth place of the person', () => {
+                    expect(outputRJJ.birthPlace).toBe('Pensacola, Florida, USA');
                 });
 
-                describe("getter bouts", () => {
+                describe('getter bouts', () => {
 
                     let gggCanelo: BoxrecProfileBoxerBoutOutput;
                     let rjjLacy: BoxrecProfileBoxerBoutOutput;
@@ -216,26 +216,26 @@ describe("class BoxrecPageProfile", () => {
                         supervisorSammyMaciasLatestBout = supervisorSammyMacias.bouts[0];
                     });
 
-                    it("should have all bouts to offset the ad that BoxRec has in the list of profile bouts", () => {
+                    it('should have all bouts to offset the ad that BoxRec has in the list of profile bouts', () => {
                         expect(outputGGG.bouts.length).toBeGreaterThanOrEqual(40);
                     });
 
-                    it("should have bouts for people other than boxers", () => {
+                    it('should have bouts for people other than boxers', () => {
                         expect(judgeDaveMoretti.bouts.length).toBeGreaterThan(0);
                     });
 
-                    describe("getter links", () => {
+                    describe('getter links', () => {
 
-                        it("should parse out `javascript` dropdown open links", () => {
+                        it('should parse out `javascript` dropdown open links', () => {
                             supervisorSammyMaciasLatestBout.links.other?.forEach(link => {
-                                expect(link).not.toContain("javascript");
+                                expect(link).not.toContain('javascript');
                             });
                         });
 
-                        it("should return an object of links", () => {
+                        it('should return an object of links', () => {
                             expect(supervisorSammyMaciasLatestBout.links).toEqual({
                                 bio: 2056855,
-                                bout: "726555/2056855",
+                                bout: '726555/2056855',
                                 event: 726555,
                                 other: [],
                             });
@@ -243,290 +243,290 @@ describe("class BoxrecPageProfile", () => {
 
                     });
 
-                    describe("getter date", () => {
+                    describe('getter date', () => {
 
-                        it("should return the date if it is known", () => {
-                            expect(gggCanelo.date).toBe("2017-09-16");
+                        it('should return the date if it is known', () => {
+                            expect(gggCanelo.date).toBe('2017-09-16');
                         });
 
-                        it("should return the date of the judged/refereed bout", () => {
+                        it('should return the date of the judged/refereed bout', () => {
                             expect(judgeDaveMorettiLatestBout.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
                             expect(refereeRobertByrdLatestBout.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
                         });
 
                     });
 
-                    describe("getter location", () => {
+                    describe('getter location', () => {
 
-                        it("should return the location", () => {
+                        it('should return the location', () => {
                             expect(refereeRobertByrdLatestBout.location).toEqual({
-                                country: {id: "US", name: "USA"},
-                                region: {id: "NV", name: "Nevada"},
-                                town: {id: 20388, name: "Las Vegas"},
+                                country: {id: 'US', name: 'USA'},
+                                region: {id: 'NV', name: 'Nevada'},
+                                town: {id: 20388, name: 'Las Vegas'},
                             });
                         });
 
                     });
 
-                    describe("getter firstBoxerWeight (other role)", () => {
+                    describe('getter firstBoxerWeight (other role)', () => {
 
-                        it("should return the first boxer's weight", () => {
+                        it('should return the first boxer\'s weight', () => {
                             expect(refereeRobertByrdLatestBout.firstBoxerWeight).toBeGreaterThan(110);
                         });
 
                     });
 
-                    describe("getter rating (other role)", () => {
+                    describe('getter rating (other role)', () => {
 
-                        it("should return the rating of the bout", () => {
+                        it('should return the rating of the bout', () => {
                             expect(refereeRobertByrdLatestBout.rating).toBeGreaterThanOrEqual(0);
                         });
 
                     });
 
-                    describe("getter secondBoxerWeight (other role)", () => {
+                    describe('getter secondBoxerWeight (other role)', () => {
 
-                        it("should return the first boxer's weight", () => {
+                        it('should return the first boxer\'s weight', () => {
                             expect(refereeRobertByrdLatestBout.secondBoxerWeight).toBeGreaterThan(110);
                         });
 
                     });
 
-                    describe("getter firstBoxerWeight", () => {
+                    describe('getter firstBoxerWeight', () => {
 
-                        it("should return the first boxer's weight", () => {
+                        it('should return the first boxer\'s weight', () => {
                             expect(gggCanelo.firstBoxerWeight).toBe(160);
                         });
 
                     });
 
-                    describe("getter secondBoxer", () => {
+                    describe('getter secondBoxer', () => {
 
-                        it("should return name", () => {
-                            expect(gggCanelo.secondBoxer.name).toBe("Saul Alvarez");
+                        it('should return name', () => {
+                            expect(gggCanelo.secondBoxer.name).toBe('Saul Alvarez');
                         });
 
                     });
 
-                    describe("getter secondBoxerWeight", () => {
+                    describe('getter secondBoxerWeight', () => {
 
-                        it("should return the second boxer's weight", () => {
+                        it('should return the second boxer\'s weight', () => {
                             expect(gggCanelo.secondBoxerWeight).toBe(160);
                         });
 
                     });
 
-                    describe("getter secondBoxerRecord", () => {
+                    describe('getter secondBoxerRecord', () => {
 
-                        it("should return the second boxer's record at that time", () => {
+                        it('should return the second boxer\'s record at that time', () => {
                             expect(gggCanelo.secondBoxerRecord.win).toBe(49);
                         });
 
                     });
 
-                    describe("getter secondBoxerLast6", () => {
+                    describe('getter secondBoxerLast6', () => {
 
-                        it("should return the second boxer's last 6", () => {
+                        it('should return the second boxer\'s last 6', () => {
                             expect(gggCanelo.secondBoxerLast6).toEqual([WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.win]);
                         });
 
                     });
 
-                    describe("getter bouts", () => {
+                    describe('getter bouts', () => {
 
-                        it("should have an equal length or greater of bouts/scheduled bouts compared against bouts they've completed", () => {
+                        it('should have an equal length or greater of bouts/scheduled bouts compared against bouts they\'ve completed', () => {
                             expect(outputGGG.bouts.length).toBeGreaterThanOrEqual(outputGGG.numberOfBouts);
                         });
 
                     });
 
-                    describe("getter location", () => {
+                    describe('getter location', () => {
 
-                        it("should give the venue information", () => {
-                            expect(gggCanelo.location).toBe("T-Mobile Arena, Las Vegas");
+                        it('should give the venue information', () => {
+                            expect(gggCanelo.location).toBe('T-Mobile Arena, Las Vegas');
                         });
 
-                        it("should be a string since there are no links in the locations", () => {
-                            expect(rjjLacy.location).toBe("Coast Coliseum, Biloxi");
+                        it('should be a string since there are no links in the locations', () => {
+                            expect(rjjLacy.location).toBe('Coast Coliseum, Biloxi');
                         });
 
                     });
 
-                    describe("getter links", () => {
+                    describe('getter links', () => {
 
-                        it("should return links in an object", () => {
+                        it('should return links in an object', () => {
                             expect(gggCanelo.links).toEqual({
                                 bio: 2160855,
-                                bout: "751017/2160855",
+                                bout: '751017/2160855',
                                 event: 751017,
                                 other: [],
                             });
                         });
 
-                        it("should return the event id", () => {
+                        it('should return the event id', () => {
                             expect(gggCanelo.links.event).toBe(751017);
                         });
 
                     });
 
-                    describe("getter judges", () => {
+                    describe('getter judges', () => {
 
-                        it("should list the judges names", () => {
-                            expect(gggCanelo.judges[0].name).toBe("Adalaide Byrd");
+                        it('should list the judges names', () => {
+                            expect(gggCanelo.judges[0].name).toBe('Adalaide Byrd');
                         });
 
                     });
 
-                    describe("getter referee", () => {
+                    describe('getter referee', () => {
 
-                        it("should list the referee", () => {
-                            expect(gggCanelo.referee.name).toBe("Kenny Bayless");
+                        it('should list the referee', () => {
+                            expect(gggCanelo.referee.name).toBe('Kenny Bayless');
                         });
 
                     });
 
-                    describe("getter numberOfRounds", () => {
+                    describe('getter numberOfRounds', () => {
 
-                        it("should return the number of rounds the bout was", () => {
+                        it('should return the number of rounds the bout was', () => {
                             expect(gggCanelo.numberOfRounds).toEqual([12, 12]);
                         });
 
                     });
 
-                    describe("getter outcome", () => {
+                    describe('getter outcome', () => {
 
-                        it("should return the outcome of the bout", () => {
+                        it('should return the outcome of the bout', () => {
                             expect(gggCanelo.outcome).toEqual(WinLossDraw.draw);
                         });
 
                     });
 
-                    describe("getter result", () => {
+                    describe('getter result', () => {
 
-                        it("should return how the bout ended", () => {
-                            expect(gggCanelo.result).toEqual(["draw", "SD", "split decision"]);
+                        it('should return how the bout ended', () => {
+                            expect(gggCanelo.result).toEqual(['draw', 'SD', 'split decision']);
                         });
 
                     });
 
-                    describe("getter titles", () => {
+                    describe('getter titles', () => {
 
-                        it("should return what titles were on the line (in order by id)", () => {
+                        it('should return what titles were on the line (in order by id)', () => {
                             expect(gggCanelo.titles).toEqual([
                                 {
-                                    id: "6/Middleweight",
-                                    name: "World Boxing Council World Middleweight Title"
+                                    id: '6/Middleweight',
+                                    name: 'World Boxing Council World Middleweight Title'
                                 },
                                 {
-                                    id: "43/Middleweight",
-                                    name: "World Boxing Association Super World Middleweight Title"
+                                    id: '43/Middleweight',
+                                    name: 'World Boxing Association Super World Middleweight Title'
                                 },
                                 {
-                                    id: "75/Middleweight",
-                                    name: "International Boxing Federation World Middleweight Title"
+                                    id: '75/Middleweight',
+                                    name: 'International Boxing Federation World Middleweight Title'
                                 },
                                 {
-                                    id: "189/Middleweight",
-                                    name: "International Boxing Organization World Middleweight Title",
+                                    id: '189/Middleweight',
+                                    name: 'International Boxing Organization World Middleweight Title',
                                     supervisor: {
                                         id: 403048,
-                                        name: "Ed Levine",
+                                        name: 'Ed Levine',
                                     },
                                 },
                             ]);
                         });
 
-                        it("should convert the short divisions to full division for consistency", () => {
+                        it('should convert the short divisions to full division for consistency', () => {
                             expect(rjjLacy.titles[0].name)
-                                .toBe("World Boxing Organisation NABO Light Heavyweight Title");
+                                .toBe('World Boxing Organisation NABO Light Heavyweight Title');
                         });
 
-                        it("should be able to parse weight divisions with spaces (ex. Light%20Heavyweight)", () => {
+                        it('should be able to parse weight divisions with spaces (ex. Light%20Heavyweight)', () => {
                             expect(rjjLacy.titles).toEqual([{
-                                id: "96/Light%20Heavyweight",
-                                name: "World Boxing Organisation NABO Light Heavyweight Title",
+                                id: '96/Light%20Heavyweight',
+                                name: 'World Boxing Organisation NABO Light Heavyweight Title',
                             }]);
                         });
 
                     });
 
-                    it("should return the first fighter weight", () => {
+                    it('should return the first fighter weight', () => {
                         expect(rjjLacy.firstBoxerWeight).toEqual(174);
                     });
 
-                    it("should return the number of rounds", () => {
+                    it('should return the number of rounds', () => {
                         expect(rjjLacy.numberOfRounds).toEqual([10, 12]);
                     });
 
-                    it("should return the second fighter weight", () => {
+                    it('should return the second fighter weight', () => {
                         expect(rjjLacy.secondBoxerWeight).toEqual(172);
                     });
 
-                    it("should return the bout date", () => {
+                    it('should return the bout date', () => {
                         expect(rjjLacy.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
                     });
 
-                    it("should return the outcome/result of the fight", () => {
+                    it('should return the outcome/result of the fight', () => {
                         expect(rjjLacy.outcome).toBe(WinLossDraw.win);
                     });
 
-                    it("should return the bout date", () => {
+                    it('should return the bout date', () => {
                         // todo
                     });
 
-                    it("should return the second boxer", () => {
+                    it('should return the second boxer', () => {
                         expect(rjjLacy.secondBoxer).toEqual({
                             id: 31593,
-                            name: "Jeff Lacy"
+                            name: 'Jeff Lacy'
                         });
                     });
 
-                    it("should return the second boxer last 6", () => {
+                    it('should return the second boxer last 6', () => {
                         expect(rjjLacy.secondBoxerLast6).toEqual([WinLossDraw.loss,
                             WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.loss, WinLossDraw.win]);
                     });
 
-                    describe("getter firstBoxerRating", () => {
+                    describe('getter firstBoxerRating', () => {
 
-                        it("should return the rating of the first boxer after the fight", () => {
+                        it('should return the rating of the first boxer after the fight', () => {
                             expect(gggCanelo.firstBoxerRating).toEqual(expect.any(Number));
                         });
 
                     });
 
-                    describe("secondBoxerRating", () => {
+                    describe('secondBoxerRating', () => {
 
-                        it("should return the rating of the second boxer after the fight", () => {
+                        it('should return the rating of the second boxer after the fight', () => {
                             expect(gggCanelo.secondBoxerRating).toEqual(expect.any(Number));
                         });
 
                     });
 
-                    describe("getter otherInfo", () => {
+                    describe('getter otherInfo', () => {
 
-                        it("should return an array", () => {
+                        it('should return an array', () => {
                             expect(outputGGG.otherInfo.length).toEqual(expect.any(Number));
                         });
 
-                        it("should not contain known profile values like global id", () => {
+                        it('should not contain known profile values like global id', () => {
                             const globalId: string[] | undefined = outputGGG.otherInfo.find((key: any) => key[0] === BoxrecProfileTable.globalId);
                             expect(globalId).toBeUndefined();
                         });
 
                     });
 
-                    describe("getter hasBoutScheduled", () => {
+                    describe('getter hasBoutScheduled', () => {
 
-                        it("should return true/false if the boxer has a bout scheduled", () => {
+                        it('should return true/false if the boxer has a bout scheduled', () => {
                             expect(outputGGG.hasBoutScheduled).toEqual(expect.any(Boolean));
                         });
 
                     });
 
-                    describe("getter stance", () => {
+                    describe('getter stance', () => {
 
-                        it("should return the stance", () => {
-                            expect(outputGGG.stance).toBe("orthodox");
+                        it('should return the stance', () => {
+                            expect(outputGGG.stance).toBe('orthodox');
                         });
 
                     });
@@ -535,7 +535,7 @@ describe("class BoxrecPageProfile", () => {
             });
         });
 
-        describe("role promoter", () => {
+        describe('role promoter', () => {
 
             let output: BoxrecProfilePromoterOutput;
 
@@ -543,68 +543,68 @@ describe("class BoxrecPageProfile", () => {
                 output = promoterLeonardEllerbe.output;
             });
 
-            describe("getter company", () => {
+            describe('getter company', () => {
 
-                it("should return the company name as a string", () => {
-                    expect(output.company).toBe("Mayweather Promotions");
+                it('should return the company name as a string', () => {
+                    expect(output.company).toBe('Mayweather Promotions');
                 });
 
             });
 
         });
 
-        describe("role judge", () => {
+        describe('role judge', () => {
 
-            describe("getter globalId", () => {
+            describe('getter globalId', () => {
 
-                it("should return the judge globalId", () => {
+                it('should return the judge globalId', () => {
                     expect(judgeDaveMoretti.globalId).toBe(401002);
                 });
 
             });
 
-            describe("getter secondBoxerRecord", () => {
+            describe('getter secondBoxerRecord', () => {
 
                 // todo should this be undefined?
-                xit("should be undefined", () => {
+                xit('should be undefined', () => {
                     expect(judgeDaveMoretti.bouts[0].secondBoxerRecord).toBeUndefined();
                 });
 
             });
 
-            describe("getter residence", () => {
+            describe('getter residence', () => {
 
-                it("should return the residence for other roles", () => {
-                    expect(judgeDaveMoretti.residence).toBe("Las Vegas, Nevada, USA");
+                it('should return the residence for other roles', () => {
+                    expect(judgeDaveMoretti.residence).toBe('Las Vegas, Nevada, USA');
                 });
 
             });
 
-            describe("getter bouts", () => {
+            describe('getter bouts', () => {
 
                 // todo this shouldn't be under role judge
-                it("should have an equal length or greater of bouts/scheduled bouts compared against bouts they've completed", () => {
+                it('should have an equal length or greater of bouts/scheduled bouts compared against bouts they\'ve completed', () => {
                     expect(boxerGGG.bouts.length).toBeGreaterThanOrEqual(boxerGGG.numberOfBouts);
                 });
 
                 // todo this shouldn't be under role judge
-                it("should give a boxer rating to boxers even if they lose their first bout", () => {
+                it('should give a boxer rating to boxers even if they lose their first bout', () => {
                     expect(boxerFloydMayweatherJr.bouts[49].secondBoxerRating)
                         .toEqual(expect.any(Number));
                 });
 
-                describe("getter numberOfRounds", () => {
+                describe('getter numberOfRounds', () => {
 
-                    it("should return the number of rounds for bouts", () => {
+                    it('should return the number of rounds for bouts', () => {
                         expect(judgeDaveMoretti.bouts[0].numberOfRounds)
                             .toEqual([expect.any(Number), expect.any(Number)]);
                     });
 
                 });
 
-                describe("getter secondBoxerLast6", () => {
+                describe('getter secondBoxerLast6', () => {
 
-                    xit("should be undefined", () => {
+                    xit('should be undefined', () => {
                         // todo this fails, it should be undefined
                         expect(judgeDaveMoretti.bouts[0].secondBoxerLast6).toBeUndefined();
                     });
@@ -613,7 +613,7 @@ describe("class BoxrecPageProfile", () => {
 
             });
 
-            describe("getter birthPlace", () => {
+            describe('getter birthPlace', () => {
 
                 let output: BoxrecProfileOtherOutput;
 
@@ -621,13 +621,13 @@ describe("class BoxrecPageProfile", () => {
                     output = judgeDaveMoretti.output;
                 });
 
-                it("should return the null if the birth place isn't set", () => {
+                it('should return the null if the birth place isn\'t set', () => {
                     expect(output.birthPlace).toBe(null);
                 });
             });
         });
 
-        describe("role manager", () => {
+        describe('role manager', () => {
 
             let output: BoxrecProfileManagerOutput;
 
@@ -635,7 +635,7 @@ describe("class BoxrecPageProfile", () => {
                 output = managerMichaelMcSorleyJr.output;
             });
 
-            describe("getter boxers", () => {
+            describe('getter boxers', () => {
 
                 let boxer: BoxrecPageProfileManagerBoxerRow;
 
@@ -643,29 +643,29 @@ describe("class BoxrecPageProfile", () => {
                     boxer = output.boxers[0];
                 });
 
-                describe("getter name", () => {
+                describe('getter name', () => {
 
-                    it("should return the name", () => {
+                    it('should return the name', () => {
                         expect(boxer.name).toBeDefined();
                     });
 
-                    it("should not be empty", () => {
-                        expect(boxer.name).not.toBe("");
+                    it('should not be empty', () => {
+                        expect(boxer.name).not.toBe('');
                     });
 
                 });
 
-                describe("getter stance", () => {
+                describe('getter stance', () => {
 
-                    it("should return the stance", () => {
-                        expect(boxer.stance === "orthodox" || boxer.stance === "southpaw").toBeTruthy();
+                    it('should return the stance', () => {
+                        expect(boxer.stance === 'orthodox' || boxer.stance === 'southpaw').toBeTruthy();
                     });
 
                 });
 
-                describe("getter residence", () => {
+                describe('getter residence', () => {
 
-                    it("should have the fighters residence", () => {
+                    it('should have the fighters residence', () => {
                         expect(boxer.residence).toEqual({
                             country: expect.anything(),
                             region: expect.anything(),
@@ -675,25 +675,25 @@ describe("class BoxrecPageProfile", () => {
 
                 });
 
-                describe("getter division", () => {
+                describe('getter division', () => {
 
-                    it("should return the division as a string", () => {
+                    it('should return the division as a string', () => {
                         expect(boxer.division).toContain(boxer.division);
                     });
 
                 });
 
-                describe("getter age", () => {
+                describe('getter age', () => {
 
-                    it("should return the age", () => {
+                    it('should return the age', () => {
                         expect(boxer.age).toBeGreaterThan(12);
                     });
 
                 });
 
-                describe("getter record", () => {
+                describe('getter record', () => {
 
-                    it("should return the person's record", () => {
+                    it('should return the person\'s record', () => {
                         const keys: string[] = Object.keys(boxer.record);
                         expect(keys).toContain(WinLossDraw.win);
                         expect(keys).toContain(WinLossDraw.draw);
@@ -702,17 +702,17 @@ describe("class BoxrecPageProfile", () => {
 
                 });
 
-                describe("getter last6", () => {
+                describe('getter last6', () => {
 
-                    it("should return the last 6", () => {
+                    it('should return the last 6', () => {
                         expect(Object.values(WinLossDraw)).toContain(boxer.last6[0]);
                     });
 
                 });
 
-                describe("getter debut", () => {
+                describe('getter debut', () => {
 
-                    it("should return the last 6", () => {
+                    it('should return the last 6', () => {
                         expect(boxer.debut).toMatch(/^\d{4}-\d{2}-\d{2}$/);
                     });
 
@@ -722,7 +722,7 @@ describe("class BoxrecPageProfile", () => {
 
         });
 
-        describe("roles with events", () => {
+        describe('roles with events', () => {
 
             let matchmakerVeliPekkaMaekiEvent: BoxrecPageProfileEventRow;
             let doctorAnthonyRuggeroliEvent: BoxrecPageProfileEventRow;
@@ -737,9 +737,9 @@ describe("class BoxrecPageProfile", () => {
             });
 
             // these tests are to see if the columns still match up between different `roles`
-            describe("getter events", () => {
+            describe('getter events', () => {
 
-                it("should have the date", () => {
+                it('should have the date', () => {
                     const dateRegex: RegExp = /^\d{4}-\d{2}-\d{2}$/;
                     expect(doctorAnthonyRuggeroliEvent.date).toMatch(dateRegex);
                     expect(leonardEllerbeEvent.date).toMatch(dateRegex);
@@ -747,16 +747,16 @@ describe("class BoxrecPageProfile", () => {
                     expect(matchmakerVeliPekkaMaekiEvent.date).toMatch(dateRegex);
                 });
 
-                describe("getter venue", () => {
+                describe('getter venue', () => {
 
-                    it("should have the id of the venue", () => {
+                    it('should have the id of the venue', () => {
                         expect(doctorAnthonyRuggeroliEvent.venue.id).toBeGreaterThanOrEqual(0);
                         expect(leonardEllerbeEvent.venue.id).toBeGreaterThanOrEqual(0);
                         expect(inspectorMichaelBuchatoEvent.venue.id).toBeGreaterThanOrEqual(0);
                         expect(matchmakerVeliPekkaMaekiEvent.venue.id).toBeGreaterThanOrEqual(0);
                     });
 
-                    it("should have the name of the venue", () => {
+                    it('should have the name of the venue', () => {
                         expect(doctorAnthonyRuggeroliEvent.venue.name).toEqual(expect.any(String));
                         expect(leonardEllerbeEvent.venue.name).toEqual(expect.any(String));
                         expect(inspectorMichaelBuchatoEvent.venue.name).toEqual(expect.any(String));
@@ -765,9 +765,9 @@ describe("class BoxrecPageProfile", () => {
 
                 });
 
-                describe("getter links", () => {
+                describe('getter links', () => {
 
-                    it("should return an object with `event` in it", () => {
+                    it('should return an object with `event` in it', () => {
                         expect(leonardEllerbeEvent.links).toEqual(
                             {
                                 event: expect.any(Number),

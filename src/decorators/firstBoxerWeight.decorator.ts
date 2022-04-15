@@ -1,5 +1,5 @@
-import {BoxrecCommonTablesColumnsClass} from "../boxrec-common-tables/boxrec-common-tables-columns.class";
-import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
+import {BoxrecCommonTablesColumnsClass} from '../boxrec-common-tables/boxrec-common-tables-columns.class';
+import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from '../helpers';
 
 /**
  * Adds a getter to the class that returns the weight of the first boxer
@@ -9,7 +9,7 @@ import {BoxrecCommonTableHeader, getColumnDataByColumnHeader} from "../helpers";
 export function FirstBoxerWeightGetter(returnHTML: boolean = false):
     (target: any) => void {
     return target => {
-        Object.defineProperty(target.prototype, "firstBoxerWeight", {
+        Object.defineProperty(target.prototype, 'firstBoxerWeight', {
             get(): number | null {
                 return BoxrecCommonTablesColumnsClass.parseWeight(
                     getColumnDataByColumnHeader(this.$, this.headerColumns,

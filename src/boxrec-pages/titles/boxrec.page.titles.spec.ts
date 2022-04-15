@@ -2,11 +2,11 @@ import {
     mockTitlesAllTitleAllScheduled,
     mockTitlesTitleSelectedAllScheduled,
     mockTitlesTitleSelectedSuperMiddleweight
-} from "boxrec-mocks";
-import {BoxrecGeneralLinks} from "../../boxrec-common-tables/boxrec-common.constants";
-import {WinLossDraw} from "../boxrec.constants";
-import {BoxrecPageTitlesRowOutput} from "./boxrec.page.title.constants";
-import {BoxrecPageTitles} from "./boxrec.page.titles";
+} from 'boxrec-mocks';
+import {BoxrecGeneralLinks} from '../../boxrec-common-tables/boxrec-common.constants';
+import {WinLossDraw} from '../boxrec.constants';
+import {BoxrecPageTitlesRowOutput} from './boxrec.page.title.constants';
+import {BoxrecPageTitles} from './boxrec.page.titles';
 
 // tests for links
 const linksTestObject: (links: BoxrecGeneralLinks) => void = (links: BoxrecGeneralLinks) => {
@@ -18,7 +18,7 @@ const linksTestObject: (links: BoxrecGeneralLinks) => void = (links: BoxrecGener
     });
 };
 
-describe("class BoxrecPageTitles", () => {
+describe('class BoxrecPageTitles', () => {
 
     let superMiddleweightTitle: BoxrecPageTitles;
     let scheduledTitle: BoxrecPageTitles;
@@ -45,23 +45,23 @@ describe("class BoxrecPageTitles", () => {
         }
     };
 
-    describe("getter output", () => {
+    describe('getter output', () => {
 
-        it("should return number of pages", () => {
+        it('should return number of pages', () => {
             expect(scheduledTitle.output.numberOfPages).toBeGreaterThanOrEqual(0);
         });
 
-        describe("is division page", () => {
+        describe('is division page', () => {
 
-            describe("getter numberOfBouts", () => {
+            describe('getter numberOfBouts', () => {
 
-                it("should return the number of bouts, which should be a positive number", () => {
+                it('should return the number of bouts, which should be a positive number', () => {
                     expect(superMiddleweightTitle.output.numberOfBouts).toBeGreaterThan(4);
                 });
 
             });
 
-            describe("getter bouts", () => {
+            describe('getter bouts', () => {
 
                 let firstBout: BoxrecPageTitlesRowOutput;
 
@@ -69,40 +69,40 @@ describe("class BoxrecPageTitles", () => {
                     firstBout = superMiddleweightTitle.output.bouts[0];
                 });
 
-                it("should have the outcome", () => {
+                it('should have the outcome', () => {
                     expect(Object.values(WinLossDraw)).toContain(firstBout.outcome);
                 });
 
-                it("should have the date", () => {
+                it('should have the date', () => {
                     expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
                 });
 
-                it("should have the location", () => {
+                it('should have the location', () => {
                     expect(firstBout.location).toEqual(locationObj);
                 });
 
-                it("should have the rating", () => {
+                it('should have the rating', () => {
                     expect(firstBout.rating).toEqual(jasmine.any(Number));
                 });
 
-                it("should include the number of rounds", () => {
+                it('should include the number of rounds', () => {
                     expect(firstBout.numberOfRounds).toEqual([
                         jasmine.any(Number),
                         jasmine.any(Number),
                     ]);
                 });
 
-                it("should include an object of links", () => {
+                it('should include an object of links', () => {
                     linksTestObject(firstBout.links);
                 });
             });
         });
 
-        describe("is scheduled titles page", () => {
+        describe('is scheduled titles page', () => {
 
-            describe("is selected title", () => {
+            describe('is selected title', () => {
 
-                describe("getter bouts", () => {
+                describe('getter bouts', () => {
 
                     let firstBout: BoxrecPageTitlesRowOutput;
 
@@ -110,48 +110,48 @@ describe("class BoxrecPageTitles", () => {
                         firstBout = scheduledTitle.output.bouts[0];
                     });
 
-                    it("should have the date", () => {
+                    it('should have the date', () => {
                         expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
                     });
 
-                    it("should have the location", () => {
+                    it('should have the location', () => {
                         expect(firstBout.location).toEqual(locationObj);
                     });
 
-                    it("should have the rating", () => {
+                    it('should have the rating', () => {
                         expect(firstBout.rating).toEqual(jasmine.any(Number));
                     });
 
-                    it("should have the first boxer", () => {
+                    it('should have the first boxer', () => {
                         expect(firstBout.firstBoxer).toEqual({
                             id: jasmine.any(Number),
                             name: jasmine.any(String),
                         });
                     });
 
-                    it("should have the second boxer", () => {
+                    it('should have the second boxer', () => {
                         expect(firstBout.secondBoxer).toEqual({
                             id: jasmine.any(Number),
                             name: jasmine.any(String),
                         });
                     });
 
-                    it("should include the number of rounds", () => {
+                    it('should include the number of rounds', () => {
                         expect(firstBout.numberOfRounds).toEqual([
                             jasmine.any(Number),
                             jasmine.any(Number),
                         ]);
                     });
 
-                    it("should include an object of links", () => {
+                    it('should include an object of links', () => {
                         linksTestObject(firstBout.links);
                     });
                 });
             });
 
-            describe("all titles", () => {
+            describe('all titles', () => {
 
-                describe("getter bouts", () => {
+                describe('getter bouts', () => {
 
                     let firstBout: BoxrecPageTitlesRowOutput;
 
@@ -159,26 +159,26 @@ describe("class BoxrecPageTitles", () => {
                         firstBout = allTitleAllSchedule.output.bouts[0];
                     });
 
-                    it("should have the date", () => {
+                    it('should have the date', () => {
                         expect(firstBout.date).toMatch(/\d{4}-\d{2}-\d{2}/);
                     });
 
-                    it("should have the location", () => {
+                    it('should have the location', () => {
                         expect(firstBout.location).toBeDefined();
                     });
 
-                    it("should have the rating", () => {
+                    it('should have the rating', () => {
                         expect(firstBout.rating).toEqual(jasmine.any(Number));
                     });
 
-                    it("should include the number of rounds", () => {
+                    it('should include the number of rounds', () => {
                         expect(firstBout.numberOfRounds).toEqual([
                             jasmine.any(Number),
                             jasmine.any(Number),
                         ]);
                     });
 
-                    it("should include an object of links", () => {
+                    it('should include an object of links', () => {
                         linksTestObject(firstBout.links);
                     });
                 });
