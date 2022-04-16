@@ -84,7 +84,7 @@ The return values are a class instance that can parse the data.  To return the e
 
 ```javascript
 const boxer = await boxrec.getPersonById(352);
-const {boxerJSON} = boxer;
+const {output} = boxer;
 ````
 
 ## How to contribute
