@@ -49,8 +49,8 @@ Pass the cookie into all methods.
 example:
 
 ```javascript
-const cookieJar = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
-await boxrec.getPersonById(cookieJar, 352);
+const cookies = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+await boxrec.getPersonById(cookies, 352);
 ```
 
 ## How to contribute
@@ -69,7 +69,7 @@ To use this properly, it requires a login to BoxRec.  BoxRec supplies additional
 
 ```javascript
 try {
-    const cookieJar = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
+    const cookies = await boxrec.login(BOXREC_USERNAME, BOXREC_PASSWORD);
     // successfully logged in
 } catch (e) {
     // error occurred logging in
@@ -82,7 +82,7 @@ Using the [BoxRec global ID](#globalId), retrieve all information about a person
 
 Output:
 ```javascript
-const gennadyGolovkin = await boxrec.getPersonById(cookieJar, 356831);
+const gennadyGolovkin = await boxrec.getPersonById(cookies, 356831);
 console.log(gennadyGolovkin.name); // Gennady Golovkin
 console.log(gennadyGolovkin.division); // middleweight
 console.log(gennadyGolovkin.titlesHeld); // currently held titles
@@ -93,7 +93,7 @@ console.log(gennadyGolovkin.bouts[37].opponent.name); // Saul Alvarez
 
 // other profiles
 // we optionally specify the `role` as some people have multiple roles
-boxrec.getPersonById(cookieJar, 401615, BoxrecRole.judge); // judge CJ Ross
+boxrec.getPersonById(cookies, 401615, BoxrecRole.judge); // judge CJ Ross
 ```
 
 ### getPeopleByName
@@ -103,7 +103,7 @@ Returns a generator which will makes individual calls, returns differ depending 
 Output:
 ```javascript
 // by default it picks active/inactive boxers
-const floyds = await boxrec.getPeopleByName(cookieJar, "Floyd", "Mayweather");
+const floyds = await boxrec.getPeopleByName(cookies, "Floyd", "Mayweather");
 let boxer = await floyds.next();
 console.log(boxer.value); // is Floyd Mayweather Sr. object
 
@@ -115,7 +115,7 @@ console.log(boxer.value); // is Floyd Mayweather Jr. object
 #### Search people by location
 
 ```javascript
-await boxrec.getPeopleByLocation(cookieJar, {
+await boxrec.getPeopleByLocation(cookies, {
     country: Country.USA,
     role: BoxrecRole.boxer,
 }, 20); // `20` is the search offset.  All endpoints that support `offset` on BoxRec should be supported in this package
@@ -125,7 +125,7 @@ await boxrec.getPeopleByLocation(cookieJar, {
 #### Search events by location
 
 ```javascript
-await boxrec.getEventsByLocation(cookieJar, {
+await boxrec.getEventsByLocation(cookies, {
     country: Country.USA,
     year: 2017,
 });
@@ -135,7 +135,7 @@ await boxrec.getEventsByLocation(cookieJar, {
 #### Returns schedule information by country code, television, and/or division
 
 ```javascript
-await boxrec.getSchedule(cookieJar, {
+await boxrec.getSchedule(cookies, {
     countryCode: Country.Canada,
 });
 ```
@@ -144,7 +144,7 @@ await boxrec.getSchedule(cookieJar, {
 #### Returns venue information and events that occurred there
 
 ```javascript
-await boxrec.getVenueById(cookieJar, 38555);
+await boxrec.getVenueById(cookies, 38555);
 ```
 
 ### search
@@ -152,7 +152,7 @@ await boxrec.getVenueById(cookieJar, 38555);
 Following BoxRec's form format
 
 ```javascript
-const searchResults = await boxrec.search(cookieJar, {
+const searchResults = await boxrec.search(cookies, {
     first_name: "Floyd",
     last_name: "Mayweather",
 });
@@ -188,7 +188,7 @@ Output:
 
 Output:
 ```javascript
-const champions = await boxrec.getChampions(cookieJar);
+const champions = await boxrec.getChampions(cookies);
 champions.getByWeightClass().heavyweight.IBF;
 ```
 
@@ -196,7 +196,7 @@ champions.getByWeightClass().heavyweight.IBF;
 #### Returns event information
 
 ```javascript
-await boxrec.getEventById(cookieJar, 751017);
+await boxrec.getEventById(cookies, 751017);
 ```
 
 Output:
@@ -245,14 +245,14 @@ Output:
 #### Returns events listed for that date
 
 ```javascript
-await boxrec.getDate(cookieJar, "2018-08-21");
+await boxrec.getDate(cookies, "2018-08-21");
 ```
 
 ### getBoutById
 #### Returns detailed information on a single bout
 
 ```javascript
-await boxrec.getBoutById(cookieJar, "726555/2037455");
+await boxrec.getBoutById(cookies, "726555/2037455");
 ```
 
 ### getRatings
@@ -260,7 +260,7 @@ await boxrec.getBoutById(cookieJar, "726555/2037455");
 Following BoxRec's form format
 
 ```javascript
-await boxrec.getRatings(cookieJar, {
+await boxrec.getRatings(cookies, {
    "division": "Welterweight",
    "sex": "M",
    "status": "a"
@@ -297,12 +297,12 @@ Output:
 ```javascript
 // WBC Middleweight information
 // to get this parameter, the link is on a boxer's profile
-await boxrec.getTitleById(cookieJar, "6/Middleweight");
+await boxrec.getTitleById(cookies, "6/Middleweight");
 ````
 
 ### getTitles
 ```javascript
-await boxrec.getTitles(cookieJar, {
+await boxrec.getTitles(cookies, {
     bout_title: 322,
     division: WeightDivisionCapitalized.welterweight,
 })
@@ -311,34 +311,34 @@ await boxrec.getTitles(cookieJar, {
 ### getBoxerPDF
 #### Return/save the PDF version of a BoxRec boxer profile
 ```javascript
-await boxrec.getBoxerPDF(cookieJar, 555); // returns the PDF information
-await boxrec.getBoxerPDF(cookieJar, 555, "./profile"); // saves the PDF to "./profile/555.pdf"
-await boxrec.getBoxerPDF(cookieJar, 555, "./profile", "foo.pdf); // saves the PDF to "./profile/foo.pdf"
+await boxrec.getBoxerPDF(cookies, 555); // returns the PDF information
+await boxrec.getBoxerPDF(cookies, 555, "./profile"); // saves the PDF to "./profile/555.pdf"
+await boxrec.getBoxerPDF(cookies, 555, "./profile", "foo.pdf); // saves the PDF to "./profile/foo.pdf"
 ```
 
 ### getBoxerPrint
 #### Return/save the print version of a BoxRec boxer profile
 Follows the exact same format as getBoxerPDF method
 ```javascript
-await boxrec.getBoxerPrint(cookieJar, 555); 
+await boxrec.getBoxerPrint(cookies, 555); 
 ```
 
 ### watch
 #### Add the boxer to the user's watch list
 ```javascript
-await boxrec.watch(cookieJar, 555); 
+await boxrec.watch(cookies, 555); 
 ```
 
 ### unwatch
 #### Remove the boxer from the user's watch list
 ```javascript
-await boxrec.unwatch(cookieJar, 555);
+await boxrec.unwatch(cookies, 555);
 ```
 
 ### getWatched
 #### Return an array of boxers that the user is watching
 ```javascript
-await boxrec.getWatched(cookieJar); 
+await boxrec.getWatched(cookies); 
 ```
 
 ## Roadmap
