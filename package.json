@@ -56,7 +56,7 @@
   "dependencies": {
     "boxrec-requests": "6.0.1",
     "cheerio": "^1.0.0-rc.2",
-    "snyk": "^1.226.2"
+    "snyk": "^1.685.0"
   },
   "snyk": true
 }
