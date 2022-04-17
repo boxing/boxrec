@@ -1,5 +1,9 @@
 ## 8.0.0 (2022-04-15)
 
+### Changed
+
+-   `getDate` now expects an object instead of a string.  The purpose being that the BoxRec URL became more complex and this allows some future proofing
+
 ### Fixed
 
 -   `getDate` endpoint returns information again.  It was broken due to `boxrec-requests` but also the table header selectors were not good
