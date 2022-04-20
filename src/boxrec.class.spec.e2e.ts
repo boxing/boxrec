@@ -91,41 +91,16 @@ describe('class Boxrec (E2E)', () => {
         let sept282019: BoxrecPageDate;
         let nextDate: BoxrecPageDate;
 
-        beforeAll(async () => {
-            sept282019 = await Boxrec.getDate(loggedInCookie, {
-                day: 28,
-                month: 9,
-                year: 2019,
-            });
-            await wait();
-
-            // get the next saturday, there's very few times (if ever) where there won't be a boxing match
-            // not timezone proof.  Depending on who/what runs this, it may return Friday/Sunday
-            const nextSaturdayDateObject: BoxrecDate = (() => {
-                const currentDate: Date = new Date();
-                const resultDate: Date = new Date(currentDate.getTime());
-                resultDate.setDate(currentDate.getDate() + (7 + 6 - currentDate.getDay()) % 7);
-                let year: number = resultDate.getFullYear();
-                let month: number = resultDate.getMonth() + 1;
-
-                if (month > 11) {
-                    month = 0;
-                    year++;
-                }
-
-                return {
-                    day: resultDate.getDate(),
-                    month,
-                    year,
-                };
-            })();
-
-            nextDate = await Boxrec.getDate(loggedInCookie,
-                nextSaturdayDateObject);
-            await wait();
-        });
-
         describe('past date', () => {
+
+            beforeAll(async () => {
+                sept282019 = await Boxrec.getDate(loggedInCookie, {
+                    day: 28,
+                    month: 9,
+                    year: 2019,
+                });
+                await wait();
+            });
 
             describe('getter events', () => {
 
@@ -192,9 +167,59 @@ describe('class Boxrec (E2E)', () => {
 
         describe('future date', () => {
 
+            beforeAll(async () => {
+
+                // get the next saturday, there's very few times (if ever) where there won't be a boxing match
+                // not timezone proof.  Depending on who/what runs this, it may return Friday/Sunday
+                const nextSaturdayDateObject: BoxrecDate = (() => {
+                    const currentDate: Date = new Date();
+                    const resultDate: Date = new Date(currentDate.getTime());
+                    resultDate.setDate(currentDate.getDate() + (7 + 6 - currentDate.getDay()) % 7);
+                    let year: number = resultDate.getFullYear();
+                    let month: number = resultDate.getMonth() + 1;
+
+                    if (month > 11) {
+                        month = 0;
+                        year++;
+                    }
+
+                    return {
+                        day: resultDate.getDate(),
+                        month,
+                        year,
+                    };
+                })();
+
+                nextDate = await Boxrec.getDate(loggedInCookie,
+                    nextSaturdayDateObject);
+                await wait();
+            });
+
             describe('getter events', () => {
 
                 describe('getter bouts', () => {
+
+                    describe('getter output', () => {
+
+                        let output: BoxrecPageEventBoutRow;
+
+                        beforeAll(() => {
+                            output = nextDate.events[0].bouts[0];
+                        });
+
+                        describe('links', () => {
+
+                            it('should return the bout link', () => {
+                                expect(output.links.bout).toMatch(/\d+\/\d+/);
+                            });
+
+                            it('should return the wiki link', () => {
+                                expect(output.links.bio).toEqual(expect.any(Number));
+                            });
+
+                        });
+
+                    });
 
                     describe('getter firstBoxerRecord', () => {
 

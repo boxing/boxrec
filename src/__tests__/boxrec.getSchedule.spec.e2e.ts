@@ -67,6 +67,18 @@ describe('method getSchedule', () => {
 
             describe('getter values', () => {
 
+                describe('links', () => {
+
+                    it('should return a bout link', () => {
+                        expect(event.bouts[0].links.bout).toMatch(/\d+\/\d+/);
+                    });
+
+                    it('should return a wiki link', () => {
+                        expect(event.bouts[0].links.bio).toEqual(expect.any(Number));
+                    });
+
+                });
+
                 describe('firstBoxer', () => {
 
                     it('id should not be null', () => {
