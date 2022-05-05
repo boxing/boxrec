@@ -2,6 +2,8 @@ import {BoxrecDate, BoxrecFighterOption, BoxrecRole, Country} from 'boxrec-reque
 import {expectId, expectMatchDate, logIn, wait} from './__tests__/helpers';
 import {WinLossDraw} from './boxrec-pages/boxrec.constants';
 import {BoxrecPageDate} from './boxrec-pages/date/boxrec.page.date';
+import {BoxrecDateOutput} from './boxrec-pages/date/boxrec.page.date.constants';
+import {BoxrecEventBoutRowOutput} from './boxrec-pages/event/boxrec.event.constants';
 import {BoxrecPageEvent} from './boxrec-pages/event/boxrec.page.event';
 import {BoxrecPageEventBoutRow} from './boxrec-pages/event/boxrec.page.event.bout.row';
 import {BoxrecPageLocationEvent} from './boxrec-pages/location/event/boxrec.page.location.event';
@@ -102,6 +104,38 @@ describe('class Boxrec (E2E)', () => {
                 await wait();
             });
 
+            describe('getter output', () => {
+
+                let dateOutput: BoxrecDateOutput;
+
+                beforeAll(() => {
+                    dateOutput = sept282019.output;
+                });
+
+                describe('bout output', () => {
+
+                    let boutOutput: BoxrecEventBoutRowOutput;
+
+                    it('should not throw an error', () => {
+                        boutOutput = dateOutput.events[0].bouts[0].output;
+                    });
+
+                    describe('getter links', () => {
+
+                        it('should include bout id', () => {
+                            expect(boutOutput.links.bout).toMatch(/\d+\/\d+/);
+                        });
+
+                        it('should include the wiki link', () => {
+                            expect(boutOutput.links.bio).toEqual(expect.any(Number));
+
+                        });
+                    });
+
+                });
+
+            });
+
             describe('getter events', () => {
 
                 describe('getter bouts', () => {
@@ -155,6 +189,34 @@ describe('class Boxrec (E2E)', () => {
 
                         it('should return the rating of the bout', () => {
                             expect(sept282019.events[0].bouts[0].rating).toBe(20);
+                        });
+
+                    });
+
+                    describe('getter bouts', () => {
+
+                        describe('getter output of first bout', () => {
+
+                            let singleBoutOutputForSpecificDateAndEvent: BoxrecEventBoutRowOutput;
+
+                            beforeAll(() => {
+                                singleBoutOutputForSpecificDateAndEvent = sept282019.output.events[0].bouts[0].output;
+                            });
+
+                            describe('links', () => {
+
+                                it('should return the wiki link', () => {
+                                    const t = singleBoutOutputForSpecificDateAndEvent.links.bio;
+
+                                    expect(t).toEqual(expect.any(Number));
+                                });
+
+                                it('should return the bout id', () => {
+                                    expect(singleBoutOutputForSpecificDateAndEvent.links.bout).toMatch(/\d+\/\d+/);
+                                });
+
+                            });
+
                         });
 
                     });

@@ -47,7 +47,6 @@ export const logIn: () =>
         // I think it's an hour but due to testing times, anywhere close we'll get a new cookie
         if (currentUnixTime - timeWhenCookieFileModified > 30000) {
             // tslint:disable-next-line:no-console
-            console.log('Getting a new cookie');
             await getNewCookie();
         }
 
