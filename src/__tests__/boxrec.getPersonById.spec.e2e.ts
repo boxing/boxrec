@@ -74,8 +74,9 @@ describe('method getPersonById', () => {
 
             });
 
-            it('should return if they are suspended or not', () => {
-                expect(getBoxer(activeBoxer).suspended).toBe(null);
+            it('should return text string when they\'re suspended or null if they\'re not', () => {
+                // we convert it to string because it could be null and we want to find if it matches one or other
+                expect(String(getBoxer(activeBoxer).suspended)).toMatch(/suspended|null/);
             });
 
             it('should include their role as a boxer', () => {

@@ -1,5 +1,6 @@
 import {BoxrecPageEvent} from '../boxrec-pages/event/boxrec.page.event';
 import {BoxrecPageSchedule} from '../boxrec-pages/schedule/boxrec.page.schedule';
+import {BoxrecScheduleOutput} from '../boxrec-pages/schedule/boxrec.page.schedule.constants';
 import {Boxrec} from '../boxrec.class';
 import {expectId, expectMatchDate, logIn, wait} from './helpers';
 
@@ -20,23 +21,30 @@ describe('method getSchedule', () => {
     beforeAll(async () => {
         results = await Boxrec.getSchedule(loggedInCookie, {});
         await wait();
-        // note: replace the following if have a reason to grab different schedule data
-        nextResults = await Boxrec.getSchedule(loggedInCookie, {}, 20);
-        await wait();
     });
 
     it('should give an array of schedule events', () => {
         expect(results.events.length).toBeGreaterThanOrEqual(0);
     });
 
-    it('should use the `offset` to give the next results', async () => {
-        expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
-    });
-
     describe('getter numberOfPages', () => {
 
         it('should return the number of pages', () => {
             expect(results.numberOfPages).toBeGreaterThanOrEqual(0);
+        });
+
+    });
+
+    describe('getter output', () => {
+
+        let scheduleOutput: BoxrecScheduleOutput;
+
+        beforeAll(() => {
+            scheduleOutput = results.output;
+        });
+
+        it('should include a number of events', () => {
+            expect(scheduleOutput.events.length).toBeGreaterThan(0);
         });
 
     });
@@ -182,6 +190,19 @@ describe('method getSchedule', () => {
             expect(event.id).toBeGreaterThanOrEqual(0);
         });
 
+    });
+
+    describe('when getting next page result', () => {
+
+        beforeAll(async () => {
+            // note: replace the following if have a reason to grab different schedule data
+            nextResults = await Boxrec.getSchedule(loggedInCookie, {}, 20);
+            await wait();
+        });
+
+        it('should use the `offset` to give the next results', async () => {
+            expect(results.events[0].id).not.toEqual(nextResults.events[0].id);
+        });
     });
 
 });

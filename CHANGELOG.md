@@ -1,3 +1,9 @@
+## 8.0.1 (2022-05-12)
+
+### Fixed
+
+-   Fixed links for events, both scheduled and dates
+
 ## 8.0.0 (2022-04-15)
 
 ### Changed

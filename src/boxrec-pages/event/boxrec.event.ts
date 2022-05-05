@@ -88,10 +88,17 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
                 };
             }
 
-            if (links.length === 2 || links.length === 1) {
+            if (links.length === 2) {
                 locationObject.country = {
                     id: getLocationValue(links.get(1).attribs.href, 'country'),
                     name: links.get(1).children[0].data as string,
+                };
+            }
+
+            if (links.length === 1) {
+                locationObject.country = {
+                    id: getLocationValue(links.get(0).attribs.href, 'country'),
+                    name: links.get(0).children[0].data as string,
                 };
             }
         }
