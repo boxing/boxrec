@@ -1,3 +1,9 @@
+## 8.0.2 (2022-05-22)
+
+### Fixed
+
+-   Bump `boxrec-requests` to 6.0.2, which includes adding `form-data` as a dependency which may be [affecting some users](https://github.com/boxing/boxrec-requests/pull/78)
+
 ## 8.0.1 (2022-05-12)
 
 ### Fixed

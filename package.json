@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -54,7 +54,7 @@
     "url": "https://github.com/boxing/boxrec"
   },
   "dependencies": {
-    "boxrec-requests": "6.0.1",
+    "boxrec-requests": "6.0.2",
     "cheerio": "^1.0.0-rc.2",
     "snyk": "^1.685.0"
   },
