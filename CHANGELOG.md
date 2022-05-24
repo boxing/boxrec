@@ -1,3 +1,9 @@
+## 8.0.3 (2022-05-24)
+
+### Fixed
+
+-   load elem into cheerio when parsing links column
+
 ## 8.0.2 (2022-05-22)
 
 ### Fixed

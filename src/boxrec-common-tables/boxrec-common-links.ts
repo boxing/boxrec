@@ -1,8 +1,6 @@
 import * as cheerio from 'cheerio';
 import {BoxrecGeneralLinks} from './boxrec-common.constants';
 
-const $: CheerioStatic = cheerio;
-
 interface LinksObj {
     classAttr: string;
     div: Cheerio;
@@ -34,8 +32,10 @@ export class BoxrecCommonLinks {
      * @todo a lot of this was necessary when the links had certain classes
      */
     static parseLinksColumn(elem: CheerioElement): LinksObj {
-        const div: Cheerio = $(elem).find('div');
-        const href: string = $(elem).attr('href');
+        const $ = cheerio.load(elem);
+
+        const div: Cheerio = $('div');
+        const href: string = $('a').attr('href');
         const classAttr: string = div.attr('class');
 
         const linkObj: LinksObj = {

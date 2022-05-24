@@ -128,7 +128,6 @@ describe('class Boxrec (E2E)', () => {
 
                         it('should include the wiki link', () => {
                             expect(boutOutput.links.bio).toEqual(expect.any(Number));
-
                         });
                     });
 
@@ -206,9 +205,7 @@ describe('class Boxrec (E2E)', () => {
                             describe('links', () => {
 
                                 it('should return the wiki link', () => {
-                                    const t = singleBoutOutputForSpecificDateAndEvent.links.bio;
-
-                                    expect(t).toEqual(expect.any(Number));
+                                    expect(singleBoutOutputForSpecificDateAndEvent.links.bio).toEqual(expect.any(Number));
                                 });
 
                                 it('should return the bout id', () => {
