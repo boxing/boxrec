@@ -404,18 +404,16 @@ describe('class Boxrec (E2E)', () => {
             (id: number): BoxrecPageEvent => events.get(id) as BoxrecPageEvent;
 
         beforeAll(async () => {
-            events.set(765205, await Boxrec.getEventById(loggedInCookie, 765205)); // Linares Lomachenko
-            await wait();
             events.set(752960, await Boxrec.getEventById(loggedInCookie, 752960)); // Mayweather McGregor
             await wait();
         });
 
         it('should return the venue name', () => {
-            expect(getEvent(765205).location.venue.name).toBe('Madison Square Garden');
+            expect(getEvent(752960).location.venue.name).toBe('T-Mobile Arena');
         });
 
         it('should return a list of bouts', () => {
-            expect(getEvent(765205).bouts.length).not.toBe(0);
+            expect(getEvent(752960).bouts.length).not.toBe(0);
         });
 
         it('should return 0 wins/loss/draw for a boxer on his debut fight', () => {
@@ -434,19 +432,19 @@ describe('class Boxrec (E2E)', () => {
             let bout: BoxrecPageEventBoutRow;
 
             beforeAll(() => {
-                bout = getEvent(765205).bouts[0];
+                bout = getEvent(752960).bouts[0];
             });
 
             it('should return the second boxer\'s record', () => {
                 expect(bout.secondBoxerRecord).toEqual({
-                    draw: 0,
+                    draw: 2,
                     loss: 1,
-                    win: 10,
+                    win: 21,
                 });
             });
 
             it('should return the second boxer\'s last 6', () => {
-                expect(bout.secondBoxerLast6).toEqual(new Array(6).fill(WinLossDraw.win));
+                expect(bout.secondBoxerLast6).toEqual([WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.win, WinLossDraw.draw]);
             });
 
         });
