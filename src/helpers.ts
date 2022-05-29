@@ -215,7 +215,15 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
             // therefore try to figure out what the column is
             if (headerText.length === 0) {
                 // get the "direct" tbody cell element and read the cell contents to determine what the column is
-                const tbodyColumnEl: Cheerio = tableHeaderRow.siblings('tbody').eq(0).find(`tr:nth-child(1) td:nth-child(${i + 1})`);
+                let tableColumns: Cheerio = tableHeaderRow.siblings('tbody').eq(0).find(`tr:nth-child(1) td`);
+
+                // this has a pending approval or approval row and therefore we move to the next row to get the actual bout
+                // the top bout row includes the "pending" row as well
+                if (tableColumns.length === 1) {
+                    tableColumns = tableHeaderRow.siblings('tbody').eq(0).find(`tr:nth-child(2) td`);
+                }
+
+                const tbodyColumnEl =  tableColumns.eq(i);
 
                 if (!tbodyColumnEl.length) {
                     throw new Error('Could not get table body element');

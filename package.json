@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

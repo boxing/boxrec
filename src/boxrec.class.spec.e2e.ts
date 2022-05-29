@@ -4,7 +4,6 @@ import {WinLossDraw} from './boxrec-pages/boxrec.constants';
 import {BoxrecPageDate} from './boxrec-pages/date/boxrec.page.date';
 import {BoxrecDateOutput} from './boxrec-pages/date/boxrec.page.date.constants';
 import {BoxrecEventBoutRowOutput} from './boxrec-pages/event/boxrec.event.constants';
-import {BoxrecPageEvent} from './boxrec-pages/event/boxrec.page.event';
 import {BoxrecPageEventBoutRow} from './boxrec-pages/event/boxrec.page.event.bout.row';
 import {BoxrecPageLocationEvent} from './boxrec-pages/location/event/boxrec.page.location.event';
 import {BoxrecPageProfileBoxer} from './boxrec-pages/profile/boxrec.page.profile.boxer';
