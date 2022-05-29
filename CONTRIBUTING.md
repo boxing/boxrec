@@ -62,7 +62,7 @@ If you do not understand Typescript and decorators, some of the code will look s
 This project works by making HTTP requests through [boxing-requests](https://github.com/boxing/boxrec-requests).  The reason
 it is separated was that potentially the HTTPS requests portion could be used by other projects.
 
-![boxrec package flow](boxrec-package-flow-miro-uXjVO8LFbF8.png)
+![boxrec package flow](assets/boxrec-package-flow-miro-uXjVO8LFbF8=.png)
 
 This package takes an HTML document and parses the information using [Cheerio](https://cheerio.js.org/), which like jQuery can parse HTML.
 
