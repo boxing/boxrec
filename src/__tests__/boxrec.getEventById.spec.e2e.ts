@@ -65,4 +65,12 @@ describe('method getEventById', () => {
 
     });
 
+    it('should not crash if trying to parse an event with pending/approval header', async () => {
+        // to test this it requires an event that is pending approval (https://github.com/boxing/boxrec/issues/290)
+        const response = await Boxrec.getEventById(loggedInCookie, parseInt(process.env.BOUT_PENDING_APPROVAL || '', 10));
+        await wait();
+        const {bouts} = response;
+        expect(bouts[0].firstBoxer.id).toEqual(expect.any(Number));
+    });
+
 });

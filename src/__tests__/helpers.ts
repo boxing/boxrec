@@ -4,7 +4,7 @@ import {Boxrec} from '../boxrec.class';
 
 jest.setTimeout(200000);
 
-export const wait: () => Promise<any> = async () => new Promise((r: any) => setTimeout(r, 20000));
+export const wait: () => Promise<any> = async () => new Promise((r: any) => setTimeout(r, 0));
 
 export const expectId: (id: number | null, expectedId: any) => void = (id: number | null, expectedId: any) =>
     expect(id).toEqual(expectedId);

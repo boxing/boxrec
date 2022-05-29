@@ -1,3 +1,9 @@
+## 8.0.4 (2022-04-29)
+
+### Fixed
+
+-   Events that have pending approval or approval will no longer throw
+
 ## 8.0.3 (2022-05-24)
 
 ### Fixed
