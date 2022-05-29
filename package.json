@@ -34,7 +34,6 @@
     "@types/cheerio": "^0.22.7",
     "@types/jest": "^22.1.1",
     "@types/node": "^12.12.5",
-    "boxrec-mocks": "^3.0.1",
     "coveralls": "^3.0.0",
     "jest": "<23",
     "ts-jest": "<23.10.0",
