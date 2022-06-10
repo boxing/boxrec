@@ -32,12 +32,18 @@ describe('method getPersonById', () => {
 
         describe('active', () => {
 
+            // Saul Alvarez
             const activeBoxer: number = 348759;
 
             beforeAll(async () => {
-                // Saul Alvarez
                 boxers.set(activeBoxer, await Boxrec.getPersonById(loggedInCookie, activeBoxer, BoxrecRole.proBoxer));
                 await wait();
+            });
+
+            describe('output', () => {
+               it('location should be defined', async() => {
+                   expect(getBoxer(activeBoxer).output.bouts[0].location).toEqual(expect.any(String));
+               });
             });
 
             describe('enrollments', () => {

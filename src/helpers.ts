@@ -253,7 +253,7 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                 }
 
                 // check if location (on profiles, it doesn't have a location header text)
-                if (tbodyColumnEl.find('.flag').length) {
+                if (tbodyColumnEl.find('.flag').length || tbodyColumnEl.find('.flag-icon').length) {
                     headersArr.push(BoxrecCommonTableHeader.location);
                     return;
                 }
