@@ -5,7 +5,7 @@ import {logIn, wait} from './helpers';
 
 jest.setTimeout(200000);
 
-// todo skipping as the champions page as changed dramatically
+// todo skipping as the champions page has changed dramatically
 describe.skip('method getChampions', () => {
 
     describe('object champions', () => {

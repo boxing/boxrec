@@ -206,7 +206,7 @@ export abstract class BoxrecEvent extends BoxrecParseBouts implements BoutsInter
     }
 
     // to be overridden by child class
-    protected parseLocation(): string {
+    protected parseLocation(): string | null {
         throw new Error('Needs to be overridden by child class');
     }
 

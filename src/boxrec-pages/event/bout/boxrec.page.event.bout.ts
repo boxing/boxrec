@@ -102,6 +102,9 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
         return this.parsePoints(false, 1);
     }
 
+    /**
+     * Ranking is not the boxer ranking at the time of the bout but the ranking at this current time
+     */
     get firstBoxerRanking(): number | null {
         return this.parseRankingData(1);
     }
@@ -265,6 +268,9 @@ export class BoxrecPageEventBout extends BoxrecPageEvent implements OutputInterf
         return this.parsePoints(false, 3);
     }
 
+    /**
+     * Ranking is not the boxer ranking at the time of the bout but the ranking at this current time
+     */
     get secondBoxerRanking(): number | null {
         return this.parseRankingData(3);
     }

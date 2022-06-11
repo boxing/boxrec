@@ -11,7 +11,7 @@ export class BoxrecDateEvent extends BoxrecEvent {
         return parseInt(this.parseId(), 10);
     }
 
-    protected parseLocation(): string {
+    protected parseLocation(): string | null {
         return this.$(locationFlagSelector).parent().html();
     }
 
