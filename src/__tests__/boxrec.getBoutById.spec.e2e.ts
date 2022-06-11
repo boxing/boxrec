@@ -110,7 +110,7 @@ describe('method getBoutById', () => {
     describe('getter secondBoxerRating', () => {
 
         it('should return the ranking', () => {
-            expect(caneloKhanBout.secondBoxerRanking).toEqual(jasmine.any(Number));
+            expect(caneloKhanBout.secondBoxerRanking).toEqual(null);
         });
 
     });

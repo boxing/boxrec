@@ -1,4 +1,5 @@
 import {BoxrecRole} from 'boxrec-requests';
+import {locationFlagSelector} from '../../helpers';
 import {BoxrecEvent} from '../event/boxrec.event';
 
 /**
@@ -10,8 +11,8 @@ export class BoxrecDateEvent extends BoxrecEvent {
         return parseInt(this.parseId(), 10);
     }
 
-    protected parseLocation(): string {
-        return this.$('.flag').parent().html() as string;
+    protected parseLocation(): string | null {
+        return this.$(locationFlagSelector).parent().html();
     }
 
     /**
