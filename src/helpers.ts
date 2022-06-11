@@ -223,7 +223,7 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                     tableColumns = tableHeaderRow.siblings('tbody').eq(0).find(`tr:nth-child(2) td`);
                 }
 
-                const tbodyColumnEl =  tableColumns.eq(i);
+                const tbodyColumnEl = tableColumns.eq(i);
 
                 if (!tbodyColumnEl.length) {
                     throw new Error('Could not get table body element');
@@ -253,7 +253,7 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
                 }
 
                 // check if location (on profiles, it doesn't have a location header text)
-                if (tbodyColumnEl.find('.flag').length || tbodyColumnEl.find('.flag-icon').length) {
+                if (tbodyColumnEl.find(locationFlagSelector).length) {
                     headersArr.push(BoxrecCommonTableHeader.location);
                     return;
                 }
@@ -303,6 +303,8 @@ export function getHeaderColumnText(tableEl: Cheerio, theadNumber: number = 1): 
 
     return headersArr;
 }
+
+export const locationFlagSelector = '*[class*="flag"]';
 
 // the following regex assumes the string is always in the same format
 // `region` and `town` are wrapped with a conditional statement

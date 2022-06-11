@@ -41,7 +41,7 @@ describe('method getPersonById', () => {
             });
 
             describe('output', () => {
-               it('location should be defined', async() => {
+               it('location should be defined', () => {
                    expect(getBoxer(activeBoxer).output.bouts[0].location).toEqual(expect.any(String));
                });
             });

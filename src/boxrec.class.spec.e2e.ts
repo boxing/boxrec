@@ -1,6 +1,6 @@
 import {BoxrecDate, BoxrecFighterOption, BoxrecRole, Country} from 'boxrec-requests';
 import {expectId, expectMatchDate, logIn, wait} from './__tests__/helpers';
-import {WinLossDraw} from './boxrec-pages/boxrec.constants';
+import {BoxrecBoutLocation, WinLossDraw} from "./boxrec-pages/boxrec.constants";
 import {BoxrecPageDate} from './boxrec-pages/date/boxrec.page.date';
 import {BoxrecDateOutput} from './boxrec-pages/date/boxrec.page.date.constants';
 import {BoxrecEventBoutRowOutput} from './boxrec-pages/event/boxrec.event.constants';
@@ -213,6 +213,30 @@ describe('class Boxrec (E2E)', () => {
 
                             });
 
+                        });
+
+                    });
+
+                    describe('getter location', () => {
+
+                        let location: BoxrecBoutLocation;
+
+                        beforeAll(() => { location = sept282019.events[0].location });
+
+                        it('should return the country', () => {
+                            expect(location.location.country.id).toBe('AL');
+                        });
+
+                        it('should return the region', () => {
+                            expect(location.location.region.id).toBe(null);
+                        });
+
+                        it('should return the city', () => {
+                            expect(location.location.town.id).toBe(22960);
+                        });
+
+                        it('it should return the venue', () => {
+                            expect(location.venue.id).toBe(219697);
                         });
 
                     });
