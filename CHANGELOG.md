@@ -1,4 +1,10 @@
-## 8.0.4 (2022-04-29)
+## 8.0.5 (2022-06-11)
+
+### Fixed
+
+-   Fix [issue](https://github.com/boxing/boxrec/issues/296) where profile bout location was coming up `null` because the selector had changed.  Selector is more flexible now.
+
+## 8.0.4 (2022-05-29)
 
 ### Fixed
 
