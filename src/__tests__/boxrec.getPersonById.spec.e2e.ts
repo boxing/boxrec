@@ -1,4 +1,4 @@
-import {BoxrecRole} from 'boxrec-requests';
+import {BoxrecFighterRole, BoxrecRole} from 'boxrec-requests';
 import {BoxrecPageProfileBoxer} from '../boxrec-pages/profile/boxrec.page.profile.boxer';
 import {BoxrecPageProfileEvents} from '../boxrec-pages/profile/boxrec.page.profile.events';
 import {BoxrecPageProfileManager} from '../boxrec-pages/profile/boxrec.page.profile.manager';
@@ -36,7 +36,7 @@ describe('method getPersonById', () => {
             const activeBoxer: number = 348759;
 
             beforeAll(async () => {
-                boxers.set(activeBoxer, await Boxrec.getPersonById(loggedInCookie, activeBoxer, BoxrecRole.proBoxer));
+                boxers.set(activeBoxer, await Boxrec.getPersonById(loggedInCookie, activeBoxer, BoxrecFighterRole.proBoxer));
                 await wait();
             });
 
@@ -174,7 +174,7 @@ describe('method getPersonById', () => {
 
             beforeAll(async () => {
                 // Sugar Ray Robinson
-                boxers.set(retiredBoxer, await Boxrec.getPersonById(loggedInCookie, retiredBoxer, BoxrecRole.proBoxer));
+                boxers.set(retiredBoxer, await Boxrec.getPersonById(loggedInCookie, retiredBoxer, BoxrecFighterRole.proBoxer));
                 await wait();
             });
 
@@ -184,7 +184,7 @@ describe('method getPersonById', () => {
                     const sugarRayRobinsonPage1: BoxrecPageProfileBoxer = boxers.get(retiredBoxer) as
                         BoxrecPageProfileBoxer;
                     const sugarRayRobinsonPage2: BoxrecPageProfileBoxer =
-                        await Boxrec.getPersonById(loggedInCookie, retiredBoxer, BoxrecRole.proBoxer,
+                        await Boxrec.getPersonById(loggedInCookie, retiredBoxer, BoxrecFighterRole.proBoxer,
                             sugarRayRobinsonPage1.bouts.length) as BoxrecPageProfileBoxer;
                     await wait();
                     expect(sugarRayRobinsonPage1.bouts[0].secondBoxer.name)

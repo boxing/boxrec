@@ -1,3 +1,9 @@
+## 8.1.0 (2022-06-15)
+
+### Added
+
+-   better return type definitions for `getPersonById` and `getPeopleByName` method
+
 ## 8.0.5 (2022-06-11)
 
 ### Fixed

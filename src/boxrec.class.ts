@@ -1,8 +1,10 @@
-import {BoxrecDate, BoxrecRequests} from 'boxrec-requests';
 import {
+    BoxrecDate,
+    BoxrecFighterRole,
     BoxrecLocationEventParams,
     BoxrecLocationsPeopleParams,
-    BoxrecRole
+    BoxrecRequests,
+    BoxrecRole, BoxrecSearchParams
 } from 'boxrec-requests';
 import * as fs from 'fs';
 import {WriteStream} from 'fs';
@@ -24,7 +26,7 @@ import {BoxrecResultsParams} from './boxrec-pages/results/boxrec.results.constan
 import {BoxrecPageSchedule} from './boxrec-pages/schedule/boxrec.page.schedule';
 import {BoxrecScheduleParams} from './boxrec-pages/schedule/boxrec.schedule.constants';
 import {BoxrecPageSearch} from './boxrec-pages/search/boxrec.page.search';
-import {BoxrecSearch, BoxrecSearchParams, BoxrecStatus} from './boxrec-pages/search/boxrec.search.constants';
+import {BoxrecSearch, BoxrecStatus} from './boxrec-pages/search/boxrec.search.constants';
 import {BoxrecPageTitle} from './boxrec-pages/title/boxrec.page.title';
 import {BoxrecTitlesParams} from './boxrec-pages/titles/boxrec.page.title.constants';
 import {BoxrecPageTitles} from './boxrec-pages/titles/boxrec.page.titles';
@@ -167,7 +169,19 @@ export class Boxrec {
      *                              We offset by number and not pages because the number of bouts per page may change
      * @returns {Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager>}
      */
-    static async getPersonById(cookies: string, globalId: number, role: BoxrecRole | null = null,
+    static async getPersonById(cookies: string, globalId: number, role:
+                                   BoxrecFighterRole,
+                               offset?: number):
+        Promise<BoxrecPageProfileBoxer>;
+    static async getPersonById(cookies: string, globalId: number, role: BoxrecRole.judge | BoxrecRole.referee | BoxrecRole.supervisor, offset?: number):
+        Promise<BoxrecPageProfileOtherCommon>;
+    static async getPersonById(cookies: string, globalId: number, role: BoxrecRole.promoter, offset?: number):
+        Promise<BoxrecPageProfilePromoter>;
+    static async getPersonById(cookies: string, globalId: number, role: BoxrecRole.doctor | BoxrecRole.inspector | BoxrecRole.matchmaker, offset?: number):
+        Promise<BoxrecPageProfileEvents>;
+    static async getPersonById(cookies: string, globalId: number, role: BoxrecRole.manager, offset?: number):
+        Promise<BoxrecPageProfileManager>;
+    static async getPersonById(cookies: string, globalId: number, role: BoxrecRole | BoxrecFighterRole | null = null,
                                offset: number = 0):
         Promise<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents |
             BoxrecPageProfileManager | BoxrecPageProfilePromoter> {
@@ -183,8 +197,8 @@ export class Boxrec {
             case BoxrecRole.proBoxer:
                 return new BoxrecPageProfileBoxer(boxrecPageBody);
             case BoxrecRole.judge:
-            case BoxrecRole.supervisor:
             case BoxrecRole.referee:
+            case BoxrecRole.supervisor:
                 return new BoxrecPageProfileOtherCommon(boxrecPageBody);
             case BoxrecRole.promoter:
                 return new BoxrecPageProfilePromoter(boxrecPageBody);
@@ -195,10 +209,10 @@ export class Boxrec {
             case BoxrecRole.manager:
                 return new BoxrecPageProfileManager(boxrecPageBody);
             // todo we should be able to figure out the default role if one was not specified and use the correct class
+            default:
+                // by default we'll use the boxer profile so at least some of the data will be returned
+                return new BoxrecPageProfileBoxer(boxrecPageBody);
         }
-
-        // by default we'll use the boxer profile so at least some of the data will be returned
-        return new BoxrecPageProfileBoxer(boxrecPageBody);
     }
 
     /**
@@ -355,11 +369,33 @@ export class Boxrec {
      * @param {number} offset               the number of rows to offset the search
      * @yields {BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager}         returns a generator to fetch the next person by ID
      */
+    static getPeopleByName(cookies: string, firstName: string, lastName: string,
+                           role?: BoxrecFighterRole,
+                           status?: BoxrecStatus, offset?: number):
+        AsyncIterableIterator<BoxrecPageProfileBoxer>;
+    static getPeopleByName(cookies: string, firstName: string, lastName: string,
+                           role?: BoxrecRole.promoter,
+                           status?: BoxrecStatus, offset?: number):
+        AsyncIterableIterator<BoxrecPageProfilePromoter>;
+    static getPeopleByName(cookies: string, firstName: string, lastName: string,
+                           role?: BoxrecRole.judge | BoxrecRole.referee | BoxrecRole.supervisor,
+                           status?: BoxrecStatus, offset?: number):
+        AsyncIterableIterator<BoxrecPageProfileOtherCommon>;
+    static getPeopleByName(cookies: string, firstName: string, lastName: string,
+                           role?: BoxrecRole.doctor | BoxrecRole.inspector | BoxrecRole.matchmaker,
+                           status?: BoxrecStatus, offset?: number):
+        AsyncIterableIterator<BoxrecPageProfileEvents>;
+    static getPeopleByName(cookies: string, firstName: string, lastName: string,
+                           role?: BoxrecRole.manager,
+                           status?: BoxrecStatus, offset?: number):
+        AsyncIterableIterator<BoxrecPageProfileManager>;
     // todo remove async
     static async* getPeopleByName(cookies: string, firstName: string, lastName: string,
-                                  role: BoxrecRole = BoxrecRole.proBoxer, status: BoxrecStatus = BoxrecStatus.all,
+                                  role: BoxrecRole | BoxrecFighterRole = BoxrecRole.proBoxer,
+                                  status: BoxrecStatus = BoxrecStatus.all,
                                   offset: number = 0):
-        AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon | BoxrecPageProfileEvents | BoxrecPageProfileManager> {
+        AsyncIterableIterator<BoxrecPageProfileBoxer | BoxrecPageProfileOtherCommon |
+            BoxrecPageProfileEvents | BoxrecPageProfileManager> {
         const params: BoxrecSearchParams = {
             first_name: firstName,
             last_name: lastName,
@@ -369,7 +405,8 @@ export class Boxrec {
         const searchResults: BoxrecSearch[] = await Boxrec.search(cookies, params, offset);
 
         for (const result of searchResults) {
-            yield await Boxrec.getPersonById(cookies, result.id);
+            // todo add role
+            yield await Boxrec.getPersonById(cookies, result.id, null as any);
         }
     }
 

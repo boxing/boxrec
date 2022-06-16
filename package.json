@@ -1,6 +1,6 @@
 {
   "name": "boxrec",
-  "version": "8.0.5",
+  "version": "8.1.0",
   "description": "Retrieve information from BoxRec and return it in JSON format",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,7 +16,7 @@
     "test:coverage:watch": "yarn test:coverage --watchAll",
     "test:watch": "yarn test --watchAll",
     "test-e2e": "jest --config jest.config.e2e.json --runInBand --bail",
-    "test-e2e:coverage": "npm run test-e2e --coverage",
+    "test-e2e:coverage": "npm run test-e2e -- --coverage",
     "test-coverage-watch": "jest --config jest.config.json --coverage --watchAll",
     "test-watch": "jest --config jest.config.json --watchAll",
     "tslint": "tslint -c tslint.json src/**/*.ts"
@@ -39,7 +39,7 @@
     "ts-jest": "<23.10.0",
     "tslint": "^5.10.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.7.0",
+    "typescript": "^4.7.3",
     "uglifyjs-folder": "^1.5.1"
   },
   "bugs": {
@@ -53,7 +53,7 @@
     "url": "https://github.com/boxing/boxrec"
   },
   "dependencies": {
-    "boxrec-requests": "6.0.2",
+    "boxrec-requests": "6.1.0",
     "cheerio": "^1.0.0-rc.2",
     "snyk": "^1.685.0"
   },

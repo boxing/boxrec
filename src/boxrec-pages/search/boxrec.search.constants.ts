@@ -23,13 +23,6 @@ export interface BoxrecPageSearchOutput {
     results: BoxrecPageSearchRowOutput[];
 }
 
-export interface BoxrecSearchParams {
-    first_name: string;
-    last_name: string;
-    role: BoxrecRole;
-    status: BoxrecStatus;
-}
-
 export interface BoxrecSearch extends BoxrecBasic {
     alias: string | null;
     career: Array<number | null>;
