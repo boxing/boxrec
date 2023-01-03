@@ -3329,9 +3329,9 @@ sntp@2.x.x:
     hoek "4.x.x"
 
 snyk@^1.685.0, snyk@^1.883.0:
-  version "1.906.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.906.0.tgz#5a282e317587a03a06ac3952ff3326ac40d06047"
-  integrity sha512-BqHGSWBVx7LuiM9BuPE2zXRCQyAN7wJch4IEm0LFibZcLaoJ+4QWcn6X2ZynRzMCX7UJOntQUQj3q7lTmSaiug==
+  version "1.1064.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.1064.0.tgz#e73b3a1aff585f6266f73ddd498c5cfd5e67aff0"
+  integrity sha512-f9mNO5rUc5nVVZ1sN+do2i5/RGHKlOQoNk5HiEO9WkPEn2pFllJv2XAw5Bn7sFj1eLXNFVUOUlo6SVqGnX7lXw==
 
 source-map-resolve@^0.5.0:
   version "0.5.1"
