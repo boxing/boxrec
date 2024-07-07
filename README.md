@@ -16,7 +16,7 @@ cat and mouse when it comes to keeping things working.  Do not expect this packa
 > The current status of this project is that it is **_not working_**, or working very poorly. An attempt was made to use Puppeteer in headless mode
 > to bypass captchas but it's not working well.  [Read more here](https://github.com/boxing/boxrec/issues/299#issuecomment-1311691724).
 > Any help devising a solution to unblock this project would be appreciated. The landscape has changed since
-> last attempted (2022) so maybe a solution is easier is readily available.
+> last attempted (2022) so maybe a solution that is easier is readily available.
 
 > [!NOTE]
 > If you do find issues, please [raise an issue](https://github.com/boxing/boxrec/issues) so others are aware and so they can be triaged.
