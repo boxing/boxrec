@@ -9,18 +9,17 @@
 This project allows you to query information from [BoxRec](http://boxrec.com) and return it in JSON format.
 The purpose of this project is to act as an unofficial API for BoxRec.  This project is not affiliated with BoxRec.
 
-## :warning: Notice before using this package :warning:
-
-BoxRec has put in some work that will throw captchas if making too many quick requests and IP block you if you trip their firewall.  For the sole purpose of blocking packages like this, which is understandable.  But at the cost of making it a worse UX for actual people.  If you use this project you put yourself at risk of being IP banned by BoxRec for some time, not by user but by IP.  This is automatic from their firewall and not something they do manually.  There are ways to get by this but nothing to discuss about at this time.  Use this package for learning purposes at this time.
-
-## :warning: Maintenance :warning:
-
-A few years ago a lot of time was spent on this project, but not so much at the time of this update.  With the changes that go into BoxRec, it is always a game of 
+> [!WARNING]  
+> A few years ago a lot of time was spent on this project, but not so much these days.  With the changes that go into BoxRec, it is always a game of
 cat and mouse when it comes to keeping things working.  Do not expect this package to continuously work.
+> 
+> The current status of this project is that it is **_not working_**, or working very poorly. An attempt was made to use Puppeteer in headless mode
+> to bypass captchas but it's not working well.  [Read more here](https://github.com/boxing/boxrec/issues/299#issuecomment-1311691724).
+> Any help devising a solution to unblock this project would be appreciated. The landscape has changed since
+> last attempted (2022) so maybe a solution is easier is readily available.
 
-If you do find issues, please [raise an issue](https://github.com/boxing/boxrec/issues) so others are aware and so they can be triaged.
-
-Thanks
+> [!NOTE]
+> If you do find issues, please [raise an issue](https://github.com/boxing/boxrec/issues) so others are aware and so they can be triaged.
 
 ## Installation
 
